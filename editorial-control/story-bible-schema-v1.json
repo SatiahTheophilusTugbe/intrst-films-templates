@@ -1,0 +1,53 @@
+{
+  "version": "1.0",
+  "subject_id": "SUBJ-001",
+  "subject_name": "",
+  "story_status": "breaking|recent|evergreen|historical|living",
+  "trigger": "",
+  "verified_facts_summary": [],
+  "unknowns": [],
+  "core_thesis": "",
+  "narrative_contradiction": "",
+  "emotional_question": "",
+  "audience_promise": "",
+  "approved_interpretations": [
+    {
+      "interpretation": "",
+      "basis_claim_ids": []
+    }
+  ],
+  "prohibited_angles": [],
+  "narrative_arc": [
+    {
+      "beat": 1,
+      "name": "contradiction_cold_open",
+      "purpose": "",
+      "claim_ids": []
+    }
+  ],
+  "visual_motif": "",
+  "evidence_motifs": [],
+  "pacing_plan": [
+    {
+      "section": "",
+      "energy": "impact|context|acceleration|quiet|tension|reflection|resolution"
+    }
+  ],
+  "final_thought": "",
+  "format_adaptation_notes": {
+    "carousel": "",
+    "single_image": "",
+    "threads": "",
+    "x": "",
+    "linkedin": "",
+    "tiktok_photo": "",
+    "short_video": "",
+    "longform": ""
+  },
+  "approval": {
+    "editorial_status": "draft|needs_review|approved|rejected",
+    "approved_by": "",
+    "approved_at": "",
+    "notes": ""
+  }
+}
