@@ -1,0 +1,32 @@
+{
+  "episode_id":"001",
+  "subject_id":"hayden-panettiere",
+  "subject_name":"Hayden Panettiere",
+  "working_title":"She Grew Up in Front of Us",
+  "secondary_title":"A Life Lived in Public",
+  "editorial_status":"approved-for-script-development",
+  "thesis":"Hayden Panettiere spent almost her entire life being watched. She entered the business before she could form memories, became famous while still growing up, and spent adulthood increasingly speaking in her own voice about the person behind the public image.",
+  "contradiction":"The public knew her face for decades, but much of her later life was about defining herself beyond the roles, expectations and scrutiny that arrived before adulthood.",
+  "emotional_question":"What happens when the world forms an idea of you before you have had the chance to form one of yourself?",
+  "final_thought":"Her death is the trigger for attention, but the story is the life that came before it — and the fact that, near the end, she was increasingly narrating that life in her own words.",
+  "narrative_arc":[
+    {"act":1,"name":"Before Memory","purpose":"Establish that the camera arrived before conscious choice.","claim_ids":["CLM-001","CLM-002"]},
+    {"act":2,"name":"The World Learns Her Name","purpose":"Show the transition from working child actor to globally recognizable performer.","claim_ids":["CLM-003","CLM-004"]},
+    {"act":3,"name":"The Cost of Visibility","purpose":"Address publicly documented struggles without reducing her identity to them.","claim_ids":["CLM-005","CLM-010"]},
+    {"act":4,"name":"Grief and Return","purpose":"Show loss, continued work and return to a major franchise.","claim_ids":["CLM-006","CLM-007"]},
+    {"act":5,"name":"Taking the Story Back","purpose":"Center the memoir and her willingness to speak more explicitly about identity, privacy and her own life.","claim_ids":["CLM-008","CLM-009","CLM-010"]},
+    {"act":6,"name":"The Final Chapter","purpose":"State only verified death facts and preserve uncertainty where official findings remain pending.","claim_ids":["CLM-011","CLM-012","CLM-013"]},
+    {"act":7,"name":"What Remains","purpose":"Resolve on authorship, not tragedy.","claim_ids":["CLM-014","CLM-015"]}
+  ],
+  "visual_motif":"Cameras and flashes contrasted with increasingly quiet, private-feeling frames: early publicity, stages, press lines, then books, empty dressing rooms, still portraits and negative space.",
+  "visual_language":["verified archival photography","licensed/editorial footage","career artifacts","press headlines","memoir/book imagery where permitted","restrained maps/timelines","minimal premium typography","no AI likeness presented as documentary evidence"],
+  "tone":["reflective","cinematic","human","precise","non-sensational","unsentimental but empathetic"],
+  "prohibited_angles":["troubled actress dies young","overdose narrative without official confirmation","addiction as destiny","speculation about private motives","reducing the story to relationships or scandal","memorial montage without narrative argument"],
+  "format_adaptations":{
+    "carousel":"9-slide life arc with death withheld until final two slides",
+    "single_image":"deep-caption portrait led by the thesis",
+    "short_form":"contradiction-first: famous before identity had fully formed",
+    "long_form":"12-15 minute documentary essay centered on lifelong visibility and authorship of self"
+  },
+  "script_rules":["Every factual narration sentence must map to at least one approved Claim ID.","Interpretive narration must be traceable to approved interpretive claims.","Unknowns remain unknown; do not write around them.","Death occupies roughly final 10-15 percent unless new verified facts materially change editorial significance.","Use copyrighted film/TV clips only when the clip directly illustrates commentary or criticism and is tracked in the Clip Ledger."]
+}
