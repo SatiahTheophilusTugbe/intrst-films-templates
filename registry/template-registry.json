@@ -1,0 +1,39 @@
+{
+  "version": "0.1.0",
+  "brand": "INTRST Films",
+  "design_families": {
+    "image_post": [
+      "portrait-tension",
+      "object-legacy",
+      "quote-context"
+    ],
+    "carousel": [
+      "life-timeline",
+      "before-the-icon",
+      "legacy-after"
+    ],
+    "youtube_thumbnail": [
+      "face-tension",
+      "split-timeline",
+      "object-symbol"
+    ],
+    "short_video": [
+      "hook-reveal",
+      "timeline-sprint",
+      "single-moment"
+    ],
+    "longform_video": [
+      "chapter-cinematic",
+      "archive-led",
+      "motion-essay"
+    ]
+  },
+  "selection_inputs": [
+    "content_pillar",
+    "story_angle",
+    "platform",
+    "asset_availability",
+    "emotional_tone",
+    "attention_objective"
+  ]
+}
