@@ -1,0 +1,41 @@
+{
+  "version": "1.0",
+  "subject_id": "SUBJ-001",
+  "subject_name": "",
+  "sources": [
+    {
+      "source_id": "SRC-001",
+      "publisher": "",
+      "headline": "",
+      "author": "",
+      "url": "",
+      "publication_date": "",
+      "accessed_at": "",
+      "source_tier": "primary|tier_a|tier_b|tier_c",
+      "notes": ""
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "CLM-001",
+      "claim_text": "",
+      "claim_type": "fact|quote|interpretation|unknown",
+      "risk_tier": 1,
+      "confidence": "high|medium|low",
+      "verification_status": "approved|needs_review|rejected|unresolved",
+      "source_ids": ["SRC-001"],
+      "source_excerpt_refs": [],
+      "interpretive_basis_claim_ids": [],
+      "date_verified": "",
+      "reviewed_by": "",
+      "notes": ""
+    }
+  ],
+  "publication_gate": {
+    "unsupported_claims_found": false,
+    "tier_1_review_complete": false,
+    "unresolved_claims_labeled": false,
+    "fact_check_status": "pending|pass|fail",
+    "fact_check_notes": ""
+  }
+}
