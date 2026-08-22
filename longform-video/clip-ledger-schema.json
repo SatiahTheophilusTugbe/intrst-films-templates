@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0",
+  "description": "INTRST Films copyrighted/archival clip ledger for long-form documentary production.",
+  "required": [
+    "clip_id",
+    "subject_id",
+    "source_work",
+    "source_url_or_asset_id",
+    "duration_seconds",
+    "editorial_purpose",
+    "rights_basis",
+    "content_id_risk",
+    "legal_review_status"
+  ],
+  "fields": {
+    "clip_id": "VID-001",
+    "subject_id": "string",
+    "source_work": "Film, television show, interview, news program, archive, etc.",
+    "source_owner": "Known copyright owner or licensor",
+    "source_url_or_asset_id": "URL, Drive asset ID, licensed library ID, or archive reference",
+    "source_timecode": "HH:MM:SS-HH:MM:SS",
+    "duration_seconds": 0,
+    "episode_timecode": "HH:MM:SS",
+    "editorial_purpose": "Specific criticism/commentary/biographical point the excerpt supports",
+    "supported_claim_ids": ["CLM-001"],
+    "rights_basis": "public_domain | licensed | permission | creative_commons | fair_use_candidate | unknown",
+    "license_reference": "License/contract/permission reference if applicable",
+    "audio_treatment": "original | muted | reduced | replaced_with_narration | excerpt_required_for_commentary",
+    "transformation_notes": "How narration/editing/analysis transforms the source material",
+    "market_substitution_risk": "low | medium | high",
+    "content_id_risk": "low | medium | high",
+    "legal_review_status": "not_required | pending | reviewed | rejected",
+    "approved_by": "string",
+    "approval_date": "YYYY-MM-DD",
+    "notes": "string"
+  }
+}
