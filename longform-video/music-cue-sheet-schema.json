@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "description": "INTRST Films music provenance and cue sheet for long-form episodes.",
+  "required": ["cue_id", "track_title", "source_type", "rights_status", "episode_in", "episode_out", "narrative_function"],
+  "fields": {
+    "cue_id": "MUS-001",
+    "track_title": "string",
+    "creator_or_library": "string",
+    "source_type": "original_generated | commissioned | youtube_audio_library | licensed_library | other",
+    "source_url_or_asset_id": "string",
+    "license_reference": "string",
+    "commercial_use_allowed": true,
+    "attribution_required": false,
+    "attribution_text": "string",
+    "rights_status": "verified | pending | rejected",
+    "episode_in": "HH:MM:SS",
+    "episode_out": "HH:MM:SS",
+    "narrative_function": "cold_open_tension | origin_curiosity | ascent_momentum | cost_restraint | final_chapter | legacy_resolution | transition | other",
+    "mix_notes": "string",
+    "approved_by": "string",
+    "approval_date": "YYYY-MM-DD"
+  }
+}
