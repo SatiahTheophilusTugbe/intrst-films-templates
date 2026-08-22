@@ -1,0 +1,38 @@
+{
+  "episode_id": "001",
+  "subject_id": "hayden-panettiere",
+  "subject_name": "Hayden Panettiere",
+  "as_of": "2026-08-22",
+  "status": "verified-pilot",
+  "sources": [
+    {"source_id":"SRC-001","publisher":"Reuters","url":"https://www.reuters.com/business/media-telecom/american-actress-hayden-panettiere-dies-36-abc-news-reports-2026-08-17/","tier":"A"},
+    {"source_id":"SRC-002","publisher":"Associated Press","url":"https://apnews.com/article/1d660d3989916c3fa00421d05e4d78e7","tier":"A"},
+    {"source_id":"SRC-003","publisher":"Associated Press","url":"https://apnews.com/article/e2698cb754cedda1c7ddb09d9c262580","tier":"A"},
+    {"source_id":"SRC-004","publisher":"Associated Press","url":"https://apnews.com/article/9c7b6205219b89784282ecf86905573e","tier":"A"},
+    {"source_id":"SRC-005","publisher":"Variety","url":"https://au.variety.com/2026/more/global/hayden-panettiere-comes-out-bisexual-36289/","tier":"B"},
+    {"source_id":"SRC-006","publisher":"Variety","url":"https://au.variety.com/2026/film/news/hayden-panettiere-death-hollywood-sexual-predators-39463/","tier":"B"},
+    {"source_id":"SRC-007","publisher":"Variety","url":"https://au.variety.com/2026/film/global/hayden-panettiere-death-no-foul-play-police-investigation-39467/","tier":"B"}
+  ],
+  "claims": [
+    {"claim_id":"CLM-001","claim":"Hayden Panettiere began appearing in commercials at 11 months old.","type":"biographical","risk_tier":2,"confidence":"high","status":"approved","sources":["SRC-003","SRC-006"]},
+    {"claim_id":"CLM-002","claim":"She worked in soap operas as a child, including One Life to Live and Guiding Light.","type":"biographical","risk_tier":2,"confidence":"high","status":"approved","sources":["SRC-002","SRC-005"]},
+    {"claim_id":"CLM-003","claim":"Her notable screen work included A Bug's Life, Remember the Titans, Heroes, Nashville, Scream 4 and Scream VI.","type":"biographical","risk_tier":2,"confidence":"high","status":"approved","sources":["SRC-001","SRC-003"]},
+    {"claim_id":"CLM-004","claim":"She received two Golden Globe nominations for her performance as Juliette Barnes in Nashville.","type":"biographical","risk_tier":2,"confidence":"high","status":"approved","sources":["SRC-001","SRC-003"]},
+    {"claim_id":"CLM-005","claim":"She publicly discussed addiction, depression and postpartum depression.","type":"sensitive-biographical","risk_tier":1,"confidence":"high","status":"approved","sources":["SRC-001","SRC-002","SRC-004"]},
+    {"claim_id":"CLM-006","claim":"Her younger brother Jansen died in 2023.","type":"family","risk_tier":1,"confidence":"high","status":"approved","sources":["SRC-001","SRC-006"]},
+    {"claim_id":"CLM-007","claim":"She returned to the Scream franchise as Kirby Reed in Scream VI in 2023.","type":"biographical","risk_tier":2,"confidence":"high","status":"approved","sources":["SRC-003","SRC-004"]},
+    {"claim_id":"CLM-008","claim":"Her memoir This Is Me: A Reckoning was published in May 2026.","type":"biographical","risk_tier":2,"confidence":"high","status":"approved","sources":["SRC-001","SRC-005","SRC-006"]},
+    {"claim_id":"CLM-009","claim":"In May 2026, Panettiere publicly said she was bisexual and described fear of public opinion and concern about what her team would think.","type":"sensitive-biographical","risk_tier":1,"confidence":"high","status":"approved","sources":["SRC-005"]},
+    {"claim_id":"CLM-010","claim":"Panettiere said she had very little privacy and described paparazzi following her.","type":"first-person","risk_tier":2,"confidence":"high","status":"approved","sources":["SRC-005"]},
+    {"claim_id":"CLM-011","claim":"Hayden Panettiere died on August 16, 2026, at age 36 in Greenville, South Carolina.","type":"death","risk_tier":1,"confidence":"high","status":"approved","sources":["SRC-001","SRC-002"]},
+    {"claim_id":"CLM-012","claim":"As of August 22, 2026, her official cause of death remained undetermined and under investigation.","type":"cause-of-death","risk_tier":1,"confidence":"high","status":"approved","sources":["SRC-002","SRC-007"]},
+    {"claim_id":"CLM-013","claim":"Authorities reported no signs of trauma and no suspected foul play.","type":"death-investigation","risk_tier":1,"confidence":"high","status":"approved","sources":["SRC-002","SRC-007"]},
+    {"claim_id":"CLM-014","claim":"Panettiere's public life began before she could form memories and continued across childhood and adulthood.","type":"editorial-synthesis","risk_tier":3,"confidence":"high","status":"approved-interpretive","sources":["CLM-001","CLM-002","CLM-003"]},
+    {"claim_id":"CLM-015","claim":"A defensible editorial interpretation is that much of her adult public narrative involved trying to define herself beyond roles and expectations formed around her from childhood.","type":"editorial-interpretation","risk_tier":3,"confidence":"medium-high","status":"approved-interpretive","sources":["CLM-008","CLM-009","CLM-010"]}
+  ],
+  "prohibited_or_unverified": [
+    {"item_id":"UNK-001","statement":"Overdose was the confirmed cause of death.","status":"prohibited-until-official-confirmation","reason":"Dispatch references do not establish official cause of death."},
+    {"item_id":"UNK-002","statement":"Her death was caused by her history of addiction.","status":"prohibited","reason":"Causal inference unsupported by official findings."},
+    {"item_id":"UNK-003","statement":"She hated fame throughout childhood.","status":"prohibited-without-direct-evidence","reason":"Overstates subjective state."}
+  ]
+}
