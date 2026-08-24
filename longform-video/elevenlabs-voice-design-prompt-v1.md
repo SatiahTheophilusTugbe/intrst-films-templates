@@ -10,6 +10,7 @@ Version 2 — slightly warmer and more human
 Use: Slight natural texture and imperfection in the voice. Warmth increases during reflective passages. Avoid perfectly even sentence cadence. Allow subtle conversational shifts in pace, small natural hesitations, and gently softened sentence endings. The speaker should sound like an intelligent documentary filmmaker speaking to one person, not a professional announcer reading copy. Never theatrical or overly grave.
 
 Version 3 — slightly more editorial and textured
+
 Use: Calm, observant documentary narrator with a naturally low male register. Intelligent and quietly authoritative, with subtle vocal texture and restrained emotional range. Slightly dry, thoughtful delivery with natural variation between sentences. Avoid announcer cadence, repeated melodic patterns, dramatic trailer delivery, and overly polished text-to-speech rhythm. Some thoughts should feel intimate and almost conversational; others can carry firmer editorial weight.
 
 
