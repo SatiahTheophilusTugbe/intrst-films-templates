@@ -1,0 +1,157 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://intrstfilms.com/schemas/story-object.schema.json",
+  "title": "INTRST Story Object",
+  "description": "Approved evidence-bound editorial contract consumed by derivative automation.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "story_object_id",
+    "subject_id",
+    "subject_name",
+    "trigger",
+    "central_question",
+    "thesis",
+    "contradiction",
+    "emotional_question",
+    "chronology",
+    "verified_claims",
+    "attributed_claims",
+    "prohibited_or_uncertain_claims",
+    "quote_extracts",
+    "source_ids",
+    "source_urls",
+    "archive_assets",
+    "rights_status",
+    "asset_identity_status",
+    "derivative_safe_facts",
+    "platform_constraints",
+    "visual_mode",
+    "editorial_version",
+    "approval_state",
+    "audit"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "const": "1.0.0"},
+    "story_object_id": {"type": "string", "minLength": 3},
+    "subject_id": {"type": "string", "minLength": 3},
+    "subject_name": {"type": "string", "minLength": 1},
+    "trigger": {"type": "string", "minLength": 1},
+    "central_question": {"type": "string", "minLength": 1},
+    "thesis": {"type": "string", "minLength": 1},
+    "contradiction": {"type": "string", "minLength": 1},
+    "emotional_question": {"type": "string", "minLength": 1},
+    "chronology": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["label", "summary", "claim_ids"],
+        "properties": {
+          "label": {"type": "string"},
+          "date_or_period": {"type": ["string", "null"]},
+          "summary": {"type": "string"},
+          "claim_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}
+        }
+      }
+    },
+    "verified_claims": {"type": "array", "items": {"$ref": "#/$defs/claimRef"}},
+    "attributed_claims": {"type": "array", "items": {"$ref": "#/$defs/attributedClaimRef"}},
+    "prohibited_or_uncertain_claims": {"type": "array", "items": {"$ref": "#/$defs/restrictedClaimRef"}},
+    "quote_extracts": {"type": "array", "items": {"$ref": "#/$defs/quoteRef"}},
+    "source_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "source_urls": {"type": "array", "items": {"type": "string", "format": "uri"}, "uniqueItems": true},
+    "archive_assets": {"type": "array", "items": {"$ref": "#/$defs/assetRef"}},
+    "rights_status": {"type": "string", "enum": ["publishable", "partially_publishable", "review_required", "blocked"]},
+    "asset_identity_status": {"type": "string", "enum": ["verified", "mixed_review_required", "review_required", "blocked"]},
+    "derivative_safe_facts": {"type": "array", "items": {"$ref": "#/$defs/claimRef"}},
+    "platform_constraints": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "max_characters": {"type": ["integer", "null"], "minimum": 1},
+          "max_hashtags": {"type": "integer", "minimum": 0, "maximum": 3, "default": 3},
+          "notes": {"type": "string"}
+        }
+      }
+    },
+    "visual_mode": {"type": "string", "minLength": 1},
+    "editorial_version": {"type": "string", "minLength": 1},
+    "approval_state": {"type": "string", "enum": ["draft", "evidence_ready", "editorial_review", "approved", "blocked", "superseded"]},
+    "audit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["created_at", "updated_at"],
+      "properties": {
+        "created_at": {"type": "string", "format": "date-time"},
+        "updated_at": {"type": "string", "format": "date-time"},
+        "approved_by": {"type": ["string", "null"]},
+        "approved_at": {"type": ["string", "null"], "format": "date-time"},
+        "life_file_version": {"type": ["string", "null"]},
+        "story_bible_version": {"type": ["string", "null"]}
+      }
+    }
+  },
+  "$defs": {
+    "claimRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["claim_id", "text", "source_ids", "verification_status"],
+      "properties": {
+        "claim_id": {"type": "string"},
+        "text": {"type": "string"},
+        "source_ids": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+        "verification_status": {"type": "string", "enum": ["verified", "human_verified"]}
+      }
+    },
+    "attributedClaimRef": {
+      "allOf": [
+        {"$ref": "#/$defs/claimRef"},
+        {
+          "type": "object",
+          "required": ["attribution"],
+          "properties": {"attribution": {"type": "string", "minLength": 1}}
+        }
+      ]
+    },
+    "restrictedClaimRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["claim_id", "text", "reason", "status"],
+      "properties": {
+        "claim_id": {"type": "string"},
+        "text": {"type": "string"},
+        "reason": {"type": "string"},
+        "status": {"type": "string", "enum": ["uncertain", "disputed", "prohibited", "rights_blocked"]}
+      }
+    },
+    "quoteRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["quote_id", "text", "speaker", "source_id", "verification_status"],
+      "properties": {
+        "quote_id": {"type": "string"},
+        "text": {"type": "string"},
+        "speaker": {"type": "string"},
+        "source_id": {"type": "string"},
+        "verification_status": {"type": "string", "enum": ["verified", "human_verified"]}
+      }
+    },
+    "assetRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["asset_id", "asset_type", "rights_status", "identity_status"],
+      "properties": {
+        "asset_id": {"type": "string"},
+        "asset_type": {"type": "string"},
+        "rights_status": {"type": "string", "enum": ["publishable", "review_required", "blocked"]},
+        "identity_status": {"type": "string", "enum": ["verified", "review_required", "not_applicable", "blocked"]},
+        "archive_value": {"type": ["string", "null"], "enum": ["LOW", "MEDIUM", "HIGH", null]},
+        "story_relevance": {"type": ["string", "null"], "enum": ["LOW", "MEDIUM", "HIGH", null]}
+      }
+    }
+  }
+}
