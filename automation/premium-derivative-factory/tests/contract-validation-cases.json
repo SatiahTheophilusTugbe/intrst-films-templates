@@ -1,0 +1,49 @@
+{
+  "test_contract_version": "1.0.0",
+  "suites": [
+    {
+      "suite_id": "story-object-contract",
+      "schema": "schemas/story-object.schema.json",
+      "cases": [
+        {"id": "SO-001", "description": "Approved complete Story Object", "expected": "pass"},
+        {"id": "SO-002", "description": "Missing subject_id", "expected": "fail"},
+        {"id": "SO-003", "description": "approval_state approved with no audit approval actor/time", "expected": "policy_fail"},
+        {"id": "SO-004", "description": "verified claim with no source_ids", "expected": "fail"},
+        {"id": "SO-005", "description": "platform max_hashtags greater than 3", "expected": "fail"},
+        {"id": "SO-006", "description": "rights_status blocked", "expected": "schema_pass_policy_block"},
+        {"id": "SO-007", "description": "asset_identity_status blocked", "expected": "schema_pass_policy_block"},
+        {"id": "SO-008", "description": "uncertain claim incorrectly included in derivative_safe_facts", "expected": "policy_fail"},
+        {"id": "SO-009", "description": "orphan chronology Claim ID", "expected": "referential_fail"},
+        {"id": "SO-010", "description": "superseded Story Object sent to generator", "expected": "state_fail"}
+      ]
+    },
+    {
+      "suite_id": "derivative-manifest-contract",
+      "schema": "schemas/derivative-manifest.schema.json",
+      "cases": [
+        {"id": "DM-001", "description": "Valid pre-render single-image manifest", "expected": "pass"},
+        {"id": "DM-002", "description": "Factual payload with empty claim_ids", "expected": "policy_fail"},
+        {"id": "DM-003", "description": "Rights gate fail with render_ready state", "expected": "state_fail"},
+        {"id": "DM-004", "description": "Human gate pending with publish_queued state", "expected": "state_fail"},
+        {"id": "DM-005", "description": "Published target missing post_id and post_url", "expected": "policy_fail"},
+        {"id": "DM-006", "description": "Duplicate platform publish idempotency key collision", "expected": "idempotency_fail"},
+        {"id": "DM-007", "description": "Partial multi-platform publish retries only failed target", "expected": "pass"},
+        {"id": "DM-008", "description": "Missing audit run_id", "expected": "fail"},
+        {"id": "DM-009", "description": "Visual QC failure", "expected": "schema_pass_policy_block"},
+        {"id": "DM-010", "description": "Unsupported derivative_type", "expected": "fail"}
+      ]
+    },
+    {
+      "suite_id": "adapter-failure-injection",
+      "cases": [
+        {"id": "AD-001", "description": "HTTP 429", "expected": "retry_bounded_backoff"},
+        {"id": "AD-002", "description": "HTTP 503", "expected": "retry_bounded_backoff"},
+        {"id": "AD-003", "description": "timeout after submit with idempotency key", "expected": "lookup_before_resubmit"},
+        {"id": "AD-004", "description": "malformed model JSON", "expected": "bounded_regeneration_then_block"},
+        {"id": "AD-005", "description": "credential rejected", "expected": "terminal_alert_no_retry"},
+        {"id": "AD-006", "description": "rights block", "expected": "terminal_human_review"},
+        {"id": "AD-007", "description": "identity mismatch", "expected": "terminal_human_review"}
+      ]
+    }
+  ]
+}
