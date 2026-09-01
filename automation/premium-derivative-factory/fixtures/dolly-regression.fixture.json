@@ -1,0 +1,51 @@
+{
+  "fixture_version": "1.0.0",
+  "fixture_id": "dolly-regression",
+  "subject_key": "EP003_DOLLY_PARTON",
+  "purpose": "Known-good human-approved regression baseline for Premium Derivative Factory promotion gates.",
+  "source_policy": {
+    "production_assets_in_repo": false,
+    "canonical_source": "google_drive",
+    "resolution": "runtime_configuration",
+    "notes": "Resolve canonical Dolly Story Object, publishing packages and approved render references from Drive at test runtime. Do not copy private production assets into the public repository."
+  },
+  "expected_outputs": [
+    {
+      "fixture_output_id": "dolly-single-image",
+      "derivative_type": "single_image",
+      "required": true,
+      "comparison_dimensions": ["claim_inheritance", "platform_native_copy", "copy_depth", "asset_binding", "rights_binding", "visual_qc", "audit_metadata"]
+    },
+    {
+      "fixture_output_id": "dolly-carousel-7",
+      "derivative_type": "carousel",
+      "required": true,
+      "expected_slide_count": 7,
+      "comparison_dimensions": ["claim_per_slide", "narrative_sequence", "asset_binding", "brand_mode", "text_overflow", "duplicate_slide_detection", "audit_metadata"]
+    },
+    {
+      "fixture_output_id": "dolly-carousel-motion-29s",
+      "derivative_type": "carousel_motion",
+      "required": true,
+      "expected_duration_seconds": 29,
+      "duration_tolerance_seconds": 1,
+      "comparison_dimensions": ["scene_order", "timing", "render_integrity", "caption_integrity", "audio_sync", "audit_metadata"]
+    },
+    {
+      "fixture_output_id": "dolly-reel-01",
+      "derivative_type": "hero_reel",
+      "required": true,
+      "comparison_dimensions": ["scene_manifest", "claim_inheritance", "render_integrity", "caption_integrity", "audio_sync", "audit_metadata"]
+    }
+  ],
+  "blocking_rules": {
+    "schema_failure_blocks": true,
+    "evidence_failure_blocks": true,
+    "rights_failure_blocks": true,
+    "identity_failure_blocks": true,
+    "visual_qc_failure_blocks": true,
+    "human_reference_comparison_failure_blocks_live_promotion": true
+  },
+  "next_live_fixture": "JANIE_BRADFORD",
+  "promotion_rule": "Janie may not be used as the engineering sandbox. Live promotion starts only after required Dolly regression gates pass."
+}
