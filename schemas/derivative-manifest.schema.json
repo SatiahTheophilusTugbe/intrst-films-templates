@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://intrstfilms.com/schemas/derivative-manifest.schema.json",
+  "title": "INTRST Derivative Manifest",
+  "description": "Shared pre-render contract for evidence-bound derivative outputs.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "manifest_id",
+    "story_object_id",
+    "story_object_version",
+    "derivative_type",
+    "claim_ids",
+    "source_ids",
+    "asset_ids",
+    "platform_targets",
+    "payload",
+    "quality_gates",
+    "approval",
+    "render",
+    "publish",
+    "audit"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "const": "1.0.0"},
+    "manifest_id": {"type": "string", "minLength": 3},
+    "story_object_id": {"type": "string", "minLength": 3},
+    "story_object_version": {"type": "string", "minLength": 1},
+    "derivative_type": {"type": "string", "enum": ["single_image", "carousel", "archive_primary_source", "carousel_motion", "hero_reel"]},
+    "claim_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "source_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "asset_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "platform_targets": {"type": "array", "items": {"type": "string", "enum": ["youtube", "facebook", "instagram", "tiktok", "x", "threads", "linkedin"]}, "uniqueItems": true},
+    "payload": {"type": "object"},
+    "quality_gates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "evidence", "rights", "brand", "copy", "visual", "human", "publish", "audit"],
+      "properties": {
+        "schema": {"$ref": "#/$defs/gate"},
+        "evidence": {"$ref": "#/$defs/gate"},
+        "rights": {"$ref": "#/$defs/gate"},
+        "brand": {"$ref": "#/$defs/gate"},
+        "copy": {"$ref": "#/$defs/gate"},
+        "visual": {"$ref": "#/$defs/gate"},
+        "human": {"$ref": "#/$defs/gate"},
+        "publish": {"$ref": "#/$defs/gate"},
+        "audit": {"$ref": "#/$defs/gate"}
+      }
+    },
+    "approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state"],
+      "properties": {
+        "state": {"type": "string", "enum": ["not_requested", "approval_required", "approved", "rejected"]},
+        "actor": {"type": ["string", "null"]},
+        "approved_at": {"type": ["string", "null"], "format": "date-time"},
+        "notes": {"type": ["string", "null"]}
+      }
+    },
+    "render": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state"],
+      "properties": {
+        "state": {"type": "string", "enum": ["not_ready", "render_ready", "rendering", "rendered", "failed"]},
+        "renderer": {"type": ["string", "null"]},
+        "renderer_version": {"type": ["string", "null"]},
+        "output_asset_ids": {"type": "array", "items": {"type": "string"}},
+        "job_id": {"type": ["string", "null"]}
+      }
+    },
+    "publish": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state", "targets"],
+      "properties": {
+        "state": {"type": "string", "enum": ["not_ready", "publish_queued", "publishing", "published", "partial_failure", "failed"]},
+        "targets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["platform", "idempotency_key", "status"],
+            "properties": {
+              "platform": {"type": "string", "enum": ["youtube", "facebook", "instagram", "tiktok", "x", "threads", "linkedin"]},
+              "idempotency_key": {"type": "string"},
+              "status": {"type": "string", "enum": ["pending", "publishing", "published", "failed"]},
+              "post_id": {"type": ["string", "null"]},
+              "post_url": {"type": ["string", "null"], "format": "uri"},
+              "attempt": {"type": "integer", "minimum": 0}
+            }
+          }
+        }
+      }
+    },
+    "audit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["created_at", "run_id"],
+      "properties": {
+        "created_at": {"type": "string", "format": "date-time"},
+        "updated_at": {"type": ["string", "null"], "format": "date-time"},
+        "run_id": {"type": "string"},
+        "parent_run_id": {"type": ["string", "null"]},
+        "prompt_version": {"type": ["string", "null"]},
+        "template_id": {"type": ["string", "null"]},
+        "template_version": {"type": ["string", "null"]},
+        "model": {"type": ["string", "null"]},
+        "model_version": {"type": ["string", "null"]}
+      }
+    }
+  },
+  "$defs": {
+    "gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status"],
+      "properties": {
+        "status": {"type": "string", "enum": ["pending", "pass", "fail", "not_applicable"]},
+        "blocking": {"type": "boolean", "default": true},
+        "details": {"type": ["string", "null"]}
+      }
+    }
+  }
+}
