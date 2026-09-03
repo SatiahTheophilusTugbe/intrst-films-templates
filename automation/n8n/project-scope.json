@@ -1,0 +1,34 @@
+{
+  "$schema": "../../schemas/n8n-project-scope.schema.json",
+  "schema_version": "1.0.0",
+  "policy_id": "INT-N8N-SCOPE-001",
+  "mode": "deny_by_default",
+  "repository": {
+    "full_name": "SatiahTheophilusTugbe/intrst-films-templates",
+    "root_resolution": "git rev-parse --show-toplevel"
+  },
+  "n8n": {
+    "project": {
+      "id": "o8RQQQgne2c6jXr5",
+      "name": "INTRST Films"
+    },
+    "workflow": {
+      "required_name_prefix": "INT-",
+      "required_tags": ["project:intrst"],
+      "default_environment": "development",
+      "allowed_environments": ["development", "staging", "production"],
+      "new_workflows_active": false
+    },
+    "allowed_global_capabilities": [
+      "node_type_metadata",
+      "public_n8n_documentation"
+    ],
+    "authorization_requirements": {
+      "mutation": "n8n_mutation",
+      "activation": "activation",
+      "publishing": "publishing",
+      "production_promotion": "production_promotion",
+      "destructive": "destructive"
+    }
+  }
+}

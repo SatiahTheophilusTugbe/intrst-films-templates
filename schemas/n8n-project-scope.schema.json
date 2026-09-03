@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://intrstfilms.com/schemas/n8n-project-scope.schema.json",
+  "title": "INTRST n8n Project Scope Policy",
+  "description": "Deny-by-default allowlist for INTRST n8n orchestration access.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "policy_id", "mode", "repository", "n8n"],
+  "properties": {
+    "$schema": {"type": "string"},
+    "schema_version": {"type": "string", "const": "1.0.0"},
+    "policy_id": {"type": "string", "const": "INT-N8N-SCOPE-001"},
+    "mode": {"type": "string", "const": "deny_by_default"},
+    "repository": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["full_name", "root_resolution"],
+      "properties": {
+        "full_name": {"type": "string", "const": "SatiahTheophilusTugbe/intrst-films-templates"},
+        "root_resolution": {"type": "string", "const": "git rev-parse --show-toplevel"}
+      }
+    },
+    "n8n": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["project", "workflow", "allowed_global_capabilities", "authorization_requirements"],
+      "properties": {
+        "project": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["id", "name"],
+          "properties": {
+            "id": {"type": "string", "const": "o8RQQQgne2c6jXr5"},
+            "name": {"type": "string", "const": "INTRST Films"}
+          }
+        },
+        "workflow": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["required_name_prefix", "required_tags", "default_environment", "allowed_environments", "new_workflows_active"],
+          "properties": {
+            "required_name_prefix": {"type": "string", "const": "INT-"},
+            "required_tags": {
+              "type": "array",
+              "const": ["project:intrst"]
+            },
+            "default_environment": {"type": "string", "const": "development"},
+            "allowed_environments": {
+              "type": "array",
+              "const": ["development", "staging", "production"]
+            },
+            "new_workflows_active": {"type": "boolean", "const": false}
+          }
+        },
+        "allowed_global_capabilities": {
+          "type": "array",
+          "const": ["node_type_metadata", "public_n8n_documentation"]
+        },
+        "authorization_requirements": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["mutation", "activation", "publishing", "production_promotion", "destructive"],
+          "properties": {
+            "mutation": {"type": "string", "const": "n8n_mutation"},
+            "activation": {"type": "string", "const": "activation"},
+            "publishing": {"type": "string", "const": "publishing"},
+            "production_promotion": {"type": "string", "const": "production_promotion"},
+            "destructive": {"type": "string", "const": "destructive"}
+          }
+        }
+      }
+    }
+  }
+}

@@ -342,3 +342,23 @@ Distribution owns cadence, scheduling, optimization and publishing policy.
 Automation owns schemas, workflows, integrations, retries, logging, tests and adapter behavior.
 
 Any proposed doctrine change is recorded as a dependency; Automation does not silently alter another workstream's standard.
+
+## 16. Machine-enforced n8n scope
+
+Repository policy is defined in `automation/n8n/project-scope.json` and validated by
+`automation/n8n/validate-project-scope.mjs`. The policy is deny-by-default and authorizes only the
+`INTRST Films` n8n project (`o8RQQQgne2c6jXr5`).
+
+Before an n8n project-data operation, construct a request envelope containing the project identity,
+project-scoped lookup confirmation, operation, immutable target ownership, environment and required
+authorization evidence. Mutation envelopes also carry the expected current version, rollback method
+and idempotency key. A denied envelope is a hard stop; it must not be bypassed with an unscoped lookup.
+
+Run the dependency-free contract tests with:
+
+```text
+node automation/n8n/tests/project-scope.test.mjs
+```
+
+The validator is a precondition for orchestration code and sanitized n8n workflow deployment. It does
+not itself grant authorization to modify, activate, publish or delete n8n resources.
