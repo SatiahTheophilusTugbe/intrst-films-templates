@@ -1,0 +1,118 @@
+{
+  "record_version": "1.0.0",
+  "contract_id": "INF-005",
+  "contract_file": "automation/n8n/data-tables/inf-005.data-tables.json",
+  "deployment_type": "development",
+  "deployment_status": "deployed_development_verified",
+  "deployed_at": "2026-09-03T21:19:07.802Z",
+  "n8n_project": {
+    "name": "INTRST Films",
+    "id": "o8RQQQgne2c6jXr5"
+  },
+  "authorization": {
+    "source": "user_request",
+    "requested_operation": "create_INF-005_development_data_tables",
+    "scope": "project_scoped_only",
+    "allowed_project_id": "o8RQQQgne2c6jXr5"
+  },
+  "preflight": {
+    "operation": "search_data_tables",
+    "project_id": "o8RQQQgne2c6jXr5",
+    "result": "no_existing_data_tables_returned_in_authorized_project",
+    "existing_table_count": 0
+  },
+  "mutation_controls": {
+    "environment": "development",
+    "expected_current_version": "absent",
+    "idempotency_key": "INF-005:o8RQQQgne2c6jXr5:1.0.0",
+    "rollback_method": "archive_only_tables_created_by_this_deployment_after_project_scoped_id_verification",
+    "workflows_created": false,
+    "production_rows_inserted": false,
+    "credentials_modified": false,
+    "activation_performed": false
+  },
+  "tables": [
+    {
+      "name": "people_queue",
+      "id": "A8rVmMO4vr5UnVdJ",
+      "project_id": "o8RQQQgne2c6jXr5",
+      "created_at": "2026-09-03T21:17:41.920Z",
+      "postflight": "verified",
+      "columns": ["subject_id:string", "full_name:string", "display_name:string", "category:string", "trigger_type:string", "trigger:string", "source_url:string", "candidate_reason:string", "story_value_score:number", "urgency_score:number", "priority:string", "queue_status:string", "assigned_to:string", "approved_by:string", "approved_at:date", "idempotency_key:string", "created_at:date", "updated_at:date"]
+    },
+    {
+      "name": "life_files",
+      "id": "iqIyodTz4ev2E7c8",
+      "project_id": "o8RQQQgne2c6jXr5",
+      "created_at": "2026-09-03T21:17:55.641Z",
+      "postflight": "verified",
+      "columns": ["life_file_id:string", "subject_id:string", "schema_version:string", "version:string", "status:string", "drive_document_url:string", "payload_json:string", "payload_hash:string", "claim_count:number", "verified_claim_count:number", "open_claim_count:number", "high_risk_claim_count:number", "source_count:number", "last_researched_at:date", "editorial_owner:string", "idempotency_key:string", "created_at:date", "updated_at:date"]
+    },
+    {
+      "name": "story_objects",
+      "id": "wtmCJyYutgIATmla",
+      "project_id": "o8RQQQgne2c6jXr5",
+      "created_at": "2026-09-03T21:18:05.086Z",
+      "postflight": "verified",
+      "columns": ["story_object_id:string", "subject_id:string", "subject_name:string", "schema_version:string", "editorial_version:string", "life_file_version:string", "story_bible_version:string", "approval_state:string", "rights_status:string", "asset_identity_status:string", "visual_mode:string", "payload_json:string", "payload_hash:string", "approved_by:string", "approved_at:date", "idempotency_key:string", "created_at:date", "updated_at:date"]
+    },
+    {
+      "name": "content_outputs",
+      "id": "P29q3HqS7JHr147x",
+      "project_id": "o8RQQQgne2c6jXr5",
+      "created_at": "2026-09-03T21:18:17.982Z",
+      "postflight": "verified",
+      "columns": ["output_id:string", "story_object_id:string", "subject_id:string", "output_type:string", "parent_output_id:string", "manifest_id:string", "manifest_version:string", "version:string", "status:string", "script_drive_url:string", "media_drive_url:string", "thumbnail_drive_url:string", "claim_ids_json:string", "asset_ids_json:string", "manifest_json:string", "editorial_approval:boolean", "rights_clearance:boolean", "publish_clearance:boolean", "created_by:string", "approved_by:string", "idempotency_key:string", "created_at:date", "updated_at:date"]
+    },
+    {
+      "name": "approval_queue",
+      "id": "I50dgyTWCoCvPnDt",
+      "project_id": "o8RQQQgne2c6jXr5",
+      "created_at": "2026-09-03T21:18:28.119Z",
+      "postflight": "verified",
+      "columns": ["review_id:string", "entity_type:string", "entity_id:string", "review_type:string", "priority:string", "reason:string", "story_object_id:string", "subject_id:string", "assigned_to:string", "status:string", "requested_at:date", "reviewed_at:date", "decision:string", "decision_actor:string", "notes:string", "idempotency_key:string", "created_at:date", "updated_at:date"]
+    },
+    {
+      "name": "publishing_log",
+      "id": "qHmuRSglzmNT3Oj9",
+      "project_id": "o8RQQQgne2c6jXr5",
+      "created_at": "2026-09-03T21:18:38.812Z",
+      "postflight": "verified",
+      "columns": ["publishing_log_id:string", "output_id:string", "story_object_id:string", "subject_id:string", "platform:string", "instruction_version:string", "provider:string", "status:string", "approval_status:string", "scheduled_at:date", "published_at:date", "provider_post_id:string", "provider_post_url:string", "payload_json:string", "error_class:string", "error_message:string", "retry_count:number", "last_attempt_at:date", "idempotency_key:string", "created_at:date", "updated_at:date"]
+    },
+    {
+      "name": "performance",
+      "id": "cpXK71FCgRGVNm9f",
+      "project_id": "o8RQQQgne2c6jXr5",
+      "created_at": "2026-09-03T21:18:53.040Z",
+      "postflight": "verified",
+      "columns": ["performance_id:string", "output_id:string", "platform:string", "platform_post_id:string", "snapshot_at:date", "snapshot_window:string", "impressions:number", "reach:number", "views:number", "watch_time_seconds:number", "avg_watch_duration_seconds:number", "likes:number", "comments:number", "shares:number", "saves:number", "clicks:number", "followers_gained:number", "revenue_amount:number", "completion_rate:number", "ctr:number", "engagement_rate:number", "raw_payload_drive_url:string", "idempotency_key:string", "created_at:date"]
+    },
+    {
+      "name": "asset_registry",
+      "id": "cegEOJrqfZv6pcfI",
+      "project_id": "o8RQQQgne2c6jXr5",
+      "created_at": "2026-09-03T21:19:07.802Z",
+      "postflight": "verified",
+      "columns": ["asset_id:string", "subject_id:string", "story_object_id:string", "asset_type:string", "description:string", "source_id:string", "source_url:string", "drive_url:string", "file_hash:string", "mime_type:string", "identity_subject_id:string", "identity_confidence:number", "identity_status:string", "group_photo:boolean", "crop_verified:boolean", "technical_status:string", "rights_status:string", "rights_basis:string", "license:string", "license_url:string", "rights_documentation_url:string", "attribution_required:boolean", "attribution_text:string", "usage_status:string", "archive_value:string", "story_relevance:string", "approved_for_json:string", "rejected_reason:string", "idempotency_key:string", "created_at:date", "updated_at:date"]
+    }
+  ],
+  "postflight": {
+    "operation": "search_data_tables",
+    "project_id": "o8RQQQgne2c6jXr5",
+    "authorized_project_table_count": 8,
+    "all_declared_tables_present": true,
+    "all_table_project_ids_verified": true,
+    "all_column_names_and_types_verified": true,
+    "unrelated_projects_inspected": false,
+    "instance_wide_project_data_discovery_used": false
+  },
+  "canonical_tracker": {
+    "name": "INTRST Master Build Tracker - Canonical",
+    "spreadsheet_id": "17pvXgcRuiMuhScrsWfIEtvSLXv4fT4eMwSuEVGxvzyo",
+    "sheet": "Master Tracker",
+    "row_id": "INF-005",
+    "updated_at": "2026-09-03T21:19:07.802Z",
+    "postflight": "verified_row_readback"
+  }
+}
