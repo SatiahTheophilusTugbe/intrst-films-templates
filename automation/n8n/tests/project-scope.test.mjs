@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { validateRequest } from "../validate-project-scope.mjs";
+import { validatePolicy, validateRequest } from "../validate-project-scope.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const policy = JSON.parse(fs.readFileSync(path.join(here, "..", "project-scope.json"), "utf8"));
@@ -54,6 +54,29 @@ const cases = [
     },
     code: "GLOBAL_SCOPE_DENIED"
   },
+  {
+    name: "denies mutation disguised as global metadata",
+    replace: {
+      scope: "global",
+      global_capability: "node_type_metadata",
+      contains_project_data: false,
+      operation: "delete",
+      target: { type: "metadata" }
+    },
+    code: "GLOBAL_MUTATION_DENIED"
+  },
+  {
+    name: "denies project target disguised as global metadata",
+    replace: {
+      scope: "global",
+      global_capability: "node_type_metadata",
+      contains_project_data: false,
+      operation: "read",
+      target: { type: "workflow" }
+    },
+    code: "GLOBAL_TARGET_DENIED"
+  },
+  { name: "denies unknown operation", mutate: () => ({ operation: "teleport" }), code: "OPERATION_DENIED" },
   {
     name: "allows authorized inactive development create",
     mutate: () => ({
@@ -168,4 +191,12 @@ for (const testCase of cases) {
   }
 }
 
-console.log(`project-scope: ${cases.length} cases passed`);
+const expandedGlobalPolicy = structuredClone(policy);
+expandedGlobalPolicy.n8n.allowed_global_capabilities.push("workflow_inventory");
+assert.ok(validatePolicy(expandedGlobalPolicy).some((error) => error.code === "GLOBAL_ALLOWLIST"));
+
+const expandedEnvironmentPolicy = structuredClone(policy);
+expandedEnvironmentPolicy.n8n.workflow.allowed_environments.push("other-project-production");
+assert.ok(validatePolicy(expandedEnvironmentPolicy).some((error) => error.code === "ENVIRONMENT_ALLOWLIST"));
+
+console.log(`project-scope: ${cases.length + 2} cases passed`);

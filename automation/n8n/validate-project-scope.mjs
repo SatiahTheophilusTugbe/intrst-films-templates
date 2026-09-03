@@ -19,6 +19,9 @@ const MUTATIONS = new Set([
 const ACTIVATION = new Set(["activate"]);
 const PUBLISHING = new Set(["publish", "unpublish"]);
 const DESTRUCTIVE = new Set(["archive", "delete"]);
+const KNOWN_OPERATIONS = new Set(["read", ...MUTATIONS]);
+const ALLOWED_ENVIRONMENTS = ["development", "staging", "production"];
+const ALLOWED_GLOBAL_CAPABILITIES = ["node_type_metadata", "public_n8n_documentation"];
 const EXISTING_TARGET = new Set([
   "read",
   "update",
@@ -38,6 +41,10 @@ function add(errors, code, message) {
   errors.push({ code, message });
 }
 
+function sameArray(actual, expected) {
+  return Array.isArray(actual) && actual.length === expected.length && actual.every((value, index) => value === expected[index]);
+}
+
 export function validatePolicy(policy) {
   const errors = [];
   if (policy?.schema_version !== "1.0.0") add(errors, "POLICY_VERSION", "Unsupported policy version.");
@@ -52,6 +59,12 @@ export function validatePolicy(policy) {
   if (policy?.n8n?.workflow?.required_name_prefix !== "INT-") add(errors, "WORKFLOW_PREFIX", "Workflow prefix must be INT-.");
   if (!policy?.n8n?.workflow?.required_tags?.includes("project:intrst")) add(errors, "WORKFLOW_TAG", "Required workflow tag is missing.");
   if (policy?.n8n?.workflow?.new_workflows_active !== false) add(errors, "DEFAULT_ACTIVE", "New workflows must be inactive.");
+  if (!sameArray(policy?.n8n?.workflow?.allowed_environments, ALLOWED_ENVIRONMENTS)) {
+    add(errors, "ENVIRONMENT_ALLOWLIST", "Workflow environment allowlist was modified.");
+  }
+  if (!sameArray(policy?.n8n?.allowed_global_capabilities, ALLOWED_GLOBAL_CAPABILITIES)) {
+    add(errors, "GLOBAL_ALLOWLIST", "Global capability allowlist was modified.");
+  }
   return errors;
 }
 
@@ -68,6 +81,8 @@ export function validateRequest(request, policy) {
     if (!permitted || request?.contains_project_data !== false) {
       add(errors, "GLOBAL_SCOPE_DENIED", "Only allowlisted non-project metadata may use global scope.");
     }
+    if (operation !== "read") add(errors, "GLOBAL_MUTATION_DENIED", "Global scope is read-only.");
+    if (target.type !== "metadata") add(errors, "GLOBAL_TARGET_DENIED", "Global scope cannot target project artifacts.");
     return result(errors);
   }
 
@@ -77,6 +92,7 @@ export function validateRequest(request, policy) {
     add(errors, "PROJECT_MISMATCH", "The request is outside the INTRST Films project allowlist.");
   }
   if (!operation) add(errors, "OPERATION_REQUIRED", "An explicit operation is required.");
+  else if (!KNOWN_OPERATIONS.has(operation)) add(errors, "OPERATION_DENIED", "Operation is not allowlisted.");
   if (!target.type) add(errors, "TARGET_TYPE_REQUIRED", "Target type is required.");
   if (target.project_id !== project?.id) add(errors, "TARGET_OWNERSHIP", "Immutable target ownership was not verified.");
   if (EXISTING_TARGET.has(operation) && !target.id) add(errors, "TARGET_ID_REQUIRED", "Existing targets require an immutable ID.");
