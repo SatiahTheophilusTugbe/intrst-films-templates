@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://intrstfilms.com/schemas/identifier-policy.schema.json",
+  "title": "INTRST Immutable Identifier Policy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "contract_id", "status", "organization_prefix", "record_id_format", "record_id_pattern", "record_types", "subject_identity", "generation", "versioning", "idempotency", "external_ids", "legacy", "human_names", "observability_decision"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "contract_id": {"const": "INF-006"},
+    "status": {"enum": ["development", "approved", "superseded"]},
+    "organization_prefix": {"const": "INT"},
+    "record_id_format": {"const": "INT-{TYPE}-{ULID}"},
+    "record_id_pattern": {"type": "string", "minLength": 1},
+    "record_types": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/recordType"}},
+    "subject_identity": {"type": "object"},
+    "generation": {"type": "object"},
+    "versioning": {"type": "object"},
+    "idempotency": {"type": "object"},
+    "external_ids": {"type": "object"},
+    "legacy": {"type": "object"},
+    "human_names": {"type": "object"},
+    "observability_decision": {"type": "object"}
+  },
+  "$defs": {
+    "recordType": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "code", "primary_field", "table"],
+      "properties": {
+        "name": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+        "code": {"type": "string", "pattern": "^[A-Z]{3}$"},
+        "primary_field": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+        "table": {"type": ["string", "null"]}
+      }
+    }
+  }
+}

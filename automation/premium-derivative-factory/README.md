@@ -372,5 +372,18 @@ The contract keeps relational and nested validation outside n8n: Data Tables hol
 JSON Schemas validate Life Files, Story Objects and derivative manifests before persistence. Google Drive continues to
 own documents, media and rights evidence.
 
+## 18. INF-006 identifiers and naming
+
+The immutable identifier contract is version-controlled at
+`automation/core/ids/inf-006.identifier-policy.json`. New operational records use typed `INT-{TYPE}-{ULID}` IDs;
+versions, idempotency keys, filenames, display names and provider IDs remain separate.
+
+`subject_id` is the canonical operational identity. Life File v1 retains its existing `person_id` field but must carry
+the identical `INT-SUB-*` value. Existing short IDs and slugs remain readable legacy references and are never generated
+as new global primary keys.
+
+The policy also requires a typed `RUN` ID and a formal `workflow_runs` Data Table extension before orchestration begins;
+it does not silently expand the already deployed INF-005 baseline.
+
 The validator is a precondition for orchestration code and sanitized n8n workflow deployment. It does
 not itself grant authorization to modify, activate, publish or delete n8n resources.

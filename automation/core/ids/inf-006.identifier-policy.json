@@ -1,0 +1,87 @@
+{
+  "$schema": "../../../schemas/identifier-policy.schema.json",
+  "schema_version": "1.0.0",
+  "contract_id": "INF-006",
+  "status": "development",
+  "organization_prefix": "INT",
+  "record_id_format": "INT-{TYPE}-{ULID}",
+  "record_id_pattern": "^INT-[A-Z]{3}-[0-9A-HJKMNP-TV-Z]{26}$",
+  "record_types": [
+    {"name": "subject", "code": "SUB", "primary_field": "subject_id", "table": "people_queue"},
+    {"name": "life_file", "code": "LIF", "primary_field": "life_file_id", "table": "life_files"},
+    {"name": "story", "code": "STY", "primary_field": "story_id", "table": null},
+    {"name": "story_object", "code": "STO", "primary_field": "story_object_id", "table": "story_objects"},
+    {"name": "source", "code": "SRC", "primary_field": "source_id", "table": null},
+    {"name": "claim", "code": "CLM", "primary_field": "claim_id", "table": null},
+    {"name": "quote", "code": "QTE", "primary_field": "quote_id", "table": null},
+    {"name": "asset", "code": "AST", "primary_field": "asset_id", "table": "asset_registry"},
+    {"name": "manifest", "code": "MAN", "primary_field": "manifest_id", "table": null},
+    {"name": "output", "code": "OUT", "primary_field": "output_id", "table": "content_outputs"},
+    {"name": "review", "code": "REV", "primary_field": "review_id", "table": "approval_queue"},
+    {"name": "publishing", "code": "PUB", "primary_field": "publishing_log_id", "table": "publishing_log"},
+    {"name": "performance", "code": "PRF", "primary_field": "performance_id", "table": "performance"},
+    {"name": "run", "code": "RUN", "primary_field": "run_id", "table": "workflow_runs"},
+    {"name": "render_job", "code": "RND", "primary_field": "render_job_id", "table": null},
+    {"name": "decision", "code": "DEC", "primary_field": "decision_id", "table": null},
+    {"name": "experiment", "code": "EXP", "primary_field": "experiment_id", "table": null}
+  ],
+  "subject_identity": {
+    "canonical_field": "subject_id",
+    "life_file_v1_alias": "person_id",
+    "alias_rule": "life_file.person_id_must_equal_operational.subject_id",
+    "migration_rule": "A future Life File major schema version may rename person_id to subject_id; v1 remains unchanged."
+  },
+  "generation": {
+    "algorithm": "ulid",
+    "timestamp_precision": "millisecond",
+    "entropy_bits": 80,
+    "alphabet": "0123456789ABCDEFGHJKMNPQRSTVWXYZ",
+    "case": "uppercase",
+    "central_counter_required": false,
+    "regenerate_on_retry": false,
+    "regenerate_on_update": false
+  },
+  "versioning": {
+    "entity_id_is_version": false,
+    "version_field": "separate_semver_or_editorial_version",
+    "new_id_on_new_version": false,
+    "new_id_on_new_distinct_entity": true
+  },
+  "idempotency": {
+    "entity_id_is_idempotency_key": false,
+    "key_is_separate": true,
+    "reuse_original_entity_id_on_retry": true
+  },
+  "external_ids": {
+    "store_separately": true,
+    "never_replace_canonical_id": true,
+    "examples": ["n8n_workflow_id", "n8n_execution_id", "provider_job_id", "platform_post_id", "drive_file_id"]
+  },
+  "legacy": {
+    "readable": true,
+    "generatable": false,
+    "eligible_as_global_primary_key": false,
+    "preserve_in_legacy_id_field_or_payload": true,
+    "patterns": [
+      "^SUBJ-[0-9]{3,}$",
+      "^(SRC|CLM|AST|VID|MUS|DOC|AUD|REF|UNK)-[0-9]{3,}$",
+      "^[a-z0-9]+(?:-[a-z0-9]+)+$"
+    ]
+  },
+  "human_names": {
+    "image_file": "FirstName_LastName_NNN.ext",
+    "production_folder": "{story_id} — {working_title}",
+    "workflow": "INT-{CLASS}-{NNN} — {human_name} — {ENV}",
+    "workflow_classes": ["AUT", "SVC", "VAL", "UTIL", "TST", "EXP", "INF"],
+    "workflow_environments": ["DEV", "STG", "PROD"],
+    "template_registry_id": "INT-TPL-{NNN}",
+    "template_version": "separate_semver"
+  },
+  "observability_decision": {
+    "workflow_runs_required": true,
+    "run_id_type": "RUN",
+    "persistence": "workflow_runs_data_table",
+    "implementation": "formal_INF-005_minor_extension_before_first_workflow",
+    "n8n_execution_id_is_external_reference": true
+  }
+}
