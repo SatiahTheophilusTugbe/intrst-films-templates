@@ -358,7 +358,19 @@ Run the dependency-free contract tests with:
 
 ```text
 node automation/n8n/tests/project-scope.test.mjs
+node automation/n8n/tests/inf-005-data-tables.test.mjs
 ```
+
+## 17. INF-005 Data Tables
+
+The exact development contract for the eight canonical n8n Data Tables is version-controlled at
+`automation/n8n/data-tables/inf-005.data-tables.json`. Its schema, dependency-free validator, deployment gate and
+negative isolation tests prevent table-name expansion, unsupported column types, cross-project deployment, missing
+idempotency controls and production promotion without review.
+
+The contract keeps relational and nested validation outside n8n: Data Tables hold operational state, while canonical
+JSON Schemas validate Life Files, Story Objects and derivative manifests before persistence. Google Drive continues to
+own documents, media and rights evidence.
 
 The validator is a precondition for orchestration code and sanitized n8n workflow deployment. It does
 not itself grant authorization to modify, activate, publish or delete n8n resources.
