@@ -1,0 +1,152 @@
+{
+  "record_version": "1.0.0",
+  "extension_id": "INF-005.1",
+  "extension_version": "1.1.0",
+  "contract_file": "automation/n8n/data-tables/inf-005.1.workflow-runs.extension.json",
+  "base_contract": {
+    "id": "INF-005",
+    "version": "1.0.0",
+    "deployment_record": "automation/n8n/data-tables/inf-005.deployment-record.json",
+    "immutable_table_count": 8,
+    "existing_tables_modified": false,
+    "existing_table_ids_verified_unchanged": {
+      "people_queue": "A8rVmMO4vr5UnVdJ",
+      "life_files": "iqIyodTz4ev2E7c8",
+      "story_objects": "wtmCJyYutgIATmla",
+      "content_outputs": "P29q3HqS7JHr147x",
+      "approval_queue": "I50dgyTWCoCvPnDt",
+      "publishing_log": "qHmuRSglzmNT3Oj9",
+      "performance": "cpXK71FCgRGVNm9f",
+      "asset_registry": "cegEOJrqfZv6pcfI"
+    }
+  },
+  "deployment_type": "development",
+  "deployment_status": "deployed_development_verified",
+  "deployed_at": "2026-09-04T01:59:54.439Z",
+  "n8n_version": "2.36.9",
+  "n8n_project": {
+    "name": "INTRST Films",
+    "id": "o8RQQQgne2c6jXr5"
+  },
+  "authorization": {
+    "source": "user_request",
+    "requested_operation": "create_INF-005.1_development_workflow_runs_data_table",
+    "scope": "project_scoped_only",
+    "allowed_project_id": "o8RQQQgne2c6jXr5"
+  },
+  "preflight": {
+    "operation": "search_data_tables",
+    "project_id": "o8RQQQgne2c6jXr5",
+    "expected_current_state": "workflow_runs_absent",
+    "result": "eight_existing_INF-005_tables_verified_unchanged_and_workflow_runs_absent",
+    "existing_table_count_before_mutation": 8,
+    "workflow_runs_present_before_mutation": false
+  },
+  "mutation_controls": {
+    "environment": "development",
+    "expected_current_version": "absent",
+    "idempotency_key": "INF-005.1:o8RQQQgne2c6jXr5:workflow_runs:1.1.0",
+    "rollback_method": "archive_only_the_created_workflow_runs_table_after_project_scoped_id_verification",
+    "workflows_created": false,
+    "workflows_executed": false,
+    "production_rows_inserted": false,
+    "existing_tables_modified": false,
+    "credentials_modified": false,
+    "activation_performed": false,
+    "publishing_performed": false
+  },
+  "table": {
+    "name": "workflow_runs",
+    "id": "ZdOyJqa5ffTkwUSV",
+    "project_id": "o8RQQQgne2c6jXr5",
+    "created_at": "2026-09-04T01:59:54.439Z",
+    "postflight": "verified",
+    "row_count": 0,
+    "columns": [
+      "run_id:string",
+      "root_run_id:string",
+      "parent_run_id:string",
+      "workflow_key:string",
+      "workflow_name:string",
+      "workflow_version:string",
+      "module:string",
+      "environment:string",
+      "n8n_workflow_id:string",
+      "n8n_execution_id:string",
+      "subject_id:string",
+      "story_object_id:string",
+      "manifest_id:string",
+      "output_id:string",
+      "started_at:date",
+      "completed_at:date",
+      "status:string",
+      "state_from:string",
+      "state_to:string",
+      "attempt:number",
+      "provider:string",
+      "model:string",
+      "prompt_version:string",
+      "template_id:string",
+      "template_version:string",
+      "input_ids_json:string",
+      "output_ids_json:string",
+      "source_ids_json:string",
+      "claim_ids_json:string",
+      "asset_ids_json:string",
+      "human_review_required:boolean",
+      "review_status:string",
+      "approval_actor:string",
+      "approval_at:date",
+      "error_class:string",
+      "error_message:string",
+      "latency_ms:number",
+      "estimated_cost:number",
+      "idempotency_key:string",
+      "created_at:date",
+      "updated_at:date"
+    ]
+  },
+  "tests": [
+    {
+      "command": "node automation/n8n/tests/workflow-runs-extension.test.mjs",
+      "result": "workflow-runs-extension: 17 cases passed"
+    },
+    {
+      "command": "node automation/core/ids/tests/ids.test.mjs",
+      "result": "inf-006-identifiers: 55 cases passed"
+    },
+    {
+      "command": "node automation/n8n/tests/project-scope.test.mjs",
+      "result": "project-scope: 21 cases passed"
+    },
+    {
+      "command": "node automation/n8n/tests/inf-005-data-tables.test.mjs",
+      "result": "inf-005-data-tables: 26 cases passed"
+    }
+  ],
+  "schema_verification": {
+    "contract_status_before_deployment": "planned",
+    "column_names_order_and_types_verified": true,
+    "required_runtime_invariants_verified_by_tests": true,
+    "zero_rows_verified": true
+  },
+  "postflight": {
+    "operation": "search_data_tables_and_get_data_table_rows",
+    "project_id": "o8RQQQgne2c6jXr5",
+    "workflow_runs_table_id": "ZdOyJqa5ffTkwUSV",
+    "workflow_runs_project_id_verified": true,
+    "workflow_runs_name_verified": true,
+    "workflow_runs_column_names_order_and_types_verified": true,
+    "workflow_runs_row_count": 0,
+    "baseline_INF-005_table_ids_unchanged": true,
+    "unrelated_projects_inspected": false,
+    "instance_wide_project_data_discovery_used": false
+  },
+  "canonical_tracker": {
+    "name": "INTRST Master Build Tracker - Canonical",
+    "spreadsheet_id": "17pvXgcRuiMuhScrsWfIEtvSLXv4fT4eMwSuEVGxvzyo",
+    "sheet": "Master Tracker",
+    "row_id": "INF-005",
+    "postflight": "pending_commit_sha_update"
+  }
+}
