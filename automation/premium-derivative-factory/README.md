@@ -385,5 +385,16 @@ as new global primary keys.
 The policy also requires a typed `RUN` ID and a formal `workflow_runs` Data Table extension before orchestration begins;
 it does not silently expand the already deployed INF-005 baseline.
 
+## 19. INF-005.1 workflow run ledger
+
+The additive observability extension is version-controlled at
+`automation/n8n/data-tables/inf-005.1.workflow-runs.extension.json`. It creates one development-scoped
+`workflow_runs` table and explicitly prohibits changes to the eight deployed INF-005 tables, row insertion, workflow
+creation, credentials, activation or production promotion during deployment.
+
+Every root, child and retry execution receives an immutable `INT-RUN-*` ID. The ledger preserves root/parent lineage,
+workflow and module versions, n8n external IDs, entity references, state transitions, attempts, provider/model/template
+metadata, evidence and asset references, human review/approval, normalized errors, latency and estimated cost.
+
 The validator is a precondition for orchestration code and sanitized n8n workflow deployment. It does
 not itself grant authorization to modify, activate, publish or delete n8n resources.

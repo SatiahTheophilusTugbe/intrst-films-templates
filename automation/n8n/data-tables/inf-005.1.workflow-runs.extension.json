@@ -1,0 +1,93 @@
+{
+  "$schema": "../../../schemas/n8n-data-table-extension.schema.json",
+  "schema_version": "1.0.0",
+  "extension_id": "INF-005.1",
+  "extension_version": "1.1.0",
+  "status": "planned",
+  "base_contract": {
+    "id": "INF-005",
+    "version": "1.0.0",
+    "deployment_record": "automation/n8n/data-tables/inf-005.deployment-record.json",
+    "immutable_table_count": 8,
+    "existing_tables_modified": false
+  },
+  "decision_source": {
+    "contract": "INF-006",
+    "policy": "automation/core/ids/inf-006.identifier-policy.json",
+    "reason": "Critical executions require durable structured run lineage before orchestration begins."
+  },
+  "project": {
+    "id": "o8RQQQgne2c6jXr5",
+    "name": "INTRST Films"
+  },
+  "deployment": {
+    "environment": "development",
+    "expected_current_state": "workflow_runs_absent",
+    "idempotency_key": "INF-005.1:o8RQQQgne2c6jXr5:workflow_runs:1.1.0",
+    "rollback_method": "archive_only_the_created_workflow_runs_table_after_project_scoped_id_verification",
+    "insert_rows": false,
+    "modify_existing_tables": false,
+    "create_workflows": false
+  },
+  "table": {
+    "name": "workflow_runs",
+    "purpose": "Durable structured execution lineage, state transitions, audit metadata and normalized failure records.",
+    "logical_key": ["run_id"],
+    "idempotency_key": ["idempotency_key"],
+    "columns": [
+      {"name": "run_id", "type": "string", "required": true},
+      {"name": "root_run_id", "type": "string", "required": true},
+      {"name": "parent_run_id", "type": "string", "required": false},
+      {"name": "workflow_key", "type": "string", "required": true},
+      {"name": "workflow_name", "type": "string", "required": true},
+      {"name": "workflow_version", "type": "string", "required": true},
+      {"name": "module", "type": "string", "required": true},
+      {"name": "environment", "type": "string", "required": true},
+      {"name": "n8n_workflow_id", "type": "string", "required": false},
+      {"name": "n8n_execution_id", "type": "string", "required": false},
+      {"name": "subject_id", "type": "string", "required": false},
+      {"name": "story_object_id", "type": "string", "required": false},
+      {"name": "manifest_id", "type": "string", "required": false},
+      {"name": "output_id", "type": "string", "required": false},
+      {"name": "started_at", "type": "date", "required": true},
+      {"name": "completed_at", "type": "date", "required": false},
+      {"name": "status", "type": "string", "required": true},
+      {"name": "state_from", "type": "string", "required": false},
+      {"name": "state_to", "type": "string", "required": false},
+      {"name": "attempt", "type": "number", "required": true},
+      {"name": "provider", "type": "string", "required": false},
+      {"name": "model", "type": "string", "required": false},
+      {"name": "prompt_version", "type": "string", "required": false},
+      {"name": "template_id", "type": "string", "required": false},
+      {"name": "template_version", "type": "string", "required": false},
+      {"name": "input_ids_json", "type": "string", "required": true},
+      {"name": "output_ids_json", "type": "string", "required": true},
+      {"name": "source_ids_json", "type": "string", "required": true},
+      {"name": "claim_ids_json", "type": "string", "required": true},
+      {"name": "asset_ids_json", "type": "string", "required": true},
+      {"name": "human_review_required", "type": "boolean", "required": true},
+      {"name": "review_status", "type": "string", "required": false},
+      {"name": "approval_actor", "type": "string", "required": false},
+      {"name": "approval_at", "type": "date", "required": false},
+      {"name": "error_class", "type": "string", "required": false},
+      {"name": "error_message", "type": "string", "required": false},
+      {"name": "latency_ms", "type": "number", "required": false},
+      {"name": "estimated_cost", "type": "number", "required": false},
+      {"name": "idempotency_key", "type": "string", "required": true},
+      {"name": "created_at", "type": "date", "required": true},
+      {"name": "updated_at", "type": "date", "required": true}
+    ]
+  },
+  "runtime_invariants": [
+    "run_id, root_run_id and parent_run_id use canonical INT-RUN identifiers",
+    "root runs set root_run_id equal to run_id and parent_run_id empty",
+    "child and retry runs retain the original root_run_id",
+    "attempt is an integer greater than or equal to 1",
+    "n8n workflow and execution IDs remain external references",
+    "JSON string columns contain arrays of canonical or explicitly preserved legacy references",
+    "completed_at is required for terminal states",
+    "approval actor and timestamp are required when an approval is recorded",
+    "error_class uses the normalized automation error taxonomy",
+    "credentials, secret headers, tokens and raw provider payloads are prohibited"
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://intrstfilms.com/schemas/n8n-data-table-extension.schema.json",
+  "title": "INTRST n8n Data Table Extension",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "extension_id", "extension_version", "status", "base_contract", "decision_source", "project", "deployment", "table", "runtime_invariants"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "extension_id": {"const": "INF-005.1"},
+    "extension_version": {"const": "1.1.0"},
+    "status": {"enum": ["planned", "deployed", "rolled_back", "superseded"]},
+    "base_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "version", "deployment_record", "immutable_table_count", "existing_tables_modified"],
+      "properties": {
+        "id": {"const": "INF-005"},
+        "version": {"const": "1.0.0"},
+        "deployment_record": {"const": "automation/n8n/data-tables/inf-005.deployment-record.json"},
+        "immutable_table_count": {"const": 8},
+        "existing_tables_modified": {"const": false}
+      }
+    },
+    "decision_source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["contract", "policy", "reason"],
+      "properties": {
+        "contract": {"const": "INF-006"},
+        "policy": {"const": "automation/core/ids/inf-006.identifier-policy.json"},
+        "reason": {"type": "string", "minLength": 1}
+      }
+    },
+    "project": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name"],
+      "properties": {
+        "id": {"const": "o8RQQQgne2c6jXr5"},
+        "name": {"const": "INTRST Films"}
+      }
+    },
+    "deployment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["environment", "expected_current_state", "idempotency_key", "rollback_method", "insert_rows", "modify_existing_tables", "create_workflows"],
+      "properties": {
+        "environment": {"const": "development"},
+        "expected_current_state": {"const": "workflow_runs_absent"},
+        "idempotency_key": {"const": "INF-005.1:o8RQQQgne2c6jXr5:workflow_runs:1.1.0"},
+        "rollback_method": {"const": "archive_only_the_created_workflow_runs_table_after_project_scoped_id_verification"},
+        "insert_rows": {"const": false},
+        "modify_existing_tables": {"const": false},
+        "create_workflows": {"const": false}
+      }
+    },
+    "table": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "purpose", "logical_key", "idempotency_key", "columns"],
+      "properties": {
+        "name": {"const": "workflow_runs"},
+        "purpose": {"type": "string", "minLength": 1},
+        "logical_key": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+        "idempotency_key": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+        "columns": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/column"}}
+      }
+    },
+    "runtime_invariants": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+  },
+  "$defs": {
+    "column": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "type", "required"],
+      "properties": {
+        "name": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+        "type": {"enum": ["string", "number", "boolean", "date"]},
+        "required": {"type": "boolean"}
+      }
+    }
+  }
+}

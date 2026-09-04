@@ -56,8 +56,13 @@ The approved build brief names exactly eight tables and does not include a `work
 does not silently add a ninth table. Production observability persistence must be assigned to an existing canonical
 system or approved as a formal INF-005 extension before orchestration goes live.
 
+INF-006 resolved that dependency by requiring `workflow_runs`. The additive, development-only minor extension is
+defined in `inf-005.1.workflow-runs.extension.json`. It preserves the eight deployed baseline tables unchanged and may
+create only one empty `workflow_runs` table after project-scoped absence and ownership checks.
+
 Run validation with:
 
 ```text
 node automation/n8n/tests/inf-005-data-tables.test.mjs
+node automation/n8n/tests/workflow-runs-extension.test.mjs
 ```
