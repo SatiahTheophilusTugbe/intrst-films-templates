@@ -396,5 +396,17 @@ Every root, child and retry execution receives an immutable `INT-RUN-*` ID. The 
 workflow and module versions, n8n external IDs, entity references, state transitions, attempts, provider/model/template
 metadata, evidence and asset references, human review/approval, normalized errors, latency and estimated cost.
 
+## 20. INF-007 credential and secrets boundary
+
+The canonical credential contract is version-controlled at
+`automation/core/security/inf-007.credential-policy.json`. Runtime secrets stay in n8n Credentials, MCP authentication
+stays in its managed connection, and deployment keys stay in an approved environment secret store. Git, workflow
+exports, Data Tables, run logs, prompts, Drive documents and rendered outputs may contain logical credential references
+and sanitized metadata only—never credential IDs or values.
+
+Development, Staging and Production resolve separate credentials. Credential failures stop and alert without retry or
+cross-environment fallback. Static secrets rotate within 90 days and immediately after suspected exposure; break-glass
+access is explicitly authorized, time-bounded, rotated and reviewed.
+
 The validator is a precondition for orchestration code and sanitized n8n workflow deployment. It does
 not itself grant authorization to modify, activate, publish or delete n8n resources.

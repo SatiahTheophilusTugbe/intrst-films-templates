@@ -18,6 +18,8 @@ These instructions apply to the entire repository.
 
 - This repository stores public, version-controlled template specifications, schemas, layout rules, rendering instructions, fixtures, and test contracts.
 - Do not commit production brand assets, logos, portraits, exports, source media, credentials, tokens, secret headers, or private production data.
+- All credential handling must comply with `automation/core/security/inf-007.credential-policy.json`; repository and
+  workflow artifacts use logical references and sanitized metadata only, never credential IDs or values.
 - Keep testable business logic in version control. n8n coordinates execution; it is not the durable home for validators, adapters, deterministic transforms, rendering helpers, or contract logic.
 - Prefer modular code and modular workflows. Do not build monolithic orchestration.
 
