@@ -36,34 +36,35 @@ The immutable `provider_usage.idempotency_key` stores the deterministic operatio
 later attempt must use a new authorized run-scoped identity after explicit reconciliation and approval; the deployed
 INF-005.2 table therefore requires no schema migration.
 
-No live provider call is made by this repository phase. The Dolly controlled-test fixture, credential metadata binding and
-usage logging are used only through injected local test doubles. The approved Dolly controlled test remains
-unexecuted pending explicit one-call authorization.
+The AUT-013 controlled-test exception permits exactly one supervised live TranscriptAPI request for the fixed Dolly source.
+The workflow remains inactive, Manual Trigger only, one-attempt, zero-retry and development-only; production/unattended
+paid-provider execution remains blocked pending a proven atomic/idempotent claim backend.
 
 AUT-013 remains production-blocked. The proposed inactive mock artifact is
 `automation/n8n/workflows/INT-TST-013-dolly-transcriptapi-controlled-test-dev.workflow.json`, named
 `INT-AUT-013 — Media Intelligence Layer Phase 1 — DEV`. It uses mock transport only, exact provider_usage
 idempotency-key lookup, persist-and-exit execution, and no polling. It is approval-gated, fixed to the approved
-source, and limited to one real transport attempt with zero automatic retries. No execution or Data Table mutation
-is part of this preparation phase.
+source, and limited to one real transport attempt with zero automatic retries. Its cache, provider_usage, media_sources
+and workflow_runs paths use exact project-scoped Data Table operations; no PostgreSQL dependency is used for this test.
 
 The captured-response adapter is implemented, but the paid path requires a separately bound atomic operation claim
 before it can run. Lookup, insert, upsert, workflow concurrency, static data, waits and polling are not locks; an
 unproven claim backend fails closed. `ProviderUsageLedger` separates atomic claims from immutable provider outcomes,
 projects application events to the deployed physical row (`downstream_usage_json`), and fails closed on scope,
 duplicate, lookup, corruption or persistence errors. Application projection is being implemented and the n8n paid
-provider workflow is not deployable until the atomic claim binding is proven. No provider call or credit has occurred.
+provider workflow is not deployable for unattended/concurrent use until the atomic claim binding is proven. The controlled
+test exception does not generalize that production rule.
 
 The approved AUT-013 controlled source is Library of Congress / @loc, “Dolly Parton Interview,”
 `https://www.youtube.com/watch?v=PIa6Vot1XcM` (canonical ID `PIa6Vot1XcM`). It is fixed in the
-inactive test-only workflow with `approval_pending: true`, a provider-call budget of one, one
+inactive test-only workflow with `approval_status: controlled_test_authorized`, a provider-call budget of one, one
 maximum real transport attempt and zero automatic retries. The logical credential reference is
 `INT | TranscriptAPI | Development | Media Intelligence`; credential values and immutable IDs are
 never stored in Git. The live HTTP node is unreachable while approval remains pending. Any later
 raw transcript is restricted to the existing private Dolly research/source location (`01 Research & Life File`);
 Git and provider_usage retain only sanctioned metadata, hashes, timings, counts and provenance.
-Research/source access does not confer production visual, audio or quotation rights. The next gate is
-explicit authorization for exactly one TranscriptAPI call; no execution has occurred.
+Research/source access does not confer production visual, audio or quotation rights. The authorized operation remains
+exactly `AUT-013-DOLLY-001` for `PIa6Vot1XcM`; no other source/provider is authorized.
 
 ```text
 node automation/core/media-intelligence/validate-media-intelligence.mjs

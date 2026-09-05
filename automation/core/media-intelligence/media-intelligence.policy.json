@@ -59,13 +59,15 @@
   "runtime_preparation": {
     "status": "atomic_claim_implementation_proven_runtime_binding_pending",
     "controlled_test": {
-      "status": "authorized_runtime_blocked_until_atomic_backend_bound",
+      "status": "controlled_test_exception_authorized_production_atomic_claim_deferred",
       "workflow_name": "INT-TST-013 — Dolly TranscriptAPI Controlled Test — DEV",
       "workflow_id": "CYYjgF7zthIjMH7c",
       "source": {"title": "Dolly Parton Interview", "publisher": "Library of Congress / @loc", "canonical_video_id": "PIa6Vot1XcM", "canonical_url": "https://www.youtube.com/watch?v=PIa6Vot1XcM", "classification": "institutional_first_person", "purpose": "first-person evidence concerning Dolly Parton's father, literacy mission, Imagination Library and Library of Congress partnership"},
       "approval_scope": "AUT-013-DOLLY-001 exactly one TranscriptAPI request",
       "user_authorization_received": true,
-      "workflow_approval_gate_cleared": false,
+      "workflow_approval_gate_cleared": true,
+      "approval_status": "controlled_test_authorized",
+      "authorization_id": "AUT-013-DOLLY-001",
       "provider_call_budget": 1,
       "maximum_real_transport_attempts": 1,
       "automatic_retries": 0,

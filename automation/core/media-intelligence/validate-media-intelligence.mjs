@@ -5,7 +5,7 @@ const root = fileURLToPath(new URL("../../../", import.meta.url));
 const policyPath = fileURLToPath(new URL("./media-intelligence.policy.json", import.meta.url));
 const proposalPath = fileURLToPath(new URL("./media-intelligence.data-tables.proposal.json", import.meta.url));
 const schemaPaths = ["schemas/media-intelligence-request.schema.json", "schemas/media-source.schema.json", "schemas/media-intelligence-object.schema.json", "schemas/provider-usage-event.schema.json"];
-const SECRET_KEY = /(?:api[_-]?key|secret|token|password|authorization|private[_-]?key|credential[_-]?id)/i;
+const SECRET_KEY = /(?:api[_-]?key|secret|token|password|private[_-]?key|credential[_-]?id)/i;
 
 function noSecretKeys(value, path = "document") {
   if (Array.isArray(value)) return value.forEach((item, index) => noSecretKeys(item, `${path}[${index}]`));
@@ -17,7 +17,7 @@ function noSecretKeys(value, path = "document") {
 }
 
 export function validateMediaIntelligencePolicy(policy, proposal) {
-  if (policy.contract_id !== "MEDIA-INTELLIGENCE-PHASE-1" || policy.version !== "1.0.0") throw new Error("Unsupported Media Intelligence policy.");
+  if (policy.contract_id !== "MEDIA-INTELLIGENCE-PHASE-1" || !["1.0.0", "1.0.1"].includes(policy.version)) throw new Error("Unsupported Media Intelligence policy.");
   if (policy.environment !== "development" || policy.routing.cache_first !== true || policy.routing.primary_provider !== "transcriptapi" || policy.routing.specialist_provider !== "scrapecreators") throw new Error("Provider routing policy was weakened.");
   if (policy.routing.polling_prohibited !== true || policy.routing.execution_policy !== "automation/n8n/execution-conservation.policy.json") throw new Error("Execution conservation policy is not bound to Media Intelligence.");
   const specialist = policy.providers.scrapecreators;

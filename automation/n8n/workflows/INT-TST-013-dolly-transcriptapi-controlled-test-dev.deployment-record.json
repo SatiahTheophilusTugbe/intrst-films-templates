@@ -11,7 +11,9 @@
   "source": {"title": "Dolly Parton Interview", "publisher": "Library of Congress / @loc", "canonical_url": "https://www.youtube.com/watch?v=PIa6Vot1XcM", "canonical_video_id": "PIa6Vot1XcM", "approval_scope": "AUT-013-DOLLY-001 exactly one TranscriptAPI request", "rights_state": "research_source_access_only_no_production_reuse_clearance"},
   "credential_ref": "INT | TranscriptAPI | Development | Media Intelligence",
   "user_authorization_received": true,
-  "workflow_approval_gate_cleared": false,
+  "workflow_approval_gate_cleared": true,
+  "approval_status": "controlled_test_authorized",
+  "authorization_id": "AUT-013-DOLLY-001",
   "provider_call_budget": 1,
   "maximum_real_transport_attempts": 1,
   "automatic_retries": 0,
@@ -19,6 +21,11 @@
   "provider_calls": 0,
   "credits_consumed": 0,
   "data_table_rows_inserted": 0,
+  "runtime_data_table_operations": {
+    "workflow_runs": {"table_id": "ZdOyJqa5ffTkwUSV", "start": "durable_insert", "terminal": "durable_insert"},
+    "media_sources": {"table_id": "MtW6eqUyU7oiPRB0", "cache_lookup": "exact_read", "persistence": "sanitized_insert"},
+    "provider_usage": {"table_id": "WFeE982gMt0XfiIm", "prior_lookup": "exact_idempotency_key_read", "persistence": "immutable_insert"}
+  },
   "storage_destination": "private canonical Dolly research/source location: 01 Research & Life File",
   "semantic_fingerprint": {"algorithm": "sha256", "canonicalization": "controlled-test semantic fingerprint; strips workflow/version/timestamp/ownership metadata and credential immutable IDs; retains security-relevant nodes, parameters, normalized Code behavior, connections, tag names, inactive state and terminal contract", "repository_and_runtime_equal": true, "sha256": "766ae719f6f0f81796409e9e01efdee7b8179c6f873ed1f25ab31c504f726505"},
   "atomic_claim_backend": {
