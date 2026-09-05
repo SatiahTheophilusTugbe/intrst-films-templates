@@ -1,7 +1,7 @@
 {
   "contract_id": "MEDIA-INTELLIGENCE-PHASE-1",
   "version": "1.0.0",
-  "status": "architecture_approved_runtime_not_deployed",
+  "status": "deployed_development",
   "environment": "development",
   "routing": {
     "principle": "cheapest_sufficient_source",
@@ -17,7 +17,10 @@
     "transcriptapi": {
       "role": "primary",
       "budget_posture": "approximately_5_usd_monthly_initially",
-      "credential_ref": "INT | TranscriptAPI | Development | Media Intelligence"
+      "credential_ref": "INT | TranscriptAPI | Development | Media Intelligence",
+      "transcript_retrieval_max_attempts": 1,
+      "ambiguous_outcome": "OUTCOME_UNKNOWN_manual_reconciliation_required",
+      "automatic_retry": false
     },
     "scrapecreators": {
       "role": "specialist_free_tier",
@@ -43,8 +46,14 @@
     "additional_paid_provider_authorized": false
   },
   "persistence_plan": {
-    "status": "INF_005_2_validated_pending_project_scoped_deployment",
+    "status": "INF_005_2_deployed_development_verified",
     "proposed_tables": ["media_sources", "media_intelligence", "provider_usage"],
-    "existing_tables_modified": false
+    "table_ids": {"media_sources": "MtW6eqUyU7oiPRB0", "media_intelligence": "fPb1OwJbFPbFmqRk", "provider_usage": "WFeE982gMt0XfiIm"},
+    "deployment_commit": "d56f20cb142008d8be2b46095c9321f122fbcf90",
+    "n8n_project": {"name": "INTRST Films", "id": "o8RQQQgne2c6jXr5"},
+    "environment": "development",
+    "existing_tables_modified": false,
+    "rows_inserted": 0,
+    "providers_called": false
   }
 }

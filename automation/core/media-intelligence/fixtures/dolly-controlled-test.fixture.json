@@ -1,7 +1,7 @@
 {
   "fixture_id": "dolly-media-intelligence-phase-1",
   "version": "1.0.0",
-  "status": "contract_only_no_provider_calls_executed",
+  "status": "captured_sanitized_no_live_provider_calls",
   "subject_reference": "Dolly known-good regression fixture",
   "tests": [
     {"sequence": 1, "provider": "transcriptapi", "task": "youtube_search", "purpose": "Verify normalized search and canonical video-ID deduplication", "maximum_calls": 1},
@@ -9,5 +9,12 @@
     {"sequence": 3, "provider": "scrapecreators", "task": "audience_comments", "purpose": "Measure whether a bounded comment sample yields intelligence unavailable through TranscriptAPI", "maximum_calls": 1, "requires_explicit_authorization": true, "protected_credit_floor": 20}
   ],
   "required_observations": ["endpoint", "purpose", "credits_used", "estimated_cost", "cache_hit_or_miss", "normalized_object_count", "intelligence_value", "transcriptapi_sufficiency", "remaining_scrapecreators_credits"],
+  "captured_responses": {
+    "transcriptapi": {
+      "youtube_search": {"videos": [{"video_id":"dQw4w9WgXcQ","title":"Dolly controlled fixture A"},{"url":"https://www.youtube.com/watch?v=dQw4w9WgXcQ","title":"Duplicate canonical ID"},{"video_id":"9bZkp7q19f0","title":"Dolly controlled fixture B"}]},
+      "transcript_retrieval": {"response_version":"1.0.0","video_id":"dQw4w9WgXcQ","language":"en","transcript":[{"segment_id":"segment-1","start_seconds":0,"end_seconds":4,"content_hash":"0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef","token_count":7},{"segment_id":"segment-2","start_seconds":4,"end_seconds":9,"content_hash":"abcdef01abcdef01abcdef01abcdef01abcdef01abcdef01abcdef01abcdef01","token_count":11}]}
+    }
+  },
+  "fixture_safety": {"raw_transcript_text_included": false,"secret_values_included": false,"immutable_credential_ids_included": false,"provider_calls_executed": false},
   "prohibitions": ["production_asset_copy", "unbounded_comment_retrieval", "transcript_to_script", "audience_comment_as_fact", "janie_as_engineering_sandbox"]
 }
