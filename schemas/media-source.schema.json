@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://intrstfilms.com/schemas/media-source.schema.json",
+  "title": "INTRST Media Source",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "source_id", "subject_id", "platform", "provider", "source_kind", "external_id", "canonical_url", "title", "source_classification", "rights_state", "retrieved_at", "cache"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "source_id": {"type": "string", "pattern": "^INT-SRC-[0-9A-HJKMNP-TV-Z]{26}$"},
+    "subject_id": {"type": "string", "pattern": "^INT-SUB-[0-9A-HJKMNP-TV-Z]{26}$"},
+    "platform": {"enum": ["youtube", "facebook", "instagram", "tiktok", "x", "threads", "other"]},
+    "provider": {"enum": ["transcriptapi", "scrapecreators"]},
+    "source_kind": {"enum": ["video", "channel", "playlist", "transcript", "comment_sample", "community_post"]},
+    "external_id": {"type": "string", "minLength": 1},
+    "canonical_url": {"type": "string", "format": "uri"},
+    "title": {"type": "string", "minLength": 1},
+    "speaker": {"type": ["string", "null"]},
+    "language": {"type": ["string", "null"]},
+    "published_at": {"type": ["string", "null"], "format": "date-time"},
+    "source_classification": {"enum": ["subject_first_person", "first_person_witness", "official", "reputable_journalism", "documentary", "secondary_commentary", "derivative_biography", "audience_comment", "fan_user_generated", "unknown"]},
+    "rights_state": {"enum": ["discovery_only", "review_required", "publishable", "blocked"]},
+    "retrieved_at": {"type": "string", "format": "date-time"},
+    "raw_payload_drive_url": {"type": ["string", "null"], "format": "uri"},
+    "content_hash": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+    "cache": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["cache_entry_id", "key", "status", "refresh_policy"],
+      "properties": {
+        "cache_entry_id": {"type": "string", "pattern": "^INT-CAC-[0-9A-HJKMNP-TV-Z]{26}$"},
+        "key": {"type": "string", "minLength": 1},
+        "status": {"enum": ["hit", "miss", "refreshed"]},
+        "refresh_policy": {"enum": ["immutable", "manual", "ttl"]},
+        "expires_at": {"type": ["string", "null"], "format": "date-time"}
+      }
+    }
+  }
+}

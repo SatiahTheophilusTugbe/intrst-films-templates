@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://intrstfilms.com/schemas/media-intelligence-request.schema.json",
+  "title": "INTRST Media Intelligence Request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "run_id", "subject_id", "task", "purpose", "environment", "cache_key", "allow_specialist_escalation"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "run_id": {"type": "string", "pattern": "^INT-RUN-[0-9A-HJKMNP-TV-Z]{26}$"},
+    "subject_id": {"type": "string", "pattern": "^INT-SUB-[0-9A-HJKMNP-TV-Z]{26}$"},
+    "task": {"enum": ["youtube_search", "channel_discovery", "video_discovery", "playlist_discovery", "transcript_retrieval", "audience_comments", "comment_replies", "shorts_intelligence", "community_intelligence", "competitor_enrichment"]},
+    "purpose": {"type": "string", "minLength": 1},
+    "environment": {"const": "development"},
+    "cache_key": {"type": "string", "minLength": 1},
+    "allow_specialist_escalation": {"type": "boolean"},
+    "specialist_reason": {"type": ["string", "null"]},
+    "estimated_specialist_credits": {"type": "number", "minimum": 0},
+    "transcriptapi_sufficient": {"type": ["boolean", "null"]}
+  }
+}

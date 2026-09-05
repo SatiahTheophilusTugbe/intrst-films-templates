@@ -421,3 +421,27 @@ capability gates are enforced outside n8n.
 The Canva Brand Template `EAHUTRYq_Pw` is registered only as the noncanonical development fixture
 `INT-TPL-900@0.1.0`. Its dataset is verified, while Autofill generation is fail-closed under
 `CANVA_ENTERPRISE_REQUIRED`. It does not replace the Brand + Design-owned Hayden Panettiere production standard.
+
+## 22. AUT-009 executable contract layer
+
+The dependency-free runtime at `automation/core/contracts/` now enforces Story Object eligibility, claim/source
+referential integrity, derivative quality gates, explicit human approval, state transitions, error normalization,
+bounded retries, adapter interfaces and run-event lineage. Canonical ID patterns are also enforced directly in the
+Story Object and derivative-manifest JSON Schemas.
+
+Three additive record identities support the approved Media Intelligence architecture without reusing unrelated IDs:
+`INT-ITL-*` for normalized intelligence objects, `INT-USG-*` for provider-usage events and `INT-CAC-*` for cache
+entries. No corresponding Data Tables are created by this contract commit.
+
+## 23. Media Intelligence Phase 1 architecture disposition
+
+Media Intelligence is architected now and deployed after AUT-009. The provider-neutral contract lives at
+`automation/core/media-intelligence/`. Routing is cache-first, TranscriptAPI-first for routine YouTube research and
+ScrapeCreators-only for justified specialist tasks. A ScrapeCreators call must prove TranscriptAPI insufficiency,
+state its purpose, know the current credit balance and preserve the protected 20-credit reserve after the call.
+
+Media sources, research moments, audience signals and provider usage are separate contracts. Audience comments cannot
+become factual claims, transcripts do not flow directly to scripts, and source discovery does not confer reuse rights.
+The proposed `media_sources`, `media_intelligence` and `provider_usage` Data Tables remain review-only until an explicit
+project-scoped deployment is authorized. Dolly is the controlled regression fixture; Janie remains the first live
+proof after the required gates pass.

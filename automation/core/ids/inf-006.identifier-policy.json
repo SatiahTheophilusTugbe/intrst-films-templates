@@ -23,7 +23,10 @@
     {"name": "run", "code": "RUN", "primary_field": "run_id", "table": "workflow_runs"},
     {"name": "render_job", "code": "RND", "primary_field": "render_job_id", "table": null},
     {"name": "decision", "code": "DEC", "primary_field": "decision_id", "table": null},
-    {"name": "experiment", "code": "EXP", "primary_field": "experiment_id", "table": null}
+    {"name": "experiment", "code": "EXP", "primary_field": "experiment_id", "table": null},
+    {"name": "intelligence", "code": "ITL", "primary_field": "intelligence_id", "table": null},
+    {"name": "provider_usage", "code": "USG", "primary_field": "usage_id", "table": null},
+    {"name": "cache_entry", "code": "CAC", "primary_field": "cache_entry_id", "table": null}
   ],
   "subject_identity": {
     "canonical_field": "subject_id",

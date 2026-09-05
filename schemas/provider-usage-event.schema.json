@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://intrstfilms.com/schemas/provider-usage-event.schema.json",
+  "title": "INTRST Provider Usage Event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "usage_id", "run_id", "subject_id", "provider", "endpoint", "purpose", "occurred_at", "credits_used", "estimated_cost", "cache_status", "success", "data_returned", "downstream_usage", "idempotency_key"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "usage_id": {"type": "string", "pattern": "^INT-USG-[0-9A-HJKMNP-TV-Z]{26}$"},
+    "run_id": {"type": "string", "pattern": "^INT-RUN-[0-9A-HJKMNP-TV-Z]{26}$"},
+    "subject_id": {"type": "string", "pattern": "^INT-SUB-[0-9A-HJKMNP-TV-Z]{26}$"},
+    "provider": {"enum": ["cache", "transcriptapi", "scrapecreators"]},
+    "endpoint": {"type": "string", "minLength": 1},
+    "purpose": {"type": "string", "minLength": 1},
+    "occurred_at": {"type": "string", "format": "date-time"},
+    "credits_used": {"type": ["number", "null"], "minimum": 0},
+    "credits_remaining": {"type": ["number", "null"], "minimum": 0},
+    "estimated_cost": {"type": "number", "minimum": 0},
+    "cache_status": {"enum": ["hit", "miss", "bypass", "refreshed"]},
+    "success": {"type": "boolean"},
+    "data_returned": {"type": "string"},
+    "downstream_usage": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "escalation_reason": {"type": ["string", "null"]},
+    "transcriptapi_sufficient": {"type": ["boolean", "null"]},
+    "idempotency_key": {"type": "string", "minLength": 1}
+  }
+}

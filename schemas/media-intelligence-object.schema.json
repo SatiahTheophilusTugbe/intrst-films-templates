@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://intrstfilms.com/schemas/media-intelligence-object.schema.json",
+  "title": "INTRST Media Intelligence Object",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "intelligence_id", "subject_id", "object_type", "source_ids", "confidence", "eligible_for_claims", "payload", "created_at", "run_id"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "intelligence_id": {"type": "string", "pattern": "^INT-ITL-[0-9A-HJKMNP-TV-Z]{26}$"},
+    "subject_id": {"type": "string", "pattern": "^INT-SUB-[0-9A-HJKMNP-TV-Z]{26}$"},
+    "object_type": {"enum": ["research_moment", "audience_signal", "intelligence_gap"]},
+    "source_ids": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": "^INT-SRC-[0-9A-HJKMNP-TV-Z]{26}$"}, "uniqueItems": true},
+    "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+    "eligible_for_claims": {"type": "boolean"},
+    "payload": {
+      "type": "object",
+      "required": ["summary"],
+      "properties": {
+        "summary": {"type": "string", "minLength": 1},
+        "speaker": {"type": ["string", "null"]},
+        "timestamp_start_seconds": {"type": ["number", "null"], "minimum": 0},
+        "timestamp_end_seconds": {"type": ["number", "null"], "minimum": 0},
+        "topic": {"type": ["string", "null"]},
+        "narrative_function": {"type": ["string", "null"]},
+        "corroboration_state": {"enum": ["not_applicable", "unverified", "partially_corroborated", "corroborated", "disputed"]},
+        "rights_state": {"enum": ["discovery_only", "review_required", "publishable", "blocked"]},
+        "editor_relevance": {"enum": ["low", "medium", "high"]},
+        "pattern_count": {"type": ["integer", "null"], "minimum": 1}
+      },
+      "additionalProperties": false
+    },
+    "created_at": {"type": "string", "format": "date-time"},
+    "run_id": {"type": "string", "pattern": "^INT-RUN-[0-9A-HJKMNP-TV-Z]{26}$"}
+  },
+  "allOf": [
+    {"if": {"properties": {"object_type": {"const": "audience_signal"}}}, "then": {"properties": {"eligible_for_claims": {"const": false}}}},
+    {"if": {"properties": {"object_type": {"const": "intelligence_gap"}}}, "then": {"properties": {"eligible_for_claims": {"const": false}}}}
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "proposal_id": "MEDIA-INTELLIGENCE-INF-005-EXTENSION",
+  "version": "1.0.0",
+  "status": "proposed_not_deployed",
+  "project": {"id": "o8RQQQgne2c6jXr5", "name": "INTRST Films"},
+  "existing_tables_modified": false,
+  "insert_rows": false,
+  "tables": [
+    {
+      "name": "media_sources",
+      "logical_key": ["source_id"],
+      "idempotency_key": ["platform", "source_kind", "external_id", "content_hash"],
+      "columns": [
+        ["source_id", "string"], ["subject_id", "string"], ["platform", "string"], ["provider", "string"], ["source_kind", "string"], ["external_id", "string"], ["canonical_url", "string"], ["title", "string"], ["source_classification", "string"], ["rights_state", "string"], ["retrieved_at", "date"], ["raw_payload_drive_url", "string"], ["content_hash", "string"], ["cache_entry_id", "string"], ["cache_key", "string"], ["cache_status", "string"], ["refresh_policy", "string"], ["expires_at", "date"], ["payload_json", "string"], ["idempotency_key", "string"], ["created_at", "date"], ["updated_at", "date"]
+      ]
+    },
+    {
+      "name": "media_intelligence",
+      "logical_key": ["intelligence_id"],
+      "idempotency_key": ["subject_id", "object_type", "source_ids_hash", "payload_hash"],
+      "columns": [
+        ["intelligence_id", "string"], ["subject_id", "string"], ["object_type", "string"], ["source_ids_json", "string"], ["source_ids_hash", "string"], ["confidence", "number"], ["eligible_for_claims", "boolean"], ["payload_json", "string"], ["payload_hash", "string"], ["run_id", "string"], ["idempotency_key", "string"], ["created_at", "date"], ["updated_at", "date"]
+      ]
+    },
+    {
+      "name": "provider_usage",
+      "logical_key": ["usage_id"],
+      "idempotency_key": ["idempotency_key"],
+      "columns": [
+        ["usage_id", "string"], ["run_id", "string"], ["subject_id", "string"], ["provider", "string"], ["endpoint", "string"], ["purpose", "string"], ["occurred_at", "date"], ["credits_used", "number"], ["credits_remaining", "number"], ["estimated_cost", "number"], ["cache_status", "string"], ["success", "boolean"], ["data_returned", "string"], ["downstream_usage_json", "string"], ["escalation_reason", "string"], ["transcriptapi_sufficient", "boolean"], ["idempotency_key", "string"], ["created_at", "date"]
+      ]
+    }
+  ],
+  "deployment_gate": ["schema_review", "contract_tests", "explicit_user_authorization", "project_scoped_preflight", "rollback_plan"],
+  "notes": ["workflow_runs remains execution-lineage authority and is not overloaded with per-provider-call accounting", "Google Drive remains authority for raw payload files and human-readable research packs", "This proposal does not authorize an n8n mutation"]
+}

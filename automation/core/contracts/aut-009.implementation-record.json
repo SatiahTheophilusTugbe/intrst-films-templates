@@ -1,0 +1,21 @@
+{
+  "contract_id": "AUT-009",
+  "implementation_version": "1.0.0",
+  "status": "contract_complete_runtime_not_deployed",
+  "completed_at": "2026-09-05",
+  "scope": {
+    "n8n_project_id": "o8RQQQgne2c6jXr5",
+    "n8n_mutation_performed": false,
+    "provider_calls_performed": false,
+    "scrapecreators_credits_consumed": 0,
+    "data_tables_deployed": false
+  },
+  "implemented": ["story_object_validation", "derivative_manifest_validation", "state_transition_validation", "error_normalization", "bounded_retry_policy", "adapter_interface_validation", "run_event_validation", "media_intelligence_provider_abstraction", "cache_key_contract", "provider_routing", "credit_floor_enforcement", "source_normalization", "audience_evidence_separation", "provider_usage_metering"],
+  "schemas": ["schemas/story-object.schema.json", "schemas/derivative-manifest.schema.json", "schemas/media-intelligence-request.schema.json", "schemas/media-source.schema.json", "schemas/media-intelligence-object.schema.json", "schemas/provider-usage-event.schema.json"],
+  "build_disposition": {"media_intelligence": "architect_now_build_after_AUT-009", "next_runtime_gate": "credential_healthcheck_and_controlled_Dolly_TranscriptAPI_fixture", "scrapecreators_call": "requires_explicit_controlled_test_authorization"},
+  "cross_workstream_dependencies": [
+    {"owner": "Flagship", "dependency": "Approve source acceptance and claim corroboration from normalized research candidates", "status": "unchanged"},
+    {"owner": "Brand + Design", "dependency": "No change; Media Intelligence remains upstream of approved visual templates", "status": "unchanged"},
+    {"owner": "Distribution", "dependency": "Own interpretation of competitive and audience-performance signals", "status": "unchanged"}
+  ]
+}

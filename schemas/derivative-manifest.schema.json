@@ -24,13 +24,13 @@
   ],
   "properties": {
     "schema_version": {"type": "string", "const": "1.0.0"},
-    "manifest_id": {"type": "string", "minLength": 3},
-    "story_object_id": {"type": "string", "minLength": 3},
+    "manifest_id": {"type": "string", "pattern": "^INT-MAN-[0-9A-HJKMNP-TV-Z]{26}$"},
+    "story_object_id": {"type": "string", "pattern": "^INT-STO-[0-9A-HJKMNP-TV-Z]{26}$"},
     "story_object_version": {"type": "string", "minLength": 1},
     "derivative_type": {"type": "string", "enum": ["single_image", "carousel", "archive_primary_source", "carousel_motion", "hero_reel"]},
-    "claim_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
-    "source_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
-    "asset_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "claim_ids": {"type": "array", "items": {"type": "string", "pattern": "^INT-CLM-[0-9A-HJKMNP-TV-Z]{26}$"}, "uniqueItems": true},
+    "source_ids": {"type": "array", "items": {"type": "string", "pattern": "^INT-SRC-[0-9A-HJKMNP-TV-Z]{26}$"}, "uniqueItems": true},
+    "asset_ids": {"type": "array", "items": {"type": "string", "pattern": "^INT-AST-[0-9A-HJKMNP-TV-Z]{26}$"}, "uniqueItems": true},
     "platform_targets": {"type": "array", "items": {"type": "string", "enum": ["youtube", "facebook", "instagram", "tiktok", "x", "threads", "linkedin"]}, "uniqueItems": true},
     "payload": {"type": "object"},
     "quality_gates": {
@@ -68,7 +68,7 @@
         "state": {"type": "string", "enum": ["not_ready", "render_ready", "rendering", "rendered", "failed"]},
         "renderer": {"type": ["string", "null"]},
         "renderer_version": {"type": ["string", "null"]},
-        "output_asset_ids": {"type": "array", "items": {"type": "string"}},
+        "output_asset_ids": {"type": "array", "items": {"type": "string", "pattern": "^INT-AST-[0-9A-HJKMNP-TV-Z]{26}$"}},
         "job_id": {"type": ["string", "null"]}
       }
     },
@@ -103,8 +103,8 @@
       "properties": {
         "created_at": {"type": "string", "format": "date-time"},
         "updated_at": {"type": ["string", "null"], "format": "date-time"},
-        "run_id": {"type": "string"},
-        "parent_run_id": {"type": ["string", "null"]},
+        "run_id": {"type": "string", "pattern": "^INT-RUN-[0-9A-HJKMNP-TV-Z]{26}$"},
+        "parent_run_id": {"type": ["string", "null"], "pattern": "^INT-RUN-[0-9A-HJKMNP-TV-Z]{26}$"},
         "prompt_version": {"type": ["string", "null"]},
         "template_id": {"type": ["string", "null"]},
         "template_version": {"type": ["string", "null"]},

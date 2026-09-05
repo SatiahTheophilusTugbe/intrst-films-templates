@@ -15,7 +15,10 @@ const EXPECTED_TYPE_SIGNATURES = Object.freeze([
   "run:RUN:run_id:workflow_runs",
   "render_job:RND:render_job_id:null",
   "decision:DEC:decision_id:null",
-  "experiment:EXP:experiment_id:null"
+  "experiment:EXP:experiment_id:null",
+  "intelligence:ITL:intelligence_id:null",
+  "provider_usage:USG:usage_id:null",
+  "cache_entry:CAC:cache_entry_id:null"
 ]);
 const EXPECTED_LEGACY_PATTERNS = Object.freeze([
   "^SUBJ-[0-9]{3,}$",

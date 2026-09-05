@@ -18,7 +18,10 @@ export const RECORD_TYPES = Object.freeze({
   run: "RUN",
   render_job: "RND",
   decision: "DEC",
-  experiment: "EXP"
+  experiment: "EXP",
+  intelligence: "ITL",
+  provider_usage: "USG",
+  cache_entry: "CAC"
 });
 
 const TYPE_NAMES = Object.freeze(Object.fromEntries(Object.entries(RECORD_TYPES).map(([name, code]) => [code, name])));

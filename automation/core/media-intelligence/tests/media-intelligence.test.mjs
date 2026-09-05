@@ -1,0 +1,42 @@
+import assert from "node:assert/strict";
+import { createId } from "../../ids/ids.mjs";
+import { MediaIntelligenceError, buildCacheKey, createUsageEvent, normalizeMediaSource, routeRequest, validateIntelligenceObject, validateRequest } from "../media-intelligence.mjs";
+import { loadAndValidateMediaIntelligence, validateMediaIntelligencePolicy } from "../validate-media-intelligence.mjs";
+import { ScrapeCreatorsProvider, TranscriptAPIProvider } from "../providers.mjs";
+import { assertAdapter } from "../../contracts/aut-009.mjs";
+
+const entropy=new Uint8Array(10); let tick=Date.parse("2026-09-05T01:00:00Z"); const id=(type)=>createId(type,{timestamp:tick++,entropy});
+let passed=0; const test=async(name,fn)=>{await fn();passed+=1;console.log(`ok - ${name}`)}; const expectCode=(code,fn)=>assert.throws(fn,(e)=>e instanceof MediaIntelligenceError&&e.code===code);
+const request={schema_version:"1.0.0",run_id:id("run"),subject_id:id("subject"),task:"transcript_retrieval",purpose:"Dolly fixture transcript",environment:"development",cache_key:buildCacheKey({resourceType:"transcript",externalId:"video-1",language:"en"}),allow_specialist_escalation:false,specialist_reason:null,estimated_specialist_credits:0,transcriptapi_sufficient:null};
+
+await test("stable cache key",()=>assert.equal(request.cache_key,buildCacheKey({resourceType:"transcript",externalId:"video-1",language:"en"})));
+await test("cache key varies by resource",()=>assert.notEqual(request.cache_key,buildCacheKey({resourceType:"video",externalId:"video-1"})));
+await test("valid request",()=>assert.equal(validateRequest(request),true));
+await test("request rejects mistyped identity",()=>expectCode("REQUEST_INVALID",()=>validateRequest({...request,subject_id:id("asset")})));
+await test("policy and schema declarations validate",async()=>{const loaded=await loadAndValidateMediaIntelligence();assert.equal(validateMediaIntelligencePolicy(loaded.policy,loaded.proposal),true)});
+await test("paid specialist upgrade remains prohibited",async()=>{const loaded=await loadAndValidateMediaIntelligence();const policy=structuredClone(loaded.policy);policy.providers.scrapecreators.paid_upgrade_authorized=true;assert.throws(()=>validateMediaIntelligencePolicy(policy,loaded.proposal),/protection/)});
+await test("Data Table proposal cannot silently expand",async()=>{const loaded=await loadAndValidateMediaIntelligence();const proposal=structuredClone(loaded.proposal);proposal.tables.push({name:"other"});assert.throws(()=>validateMediaIntelligencePolicy(loaded.policy,proposal),/expansion/)});
+await test("development only",()=>{const v={...request,environment:"production"};expectCode("ENVIRONMENT_BLOCK",()=>validateRequest(v))});
+await test("cache wins",()=>assert.equal(routeRequest(request,{cacheHit:true}).route,"cache"));
+await test("routine task routes TranscriptAPI",()=>assert.equal(routeRequest(request).provider,"transcriptapi"));
+const specialist={...request,task:"audience_comments",allow_specialist_escalation:true,transcriptapi_sufficient:false,specialist_reason:"COMMENTS_REQUIRED_FOR_DEFINED_AUDIENCE_QUESTION",estimated_specialist_credits:5};
+await test("specialist needs authorization",()=>assert.equal(routeRequest({...specialist,allow_specialist_escalation:false},{scrapeCreditsRemaining:100}).reason,"SPECIALIST_NOT_AUTHORIZED"));
+await test("specialist needs primary insufficiency",()=>assert.equal(routeRequest({...specialist,transcriptapi_sufficient:null},{scrapeCreditsRemaining:100}).reason,"PRIMARY_SUFFICIENCY_NOT_DISPROVED"));
+await test("specialist needs reason",()=>assert.equal(routeRequest({...specialist,specialist_reason:null},{scrapeCreditsRemaining:100}).reason,"SPECIALIST_REASON_REQUIRED"));
+await test("unknown credits block",()=>assert.equal(routeRequest(specialist).reason,"CREDIT_BALANCE_UNKNOWN"));
+await test("protected floor includes estimated call",()=>assert.equal(routeRequest(specialist,{scrapeCreditsRemaining:24}).reason,"SCRAPECREATORS_CREDIT_FLOOR"));
+await test("exact protected floor allowed",()=>assert.equal(routeRequest(specialist,{scrapeCreditsRemaining:25}).provider,"scrapecreators"));
+await test("normalizes source without raw payload",()=>{const source=normalizeMediaSource({video_id:"video-1",title:"Fixture"},{source_id:id("source"),subject_id:request.subject_id,cache_entry_id:id("cache_entry"),provider:"transcriptapi",source_kind:"video",canonical_url:"https://youtube.com/watch?v=video-1",retrieved_at:"2026-09-05T01:00:00Z",cache_key:"key",cache_status:"miss",refresh_policy:"ttl"});assert.equal(source.external_id,"video-1");assert.equal("raw" in source,false)});
+const intelligence={schema_version:"1.0.0",intelligence_id:id("intelligence"),subject_id:request.subject_id,object_type:"audience_signal",source_ids:[id("source")],confidence:.8,eligible_for_claims:false,payload:{summary:"Repeated audience question",corroboration_state:"not_applicable",rights_state:"discovery_only",editor_relevance:"medium"},created_at:"2026-09-05T01:00:00Z",run_id:request.run_id};
+await test("audience signal separated from claims",()=>assert.equal(validateIntelligenceObject(intelligence),true));
+await test("audience signal cannot become claim",()=>expectCode("AUDIENCE_EVIDENCE_BLOCK",()=>validateIntelligenceObject({...intelligence,eligible_for_claims:true})));
+await test("uncorroborated research moment cannot become claim",()=>expectCode("CLAIM_BLOCK",()=>validateIntelligenceObject({...intelligence,object_type:"research_moment",eligible_for_claims:true,payload:{...intelligence.payload,corroboration_state:"unverified"}})));
+await test("corroborated research moment may become candidate",()=>assert.equal(validateIntelligenceObject({...intelligence,object_type:"research_moment",eligible_for_claims:true,payload:{...intelligence.payload,corroboration_state:"corroborated"}}),true));
+await test("ScrapeCreators usage requires credits",()=>expectCode("USAGE_EVENT_INVALID",()=>createUsageEvent({usage_id:id("provider_usage"),run_id:request.run_id,subject_id:request.subject_id,provider:"scrapecreators",endpoint:"comments",purpose:"fixture",occurred_at:"2026-09-05T01:00:00Z",cache_status:"miss",success:true,data_returned:"sample",idempotency_key:"usage"})));
+await test("usage event captures balance",()=>{const event=createUsageEvent({usage_id:id("provider_usage"),run_id:request.run_id,subject_id:request.subject_id,provider:"scrapecreators",endpoint:"comments",purpose:"fixture",occurred_at:"2026-09-05T01:00:00Z",credits_used:5,credits_remaining:95,estimated_cost:0,cache_status:"miss",success:true,data_returned:"sample",downstream_usage:["audience_signal"],escalation_reason:"DEFINED_TEST",transcriptapi_sufficient:false,idempotency_key:"usage"});assert.equal(event.credits_remaining,95)});
+await test("provider stubs satisfy shared adapter contract",()=>{assert.equal(assertAdapter(new TranscriptAPIProvider()),true);assert.equal(assertAdapter(new ScrapeCreatorsProvider()),true)});
+await test("provider healthcheck performs no network call",async()=>assert.equal((await new TranscriptAPIProvider().healthcheck()).network_call_performed,false));
+await test("logical credential reference validates",()=>assert.equal(new TranscriptAPIProvider().validate_config({environment:"development",credential_ref:"INT | TranscriptAPI | Development | Media Intelligence"}),true));
+await test("raw secret-like provider config rejected",()=>expectCode("SECRET_BOUNDARY",()=>new TranscriptAPIProvider().validate_config({environment:"development",credential_ref:"INT | TranscriptAPI | Development | Media Intelligence",api_key:"prohibited"})));
+
+console.log(`Media Intelligence contracts: ${passed} cases passed`);

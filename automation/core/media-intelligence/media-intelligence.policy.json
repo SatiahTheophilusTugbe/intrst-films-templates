@@ -1,0 +1,48 @@
+{
+  "contract_id": "MEDIA-INTELLIGENCE-PHASE-1",
+  "version": "1.0.0",
+  "status": "architecture_approved_runtime_not_deployed",
+  "environment": "development",
+  "routing": {
+    "principle": "cheapest_sufficient_source",
+    "cache_first": true,
+    "primary_provider": "transcriptapi",
+    "specialist_provider": "scrapecreators",
+    "primary_tasks": ["youtube_search", "channel_discovery", "video_discovery", "playlist_discovery", "transcript_retrieval"],
+    "specialist_tasks": ["audience_comments", "comment_replies", "shorts_intelligence", "community_intelligence", "competitor_enrichment"]
+  },
+  "providers": {
+    "transcriptapi": {
+      "role": "primary",
+      "budget_posture": "approximately_5_usd_monthly_initially",
+      "credential_ref": "INT | TranscriptAPI | Development | Media Intelligence"
+    },
+    "scrapecreators": {
+      "role": "specialist_free_tier",
+      "paid_upgrade_authorized": false,
+      "broad_polling_authorized": false,
+      "protected_credit_floor": 20,
+      "credential_ref": "INT | ScrapeCreators | Development | Media Intelligence"
+    }
+  },
+  "cache": {
+    "canonical_platform_ids_required": true,
+    "transcript_refresh": "immutable_or_manual",
+    "video_channel_playlist_metadata_refresh": "ttl",
+    "comment_sample_refresh": "ttl_with_sample_parameters",
+    "duplicate_paid_retrieval_default": "deny"
+  },
+  "governance": {
+    "transcript_direct_to_script": false,
+    "audience_signal_eligible_for_claims": false,
+    "source_discovery_confers_reuse_rights": false,
+    "first_live_subject": "janie",
+    "regression_subject": "dolly",
+    "additional_paid_provider_authorized": false
+  },
+  "persistence_plan": {
+    "status": "contract_only_pending_INF_005_extension_review",
+    "proposed_tables": ["media_sources", "media_intelligence", "provider_usage"],
+    "existing_tables_modified": false
+  }
+}

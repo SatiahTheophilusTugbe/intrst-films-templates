@@ -49,6 +49,9 @@ assert.equal(isLegacyId(subjectId), false);
 assert.equal(resolveSubjectIdentity({ subject_id: subjectId }), subjectId);
 assert.equal(resolveSubjectIdentity({ person_id: subjectId }), subjectId);
 assert.equal(resolveSubjectIdentity({ subject_id: subjectId, person_id: subjectId }), subjectId);
+assert.equal(isCanonicalId(createId("intelligence", { timestamp, entropy: zeroEntropy }), "intelligence"), true);
+assert.equal(isCanonicalId(createId("provider_usage", { timestamp, entropy: zeroEntropy }), "provider_usage"), true);
+assert.equal(isCanonicalId(createId("cache_entry", { timestamp, entropy: zeroEntropy }), "cache_entry"), true);
 assert.throws(() => resolveSubjectIdentity({ subject_id: subjectId, person_id: createId("subject") }), /must equal/);
 assert.throws(() => resolveSubjectIdentity({ subject_id: "SUBJ-001" }), /canonical/);
 assert.throws(() => createId("unknown"), /Unknown/);
@@ -87,4 +90,4 @@ const missingRunLedger = structuredClone(policy);
 missingRunLedger.observability_decision.workflow_runs_required = false;
 assert.ok(validateIdentifierPolicy(missingRunLedger).some((error) => error.code === "OBSERVABILITY"));
 
-console.log(`inf-006-identifiers: ${Object.keys(RECORD_TYPES).length + 38} cases passed`);
+console.log(`inf-006-identifiers: ${Object.keys(RECORD_TYPES).length + 41} cases passed`);

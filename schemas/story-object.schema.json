@@ -34,8 +34,8 @@
   ],
   "properties": {
     "schema_version": {"type": "string", "const": "1.0.0"},
-    "story_object_id": {"type": "string", "minLength": 3},
-    "subject_id": {"type": "string", "minLength": 3},
+    "story_object_id": {"type": "string", "pattern": "^INT-STO-[0-9A-HJKMNP-TV-Z]{26}$"},
+    "subject_id": {"type": "string", "pattern": "^INT-SUB-[0-9A-HJKMNP-TV-Z]{26}$"},
     "subject_name": {"type": "string", "minLength": 1},
     "trigger": {"type": "string", "minLength": 1},
     "central_question": {"type": "string", "minLength": 1},
@@ -52,7 +52,7 @@
           "label": {"type": "string"},
           "date_or_period": {"type": ["string", "null"]},
           "summary": {"type": "string"},
-          "claim_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}
+          "claim_ids": {"type": "array", "items": {"type": "string", "pattern": "^INT-CLM-[0-9A-HJKMNP-TV-Z]{26}$"}, "uniqueItems": true}
         }
       }
     },
@@ -60,7 +60,7 @@
     "attributed_claims": {"type": "array", "items": {"$ref": "#/$defs/attributedClaimRef"}},
     "prohibited_or_uncertain_claims": {"type": "array", "items": {"$ref": "#/$defs/restrictedClaimRef"}},
     "quote_extracts": {"type": "array", "items": {"$ref": "#/$defs/quoteRef"}},
-    "source_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "source_ids": {"type": "array", "items": {"type": "string", "pattern": "^INT-SRC-[0-9A-HJKMNP-TV-Z]{26}$"}, "uniqueItems": true},
     "source_urls": {"type": "array", "items": {"type": "string", "format": "uri"}, "uniqueItems": true},
     "archive_assets": {"type": "array", "items": {"$ref": "#/$defs/assetRef"}},
     "rights_status": {"type": "string", "enum": ["publishable", "partially_publishable", "review_required", "blocked"]},
@@ -95,34 +95,52 @@
       }
     }
   },
+  "allOf": [
+    {
+      "if": {"properties": {"approval_state": {"const": "approved"}}},
+      "then": {
+        "properties": {
+          "audit": {
+            "required": ["approved_by", "approved_at"],
+            "properties": {
+              "approved_by": {"type": "string", "minLength": 1},
+              "approved_at": {"type": "string", "format": "date-time"}
+            }
+          }
+        }
+      }
+    }
+  ],
   "$defs": {
     "claimRef": {
       "type": "object",
       "additionalProperties": false,
       "required": ["claim_id", "text", "source_ids", "verification_status"],
       "properties": {
-        "claim_id": {"type": "string"},
+        "claim_id": {"type": "string", "pattern": "^INT-CLM-[0-9A-HJKMNP-TV-Z]{26}$"},
         "text": {"type": "string"},
-        "source_ids": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+        "source_ids": {"type": "array", "items": {"type": "string", "pattern": "^INT-SRC-[0-9A-HJKMNP-TV-Z]{26}$"}, "minItems": 1, "uniqueItems": true},
         "verification_status": {"type": "string", "enum": ["verified", "human_verified"]}
       }
     },
     "attributedClaimRef": {
-      "allOf": [
-        {"$ref": "#/$defs/claimRef"},
-        {
-          "type": "object",
-          "required": ["attribution"],
-          "properties": {"attribution": {"type": "string", "minLength": 1}}
-        }
-      ]
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["claim_id", "text", "source_ids", "verification_status", "attribution"],
+      "properties": {
+        "claim_id": {"type": "string", "pattern": "^INT-CLM-[0-9A-HJKMNP-TV-Z]{26}$"},
+        "text": {"type": "string"},
+        "source_ids": {"type": "array", "items": {"type": "string", "pattern": "^INT-SRC-[0-9A-HJKMNP-TV-Z]{26}$"}, "minItems": 1, "uniqueItems": true},
+        "verification_status": {"type": "string", "enum": ["verified", "human_verified"]},
+        "attribution": {"type": "string", "minLength": 1}
+      }
     },
     "restrictedClaimRef": {
       "type": "object",
       "additionalProperties": false,
       "required": ["claim_id", "text", "reason", "status"],
       "properties": {
-        "claim_id": {"type": "string"},
+        "claim_id": {"type": "string", "pattern": "^INT-CLM-[0-9A-HJKMNP-TV-Z]{26}$"},
         "text": {"type": "string"},
         "reason": {"type": "string"},
         "status": {"type": "string", "enum": ["uncertain", "disputed", "prohibited", "rights_blocked"]}
@@ -133,10 +151,10 @@
       "additionalProperties": false,
       "required": ["quote_id", "text", "speaker", "source_id", "verification_status"],
       "properties": {
-        "quote_id": {"type": "string"},
+        "quote_id": {"type": "string", "pattern": "^INT-QTE-[0-9A-HJKMNP-TV-Z]{26}$"},
         "text": {"type": "string"},
         "speaker": {"type": "string"},
-        "source_id": {"type": "string"},
+        "source_id": {"type": "string", "pattern": "^INT-SRC-[0-9A-HJKMNP-TV-Z]{26}$"},
         "verification_status": {"type": "string", "enum": ["verified", "human_verified"]}
       }
     },
@@ -145,7 +163,7 @@
       "additionalProperties": false,
       "required": ["asset_id", "asset_type", "rights_status", "identity_status"],
       "properties": {
-        "asset_id": {"type": "string"},
+        "asset_id": {"type": "string", "pattern": "^INT-AST-[0-9A-HJKMNP-TV-Z]{26}$"},
         "asset_type": {"type": "string"},
         "rights_status": {"type": "string", "enum": ["publishable", "review_required", "blocked"]},
         "identity_status": {"type": "string", "enum": ["verified", "review_required", "not_applicable", "blocked"]},
