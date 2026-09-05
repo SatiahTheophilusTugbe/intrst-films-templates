@@ -55,5 +55,44 @@
     "existing_tables_modified": false,
     "rows_inserted": 0,
     "providers_called": false
+  },
+  "runtime_preparation": {
+    "status": "prepared_not_deployed",
+    "provider_usage_ledger": {
+      "project_id": "o8RQQQgne2c6jXr5",
+      "table_id": "WFeE982gMt0XfiIm",
+      "lookup": "exact_provider_usage.idempotency_key_only",
+      "claim": "required_atomic_operation_claim",
+      "claim_statuses": ["CLAIMED", "ALREADY_CLAIMED", "PRIOR_SUCCESS", "PRIOR_OUTCOME_UNKNOWN", "CLAIM_BACKEND_UNAVAILABLE", "CLAIM_CORRUPT"],
+      "claim_guarantee": "same_operation_key_cannot_return_CLAIMED_twice_concurrently",
+      "persistence": "immutable_insert_only",
+      "duplicate_operation": "reject",
+      "prior_success_or_unknown": "manual_reconciliation_required",
+      "application_projection": "providers.mjs.projectProviderUsageRow",
+      "physical_projection": "downstream_usage_to_downstream_usage_json_and_schema_version_application_only",
+      "broad_scans": false,
+      "polling": false,
+      "logs_without_sensitive_payloads": true,
+      "failure_mode": "fail_closed"
+    },
+    "inactive_workflow": {
+      "name": "INT-AUT-013 — Media Intelligence Layer Phase 1 — DEV",
+      "proposed_filename": "automation/n8n/INT-AUT-013-media-intelligence-layer-phase-1-dev.workflow-spec.json",
+      "environment": "development",
+      "active": false,
+      "mock_transport_only": true,
+      "tag": "project:intrst",
+      "topology": ["workflow_runs_start", "request_validation", "cache_lookup", "atomic_operation_claim", "execution_budget_gate", "exactly_one_mock_transport_attempt", "immutable_usage_outcome", "response_normalization", "cache_persistence", "workflow_runs_terminal_state", "persist_and_exit"],
+      "non_claim_terminal_path": ["workflow_runs_terminal_blocked_or_reconciliation", "persist_and_exit", "zero_provider_calls"],
+      "live_transport": "blocked_until_explicit_deployment_state_and_atomic_claim_binding",
+      "concurrency_control": "atomic_claim_only"
+    },
+    "data_table_operations": {
+      "provider_usage": ["exact_read_by_idempotency_key", "immutable_single_row_insert"],
+      "media_sources": ["exact_cache_read", "successful_cache_write_only"],
+      "workflow_runs": ["run_start_insert", "terminal_completion_or_failure_insert"],
+      "schema_mutation_required": false,
+      "rows_created_during_preparation": false
+    }
   }
 }

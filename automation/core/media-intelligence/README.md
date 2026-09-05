@@ -40,6 +40,19 @@ No live provider call is made by this repository phase. The Dolly controlled-tes
 usage logging are used only through injected local test doubles. Janie remains the first live proof after explicit
 authorization.
 
+AUT-013 preparation is repository-only and remains `prepared_not_deployed`. The proposed inactive artifact is
+`automation/n8n/INT-AUT-013-media-intelligence-layer-phase-1-dev.workflow-spec.json`, named
+`INT-AUT-013 — Media Intelligence Layer Phase 1 — DEV`. It uses mock transport only, exact provider_usage
+idempotency-key lookup, persist-and-exit execution, and no polling. No workflow or Data Table mutation is part of this
+phase.
+
+The captured-response adapter is implemented, but the paid path requires a separately bound atomic operation claim
+before it can run. Lookup, insert, upsert, workflow concurrency, static data, waits and polling are not locks; an
+unproven claim backend fails closed. `ProviderUsageLedger` separates atomic claims from immutable provider outcomes,
+projects application events to the deployed physical row (`downstream_usage_json`), and fails closed on scope,
+duplicate, lookup, corruption or persistence errors. Application projection is being implemented and the n8n paid
+provider workflow is not deployable until the atomic claim binding is proven. No provider call or credit has occurred.
+
 ```text
 node automation/core/media-intelligence/validate-media-intelligence.mjs
 node automation/core/media-intelligence/tests/media-intelligence.test.mjs

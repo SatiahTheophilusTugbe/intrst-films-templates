@@ -15,6 +15,98 @@ const DEFINITIONS = Object.freeze({
     tasks: ["audience_comments", "comment_replies", "shorts_intelligence", "community_intelligence", "competitor_enrichment"]
   }
 });
+const AUTHORIZED_PROJECT_ID = "o8RQQQgne2c6jXr5";
+const DEPLOYED_PROVIDER_USAGE_TABLE_ID = "WFeE982gMt0XfiIm";
+const SECRET_OR_PAYLOAD_KEY = /(?:api[_-]?key|secret|token|password|authorization|credential[_-]?id|request[_-]?headers|response[_-]?body|raw[_-]?payload|transcript[_-]?text)/i;
+const CLAIM_STATUSES = new Set(["CLAIMED", "ALREADY_CLAIMED", "PRIOR_SUCCESS", "PRIOR_OUTCOME_UNKNOWN", "CLAIM_BACKEND_UNAVAILABLE", "CLAIM_CORRUPT"]);
+const APPLICATION_USAGE_FIELDS = new Set(["schema_version", "usage_id", "run_id", "subject_id", "provider", "endpoint", "purpose", "occurred_at", "credits_used", "credits_remaining", "estimated_cost", "cache_status", "success", "data_returned", "downstream_usage", "escalation_reason", "transcriptapi_sufficient", "execution_budget", "workflow_execution_count", "provider_call_count", "cache_hit_count", "polling_prohibited", "terminal_or_resume_state", "next_action_at", "idempotency_key", "created_at"]);
+const PHYSICAL_USAGE_FIELDS = new Set(["usage_id", "run_id", "subject_id", "provider", "endpoint", "purpose", "occurred_at", "credits_used", "credits_remaining", "estimated_cost", "cache_status", "success", "data_returned", "downstream_usage_json", "escalation_reason", "transcriptapi_sufficient", "execution_budget", "workflow_execution_count", "provider_call_count", "cache_hit_count", "polling_prohibited", "terminal_or_resume_state", "next_action_at", "idempotency_key", "created_at"]);
+const REQUIRED_APPLICATION_USAGE_FIELDS = new Set(["schema_version", "usage_id", "run_id", "subject_id", "provider", "endpoint", "purpose", "occurred_at", "credits_used", "estimated_cost", "cache_status", "success", "data_returned", "downstream_usage", "idempotency_key"]);
+const REQUIRED_PHYSICAL_USAGE_FIELDS = new Set(["usage_id", "run_id", "subject_id", "provider", "endpoint", "purpose", "occurred_at", "estimated_cost", "cache_status", "success", "data_returned", "downstream_usage_json", "execution_budget", "workflow_execution_count", "provider_call_count", "cache_hit_count", "polling_prohibited", "terminal_or_resume_state", "idempotency_key", "created_at"]);
+
+function assertSafeUsageRow(value, path = "usage") {
+  if (Array.isArray(value)) return value.forEach((item, index) => assertSafeUsageRow(item, `${path}[${index}]`));
+  if (!value || typeof value !== "object") return;
+  for (const [key, child] of Object.entries(value)) {
+    if (SECRET_OR_PAYLOAD_KEY.test(key)) throw new MediaIntelligenceError("SECRET_BOUNDARY", `Secret or raw payload field prohibited at ${path}.${key}.`);
+    assertSafeUsageRow(child, `${path}.${key}`);
+  }
+}
+
+export class ProviderUsageLedger {
+  constructor({ projectId, tableId, findByIdempotencyKey, insertRow, claimOperation, claimAtomicGuarantee = false, exactLookupGuarantee = false }) {
+    if (projectId !== AUTHORIZED_PROJECT_ID || tableId !== DEPLOYED_PROVIDER_USAGE_TABLE_ID) throw new MediaIntelligenceError("LEDGER_SCOPE_INVALID", "Provider usage ledger binding must target the authorized deployed INTRST Films table.");
+    if (typeof findByIdempotencyKey !== "function" || typeof insertRow !== "function" || typeof claimOperation !== "function" || claimAtomicGuarantee !== true || exactLookupGuarantee !== true) throw new MediaIntelligenceError("LEDGER_UNAVAILABLE", "Provider usage ledger requires exact lookup, immutable insert and a proven atomic claim capability.");
+    this.findByIdempotencyKey = findByIdempotencyKey;
+    this.insertRow = insertRow;
+    this.claimOperationBinding = claimOperation;
+  }
+
+  async findByOperationKey(operationKey) {
+    if (!operationKey) throw new MediaIntelligenceError("LEDGER_LOOKUP_INVALID", "Operation key is required for exact provider usage lookup.");
+    let result;
+    try { result = await this.findByIdempotencyKey(operationKey); } catch (error) { throw new MediaIntelligenceError("LEDGER_LOOKUP_FAILURE", "Exact provider usage lookup failed closed.", { cause: String(error?.message ?? "lookup unavailable") }); }
+    if (result === null || result === undefined) return null;
+    if (Array.isArray(result)) {
+      if (result.length === 0) return null;
+      if (result.length > 1) throw new MediaIntelligenceError("CLAIM_CORRUPT", "Multiple provider usage records matched one operation key.");
+      result = result[0];
+    }
+    if (!result || typeof result !== "object" || result.idempotency_key !== operationKey) throw new MediaIntelligenceError("CLAIM_CORRUPT", "Exact provider usage lookup returned a malformed or mismatched record.");
+    return result;
+  }
+
+  async claimOperation(input) {
+    if (!input?.operation_key || !input?.run_id || !input?.subject_id || input.provider !== "transcriptapi" || input.task !== "transcript_retrieval" || !input.requested_at) throw new MediaIntelligenceError("CLAIM_CORRUPT", "Atomic operation claim input is incomplete or outside the paid transcript contract.");
+    let result;
+    try { result = await this.claimOperationBinding(Object.freeze({ ...input })); }
+    catch (error) { return { status: "CLAIM_BACKEND_UNAVAILABLE", atomic: false, cause: String(error?.message ?? "claim backend unavailable") }; }
+    if (!result || !CLAIM_STATUSES.has(result.status) || result.atomic !== true) throw new MediaIntelligenceError("CLAIM_CORRUPT", "Atomic claim backend returned an unverifiable result.");
+    return result;
+  }
+
+  async record(event) {
+    if (!event?.idempotency_key || !["cache", "transcriptapi"].includes(event.provider) || (event.provider === "transcriptapi" && event.provider_call_count !== 1) || (event.provider === "cache" && event.provider_call_count !== 0) || event.polling_prohibited !== true) throw new MediaIntelligenceError("LEDGER_EVENT_INVALID", "Only non-polling cache events or one-attempt TranscriptAPI events may be persisted.");
+    const row = projectProviderUsageRow(event);
+    const existing = await this.findByOperationKey(event.idempotency_key);
+    if (existing) throw new MediaIntelligenceError("DUPLICATE_OPERATION", "Immutable provider usage already exists for this operation identity.");
+    try { return await this.insertRow(Object.freeze(row)); }
+    catch (error) { throw new MediaIntelligenceError("LEDGER_PERSISTENCE_FAILURE", "Provider usage persistence failed closed.", { cause: String(error?.message ?? "ledger unavailable") }); }
+  }
+
+  async checkBeforeAttempt({ operationKey, idempotencyKey }) {
+    const prior = await this.findByOperationKey(operationKey);
+    const exact = await this.findByIdempotencyKey(idempotencyKey);
+    if (prior || exact) return { allowed: false, route: "manual_reconciliation", reason: prior?.success === true ? "PRIOR_SUCCESS" : "PRIOR_UNKNOWN_OR_EXISTING_ATTEMPT" };
+    return { allowed: true, route: "provider" };
+  }
+}
+
+export function projectProviderUsageRow(event) {
+  if (!event || typeof event !== "object" || Object.keys(event).some((key) => !APPLICATION_USAGE_FIELDS.has(key)) || [...REQUIRED_APPLICATION_USAGE_FIELDS].some((key) => !Object.prototype.hasOwnProperty.call(event, key))) throw new MediaIntelligenceError("USAGE_EVENT_INVALID", "Provider usage event contains an unknown or missing application field.");
+  if (event.schema_version !== "1.0.0" || !event.usage_id || !event.run_id || !event.subject_id || !event.provider || !event.endpoint || !event.purpose || !event.occurred_at || !event.idempotency_key || !event.created_at || !Array.isArray(event.downstream_usage) || new Set(event.downstream_usage).size !== event.downstream_usage.length || event.downstream_usage.some((value) => typeof value !== "string") || typeof event.success !== "boolean" || typeof event.polling_prohibited !== "boolean" || event.polling_prohibited !== true) throw new MediaIntelligenceError("USAGE_EVENT_INVALID", "Provider usage event failed application contract validation.");
+  if (event.credits_used !== null && event.credits_used !== undefined && (!Number.isFinite(event.credits_used) || event.credits_used < 0) || event.credits_remaining !== null && event.credits_remaining !== undefined && (!Number.isFinite(event.credits_remaining) || event.credits_remaining < 0) || !Number.isFinite(event.estimated_cost) || event.estimated_cost < 0 || !Number.isFinite(event.execution_budget) || !Number.isFinite(event.workflow_execution_count) || !Number.isFinite(event.provider_call_count) || !Number.isFinite(event.cache_hit_count)) throw new MediaIntelligenceError("USAGE_EVENT_INVALID", "Provider usage numeric fields are invalid.");
+  assertSafeUsageRow(event);
+  const row = {
+    usage_id: event.usage_id, run_id: event.run_id, subject_id: event.subject_id, provider: event.provider, endpoint: event.endpoint, purpose: event.purpose, occurred_at: event.occurred_at,
+    estimated_cost: event.estimated_cost, cache_status: event.cache_status, success: event.success, data_returned: event.data_returned,
+    downstream_usage_json: JSON.stringify([...event.downstream_usage].sort()), execution_budget: event.execution_budget, workflow_execution_count: event.workflow_execution_count,
+    provider_call_count: event.provider_call_count, cache_hit_count: event.cache_hit_count, polling_prohibited: true, terminal_or_resume_state: event.terminal_or_resume_state,
+    idempotency_key: event.idempotency_key, created_at: event.created_at
+  };
+  for (const key of ["credits_used", "credits_remaining", "escalation_reason", "transcriptapi_sufficient", "next_action_at"]) if (event[key] !== null && event[key] !== undefined) row[key] = event[key];
+  if (Object.keys(row).some((key) => !PHYSICAL_USAGE_FIELDS.has(key)) || [...REQUIRED_PHYSICAL_USAGE_FIELDS].some((key) => !Object.prototype.hasOwnProperty.call(row, key)) || typeof row.downstream_usage_json !== "string") throw new MediaIntelligenceError("USAGE_ROW_INVALID", "Projected provider usage row does not satisfy the deployed physical-column contract.");
+  return row;
+}
+
+export class MockTranscriptTransport {
+  constructor(handler) {
+    if (typeof handler !== "function") throw new MediaIntelligenceError("MOCK_TRANSPORT_INVALID", "Mock transcript transport requires a handler.");
+    this.handler = handler;
+  }
+
+  async request(input) { return this.handler(Object.freeze({ ...input })); }
+}
 
 class ProviderStub {
   constructor(provider) {
@@ -56,13 +148,17 @@ class ProviderStub {
 }
 
 export class TranscriptAPIProvider extends ProviderStub {
-  constructor({ transport = null, cache = null, usage = null, idFactory = createId, sleep = async () => {} } = {}) {
+  constructor({ transport = null, cache = null, usage = null, idFactory = createId, sleep = async () => {}, transportMode = "mock", deploymentState = "prepared_not_deployed" } = {}) {
     super("transcriptapi");
+    if (transportMode === "mock" && transport !== null && !(transport instanceof MockTranscriptTransport)) throw new MediaIntelligenceError("MOCK_TRANSPORT_REQUIRED", "Mock preparation accepts only MockTranscriptTransport.");
+    if (transportMode === "live" && (deploymentState !== "deployed" || !usage?.claimOperation)) throw new MediaIntelligenceError("LIVE_TRANSPORT_BLOCKED", "Live transport requires explicit deployment state and atomic claim binding.");
+    if (!["mock", "live"].includes(transportMode)) throw new MediaIntelligenceError("TRANSPORT_MODE_INVALID", "Unsupported transcript transport mode.");
     this.transport = transport;
     this.cache = cache;
     this.usage = usage;
     this.idFactory = idFactory;
     this.sleep = sleep;
+    this.transportMode = transportMode;
   }
 
   async healthcheck() {
@@ -93,31 +189,30 @@ export class TranscriptAPIProvider extends ProviderStub {
     if (!request || request.task !== "transcript_retrieval") throw new MediaIntelligenceError("REQUEST_INVALID", "TranscriptAPI retrieval requires a transcript_retrieval request.");
     if (endpoint !== "transcript") throw new MediaIntelligenceError("PROVIDER_CAPABILITY_BLOCK", "Only transcript retrieval is enabled for the paid development adapter.");
     if (maxRetries !== undefined) throw new MediaIntelligenceError("RETRY_POLICY_INVALID", "Paid TranscriptAPI retrieval permits exactly one transport attempt and rejects maxRetries.");
-    this.validate_config({ environment: request.environment, credential_ref: this.definition.credential_ref });
+    if (this.transportMode === "live") this.validate_config({ environment: request.environment, credential_ref: this.definition.credential_ref });
     if (!this.cache || typeof this.cache.get !== "function" || typeof this.cache.put !== "function") throw new MediaIntelligenceError("CACHE_REQUIRED", "TranscriptAPI retrieval requires a cache implementation.");
-    if (!this.usage || typeof this.usage.record !== "function" || typeof this.usage.findByIdempotencyKey !== "function" || typeof this.usage.findByOperationKey !== "function") throw new MediaIntelligenceError("USAGE_LEDGER_REQUIRED", "Paid TranscriptAPI retrieval requires exact-attempt and operation-reconciliation ledger lookups.");
+    if (!this.usage || typeof this.usage.record !== "function" || typeof this.usage.findByIdempotencyKey !== "function" || typeof this.usage.findByOperationKey !== "function" || typeof this.usage.claimOperation !== "function") throw new MediaIntelligenceError("USAGE_LEDGER_REQUIRED", "Paid TranscriptAPI retrieval requires exact lookup, immutable outcome and atomic operation claim capabilities.");
     const canonicalVideoId = canonicalYouTubeVideoId(videoId);
     const normalizedLanguage = normalizeRequestedLanguage(language);
     const key = buildCacheKey({ provider: "transcriptapi", task: request.task, platform: "youtube", resourceType: "transcript", externalId: canonicalVideoId, language: normalizedLanguage, sample, adapterVersion: MEDIA_ADAPTER_VERSION, outputSchemaVersion: MEDIA_OUTPUT_SCHEMA_VERSION });
     if (request.cache_key !== key) throw new MediaIntelligenceError("CACHE_KEY_MISMATCH", "Request cache_key does not match the adapter-derived key.");
     const cached = await this.cache.get(key);
     if (cached) {
-      await this.recordUsage({ request, endpoint, now, cache_status: "hit", success: true, data_returned: "transcript", idempotencyKey: `cache-hit:${key}`, cache_hit_count: 1, provider_call_count: 0 });
+      await this.recordUsage({ request, endpoint, now, cache_status: "hit", success: true, data_returned: "transcript", idempotencyKey: `cache-hit:v1:${createHash("sha256").update(JSON.stringify({ run_id: request.run_id, cache_key: key })).digest("hex")}`, cache_hit_count: 1, provider_call_count: 0 });
       return { cache_status: "hit", provider: "cache", video_id: canonicalVideoId, result: cached };
     }
     if (request.provider_call_budget < 1) throw new MediaIntelligenceError("BUDGET_BLOCK", "Provider call budget is exhausted after cache miss.");
     if (!this.transport || typeof this.transport.request !== "function") throw new MediaIntelligenceError("PROVIDER_NOT_CONNECTED", "TranscriptAPI development transport is not configured.");
     if (!Number.isInteger(timeoutMs) || timeoutMs < 1 || timeoutMs > 30000) throw new MediaIntelligenceError("TIMEOUT_INVALID", "Timeout must be between 1 and 30000 milliseconds.");
     const operationKey = `transcript-operation:v1:${createHash("sha256").update(key).digest("hex")}`;
-    const prior = await this.usage.findByOperationKey(operationKey);
-    const idempotencyKey = prior && retry_authorized && prior_attempt_reconciled
-      ? `transcript-attempt:v1:${createHash("sha256").update(JSON.stringify({ run_id: request.run_id, operation_key: operationKey })).digest("hex")}`
-      : operationKey;
-    const exactPrior = await this.usage.findByIdempotencyKey(idempotencyKey);
-    if ((prior || exactPrior) && (!retry_authorized || !prior_attempt_reconciled || (prior && prior.run_id === request.run_id) || (exactPrior && exactPrior.run_id === request.run_id))) throw new MediaIntelligenceError("ATTEMPT_RECONCILIATION_REQUIRED", "A prior paid attempt requires a fresh authorized run, prior-attempt reconciliation and explicit retry approval.");
+    const idempotencyKey = `transcript-attempt:v1:${createHash("sha256").update(JSON.stringify({ run_id: request.run_id, operation_key: operationKey, retry_authorized, prior_attempt_reconciled })).digest("hex")}`;
+    const claim = await this.usage.claimOperation({ operation_key: operationKey, run_id: request.run_id, subject_id: request.subject_id, provider: "transcriptapi", task: request.task, requested_at: now, prior_attempt_reconciled, retry_authorized, prior_attempt_id: request.prior_attempt_id ?? null, idempotency_key: idempotencyKey });
+    if (claim.status !== "CLAIMED") throw new MediaIntelligenceError(claim.status === "PRIOR_SUCCESS" || claim.status === "PRIOR_OUTCOME_UNKNOWN" || claim.status === "ALREADY_CLAIMED" ? "ATTEMPT_RECONCILIATION_REQUIRED" : claim.status, "Paid operation did not acquire an atomic claim; provider transport is prohibited.");
     const controller = new AbortController();
     let raw;
-    try { raw = await withTimeout(this.transport.request({ video_id: canonicalVideoId, language: normalizedLanguage, endpoint, credential_ref: this.definition.credential_ref, idempotency_key: idempotencyKey, signal: controller.signal }), timeoutMs, controller); }
+    const transportInput = { video_id: canonicalVideoId, language: normalizedLanguage, endpoint, idempotency_key: idempotencyKey, signal: controller.signal };
+    if (this.transportMode === "live") transportInput.credential_ref = this.definition.credential_ref;
+    try { raw = await withTimeout(this.transport.request(transportInput), timeoutMs, controller); }
     catch (error) {
       const normalized = this.normalize_error(error);
       await this.recordUsage({ request, endpoint, now, cache_status: "miss", success: false, data_returned: "none", idempotencyKey, provider_call_count: 1, credits_used: normalized.outcome === "OUTCOME_UNKNOWN" ? null : 0, escalation_reason: normalized.outcome === "OUTCOME_UNKNOWN" ? "OUTCOME_UNKNOWN" : normalized.error_class, terminal_or_resume_state: normalized.outcome === "OUTCOME_UNKNOWN" ? "manual_reconciliation_required" : "failed_terminal" });

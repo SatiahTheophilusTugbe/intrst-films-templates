@@ -115,8 +115,8 @@ export function validateIntelligenceObject(value) {
   return true;
 }
 
-export function createUsageEvent({ usage_id, run_id, subject_id, provider, endpoint, purpose, occurred_at, credits_used = null, credits_remaining = null, estimated_cost = 0, cache_status, success, data_returned, downstream_usage = [], escalation_reason = null, transcriptapi_sufficient = null, idempotency_key }) {
+export function createUsageEvent({ usage_id, run_id, subject_id, provider, endpoint, purpose, occurred_at, credits_used = null, credits_remaining = null, estimated_cost = 0, cache_status, success, data_returned, downstream_usage = [], escalation_reason = null, transcriptapi_sufficient = null, execution_budget = 0, workflow_execution_count = 1, provider_call_count = 0, cache_hit_count = 0, polling_prohibited = true, terminal_or_resume_state = success ? "complete" : "failed_terminal", next_action_at = null, created_at = occurred_at, idempotency_key }) {
   if (!typedId(usage_id, "USG") || !typedId(run_id, "RUN") || !typedId(subject_id, "SUB")) fail("USAGE_EVENT_INVALID", "Usage event identities must use INT-USG, INT-RUN and INT-SUB IDs.");
   if (provider === "scrapecreators" && (credits_used === null || credits_remaining === null)) fail("USAGE_EVENT_INVALID", "ScrapeCreators events require credit usage and remaining balance.");
-  return { schema_version: "1.0.0", usage_id, run_id, subject_id, provider, endpoint, purpose, occurred_at, credits_used, credits_remaining, estimated_cost, cache_status, success, data_returned, downstream_usage, escalation_reason, transcriptapi_sufficient, idempotency_key };
+  return { schema_version: "1.0.0", usage_id, run_id, subject_id, provider, endpoint, purpose, occurred_at, credits_used, credits_remaining, estimated_cost, cache_status, success, data_returned, downstream_usage, escalation_reason, transcriptapi_sufficient, execution_budget, workflow_execution_count, provider_call_count, cache_hit_count, polling_prohibited, terminal_or_resume_state, next_action_at, idempotency_key, created_at };
 }

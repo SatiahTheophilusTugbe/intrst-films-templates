@@ -23,6 +23,14 @@
     "downstream_usage": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
     "escalation_reason": {"type": ["string", "null"]},
     "transcriptapi_sufficient": {"type": ["boolean", "null"]},
-    "idempotency_key": {"type": "string", "minLength": 1}
+    "idempotency_key": {"type": "string", "minLength": 1},
+    "execution_budget": {"type": "number", "minimum": 0},
+    "workflow_execution_count": {"type": "number", "minimum": 0},
+    "provider_call_count": {"type": "number", "minimum": 0},
+    "cache_hit_count": {"type": "number", "minimum": 0},
+    "polling_prohibited": {"const": true},
+    "terminal_or_resume_state": {"type": "string", "minLength": 1},
+    "next_action_at": {"type": ["string", "null"], "format": "date-time"},
+    "created_at": {"type": "string", "format": "date-time"}
   }
 }

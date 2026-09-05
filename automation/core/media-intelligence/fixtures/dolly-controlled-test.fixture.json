@@ -16,5 +16,16 @@
     }
   },
   "fixture_safety": {"raw_transcript_text_included": false,"secret_values_included": false,"immutable_credential_ids_included": false,"provider_calls_executed": false},
+"mock_workflow_cases": [
+{"case":"atomic_claim_race","expected_claim_statuses":["CLAIMED","ALREADY_CLAIMED"],"expected_transport_calls":1},
+{"case":"cache_hit","expected_transport_calls":0,"expected_terminal_state":"complete"},
+    {"case":"cache_miss","expected_transport_calls":1,"expected_terminal_state":"complete"},
+    {"case":"duplicate_operation_identity","expected_transport_calls":0,"expected_terminal_state":"manual_reconciliation_required"},
+    {"case":"unknown_prior_outcome","expected_transport_calls":0,"expected_terminal_state":"manual_reconciliation_required"},
+    {"case":"usage_persistence_failure","expected_transport_calls":1,"expected_cache_success":false},
+    {"case":"cache_persistence_failure","expected_transport_calls":1,"expected_usage_evidence":true},
+    {"case":"budget_above_one","provider_call_budget":3,"expected_transport_calls":1},
+    {"case":"persist_and_exit","polling_prohibited":true,"idle_wait":false}
+  ],
   "prohibitions": ["production_asset_copy", "unbounded_comment_retrieval", "transcript_to_script", "audience_comment_as_fact", "janie_as_engineering_sandbox"]
 }
