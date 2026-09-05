@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "status": "captured_sanitized_no_live_provider_calls",
   "subject_reference": "Dolly known-good regression fixture",
+  "approved_test_source": {"title":"Dolly Parton Interview","publisher":"Library of Congress / @loc","canonical_url":"https://www.youtube.com/watch?v=PIa6Vot1XcM","canonical_video_id":"PIa6Vot1XcM","classification":"institutional_first_person","purpose":"First-person evidence concerning Dolly Parton's father, literacy mission, Imagination Library and Library of Congress partnership.","approval_scope":"AUT-013 controlled TranscriptAPI test preparation only","approval_pending":true,"transcript_retrieval_executed":false,"timecodes":"pending","rights_state":"research_source_access_only_no_production_reuse_clearance"},
   "tests": [
     {"sequence": 1, "provider": "transcriptapi", "task": "youtube_search", "purpose": "Verify normalized search and canonical video-ID deduplication", "maximum_calls": 1},
     {"sequence": 2, "provider": "transcriptapi", "task": "transcript_retrieval", "purpose": "Verify timestamps, transcript normalization, cache write and replay", "maximum_calls": 1},

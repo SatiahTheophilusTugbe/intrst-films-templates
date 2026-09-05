@@ -58,6 +58,22 @@
   },
   "runtime_preparation": {
     "status": "prepared_not_deployed",
+    "controlled_test": {
+      "status": "inactive_prepared_approval_pending",
+      "workflow_name": "INT-TST-013 — Dolly TranscriptAPI Controlled Test — DEV",
+      "source": {"title": "Dolly Parton Interview", "publisher": "Library of Congress / @loc", "canonical_video_id": "PIa6Vot1XcM", "canonical_url": "https://www.youtube.com/watch?v=PIa6Vot1XcM", "classification": "institutional_first_person", "purpose": "first-person evidence concerning Dolly Parton's father, literacy mission, Imagination Library and Library of Congress partnership"},
+      "approval_scope": "AUT-013 controlled TranscriptAPI test preparation only",
+      "approval_pending": true,
+      "provider_call_budget": 1,
+      "maximum_real_transport_attempts": 1,
+      "automatic_retries": 0,
+      "credential_ref": "INT | TranscriptAPI | Development | Media Intelligence",
+      "storage_destination": "private canonical Dolly research/source location: 01 Research & Life File",
+      "production_promotion": "blocked",
+      "executions": 0,
+      "provider_calls": 0,
+      "credits_consumed": 0
+    },
     "provider_usage_ledger": {
       "project_id": "o8RQQQgne2c6jXr5",
       "table_id": "WFeE982gMt0XfiIm",
