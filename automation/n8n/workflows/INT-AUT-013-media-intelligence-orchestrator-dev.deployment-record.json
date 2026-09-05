@@ -1,0 +1,44 @@
+{
+  "record_version": "1.0.0",
+  "work_item": "AUT-013",
+  "repository_workflow": "automation/n8n/workflows/INT-AUT-013-media-intelligence-orchestrator-dev.workflow.json",
+  "workflow_name": "INT-AUT-013 — Media Intelligence Orchestrator — DEV",
+  "workflow_id": "MP8UtYppwPIzwZ1c",
+  "n8n_project": {
+    "name": "INTRST Films",
+    "id": "o8RQQQgne2c6jXr5"
+  },
+  "deployment_type": "development",
+  "deployment_status": "inactive_mock_deployed",
+  "deployed_at": "2026-09-05T19:40:03.114Z",
+  "active": false,
+  "tags": ["project:intrst"],
+  "execution": {
+    "id": "34648",
+    "mode": "manual",
+    "status": "success",
+    "run_count": 1,
+    "terminal_output": {
+      "status": "persist_and_exit",
+      "external_writes": 0,
+      "provider_calls": 0,
+      "credits_consumed": 0
+    }
+  },
+  "data_table_writes": 0,
+  "fixture_correction_commit": "2b202f9e139c1b7e87c5e94bd4b29b60dca4c959",
+  "repository_runtime_semantic_fingerprint": {
+    "algorithm": "sha256",
+    "value": "34de0005f7d26fddf49c36840f403abe5d94d887cbaa735fa7724a0318a4bac"
+  },
+  "production": {
+    "paid_runtime_deployed": false,
+    "atomic_claim_dependency": "open",
+    "promotion_status": "blocked_pending_atomic_claim"
+  },
+  "rollback": "archive only workflow MP8UtYppwPIzwZ1c after project-scoped ID verification",
+  "providers_called": false,
+  "provider_credits_consumed": false,
+  "credentials_resolved": false,
+  "external_mutations": false
+}
