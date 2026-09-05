@@ -66,6 +66,11 @@ Git and provider_usage retain only sanctioned metadata, hashes, timings, counts 
 Research/source access does not confer production visual, audio or quotation rights. The authorized operation remains
 exactly `AUT-013-DOLLY-001` for `PIa6Vot1XcM`; no other source/provider is authorized.
 
+The first authorized execution reached the exact cache and provider-usage reads and stopped safely at the fixed
+authorization gate before HTTP transport. It produced one workflow_runs start row and one terminal known-safe-failure row;
+provider_usage, media_sources and media_intelligence remain unchanged. The gate has been hardened for any separately
+authorized future run, but this authorization permits no second execution.
+
 ```text
 node automation/core/media-intelligence/validate-media-intelligence.mjs
 node automation/core/media-intelligence/tests/media-intelligence.test.mjs

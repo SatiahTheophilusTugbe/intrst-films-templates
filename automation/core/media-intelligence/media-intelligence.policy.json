@@ -74,7 +74,7 @@
       "credential_ref": "INT | TranscriptAPI | Development | Media Intelligence",
       "storage_destination": "private canonical Dolly research/source location: 01 Research & Life File",
       "production_promotion": "blocked",
-      "executions": 0,
+      "executions": 1,
       "provider_calls": 0,
       "credits_consumed": 0
     },
