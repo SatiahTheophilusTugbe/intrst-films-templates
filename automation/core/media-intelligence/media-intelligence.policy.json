@@ -1,6 +1,6 @@
 {
   "contract_id": "MEDIA-INTELLIGENCE-PHASE-1",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "status": "deployed_development",
   "environment": "development",
   "routing": {
@@ -57,13 +57,15 @@
     "providers_called": false
   },
   "runtime_preparation": {
-    "status": "prepared_not_deployed",
+    "status": "atomic_claim_implementation_proven_runtime_binding_pending",
     "controlled_test": {
-      "status": "inactive_prepared_approval_pending",
+      "status": "authorized_runtime_blocked_until_atomic_backend_bound",
       "workflow_name": "INT-TST-013 — Dolly TranscriptAPI Controlled Test — DEV",
+      "workflow_id": "CYYjgF7zthIjMH7c",
       "source": {"title": "Dolly Parton Interview", "publisher": "Library of Congress / @loc", "canonical_video_id": "PIa6Vot1XcM", "canonical_url": "https://www.youtube.com/watch?v=PIa6Vot1XcM", "classification": "institutional_first_person", "purpose": "first-person evidence concerning Dolly Parton's father, literacy mission, Imagination Library and Library of Congress partnership"},
-      "approval_scope": "AUT-013 controlled TranscriptAPI test preparation only",
-      "approval_pending": true,
+      "approval_scope": "AUT-013-DOLLY-001 exactly one TranscriptAPI request",
+      "user_authorization_received": true,
+      "workflow_approval_gate_cleared": false,
       "provider_call_budget": 1,
       "maximum_real_transport_attempts": 1,
       "automatic_retries": 0,
@@ -91,6 +93,22 @@
       "logs_without_sensitive_payloads": true,
       "failure_mode": "fail_closed"
     },
+    "atomic_claim_backend": {
+      "backend": "postgresql",
+      "version": "postgres-v1",
+      "status": "repository_implementation_proven_runtime_binding_pending",
+      "logical_credential_ref": "INT | PostgreSQL | Development | Atomic Claims",
+      "schema_file": "automation/core/media-intelligence/atomic-claim.postgres.sql",
+      "binding_module": "automation/core/media-intelligence/atomic-claim.mjs",
+      "binding_record": "automation/n8n/workflows/AUT-013-atomic-claim-postgres-dev.binding.json",
+      "atomic_primitive": "PRIMARY KEY(operation_key) plus single-statement INSERT ON CONFLICT DO NOTHING",
+      "n8n_data_table_rows_rejected_as_claim_backend": true,
+      "repository_tests_passed": 5,
+      "repository_tests_failed": 0,
+      "provider_calls_during_proof": 0,
+      "runtime_backend_provisioned": false,
+      "n8n_credential_bound": false
+    },
     "inactive_workflow": {
       "name": "INT-AUT-013 — Media Intelligence Layer Phase 1 — DEV",
       "proposed_filename": "automation/n8n/INT-AUT-013-media-intelligence-layer-phase-1-dev.workflow-spec.json",
@@ -100,7 +118,7 @@
       "tag": "project:intrst",
       "topology": ["workflow_runs_start", "request_validation", "cache_lookup", "atomic_operation_claim", "execution_budget_gate", "exactly_one_mock_transport_attempt", "immutable_usage_outcome", "response_normalization", "cache_persistence", "workflow_runs_terminal_state", "persist_and_exit"],
       "non_claim_terminal_path": ["workflow_runs_terminal_blocked_or_reconciliation", "persist_and_exit", "zero_provider_calls"],
-      "live_transport": "blocked_until_explicit_deployment_state_and_atomic_claim_binding",
+      "live_transport": "blocked_until_runtime_postgres_claim_backend_provisioned_and_bound",
       "concurrency_control": "atomic_claim_only"
     },
     "data_table_operations": {
