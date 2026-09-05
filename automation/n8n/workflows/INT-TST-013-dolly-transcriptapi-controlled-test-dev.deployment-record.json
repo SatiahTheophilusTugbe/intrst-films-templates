@@ -8,9 +8,10 @@
   "environment": "development",
   "active": false,
   "tags": ["project:intrst"],
-  "source": {"title": "Dolly Parton Interview", "publisher": "Library of Congress / @loc", "canonical_url": "https://www.youtube.com/watch?v=PIa6Vot1XcM", "canonical_video_id": "PIa6Vot1XcM", "approval_scope": "AUT-013 controlled TranscriptAPI test preparation only", "rights_state": "research_source_access_only_no_production_reuse_clearance"},
+  "source": {"title": "Dolly Parton Interview", "publisher": "Library of Congress / @loc", "canonical_url": "https://www.youtube.com/watch?v=PIa6Vot1XcM", "canonical_video_id": "PIa6Vot1XcM", "approval_scope": "AUT-013-DOLLY-001 exactly one TranscriptAPI request", "rights_state": "research_source_access_only_no_production_reuse_clearance"},
   "credential_ref": "INT | TranscriptAPI | Development | Media Intelligence",
-  "approval_pending": true,
+  "user_authorization_received": true,
+  "workflow_approval_gate_cleared": false,
   "provider_call_budget": 1,
   "maximum_real_transport_attempts": 1,
   "automatic_retries": 0,
@@ -20,7 +21,16 @@
   "data_table_rows_inserted": 0,
   "storage_destination": "private canonical Dolly research/source location: 01 Research & Life File",
   "semantic_fingerprint": {"algorithm": "sha256", "canonicalization": "controlled-test semantic fingerprint; strips workflow/version/timestamp/ownership metadata and credential immutable IDs; retains security-relevant nodes, parameters, normalized Code behavior, connections, tag names, inactive state and terminal contract", "repository_and_runtime_equal": true, "sha256": "766ae719f6f0f81796409e9e01efdee7b8179c6f873ed1f25ab31c504f726505"},
-  "production_status": "paid runtime not deployed; production promotion blocked pending atomic claim and explicit approval",
+  "atomic_claim_backend": {
+    "backend": "postgresql",
+    "version": "postgres-v1",
+    "credential_ref": "INT | PostgreSQL | Development | Atomic Claims",
+    "binding_record": "automation/n8n/workflows/AUT-013-atomic-claim-postgres-dev.binding.json",
+    "repository_proof_tests_passed": 5,
+    "runtime_backend_provisioned": false,
+    "n8n_credential_bound": false
+  },
+  "production_status": "paid runtime not deployed; production promotion blocked pending runtime PostgreSQL atomic-claim provisioning and binding",
   "rollback": "archive only workflow CYYjgF7zthIjMH7c after project-scoped ownership verification",
-  "provider_execution_status": "not executed; no TranscriptAPI or ScrapeCreators call; no provider credit consumed"
+  "provider_execution_status": "authorized but not executed; no TranscriptAPI or ScrapeCreators call; no provider credit consumed"
 }
