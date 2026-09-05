@@ -1,0 +1,39 @@
+{
+  "contract_id": "AUT-003",
+  "implementation_version": "0.1.0",
+  "status": "development_complete",
+  "repository": "SatiahTheophilusTugbe/intrst-films-templates",
+  "branch": "automation/premium-derivative-factory-v1",
+  "scope": {
+    "n8n_project_name": "INTRST Films",
+    "n8n_project_id": "o8RQQQgne2c6jXr5",
+    "n8n_mutation_performed": false,
+    "canva_mutation_performed": false
+  },
+  "artifacts": [
+    "registry/template-registry.json",
+    "schemas/template-registry.schema.json",
+    "automation/core/templates/template-fetcher.mjs",
+    "automation/core/templates/validate-template-registry.mjs",
+    "automation/core/templates/tests/template-fetcher.test.mjs",
+    "automation/core/templates/README.md"
+  ],
+  "controls": ["exact_template_version", "environment_isolation", "production_approval_gate", "immutable_repository_ref", "sha256_integrity", "provider_capability_gate", "logical_credential_reference_only", "fail_closed"],
+  "canva_fixture": {
+    "template_id": "INT-TPL-900",
+    "template_version": "0.1.0",
+    "provider_template_id": "EAHUTRYq_Pw",
+    "dataset_discovery": "verified",
+    "autofill_generation": "blocked",
+    "block_reason": "CANVA_ENTERPRISE_REQUIRED",
+    "canonical": false
+  },
+  "cross_workstream_dependencies": [
+    {
+      "owner": "Brand + Design",
+      "dependency": "Provide the immutable Hayden Panettiere production master identifier, approved programmable field contract, and visual regression thresholds.",
+      "status": "pending"
+    }
+  ],
+  "tracker_update": {"tracker": "INTRST Master Build Tracker - Canonical", "status": "pending_until_post_validation"}
+}

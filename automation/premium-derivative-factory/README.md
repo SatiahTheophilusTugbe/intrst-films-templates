@@ -410,3 +410,14 @@ access is explicitly authorized, time-bounded, rotated and reviewed.
 
 The validator is a precondition for orchestration code and sanitized n8n workflow deployment. It does
 not itself grant authorization to modify, activate, publish or delete n8n resources.
+
+## 21. AUT-003 versioned template fetcher
+
+The provider-neutral template resolver is implemented at `automation/core/templates/`. It extends the existing
+`registry/template-registry.json` rather than creating a parallel registry. Exact template ID/version resolution,
+environment isolation, production approval, immutable Git commit references, SHA-256 verification and provider
+capability gates are enforced outside n8n.
+
+The Canva Brand Template `EAHUTRYq_Pw` is registered only as the noncanonical development fixture
+`INT-TPL-900@0.1.0`. Its dataset is verified, while Autofill generation is fail-closed under
+`CANVA_ENTERPRISE_REQUIRED`. It does not replace the Brand + Design-owned Hayden Panettiere production standard.

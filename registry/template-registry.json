@@ -1,5 +1,8 @@
 {
-  "version": "0.1.0",
+  "$schema": "../schemas/template-registry.schema.json",
+  "schema_version": "1.0.0",
+  "contract_id": "AUT-003",
+  "version": "0.2.0",
   "brand": "INTRST Films",
   "design_families": {
     "image_post": [
@@ -35,5 +38,48 @@
     "asset_availability",
     "emotional_tone",
     "attention_objective"
+  ],
+  "template_records": [
+    {
+      "template_id": "INT-TPL-900",
+      "template_version": "0.1.0",
+      "slug": "canva-autofill-smoke-test",
+      "display_name": "INT-TST-CANVA-001 — Autofill Smoke Test — DEV",
+      "environment": "development",
+      "status": "blocked_external_dependency",
+      "canonical": false,
+      "workstream_owner": "Automation",
+      "design_authority": "Brand + Design",
+      "source": {
+        "provider": "canva",
+        "kind": "canva_brand_template",
+        "external_id": "EAHUTRYq_Pw",
+        "url": "https://www.canva.com/brand/brand-templates/EAHUTRYq_Pw"
+      },
+      "credential_ref": "INT | Canva | Development | Autofill",
+      "dataset": {
+        "status": "verified",
+        "fields": {
+          "HOOK_LINE_1": "text",
+          "HOOK_LINE_2": "text",
+          "BRAND_LABEL": "text",
+          "SUBJECT_IMAGE": "image"
+        }
+      },
+      "capabilities": {
+        "dataset_discovery": {"status": "verified"},
+        "autofill_generation": {"status": "blocked", "reason": "CANVA_ENTERPRISE_REQUIRED"},
+        "export": {"status": "not_tested"}
+      },
+      "approvals": {
+        "brand_design": false,
+        "production": false
+      },
+      "notes": [
+        "Development smoke-test fixture only; it is not an approved production master.",
+        "The Hayden Panettiere design remains the canonical visual reference pending a Brand + Design supplied immutable template ID and field contract.",
+        "Canva dataset discovery passed, but Autofill generation was blocked by provider plan entitlement."
+      ]
+    }
   ]
 }

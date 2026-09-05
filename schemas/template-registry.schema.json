@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://intrstfilms.com/schemas/template-registry.schema.json",
+  "title": "INTRST Versioned Template Registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "contract_id", "version", "brand", "design_families", "selection_inputs", "template_records"],
+  "properties": {
+    "$schema": {"type": "string"},
+    "schema_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "contract_id": {"const": "AUT-003"},
+    "version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "brand": {"const": "INTRST Films"},
+    "design_families": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"}}
+    },
+    "selection_inputs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"}},
+    "template_records": {"type": "array", "items": {"$ref": "#/$defs/templateRecord"}}
+  },
+  "$defs": {
+    "templateRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["template_id", "template_version", "slug", "display_name", "environment", "status", "canonical", "workstream_owner", "design_authority", "source", "dataset", "capabilities", "approvals", "notes"],
+      "properties": {
+        "template_id": {"type": "string", "pattern": "^INT-TPL-[0-9]{3}$"},
+        "template_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+        "slug": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
+        "display_name": {"type": "string", "minLength": 1},
+        "environment": {"enum": ["development", "staging", "production"]},
+        "status": {"enum": ["development", "active", "blocked_external_dependency", "retired"]},
+        "canonical": {"type": "boolean"},
+        "workstream_owner": {"type": "string", "minLength": 1},
+        "design_authority": {"type": "string", "minLength": 1},
+        "source": {"oneOf": [{"$ref": "#/$defs/repositorySource"}, {"$ref": "#/$defs/canvaSource"}]},
+        "credential_ref": {"type": "string", "pattern": "^INT \\| [^|]+ \\| (Development|Staging|Production) \\| [^|]+$"},
+        "dataset": {"$ref": "#/$defs/dataset"},
+        "capabilities": {"type": "object", "minProperties": 1, "additionalProperties": {"$ref": "#/$defs/capability"}},
+        "approvals": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["brand_design", "production"],
+          "properties": {"brand_design": {"type": "boolean"}, "production": {"type": "boolean"}}
+        },
+        "notes": {"type": "array", "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "repositorySource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider", "kind", "repository", "path", "sha256"],
+      "properties": {
+        "provider": {"const": "github"},
+        "kind": {"const": "repository_file"},
+        "repository": {"const": "SatiahTheophilusTugbe/intrst-films-templates"},
+        "path": {"type": "string", "pattern": "^(?!/)(?!.*\\.\\.)[^\\u0000]+$"},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "canvaSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider", "kind", "external_id", "url"],
+      "properties": {
+        "provider": {"const": "canva"},
+        "kind": {"const": "canva_brand_template"},
+        "external_id": {"type": "string", "pattern": "^[A-Za-z0-9_-]+$"},
+        "url": {"type": "string", "pattern": "^https://www\\.canva\\.com/brand/brand-templates/[A-Za-z0-9_-]+$"}
+      }
+    },
+    "dataset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "fields"],
+      "properties": {
+        "status": {"enum": ["not_tested", "verified", "blocked"]},
+        "fields": {"type": "object", "additionalProperties": {"enum": ["text", "image", "chart"]}}
+      }
+    },
+    "capability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status"],
+      "properties": {
+        "status": {"enum": ["not_tested", "verified", "available", "blocked"]},
+        "reason": {"type": "string", "pattern": "^[A-Z][A-Z0-9_]*$"}
+      },
+      "allOf": [{"if": {"properties": {"status": {"const": "blocked"}}}, "then": {"required": ["reason"]}}]
+    }
+  }
+}
