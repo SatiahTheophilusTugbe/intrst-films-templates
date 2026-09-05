@@ -11,6 +11,14 @@ export const VIDEO_ID="PIa6Vot1XcM";
 const FORBIDDEN_TYPES=new Set(["n8n-nodes-base.webhook","n8n-nodes-base.scheduleTrigger","n8n-nodes-base.wait","n8n-nodes-base.executeWorkflowTrigger"]);
 const REQUIRED_SEQUENCE=["workflow_runs start","Validate fixed test authorization","Validate fixed Dolly video ID","Derive media:v2 cache key","Exact cache lookup","Exact prior-usage lookup","Single-operator/manual-test guard","One-attempt budget gate","Approval gate (pending)","TranscriptAPI single request (approval required)","Record immutable provider_usage outcome","Strict sanitized response validation","Sanitized normalization","Cache and source persistence","workflow_runs terminal state","Persist and exit"];
 function fail(message){throw new Error(`INT-TST-013 invalid: ${message}`);}
+function normalizeCode(value){return String(value??"").replace(/\r\n/g,"\n").trim();}
+export function canonicalizeControlledWorkflow(w){
+  const nodes=[...(w.nodes??[])].map(n=>{const parameters={...(n.parameters??{})};if(typeof parameters.jsCode==="string")parameters.jsCode=normalizeCode(parameters.jsCode);const credentials=Object.fromEntries(Object.entries(n.credentials??{}).map(([key,value])=>[key,{name:value?.name??null}]));return {name:n.name,type:n.type,typeVersion:n.typeVersion,disabled:n.disabled===true,parameters,credentials};}).sort((a,b)=>a.name.localeCompare(b.name));
+  const connections={};for(const source of Object.keys(w.connections??{}).sort())connections[source]=w.connections[source];
+  return {workflow_name:w.name,active:w.active===true,settings:{executionOrder:w.settings?.executionOrder??null},tags:[...(w.tags??[])].map(t=>t?.name).filter(Boolean).sort(),nodes,connections,invariants:{manual_trigger_present:(w.nodes??[]).some(n=>n.type==="n8n-nodes-base.manualTrigger"),forbidden_nodes_absent:!(w.nodes??[]).some(n=>FORBIDDEN_TYPES.has(n.type)),credentials_are_logical_only:!(w.nodes??[]).some(n=>Object.values(n.credentials??{}).some(c=>typeof c?.name!=="string")),fixed_video_id:VIDEO_ID,approval_pending:true,maximum_real_transport_attempts:1,automatic_retries:0,terminal_output:{status:"persist_and_exit",external_writes:0,provider_calls:0,credits_consumed:0}}};
+}
+export function semanticFingerprint(w){return JSON.stringify(canonicalizeControlledWorkflow(w));}
+export function compareSemanticFingerprint(reference,deployed){return {equal:semanticFingerprint(reference)===semanticFingerprint(deployed),expected:JSON.parse(semanticFingerprint(reference)),actual:JSON.parse(semanticFingerprint(deployed))};}
 export function validateControlledWorkflow(w){
   if(!w||typeof w!=="object")fail("root");
   if(w.name!==WORKFLOW_NAME||w.active!==false)fail("name or inactive state");
