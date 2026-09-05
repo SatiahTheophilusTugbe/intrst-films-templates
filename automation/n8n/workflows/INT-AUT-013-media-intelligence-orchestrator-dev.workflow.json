@@ -40,7 +40,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const item = $input.first().json; const video_id = 'dQw4w9WgXcQ'; return [{ json: { ...item, canonical_video_id: video_id } }];"
+        "jsCode": "const item = $input.first().json; const video_id = 'DOLLYTEST01'; return [{ json: { ...item, canonical_video_id: video_id } }];"
       },
       "id": "a1b2c3d4-e5f6-4789-a012-000000000004",
       "name": "Canonicalize synthetic YouTube video ID",
