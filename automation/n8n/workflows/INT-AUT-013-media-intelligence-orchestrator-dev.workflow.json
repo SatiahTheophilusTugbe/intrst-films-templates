@@ -1,0 +1,176 @@
+{
+  "name": "INT-AUT-013 — Media Intelligence Orchestrator — DEV",
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "tags": [
+    {
+      "name": "project:intrst"
+    }
+  ],
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "a1b2c3d4-e5f6-4789-a012-000000000001",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1.1,
+      "position": [0, 0]
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{ json: { workflow_runs: { terminal_or_resume_state: 'running', polling_prohibited: true, provider_call_count: 0, retry_count: 0 }, request: { subject_id: 'INT-SUB-01H00000000000000000000000', task: 'transcript_retrieval', environment: 'development', provider_call_budget: 1, polling_prohibited: true, synthetic_fixture: 'dolly-controlled-test' } } }];"
+      },
+      "id": "a1b2c3d4-e5f6-4789-a012-000000000002",
+      "name": "Initialize workflow_runs start object",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [220, 0]
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json; if (item.request.environment !== 'development' || item.request.polling_prohibited !== true || item.request.provider_call_budget !== 1) throw new Error('Synthetic request policy rejected'); return [{ json: { ...item, request_valid: true } }];"
+      },
+      "id": "a1b2c3d4-e5f6-4789-a012-000000000003",
+      "name": "Validate synthetic Dolly request",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [440, 0]
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json; const video_id = 'dQw4w9WgXcQ'; return [{ json: { ...item, canonical_video_id: video_id } }];"
+      },
+      "id": "a1b2c3d4-e5f6-4789-a012-000000000004",
+      "name": "Canonicalize synthetic YouTube video ID",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [660, 0]
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json; return [{ json: { ...item, cache_key: 'media:v2:synthetic-dolly-transcript-key' } }];"
+      },
+      "id": "a1b2c3d4-e5f6-4789-a012-000000000005",
+      "name": "Derive media:v2 cache key",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [880, 0]
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json; return [{ json: { ...item, cache: { status: 'miss', provider_calls: 0 } } }];"
+      },
+      "id": "a1b2c3d4-e5f6-4789-a012-000000000006",
+      "name": "Mock cache lookup",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1100, 0]
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json; return [{ json: { ...item, operation_claim: { interface: 'claimOperation', status: 'CLAIMED', atomic: true, production_backend: 'unresolved' } } }];"
+      },
+      "id": "a1b2c3d4-e5f6-4789-a012-000000000007",
+      "name": "Mock atomic claim",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1320, 0]
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json; if (item.operation_claim.status !== 'CLAIMED' || item.operation_claim.atomic !== true) throw new Error('Atomic claim required'); if (item.request.provider_call_budget < 1) throw new Error('Execution budget exhausted'); return [{ json: { ...item, budget_gate: 'passed' } }];"
+      },
+      "id": "a1b2c3d4-e5f6-4789-a012-000000000008",
+      "name": "Execution-budget gate",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1540, 0]
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json; const MockTranscriptTransport = { mode: 'mock', request_count: 1 }; return [{ json: { ...item, mock_transport: MockTranscriptTransport, provider_call_count: 1, sanitized_response: { response_version: '1.0.0', video_id: item.canonical_video_id, language: 'en', segments: [{ segment_id: 'segment-1', start_seconds: 0, end_seconds: 4, content_hash: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', token_count: 8 }] } } }];"
+      },
+      "id": "a1b2c3d4-e5f6-4789-a012-000000000009",
+      "name": "Exactly one MockTranscriptTransport invocation",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1760, 0]
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json; const usage = { provider: 'transcriptapi', endpoint: 'transcript', success: true, provider_call_count: 1, cache_hit_count: 0, polling_prohibited: true, idempotency_key: 'transcript-attempt:v1:synthetic', downstream_usage: [], credits_used: null }; return [{ json: { ...item, usage_event: usage, usage_projection: { usage_id: 'INT-USG-01H00000000000000000000000', run_id: 'INT-RUN-01H00000000000000000000000', subject_id: item.request.subject_id, provider: usage.provider, endpoint: usage.endpoint, success: usage.success, data_returned: 'transcript', downstream_usage_json: '[]', provider_call_count: 1, cache_hit_count: 0, polling_prohibited: true, idempotency_key: usage.idempotency_key } } }];"
+      },
+      "id": "a1b2c3d4-e5f6-4789-a012-000000000010",
+      "name": "Validate and project provider_usage row",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1980, 0]
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json; return [{ json: { ...item, durable_usage_result: 'mock_persisted', normalized_transcript: { video_id: item.canonical_video_id, language: item.sanitized_response.language, segment_count: item.sanitized_response.segments.length, content_hashes: item.sanitized_response.segments.map((segment) => segment.content_hash), token_count: item.sanitized_response.segments.reduce((sum, segment) => sum + segment.token_count, 0) } } }];"
+      },
+      "id": "a1b2c3d4-e5f6-4789-a012-000000000011",
+      "name": "Mock durable usage result and normalize metadata",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2200, 0]
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json; return [{ json: { ...item, cache_persistence: { status: 'mock_persisted', cache_key: item.cache_key, raw_transcript_text: false } } }];"
+      },
+      "id": "a1b2c3d4-e5f6-4789-a012-000000000012",
+      "name": "Mock cache persistence result",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2420, 0]
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json; return [{ json: { ...item, workflow_runs_terminal: { terminal_or_resume_state: 'complete', provider_call_count: 1, polling_prohibited: true, next_action_at: null } } }];"
+      },
+      "id": "a1b2c3d4-e5f6-4789-a012-000000000013",
+      "name": "Create terminal workflow_runs object",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2640, 0]
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{ json: { status: 'persist_and_exit', external_writes: 0, provider_calls: 0, credits_consumed: 0 } }];"
+      },
+      "id": "a1b2c3d4-e5f6-4789-a012-000000000014",
+      "name": "Persist and exit",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2860, 0]
+    }
+  ],
+  "connections": {
+    "Manual Trigger": { "main": [[{ "node": "Initialize workflow_runs start object", "type": "main", "index": 0 }]] },
+    "Initialize workflow_runs start object": { "main": [[{ "node": "Validate synthetic Dolly request", "type": "main", "index": 0 }]] },
+    "Validate synthetic Dolly request": { "main": [[{ "node": "Canonicalize synthetic YouTube video ID", "type": "main", "index": 0 }]] },
+    "Canonicalize synthetic YouTube video ID": { "main": [[{ "node": "Derive media:v2 cache key", "type": "main", "index": 0 }]] },
+    "Derive media:v2 cache key": { "main": [[{ "node": "Mock cache lookup", "type": "main", "index": 0 }]] },
+    "Mock cache lookup": { "main": [[{ "node": "Mock atomic claim", "type": "main", "index": 0 }]] },
+    "Mock atomic claim": { "main": [[{ "node": "Execution-budget gate", "type": "main", "index": 0 }]] },
+    "Execution-budget gate": { "main": [[{ "node": "Exactly one MockTranscriptTransport invocation", "type": "main", "index": 0 }]] },
+    "Exactly one MockTranscriptTransport invocation": { "main": [[{ "node": "Validate and project provider_usage row", "type": "main", "index": 0 }]] },
+    "Validate and project provider_usage row": { "main": [[{ "node": "Mock durable usage result and normalize metadata", "type": "main", "index": 0 }]] },
+    "Mock durable usage result and normalize metadata": { "main": [[{ "node": "Mock cache persistence result", "type": "main", "index": 0 }]] },
+    "Mock cache persistence result": { "main": [[{ "node": "Create terminal workflow_runs object", "type": "main", "index": 0 }]] },
+    "Create terminal workflow_runs object": { "main": [[{ "node": "Persist and exit", "type": "main", "index": 0 }]] }
+  },
+  "pinData": {},
+  "meta": {
+    "project_id": "o8RQQQgne2c6jXr5",
+    "environment": "development",
+    "mock_transport_only": true,
+    "provider_calls": 0,
+    "provider_credits_consumed": 0,
+    "production_promotion": "blocked_pending_atomic_claim"
+  }
+}
