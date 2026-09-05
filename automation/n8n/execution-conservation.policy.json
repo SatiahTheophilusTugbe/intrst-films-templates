@@ -1,0 +1,43 @@
+{
+  "$schema": "../../schemas/execution-conservation-policy.schema.json",
+  "schema_version": "1.0.0",
+  "policy_id": "INT-N8N-EXEC-001",
+  "mode": "event_driven_persist_and_exit",
+  "project": {"id": "o8RQQQgne2c6jXr5", "name": "INTRST Films", "shared_instance": true},
+  "trigger_policy": {
+    "allowed_by_default": ["webhook", "manual", "form_submission", "execute_subworkflow", "targeted_due_work_schedule"],
+    "deny_by_default": ["continuous_polling", "interval_polling", "high_frequency_cron", "broad_channel_monitoring", "indefinite_wait"],
+    "polling_prohibited_by_default": true
+  },
+  "lifecycle": {
+    "pattern": ["receive_event", "read_state", "check_cache", "perform_bounded_work", "persist_result", "record_next_action", "terminate"],
+    "idle_execution_allowed": false,
+    "long_lived_wait_allowed": false,
+    "resume_fields": ["terminal_or_resume_state", "next_action_at", "idempotency_key"]
+  },
+  "budgets": {
+    "default_provider_calls_per_execution": 1,
+    "maximum_provider_calls_per_execution": 3,
+    "provider_call_requires_cache_miss": true,
+    "budget_exhaustion_action": "persist_block_and_exit",
+    "batch_when_supported": true
+  },
+  "retry": {
+    "maximum_transient_retries": 3,
+    "backoff": "bounded_exponential_with_jitter",
+    "retry_inside_idle_loop": false,
+    "deferred_retry": "persist_next_action_at_and_exit"
+  },
+  "reconciliation": {
+    "purpose": "recovery_only",
+    "minimum_interval_minutes": 30,
+    "query_scope": "project_scoped_due_records_only",
+    "empty_scan_action": "terminate",
+    "broad_polling_allowed": false
+  },
+  "observability": {
+    "required": ["run_id", "workflow_key", "execution_count", "provider_call_count", "cache_hit_count", "retry_count", "terminal_or_resume_state", "next_action_at"],
+    "workflow_runs_authority": true,
+    "provider_usage_authority": "provider_usage_when_deployed"
+  }
+}

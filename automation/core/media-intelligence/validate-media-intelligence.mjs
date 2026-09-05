@@ -19,10 +19,11 @@ function noSecretKeys(value, path = "document") {
 export function validateMediaIntelligencePolicy(policy, proposal) {
   if (policy.contract_id !== "MEDIA-INTELLIGENCE-PHASE-1" || policy.version !== "1.0.0") throw new Error("Unsupported Media Intelligence policy.");
   if (policy.environment !== "development" || policy.routing.cache_first !== true || policy.routing.primary_provider !== "transcriptapi" || policy.routing.specialist_provider !== "scrapecreators") throw new Error("Provider routing policy was weakened.");
+  if (policy.routing.polling_prohibited !== true || policy.routing.execution_policy !== "automation/n8n/execution-conservation.policy.json") throw new Error("Execution conservation policy is not bound to Media Intelligence.");
   const specialist = policy.providers.scrapecreators;
   if (specialist.protected_credit_floor !== 20 || specialist.paid_upgrade_authorized !== false || specialist.broad_polling_authorized !== false) throw new Error("ScrapeCreators protection policy was weakened.");
   if (policy.governance.transcript_direct_to_script !== false || policy.governance.audience_signal_eligible_for_claims !== false || policy.governance.source_discovery_confers_reuse_rights !== false) throw new Error("Editorial evidence policy was weakened.");
-  if (proposal.status !== "proposed_not_deployed" || proposal.project.id !== "o8RQQQgne2c6jXr5" || proposal.existing_tables_modified !== false || proposal.insert_rows !== false) throw new Error("Data Table proposal must remain non-deployed and project-scoped.");
+  if (proposal.status !== "planned" || proposal.extension_id !== "INF-005.2" || proposal.project.id !== "o8RQQQgne2c6jXr5" || proposal.base_contract.existing_tables_modified !== false || proposal.deployment.insert_rows !== false) throw new Error("Data Table extension must remain planned, non-mutating and project-scoped.");
   const names = proposal.tables.map((table) => table.name);
   if (JSON.stringify(names) !== JSON.stringify(["media_sources", "media_intelligence", "provider_usage"])) throw new Error("Unexpected Media Intelligence table expansion.");
   noSecretKeys(policy);

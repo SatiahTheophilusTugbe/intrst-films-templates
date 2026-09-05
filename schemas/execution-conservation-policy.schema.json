@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://intrstfilms.com/schemas/execution-conservation-policy.schema.json",
+  "title": "INTRST n8n Execution Conservation Policy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "policy_id", "mode", "project", "trigger_policy", "lifecycle", "budgets", "retry", "reconciliation", "observability"],
+  "properties": {
+    "$schema": {"type": "string"},
+    "schema_version": {"const": "1.0.0"},
+    "policy_id": {"const": "INT-N8N-EXEC-001"},
+    "mode": {"const": "event_driven_persist_and_exit"},
+    "project": {"type": "object"},
+    "trigger_policy": {"type": "object"},
+    "lifecycle": {"type": "object"},
+    "budgets": {"type": "object"},
+    "retry": {"type": "object"},
+    "reconciliation": {"type": "object"},
+    "observability": {"type": "object"}
+  }
+}

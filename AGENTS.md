@@ -61,3 +61,14 @@ These instructions apply to the entire repository.
 - Retries must be bounded, preserve lineage, and distinguish transient failures from terminal policy blocks.
 - Sensitive gates fail closed. Claim, evidence, identity, rights, human approval, credential, and publishing approval failures must block progression rather than infer success.
 - Human editorial, identity, rights, and publishing approvals cannot be inferred from successful workflow execution. Required human approval actor/time fields must be explicit.
+
+## Execution Conservation — Shared n8n Instance
+
+- Workflows are event-driven and persist-and-exit by default. Fetch only the data required for the current state, persist the result, and terminate the execution.
+- Continuous, interval, high-frequency cron, broad monitoring, and indefinite-wait polling are deny-by-default.
+- Deferred work records `next_action_at` and a resumable state, exits cleanly, and is re-entered only by a targeted due-work trigger.
+- Check canonical caches before every provider request. Duplicate paid retrieval is prohibited unless an explicit refresh policy authorizes it.
+- Provider calls and retries must remain within the execution budget carried by the request. Budget exhaustion is a terminal policy block for that execution.
+- Reconciliation is recovery-only, project-scoped, low-frequency, and limited to due records. It must not become a general polling loop.
+- Every workflow and provider call records cache outcome, execution count, provider-call count, retry count, and next-action state where applicable.
+- Apply `automation/n8n/execution-conservation.policy.json` and its validator before creating or materially changing any n8n workflow.

@@ -6,6 +6,10 @@ Routing is cache-first and uses the cheapest sufficient source. TranscriptAPI is
 provider. ScrapeCreators is a free-tier specialist provider and requires an explicit intelligence gap, a stated reason,
 a known credit balance and enough capacity to remain at or above the protected 20-credit reserve after the call.
 
+Every request prohibits polling and carries a provider-call budget of zero to three. A cache hit is served even when the
+provider budget is exhausted; a cache miss cannot call a provider without budget. Deferred work records its next action
+and exits rather than retaining an idle execution.
+
 The contract keeps three object classes separate:
 
 - media sources preserve provider provenance, canonical platform IDs, rights state and cache state;
@@ -28,4 +32,8 @@ ready. Janie remains the first live proof after Dolly passes.
 ```text
 node automation/core/media-intelligence/validate-media-intelligence.mjs
 node automation/core/media-intelligence/tests/media-intelligence.test.mjs
+node automation/n8n/validate-execution-conservation.mjs
+node automation/n8n/tests/execution-conservation.test.mjs
+node automation/n8n/data-tables/validate-inf-005-2.mjs
+node automation/n8n/tests/inf-005-2-media-intelligence.test.mjs
 ```

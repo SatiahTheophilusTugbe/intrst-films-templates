@@ -7,7 +7,7 @@ import { assertAdapter } from "../../contracts/aut-009.mjs";
 
 const entropy=new Uint8Array(10); let tick=Date.parse("2026-09-05T01:00:00Z"); const id=(type)=>createId(type,{timestamp:tick++,entropy});
 let passed=0; const test=async(name,fn)=>{await fn();passed+=1;console.log(`ok - ${name}`)}; const expectCode=(code,fn)=>assert.throws(fn,(e)=>e instanceof MediaIntelligenceError&&e.code===code);
-const request={schema_version:"1.0.0",run_id:id("run"),subject_id:id("subject"),task:"transcript_retrieval",purpose:"Dolly fixture transcript",environment:"development",cache_key:buildCacheKey({resourceType:"transcript",externalId:"video-1",language:"en"}),allow_specialist_escalation:false,specialist_reason:null,estimated_specialist_credits:0,transcriptapi_sufficient:null};
+const request={schema_version:"1.0.0",run_id:id("run"),subject_id:id("subject"),task:"transcript_retrieval",purpose:"Dolly fixture transcript",environment:"development",cache_key:buildCacheKey({resourceType:"transcript",externalId:"video-1",language:"en"}),allow_specialist_escalation:false,specialist_reason:null,estimated_specialist_credits:0,transcriptapi_sufficient:null,provider_call_budget:1,polling_prohibited:true};
 
 await test("stable cache key",()=>assert.equal(request.cache_key,buildCacheKey({resourceType:"transcript",externalId:"video-1",language:"en"})));
 await test("cache key varies by resource",()=>assert.notEqual(request.cache_key,buildCacheKey({resourceType:"video",externalId:"video-1"})));
@@ -17,7 +17,11 @@ await test("policy and schema declarations validate",async()=>{const loaded=awai
 await test("paid specialist upgrade remains prohibited",async()=>{const loaded=await loadAndValidateMediaIntelligence();const policy=structuredClone(loaded.policy);policy.providers.scrapecreators.paid_upgrade_authorized=true;assert.throws(()=>validateMediaIntelligencePolicy(policy,loaded.proposal),/protection/)});
 await test("Data Table proposal cannot silently expand",async()=>{const loaded=await loadAndValidateMediaIntelligence();const proposal=structuredClone(loaded.proposal);proposal.tables.push({name:"other"});assert.throws(()=>validateMediaIntelligencePolicy(loaded.policy,proposal),/expansion/)});
 await test("development only",()=>{const v={...request,environment:"production"};expectCode("ENVIRONMENT_BLOCK",()=>validateRequest(v))});
+await test("polling cannot be enabled",()=>expectCode("EXECUTION_POLICY_INVALID",()=>validateRequest({...request,polling_prohibited:false})));
+await test("provider budget cannot exceed three",()=>expectCode("EXECUTION_POLICY_INVALID",()=>validateRequest({...request,provider_call_budget:4})));
 await test("cache wins",()=>assert.equal(routeRequest(request,{cacheHit:true}).route,"cache"));
+await test("cache hit remains available with exhausted provider budget",()=>assert.equal(routeRequest({...request,provider_call_budget:0},{cacheHit:true}).route,"cache"));
+await test("provider call blocked when budget exhausted",()=>assert.equal(routeRequest({...request,provider_call_budget:0}).reason,"EXECUTION_BUDGET_EXHAUSTED"));
 await test("routine task routes TranscriptAPI",()=>assert.equal(routeRequest(request).provider,"transcriptapi"));
 const specialist={...request,task:"audience_comments",allow_specialist_escalation:true,transcriptapi_sufficient:false,specialist_reason:"COMMENTS_REQUIRED_FOR_DEFINED_AUDIENCE_QUESTION",estimated_specialist_credits:5};
 await test("specialist needs authorization",()=>assert.equal(routeRequest({...specialist,allow_specialist_escalation:false},{scrapeCreditsRemaining:100}).reason,"SPECIALIST_NOT_AUTHORIZED"));

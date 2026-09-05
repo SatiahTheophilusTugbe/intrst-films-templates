@@ -33,12 +33,14 @@ export function validateRequest(request) {
   if (![...PRIMARY_TASKS, ...SPECIALIST_TASKS].includes(request.task)) fail("TASK_UNSUPPORTED", `Unsupported task ${request.task}.`);
   if (request.environment !== "development") fail("ENVIRONMENT_BLOCK", "Phase 1 Media Intelligence is development-only.");
   if (!request.purpose || !request.cache_key) fail("REQUEST_INVALID", "Purpose and cache key are required.");
+  if (request.polling_prohibited !== true || !Number.isInteger(request.provider_call_budget) || request.provider_call_budget < 0 || request.provider_call_budget > 3) fail("EXECUTION_POLICY_INVALID", "Polling must be prohibited and provider_call_budget must be 0-3.");
   return true;
 }
 
 export function routeRequest(request, { cacheHit = false, scrapeCreditsRemaining = null, protectedFloor = 20 } = {}) {
   validateRequest(request);
   if (cacheHit) return { route: "cache", provider: null, reason: "CACHE_HIT", consume_credits: false };
+  if (request.provider_call_budget < 1) return { route: "blocked", provider: null, reason: "EXECUTION_BUDGET_EXHAUSTED", consume_credits: false };
   if (PRIMARY_TASKS.has(request.task)) return { route: "provider", provider: "transcriptapi", reason: "PRIMARY_TASK", consume_credits: false };
   if (!request.allow_specialist_escalation) return { route: "review", provider: null, reason: "SPECIALIST_NOT_AUTHORIZED", consume_credits: false };
   if (request.transcriptapi_sufficient !== false) return { route: "review", provider: null, reason: "PRIMARY_SUFFICIENCY_NOT_DISPROVED", consume_credits: false };

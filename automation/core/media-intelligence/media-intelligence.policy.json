@@ -9,7 +9,9 @@
     "primary_provider": "transcriptapi",
     "specialist_provider": "scrapecreators",
     "primary_tasks": ["youtube_search", "channel_discovery", "video_discovery", "playlist_discovery", "transcript_retrieval"],
-    "specialist_tasks": ["audience_comments", "comment_replies", "shorts_intelligence", "community_intelligence", "competitor_enrichment"]
+    "specialist_tasks": ["audience_comments", "comment_replies", "shorts_intelligence", "community_intelligence", "competitor_enrichment"],
+    "execution_policy": "automation/n8n/execution-conservation.policy.json",
+    "polling_prohibited": true
   },
   "providers": {
     "transcriptapi": {
@@ -41,7 +43,7 @@
     "additional_paid_provider_authorized": false
   },
   "persistence_plan": {
-    "status": "contract_only_pending_INF_005_extension_review",
+    "status": "INF_005_2_validated_pending_project_scoped_deployment",
     "proposed_tables": ["media_sources", "media_intelligence", "provider_usage"],
     "existing_tables_modified": false
   }

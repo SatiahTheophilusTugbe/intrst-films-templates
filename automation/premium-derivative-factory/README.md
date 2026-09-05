@@ -445,3 +445,14 @@ become factual claims, transcripts do not flow directly to scripts, and source d
 The proposed `media_sources`, `media_intelligence` and `provider_usage` Data Tables remain review-only until an explicit
 project-scoped deployment is authorized. Dolly is the controlled regression fixture; Janie remains the first live
 proof after the required gates pass.
+
+## 24. Shared-instance execution conservation
+
+All INTRST n8n workflows must comply with `automation/n8n/execution-conservation.policy.json`. Workflows are
+event-driven and persist-and-exit: they check cache, perform only bounded work, persist a terminal or resumable state,
+record `next_action_at` when needed and terminate. Continuous polling, indefinite waits, high-frequency cron and broad
+monitoring are prohibited by default.
+
+The INF-005.2 Media Intelligence extension is validated with execution-control fields in all three proposed tables.
+Provider calls require a cache miss and remaining per-execution budget. Recovery reconciliation is limited to
+project-scoped due records at a minimum 30-minute interval and must terminate immediately when no work is due.
