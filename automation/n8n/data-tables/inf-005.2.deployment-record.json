@@ -1,0 +1,137 @@
+{
+  "record_version": "1.0.0",
+  "extension_id": "INF-005.2",
+  "extension_version": "1.0.0",
+  "contract_file": "automation/core/media-intelligence/media-intelligence.data-tables.proposal.json",
+  "deployment_type": "development",
+  "deployment_status": "deployed_development_verified",
+  "deployed_at": "2026-09-05T07:30:52.818Z",
+  "n8n_version": "2.36.9",
+  "n8n_project": {
+    "name": "INTRST Films",
+    "id": "o8RQQQgne2c6jXr5"
+  },
+  "authorization": {
+    "source": "user_request",
+    "requested_operation": "create_INF-005.2_development_media_intelligence_data_tables",
+    "scope": "project_scoped_only",
+    "allowed_project_id": "o8RQQQgne2c6jXr5"
+  },
+  "base_contract": {
+    "id": "INF-005",
+    "version": "1.0.0",
+    "deployment_record": "automation/n8n/data-tables/inf-005.deployment-record.json",
+    "immutable_existing_table_count": 9,
+    "existing_tables_modified": false,
+    "existing_table_ids_verified_unchanged": {
+      "people_queue": "A8rVmMO4vr5UnVdJ",
+      "life_files": "iqIyodTz4ev2E7c8",
+      "story_objects": "wtmCJyYutgIATmla",
+      "content_outputs": "P29q3HqS7JHr147x",
+      "approval_queue": "I50dgyTWCoCvPnDt",
+      "publishing_log": "qHmuRSglzmNT3Oj9",
+      "performance": "cpXK71FCgRGVNm9f",
+      "asset_registry": "cegEOJrqfZv6pcfI",
+      "workflow_runs": "ZdOyJqa5ffTkwUSV"
+    }
+  },
+  "preflight": {
+    "operation": "search_data_tables",
+    "project_id": "o8RQQQgne2c6jXr5",
+    "expected_current_state": "media_sources_media_intelligence_provider_usage_absent",
+    "result": "nine_existing_INF-005_and_INF-005.1_tables_verified_unchanged_and_three_INF-005.2_tables_absent",
+    "existing_table_count_before_mutation": 9,
+    "media_sources_present_before_mutation": false,
+    "media_intelligence_present_before_mutation": false,
+    "provider_usage_present_before_mutation": false
+  },
+  "mutation_controls": {
+    "environment": "development",
+    "expected_current_version": "absent",
+    "idempotency_key": "INF-005.2:o8RQQQgne2c6jXr5:media-intelligence:1.0.0",
+    "rollback_method": "archive_only_the_three_created_INF_005_2_tables_after_project_scoped_id_verification",
+    "rows_inserted": 0,
+    "workflows_created": false,
+    "folders_created": false,
+    "providers_called": false,
+    "provider_credits_consumed": false,
+    "existing_tables_modified": false,
+    "credentials_inspected": false,
+    "credentials_modified": false,
+    "activation_performed": false,
+    "publishing_performed": false,
+    "archive_delete_or_destructive_action_performed": false
+  },
+  "tables": [
+    {
+      "name": "media_sources",
+      "id": "MtW6eqUyU7oiPRB0",
+      "project_id": "o8RQQQgne2c6jXr5",
+      "created_at": "2026-09-05T07:30:24.347Z",
+      "postflight": "verified",
+      "row_count": 0,
+      "columns": ["source_id:string", "subject_id:string", "platform:string", "provider:string", "source_kind:string", "external_id:string", "canonical_url:string", "title:string", "source_classification:string", "rights_state:string", "last_retrieved_at:date", "refresh_after:date", "next_action_at:date", "terminal_or_resume_state:string", "polling_prohibited:boolean", "provider_call_count:number", "cache_hit_count:number", "raw_payload_drive_url:string", "content_hash:string", "cache_entry_id:string", "cache_key:string", "cache_status:string", "refresh_policy:string", "payload_json:string", "idempotency_key:string", "created_at:date", "updated_at:date"]
+    },
+    {
+      "name": "media_intelligence",
+      "id": "fPb1OwJbFPbFmqRk",
+      "project_id": "o8RQQQgne2c6jXr5",
+      "created_at": "2026-09-05T07:30:36.037Z",
+      "postflight": "verified",
+      "row_count": 0,
+      "columns": ["intelligence_id:string", "subject_id:string", "object_type:string", "source_ids_json:string", "source_ids_hash:string", "confidence:number", "eligible_for_claims:boolean", "payload_json:string", "payload_hash:string", "run_id:string", "next_action_at:date", "terminal_or_resume_state:string", "polling_prohibited:boolean", "idempotency_key:string", "created_at:date", "updated_at:date"]
+    },
+    {
+      "name": "provider_usage",
+      "id": "WFeE982gMt0XfiIm",
+      "project_id": "o8RQQQgne2c6jXr5",
+      "created_at": "2026-09-05T07:30:52.818Z",
+      "postflight": "verified",
+      "row_count": 0,
+      "columns": ["usage_id:string", "run_id:string", "subject_id:string", "provider:string", "endpoint:string", "purpose:string", "occurred_at:date", "credits_used:number", "credits_remaining:number", "estimated_cost:number", "cache_status:string", "success:boolean", "data_returned:string", "downstream_usage_json:string", "escalation_reason:string", "transcriptapi_sufficient:boolean", "execution_budget:number", "workflow_execution_count:number", "provider_call_count:number", "cache_hit_count:number", "polling_prohibited:boolean", "terminal_or_resume_state:string", "next_action_at:date", "idempotency_key:string", "created_at:date"]
+    }
+  ],
+  "tests": [
+    {
+      "command": "node automation/n8n/validate-execution-conservation.mjs",
+      "result": "n8n execution conservation policy valid"
+    },
+    {
+      "command": "node automation/n8n/tests/execution-conservation.test.mjs",
+      "result": "execution-conservation: 12 cases passed"
+    },
+    {
+      "command": "node automation/n8n/data-tables/validate-inf-005-2.mjs",
+      "result": "INF-005.2 Media Intelligence Data Tables contract valid"
+    },
+    {
+      "command": "node automation/n8n/tests/inf-005-2-media-intelligence.test.mjs",
+      "result": "INF-005.2 Media Intelligence tables: 18 cases passed"
+    }
+  ],
+  "schema_verification": {
+    "contract_status_before_deployment": "planned",
+    "column_names_order_and_types_verified": true,
+    "zero_rows_verified": true,
+    "required_runtime_invariants_verified_by_tests": true
+  },
+  "postflight": {
+    "operation": "search_data_tables_and_get_data_table_rows",
+    "project_id": "o8RQQQgne2c6jXr5",
+    "authorized_project_table_count_after_mutation": 12,
+    "created_table_count": 3,
+    "all_created_table_project_ids_verified": true,
+    "all_created_table_names_verified": true,
+    "all_created_table_column_names_order_and_types_verified": true,
+    "all_created_table_row_counts": 0,
+    "baseline_INF-005_and_INF-005.1_table_ids_unchanged": true,
+    "unrelated_projects_inspected": false,
+    "instance_wide_project_data_discovery_used": false
+  },
+  "canonical_tracker": {
+    "name": "INTRST Master Build Tracker - Canonical",
+    "sheet": "Master Tracker",
+    "row_id": "INF-005",
+    "postflight": "pending_commit_sha_update"
+  }
+}
