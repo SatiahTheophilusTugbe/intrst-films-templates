@@ -42,7 +42,7 @@ paid-provider execution remains blocked pending a proven atomic/idempotent claim
 
 AUT-013 remains production-blocked. The proposed inactive mock artifact is
 `automation/n8n/workflows/INT-TST-013-dolly-transcriptapi-controlled-test-dev.workflow.json`, named
-`INT-AUT-013 — Media Intelligence Layer Phase 1 — DEV`. It uses mock transport only, exact provider_usage
+`INT-AUT-013 — Media Intelligence Layer Phase 1 — DEV`. It uses a fixed, development-only TranscriptAPI transport path for this supervised exception, exact provider_usage
 idempotency-key lookup, persist-and-exit execution, and no polling. It is approval-gated, fixed to the approved
 source, and limited to one real transport attempt with zero automatic retries. Its cache, provider_usage, media_sources
 and workflow_runs paths use exact project-scoped Data Table operations; no PostgreSQL dependency is used for this test.
@@ -60,11 +60,11 @@ The approved AUT-013 controlled source is Library of Congress / @loc, “Dolly P
 inactive test-only workflow with `approval_status: controlled_test_authorized`, a provider-call budget of one, one
 maximum real transport attempt and zero automatic retries. The logical credential reference is
 `INT | TranscriptAPI | Development | Media Intelligence`; credential values and immutable IDs are
-never stored in Git. The live HTTP node is unreachable while approval remains pending. Any later
+never stored in Git. The live HTTP node is reachable only after the fixed controlled-test authorization gate. Any later
 raw transcript is restricted to the existing private Dolly research/source location (`01 Research & Life File`);
 Git and provider_usage retain only sanctioned metadata, hashes, timings, counts and provenance.
 Research/source access does not confer production visual, audio or quotation rights. The authorized operation remains
-exactly `AUT-013-DOLLY-001` for `PIa6Vot1XcM`; no other source/provider is authorized.
+exactly `AUT-013-DOLLY-002` for `PIa6Vot1XcM`; no other source/provider is authorized.
 
 The first authorized execution reached the exact cache and provider-usage reads and stopped safely at the fixed
 authorization gate before HTTP transport. It produced one workflow_runs start row and one terminal known-safe-failure row;

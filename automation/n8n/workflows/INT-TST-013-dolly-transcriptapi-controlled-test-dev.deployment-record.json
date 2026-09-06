@@ -1,58 +1,89 @@
-{
-  "record_type": "deployment_preparation",
-  "work_item": "AUT-013",
-  "workflow_path": "automation/n8n/workflows/INT-TST-013-dolly-transcriptapi-controlled-test-dev.workflow.json",
-  "workflow_name": "INT-TST-013 — Dolly TranscriptAPI Controlled Test — DEV",
-  "workflow_id": "CYYjgF7zthIjMH7c",
-  "project": {"name": "INTRST Films", "id": "o8RQQQgne2c6jXr5"},
-  "environment": "development",
-  "active": false,
-  "tags": ["project:intrst"],
-  "source": {"title": "Dolly Parton Interview", "publisher": "Library of Congress / @loc", "canonical_url": "https://www.youtube.com/watch?v=PIa6Vot1XcM", "canonical_video_id": "PIa6Vot1XcM", "approval_scope": "AUT-013-DOLLY-001 exactly one TranscriptAPI request", "rights_state": "research_source_access_only_no_production_reuse_clearance"},
-  "credential_ref": "INT | TranscriptAPI | Development | Media Intelligence",
-  "user_authorization_received": true,
-  "workflow_approval_gate_cleared": true,
-  "approval_status": "controlled_test_authorized",
-  "authorization_id": "AUT-013-DOLLY-001",
-  "provider_call_budget": 1,
-  "maximum_real_transport_attempts": 1,
-  "automatic_retries": 0,
-  "executions": 1,
-  "provider_calls": 0,
-  "credits_consumed": 0,
-  "data_table_rows_inserted": 2,
-  "execution_result": {
-    "execution_id": "34703",
-    "status": "error",
-    "verdict": "FAIL — KNOWN SAFE FAILURE",
-    "last_node_executed": "Controlled-test authorization gate",
-    "provider_http_reached": false,
-    "provider_transport_attempts": 0,
-    "provider_calls": 0,
-    "credits_consumed": 0,
-    "workflow_runs_rows": 2,
-    "provider_usage_rows": 0,
-    "media_sources_rows": 0,
-    "media_intelligence_rows": 0,
-    "error_class": "CONTROLLED_TEST_AUTHORIZATION_INVALID"
-  },
-  "runtime_data_table_operations": {
-    "workflow_runs": {"table_id": "ZdOyJqa5ffTkwUSV", "start": "durable_insert", "terminal": "durable_insert"},
-    "media_sources": {"table_id": "MtW6eqUyU7oiPRB0", "cache_lookup": "exact_read", "persistence": "sanitized_insert"},
-    "provider_usage": {"table_id": "WFeE982gMt0XfiIm", "prior_lookup": "exact_idempotency_key_read", "persistence": "immutable_insert"}
-  },
-  "storage_destination": "private canonical Dolly research/source location: 01 Research & Life File",
-  "semantic_fingerprint": {"algorithm": "sha256", "canonicalization": "controlled-test semantic fingerprint; strips workflow/version/timestamp/ownership metadata, credential immutable IDs and Data Table schema serialization; retains security-relevant nodes, parameters, normalized Code behavior, connections, tag names, inactive state and terminal contract", "repository_and_runtime_equal": true, "sha256": "aa94f0c8bf0a3e933cf8921ab89ca26898c60c9d3583b12efacc78b4a25d49df"},
-  "atomic_claim_backend": {
-    "backend": "postgresql",
-    "version": "postgres-v1",
-    "credential_ref": "INT | PostgreSQL | Development | Atomic Claims",
-    "binding_record": "automation/n8n/workflows/AUT-013-atomic-claim-postgres-dev.binding.json",
-    "repository_proof_tests_passed": 5,
-    "runtime_backend_provisioned": false,
-    "n8n_credential_bound": false
-  },
-  "production_status": "paid runtime not deployed; production promotion blocked pending runtime PostgreSQL atomic-claim provisioning and binding",
-  "rollback": "archive only workflow CYYjgF7zthIjMH7c after project-scoped ownership verification",
-  "provider_execution_status": "one authorized manual execution stopped before HTTP at the fixed authorization gate; no TranscriptAPI or ScrapeCreators call; no provider credit consumed; no second execution authorized"
+﻿{
+    "record_type":  "deployment_preparation",
+    "work_item":  "AUT-013",
+    "workflow_path":  "automation/n8n/workflows/INT-TST-013-dolly-transcriptapi-controlled-test-dev.workflow.json",
+    "workflow_name":  "INT-TST-013 â€” Dolly TranscriptAPI Controlled Test â€” DEV",
+    "workflow_id":  "CYYjgF7zthIjMH7c",
+    "project":  {
+                    "name":  "INTRST Films",
+                    "id":  "o8RQQQgne2c6jXr5"
+                },
+    "environment":  "development",
+    "active":  false,
+    "tags":  [
+                 "project:intrst"
+             ],
+    "source":  {
+                   "title":  "Dolly Parton Interview",
+                   "publisher":  "Library of Congress / @loc",
+                   "canonical_url":  "https://www.youtube.com/watch?v=PIa6Vot1XcM",
+                   "canonical_video_id":  "PIa6Vot1XcM",
+                   "approval_scope":  "AUT-013-DOLLY-002 exactly one TranscriptAPI request",
+                   "rights_state":  "research_source_access_only_no_production_reuse_clearance"
+               },
+    "credential_ref":  "INT | TranscriptAPI | Development | Media Intelligence",
+    "user_authorization_received":  true,
+    "workflow_approval_gate_cleared":  true,
+    "approval_status":  "controlled_test_authorized",
+    "authorization_id":  "AUT-013-DOLLY-002",
+    "provider_call_budget":  1,
+    "maximum_real_transport_attempts":  1,
+    "automatic_retries":  0,
+    "executions":  2,
+    "provider_calls":  0,
+    "credits_consumed":  0,
+    "data_table_rows_inserted":  4,
+    "execution_result":  {
+                             "execution_id":  "34891",
+                             "status":  "error",
+                             "verdict":  "FAIL — KNOWN SAFE FAILURE",
+                             "last_node_executed":  "TranscriptAPI single request (approval required)",
+                             "provider_http_reached":  true,
+                             "provider_request_transmitted":  false,
+                             "provider_transport_attempts":  0,
+                             "provider_calls":  0,
+                             "credits_consumed":  0,
+                             "workflow_runs_rows":  2,
+                             "provider_usage_rows":  0,
+                             "media_sources_rows":  0,
+                             "media_intelligence_rows":  0,
+                             "error_class":  "PRE_PROVIDER_REQUEST_VALIDATION",
+                             "error_message":  "TranscriptAPI request body validation failed before transport; no provider request transmitted."
+                         },
+    "runtime_data_table_operations":  {
+                                          "workflow_runs":  {
+                                                                "table_id":  "ZdOyJqa5ffTkwUSV",
+                                                                "start":  "durable_insert",
+                                                                "terminal":  "durable_insert"
+                                                            },
+                                          "media_sources":  {
+                                                                "table_id":  "MtW6eqUyU7oiPRB0",
+                                                                "cache_lookup":  "exact_read",
+                                                                "persistence":  "sanitized_insert"
+                                                            },
+                                          "provider_usage":  {
+                                                                 "table_id":  "WFeE982gMt0XfiIm",
+                                                                 "prior_lookup":  "exact_idempotency_key_read",
+                                                                 "persistence":  "immutable_insert"
+                                                             }
+                                      },
+    "storage_destination":  "private canonical Dolly research/source location: 01 Research \u0026 Life File",
+    "semantic_fingerprint":  {
+                                 "algorithm":  "sha256",
+                                 "canonicalization":  "controlled-test semantic fingerprint; strips workflow/version/timestamp/ownership metadata, credential immutable IDs and Data Table schema serialization; retains security-relevant nodes, parameters, normalized Code behavior, connections, tag names, inactive state and terminal contract",
+                                 "repository_and_runtime_equal":  true,
+                                 "sha256":  "faa7f81dea8f2dee4f12c9778d7a1644eb87fcf59e5f587b9e87b98fb47a0308"
+                             },
+    "atomic_claim_backend":  {
+                                 "backend":  "postgresql",
+                                 "version":  "postgres-v1",
+                                 "credential_ref":  "INT | PostgreSQL | Development | Atomic Claims",
+                                 "binding_record":  "automation/n8n/workflows/AUT-013-atomic-claim-postgres-dev.binding.json",
+                                 "repository_proof_tests_passed":  5,
+                                 "runtime_backend_provisioned":  false,
+                                 "n8n_credential_bound":  false
+                             },
+    "production_status":  "paid runtime not deployed; production promotion blocked pending runtime PostgreSQL atomic-claim provisioning and binding",
+    "rollback":  "archive only workflow CYYjgF7zthIjMH7c after project-scoped ownership verification",
+    "provider_execution_status":  "replacement authorization AUT-013-DOLLY-002 executed exactly once; authorization survived durable start persistence; local HTTP JSON-body validation failed before provider transmission; no TranscriptAPI or ScrapeCreators call; no provider credit consumed; no retry or second execution authorized"
 }

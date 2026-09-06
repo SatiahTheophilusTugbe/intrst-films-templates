@@ -22,7 +22,7 @@ export function compareSemanticFingerprint(reference,deployed){return {equal:sem
 export function validateControlledWorkflow(w){
   if(!w||typeof w!=="object")fail("root");
   if(w.name!==WORKFLOW_NAME||w.active!==false)fail("name or inactive state");
-  if(w.meta?.project_id!==PROJECT_ID||w.meta?.environment!=="development"||w.meta?.test_only!==true||w.meta?.approval_pending!==false||w.meta?.approval_status!=="controlled_test_authorized"||w.meta?.authorization_id!=="AUT-013-DOLLY-001"||w.meta?.provider_call_budget!==1||w.meta?.maximum_real_transport_attempts!==1||w.meta?.automatic_retries!==0||w.meta?.authorized_video_id!==VIDEO_ID)fail("fixed test metadata");
+  if(w.meta?.project_id!==PROJECT_ID||w.meta?.environment!=="development"||w.meta?.test_only!==true||w.meta?.approval_pending!==false||w.meta?.approval_status!=="controlled_test_authorized"||w.meta?.authorization_id!=="AUT-013-DOLLY-002"||w.meta?.provider_call_budget!==1||w.meta?.maximum_real_transport_attempts!==1||w.meta?.automatic_retries!==0||w.meta?.authorized_video_id!==VIDEO_ID)fail("fixed test metadata");
   if(!Array.isArray(w.tags)||!w.tags.some(t=>t?.name==="project:intrst"))fail("project tag");
   if(!Array.isArray(w.nodes)||w.nodes.length!==24)fail("node count");
   if(w.nodes[0]?.type!=="n8n-nodes-base.manualTrigger"||w.nodes.filter(n=>n.type==="n8n-nodes-base.manualTrigger").length!==1)fail("Manual Trigger inventory");
