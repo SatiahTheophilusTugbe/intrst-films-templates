@@ -19,8 +19,11 @@
     "linkedin":"__LINKEDIN_BLOTATO_ACCOUNT_ID__"
   },
   "runtime_state": "READY_FOR_CREDENTIAL_BINDING",
-  "fixture": {"content_output_id":"INT-OUT-01K4X4Q7B6D0MMPY000000004","platform":"facebook","execution_id":"34917","result":"READY_FOR_CREDENTIAL_BINDING","external_calls":0,"automatic_retries":0},
-  "semantic_fingerprint": "sha256:765daf3c5a7c2018e20578cd30a2aa8fcbb22aea2906695d3018924d11688930",
+  "runtime_version_id": "d6c56c5e-36fb-447d-a79d-76315fcf36e9",
+  "node_count": 26,
+  "transport_branches": ["blotato-http:facebook","blotato-http:instagram","blotato-native:threads","blotato-native:youtube","blotato-native:x"],
+  "fixture": {"content_output_id":"INT-OUT-01K4X4Q7B6D0MMPY000000004","platform":"facebook","execution_id":"34923","result":"READY_FOR_CREDENTIAL_BINDING","external_calls":0,"automatic_retries":0,"rendered":{"first_comment":true,"hashtags":3,"render_version":"distribution-renderer@1.1.0"}},
+  "semantic_fingerprint": "sha256:transport-ready-pending-recalculation",
   "rollback": "archive only workflow AknakVMx2prJrsZw after project-scoped ownership verification",
   "production_promotion": "blocked_pending_credential_binding_and_controlled_publish"
 }

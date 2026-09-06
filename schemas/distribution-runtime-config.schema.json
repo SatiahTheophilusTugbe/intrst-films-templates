@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "schema_version": "1.0.0",
+  "contract_id": "AUT-012-DISTRIBUTION-RUNTIME-CONFIG",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["credentials", "accounts"],
+  "properties": {
+    "credentials": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["http", "native"],
+      "properties": {
+        "http": {"type":"object","additionalProperties":false,"required":["logical_name","credential_type","secret_field","provider_header"],"properties":{"logical_name":{"const":"INT | Blotato | Development | Distribution"},"credential_type":{"const":"httpTemplatedCustomAuth"},"secret_field":{"const":"api_key"},"provider_header":{"const":"blotato-api-key"}}},
+        "native": {"type":"object","additionalProperties":false,"required":["logical_name","credential_type"],"properties":{"logical_name":{"const":"INT | Blotato Native | Development | Distribution"},"credential_type":{"const":"blotatoApi"}}}
+      }
+    },
+    "accounts": {"type":"object","additionalProperties":false,"required":["facebook","instagram","threads","youtube","x","tiktok","linkedin"],"properties":{"facebook":{"type":"string"},"instagram":{"type":"string"},"threads":{"type":"string"},"youtube":{"type":"string"},"x":{"type":"string"},"tiktok":{"type":"string"},"linkedin":{"type":"string"}}}
+  }
+}

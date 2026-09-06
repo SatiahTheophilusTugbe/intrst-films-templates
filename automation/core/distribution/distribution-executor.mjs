@@ -106,11 +106,13 @@ export async function executeDistribution(request, deps) {
     await deps.persistWorkflowRun({ ...event, state: "outcome_unknown", status: "blocked_reconciliation", error_class: normalized });
     return { status: "outcome_unknown", error_class: normalized, provider_calls: 1, retry_count: 0, idempotency_key: idempotencyKey };
   }
-  const normalized = context.adapter.normalizeResult(result);
-  if (normalized.status !== "published" && normalized.status !== "submitted") fail("PUBLISH_FAILURE", "Publisher returned an unsupported terminal status.");
-  await deps.persistPublishingLog({ ...event, ...normalized, status: normalized.status, retry_count: 0 });
-  await deps.persistWorkflowRun({ ...event, state: normalized.status, status: normalized.status });
-  return { ...normalized, provider_calls: 1, retry_count: 0, idempotency_key: idempotencyKey };
+  const normalized = context.adapter.normalizeResult(result, { content_output_id: context.output.output_id, platform, account_id: context.manifest.destination_account ?? null, adapter_mode: context.adapter.adapter_mode ?? "native" });
+  const outcome = normalized.outcome ?? (normalized.status === "published" ? "SUCCESS" : normalized.status === "submitted" ? "SUBMITTED" : "OUTCOME_UNKNOWN");
+  if (outcome !== "SUCCESS" && outcome !== "SUBMITTED") fail("PUBLISH_FAILURE", "Publisher returned an unsupported terminal outcome.");
+  const status = outcome === "SUCCESS" ? "published" : "submitted";
+  await deps.persistPublishingLog({ ...event, ...normalized, status, retry_count: 0 });
+  await deps.persistWorkflowRun({ ...event, state: status, status });
+  return { ...normalized, status, provider_calls: 1, retry_count: 0, idempotency_key: idempotencyKey };
 }
 
 export function createPublisherAdapter({ name, validateConfig, submit, normalizeResult, normalizeError }) {

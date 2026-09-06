@@ -1,6 +1,6 @@
 # Distribution Executor
 
-Status: repository implementation complete; n8n deployment blocked at the publisher-credential boundary.
+Status: repository contract implemented; generic n8n executor deployed inactive with transport branches installed and fail-closed at credential/account binding.
 
 The executor is subject-agnostic, output-driven and platform-adapter-based. Its only required runtime input is `content_output_id`, plus a controlled execution envelope:
 
@@ -25,7 +25,7 @@ Development binding surface:
 
 ```text
 logical credential: INT | Blotato | Development | Distribution
-HTTP credential type: httpTemplatedCustomAuth
+HTTP credential type: httpTemplatedCustomAuth; current Blotato REST header: `blotato-api-key`
 native credential type: blotatoApi
 api_key: __SET_IN_N8N__
 facebook: __FACEBOOK_BLOTATO_ACCOUNT_ID__
@@ -35,4 +35,6 @@ youtube: __YOUTUBE_BLOTATO_ACCOUNT_ID__
 x: __X_BLOTATO_ACCOUNT_ID__
 ```
 
-The installed native Blotato node uses `blotatoApi`. The raw HTTP adapter uses n8n's `httpTemplatedCustomAuth` with an `Authorization: Bearer {{api_key}}` header template; the same underlying secret may be entered by the operator, but n8n treats these as different credential types. If both modes are deployed, the native mode uses `INT | Blotato Native | Development | Distribution`. The authorized n8n project has neither credential yet. No external publication is attempted until the credential and destination account IDs are supplied in n8n.
+The installed native Blotato node uses `blotatoApi`. The raw HTTP adapter uses n8n's `httpTemplatedCustomAuth` with the current documented `blotato-api-key: {{api_key}}` provider header; the same underlying secret may be entered by the operator, but n8n treats these as different credential types. If both modes are deployed, the native mode uses `INT | Blotato Native | Development | Distribution`. The authorized n8n project has neither credential yet. No external publication is attempted until the credential and destination account IDs are supplied in n8n.
+
+The generic executor is deployed inactive as `AknakVMx2prJrsZw` with Facebook/Instagram HTTP and Threads/YouTube/X native branches downstream of the binding gate. The existing Dolly output was backfilled in its sanctioned `manifest_json` surface from the approved EP003 v1.2 package; zero-call execution `34923` rendered the Facebook first comment and stopped before transport (`external_calls: 0`). Future Content Production outputs must emit `engagement_intent` and structured contextual hashtags.

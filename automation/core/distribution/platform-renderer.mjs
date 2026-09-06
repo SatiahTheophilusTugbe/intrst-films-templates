@@ -32,25 +32,43 @@ export const DISTRIBUTION_ROUTING = Object.freeze({
   linkedin: { adapter_mode: "native", account_id: ACCOUNT_KEYS.linkedin, first_comment: false },
 });
 
-export function renderPlatformPayload({ platform, caption, engagement_intent, hashtags: inputHashtags = [], media_urls = [], title = null, account_id = null }) {
+function intentText(value) {
+  if (typeof value === "string") return value.trim();
+  if (value && typeof value.intent === "string") return value.intent.trim();
+  return "";
+}
+
+function removeTrailingIntent(caption, intent) {
+  const normalizedCaption = caption.trim();
+  if (!intent) return normalizedCaption;
+  if (normalizedCaption.endsWith(intent)) return normalizedCaption.slice(0, -intent.length).trim();
+  return normalizedCaption;
+}
+
+export function renderPlatformPayload({ platform, caption_body, caption, engagement_intent, hashtags: inputHashtags = [], media_urls = [], title = null, account_id = null }) {
   if (!SUPPORTED.has(platform)) fail("PLATFORM_UNSUPPORTED", `No renderer is defined for ${platform}.`);
-  if (!caption || typeof caption !== "string") fail("MISSING_COPY", "Caption body is required.");
-  if (!engagement_intent || typeof engagement_intent !== "string") fail("MISSING_ENGAGEMENT_INTENT", "engagement_intent is required.");
+  const sourceCaption = caption_body ?? caption;
+  if (!sourceCaption || typeof sourceCaption !== "string") fail("MISSING_COPY", "Caption body is required.");
+  const intent = intentText(engagement_intent);
+  if (!intent) fail("MISSING_ENGAGEMENT_INTENT", "engagement_intent is required.");
   const route = DISTRIBUTION_ROUTING[platform];
   const resolvedAccount = account_id ?? route.account_id;
   const tags = hashtags(inputHashtags);
   const tagLine = tags.length ? `#${tags.join(" #")}` : "";
-  const closing = `${engagement_intent}${tagLine ? `\n\n${tagLine}` : ""}`;
-  const payload = { platform, account_id: resolvedAccount, caption, media_urls: [...media_urls], title, hashtags: tags, engagement_intent, adapter_mode: route.adapter_mode };
+  const body = removeTrailingIntent(sourceCaption, intent);
+  const closing = `${intent}${tagLine ? `\n\n${tagLine}` : ""}`;
+  const payload = { platform, account_id: resolvedAccount, caption: body, media_urls: [...media_urls], title, hashtags: tags, engagement_intent: intent, adapter_mode: route.adapter_mode };
   if (route.first_comment) {
     payload.first_comment = closing;
-    payload.caption = caption;
   } else if (platform === "x") {
-    payload.caption = `${caption}${tagLine ? `\n\n${tagLine}` : ""}`;
+    payload.caption = `${body}${tagLine ? `\n\n${tagLine}` : ""}`.slice(0, 280);
     payload.engagement_rendered = false;
   } else {
-    payload.caption = `${caption}\n\n${closing}`;
+    payload.caption = `${body}\n\n${closing}`;
   }
+  payload.character_count = payload.caption.length;
+  payload.render_version = "distribution-renderer@1.1.0";
+  payload.engagement_rendered = route.first_comment || platform !== "x";
   return payload;
 }
 
@@ -68,7 +86,7 @@ export function normalizePublisherResult(input, context) {
     submitted_at: result.submitted_at ?? null,
     published_at: result.published_at ?? null,
     provider_status: result.provider_status ?? result.status ?? "unknown",
-    terminal_state: result.terminal_state ?? (result.status === "published" ? "published" : "reconciliation_required"),
+    outcome: result.outcome ?? (result.status === "published" ? "SUCCESS" : result.status === "submitted" ? "SUBMITTED" : "OUTCOME_UNKNOWN"),
     attempt_count: 1,
     retry_count: 0,
     error_class: result.error_class ?? null,

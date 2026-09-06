@@ -95,6 +95,8 @@ test("Facebook and Instagram render engagement intent as a separate first commen
     const payload = renderPlatformPayload({ platform, caption: "Story body", engagement_intent: "Invite the audience to respond.", hashtags: ["Story", "Legacy"] });
     assert.equal(payload.first_comment, "Invite the audience to respond.\n\n#Story #Legacy");
     assert.equal(payload.caption, "Story body");
+    assert.equal(typeof payload.character_count, "number");
+    assert.equal(payload.render_version, "distribution-renderer@1.1.0");
   }
 });
 
@@ -111,6 +113,12 @@ test("X prioritizes substance and may omit engagement and hashtags", () => {
   const payload = renderPlatformPayload({ platform: "x", caption: "Story body", engagement_intent: "Invite the audience to respond.", hashtags: [] });
   assert.equal(payload.caption, "Story body");
   assert.equal(payload.engagement_rendered, false);
+});
+
+test("renderer removes a duplicated trailing engagement question", () => {
+  const payload = renderPlatformPayload({ platform: "facebook", caption_body: "Story body\n\nInvite the audience to respond.", engagement_intent: { intent: "Invite the audience to respond.", tone: "reflective", optional: false }, hashtags: ["#Story"] });
+  assert.equal(payload.caption, "Story body");
+  assert.equal(payload.first_comment, "Invite the audience to respond.\n\n#Story");
 });
 
 test("renderer caps contextual hashtags at three", () => {
@@ -141,7 +149,7 @@ test("Blotato adapters share a normalized result contract and reject placeholder
     submitted_at: null,
     published_at: null,
     provider_status: "published",
-    terminal_state: "published",
+    outcome: "SUCCESS",
     attempt_count: 1,
     retry_count: 0,
     error_class: null,

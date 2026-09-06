@@ -15,10 +15,14 @@ test("generic executor is inactive, tagged and credential-free", () => {
   assert.equal(workflow.nodes.filter((node) => node.credentials).length, 0);
 });
 
-test("no external transport or activation capability is present", () => {
-  for (const forbidden of ["httpRequest", "webhook", "scheduleTrigger", "wait", "executeWorkflowTrigger"]) assert.equal(serialized.includes(forbidden), false);
+test("transport branches are present but credential-gated", () => {
+  assert.equal(workflow.nodes.filter((node) => node.type === "n8n-nodes-base.httpRequest").length, 2);
+  assert.equal(workflow.nodes.filter((node) => node.type === "@blotato/n8n-nodes-blotato.blotato").length, 3);
+  for (const forbidden of ["webhook", "scheduleTrigger", "wait", "executeWorkflowTrigger"]) assert.equal(serialized.includes(forbidden), false);
+  assert.equal(serialized.includes("httpRequest"), true);
+  assert.equal(serialized.includes("blotato-api-key"), true);
   assert.equal(serialized.includes("READY_FOR_CREDENTIAL_BINDING"), true);
-  assert.equal(serialized.includes("automatic_retries:0"), true);
+  assert.equal(workflow.nodes.filter((node) => node.credentials).length, 0);
 });
 
 test("canonical dependency order precedes adapter gate", () => {
@@ -27,4 +31,13 @@ test("canonical dependency order precedes adapter gate", () => {
   assert.ok(order.indexOf("Render platform-native payload") < order.indexOf("Select Blotato publisher adapter"));
   assert.ok(order.indexOf("Select Blotato publisher adapter") < order.indexOf("Credential and account binding gate"));
   assert.ok(order.indexOf("Credential and account binding gate") < order.indexOf("Persist and exit"));
+  assert.ok(order.indexOf("Credential and account readiness") < order.indexOf("Blotato HTTP — Facebook"));
+  assert.ok(order.indexOf("Credential and account readiness") < order.indexOf("Blotato Native — Threads"));
+});
+
+test("transport URL and account routing are not input-controlled", () => {
+  const http = workflow.nodes.filter((node) => node.type === "n8n-nodes-base.httpRequest");
+  assert.ok(http.every((node) => node.parameters.url === "https://backend.blotato.com/v2/posts"));
+  assert.ok(workflow.meta.account_config_version);
+  assert.equal(serialized.includes("Authorization: Bearer"), false);
 });
