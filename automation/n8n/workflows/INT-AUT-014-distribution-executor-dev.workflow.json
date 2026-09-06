@@ -1,0 +1,42 @@
+{
+  "$schema": "../../../schemas/n8n-project-scope.schema.json",
+  "name": "INT-AUT-014 — Distribution Executor — DEV",
+  "active": false,
+  "tags": [{"name": "project:intrst"}],
+  "settings": {"executionOrder": "v1"},
+  "meta": {
+    "project_id": "o8RQQQgne2c6jXr5",
+    "environment": "development",
+    "runtime_state": "READY_FOR_CREDENTIAL_BINDING",
+    "mock_external_calls": 0,
+    "automatic_retries": 0,
+    "persistence_tables": ["publishing_log", "workflow_runs"],
+    "credential_logical_name": "INT | Blotato | Development | Distribution",
+    "credential_type": "blotatoApi"
+  },
+  "nodes": [
+    {"name":"Manual Trigger","type":"n8n-nodes-base.manualTrigger","typeVersion":1,"position":[0,0],"parameters":{}},
+    {"name":"Initialize Distribution Request","type":"n8n-nodes-base.code","typeVersion":2,"position":[224,0],"parameters":{"mode":"runOnceForAllItems","jsCode":"const content_output_id = $json.content_output_id ?? 'INT-OUT-01K4X4Q7B6D0MMPY000000004'; return [{json:{content_output_id,mode:'controlled_manual',budget:{max_publications:1,max_attempts:1,automatic_retries:0},environment:'development'}}];"}},
+    {"name":"Resolve content_output","type":"n8n-nodes-base.dataTable","typeVersion":1.1,"position":[448,0],"parameters":{"resource":"row","operation":"get","dataTableId":{"__rl":true,"mode":"id","value":"P29q3HqS7JHr147x"},"matchType":"allConditions","filters":{"conditions":[{"keyName":"output_id","condition":"eq","keyValue":"={{ $('Initialize Distribution Request').item.json.content_output_id }}"}]},"returnAll":false,"limit":2}},
+    {"name":"Extract Canonical Relationships","type":"n8n-nodes-base.code","typeVersion":2,"position":[672,0],"parameters":{"mode":"runOnceForAllItems","jsCode":"const row = $input.first().json; const asset_ids = JSON.parse(row.asset_ids_json ?? '[]'); return [{json:{...row,asset_id:asset_ids[0] ?? null,output_id:row.output_id,story_object_id:row.story_object_id}}];"}},
+    {"name":"Resolve story_object","type":"n8n-nodes-base.dataTable","typeVersion":1.1,"position":[896,0],"parameters":{"resource":"row","operation":"get","dataTableId":{"__rl":true,"mode":"id","value":"wtmCJyYutgIATmla"},"matchType":"allConditions","filters":{"conditions":[{"keyName":"story_object_id","condition":"eq","keyValue":"={{ $('Extract Canonical Relationships').item.json.story_object_id }}"}]},"returnAll":false,"limit":2}},
+    {"name":"Resolve asset_registry","type":"n8n-nodes-base.dataTable","typeVersion":1.1,"position":[1120,0],"parameters":{"resource":"row","operation":"get","dataTableId":{"__rl":true,"mode":"id","value":"cegEOJrqfZv6pcfI"},"matchType":"allConditions","filters":{"conditions":[{"keyName":"asset_id","condition":"eq","keyValue":"={{ $('Extract Canonical Relationships').item.json.asset_id }}"}]},"returnAll":false,"limit":2}},
+    {"name":"Resolve approval_queue","type":"n8n-nodes-base.dataTable","typeVersion":1.1,"position":[1344,0],"parameters":{"resource":"row","operation":"get","dataTableId":{"__rl":true,"mode":"id","value":"I50dgyTWCoCvPnDt"},"matchType":"allConditions","filters":{"conditions":[{"keyName":"entity_id","condition":"eq","keyValue":"={{ $('Extract Canonical Relationships').item.json.output_id }}"}]},"returnAll":false,"limit":2}},
+    {"name":"Render platform-native payload","type":"n8n-nodes-base.code","typeVersion":2,"position":[1568,0],"parameters":{"mode":"runOnceForAllItems","jsCode":"const output = $('Resolve content_output').first().json; const manifest = JSON.parse(output.manifest_json ?? '{}'); const platform = (manifest.platform_targets ?? [manifest.platform ?? 'facebook'])[0]; const account = ({facebook:'__FACEBOOK_BLOTATO_ACCOUNT_ID__',instagram:'__INSTAGRAM_BLOTATO_ACCOUNT_ID__',threads:'__THREADS_BLOTATO_ACCOUNT_ID__',youtube:'__YOUTUBE_BLOTATO_ACCOUNT_ID__',x:'__X_BLOTATO_ACCOUNT_ID__'})[platform]; return [{json:{content_output_id:output.output_id,platform,account_id:account,adapter_mode:['facebook','instagram'].includes(platform)?'http':'native',caption:manifest.caption ?? '',engagement_intent:manifest.engagement_intent ?? '__ENGAGEMENT_INTENT_FROM_CANONICAL_OUTPUT__',hashtags:manifest.hashtags ?? [],media_urls:[output.media_drive_url ?? '']}}];"}},
+    {"name":"Select Blotato publisher adapter","type":"n8n-nodes-base.code","typeVersion":2,"position":[1792,0],"parameters":{"mode":"runOnceForAllItems","jsCode":"const item = $input.first().json; return [{json:{...item,provider:'blotato',adapter:item.adapter_mode === 'http' ? 'blotato-http' : 'blotato-native',idempotency_key:'publish:' + item.content_output_id + ':' + item.platform + ':1'}}];"}},
+    {"name":"Credential and account binding gate","type":"n8n-nodes-base.code","typeVersion":2,"position":[2016,0],"parameters":{"mode":"runOnceForAllItems","jsCode":"const item = $input.first().json; const ready = item.account_id && !item.account_id.startsWith('__') && item.engagement_intent && !item.engagement_intent.startsWith('__'); return [{json:{...item,status:ready?'READY_FOR_LIVE_PUBLISH':'READY_FOR_CREDENTIAL_BINDING',credential_logical_name:'INT | Blotato | Development | Distribution',credential_type:'blotatoApi',automatic_retries:0,external_call:ready}}];"}},
+    {"name":"Persist and exit","type":"n8n-nodes-base.code","typeVersion":2,"position":[2240,0],"parameters":{"mode":"runOnceForAllItems","jsCode":"const item = $input.first().json; return [{json:{status:item.status ?? 'READY_FOR_CREDENTIAL_BINDING',external_calls:item.external_call ? 1 : 0,automatic_retries:0,persistence_tables:['publishing_log','workflow_runs'],persist_and_exit:true}}];"}}
+  ],
+  "connections": {
+    "Manual Trigger":{"main":[[{"node":"Initialize Distribution Request","type":"main","index":0}]]},
+    "Initialize Distribution Request":{"main":[[{"node":"Resolve content_output","type":"main","index":0}]]},
+    "Resolve content_output":{"main":[[{"node":"Extract Canonical Relationships","type":"main","index":0}]]},
+    "Extract Canonical Relationships":{"main":[[{"node":"Resolve story_object","type":"main","index":0}]]},
+    "Resolve story_object":{"main":[[{"node":"Resolve asset_registry","type":"main","index":0}]]},
+    "Resolve asset_registry":{"main":[[{"node":"Resolve approval_queue","type":"main","index":0}]]},
+    "Resolve approval_queue":{"main":[[{"node":"Render platform-native payload","type":"main","index":0}]]},
+    "Render platform-native payload":{"main":[[{"node":"Select Blotato publisher adapter","type":"main","index":0}]]},
+    "Select Blotato publisher adapter":{"main":[[{"node":"Credential and account binding gate","type":"main","index":0}]]},
+    "Credential and account binding gate":{"main":[[{"node":"Persist and exit","type":"main","index":0}]]}
+  }
+}
