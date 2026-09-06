@@ -17,9 +17,10 @@ const DEFINITIONS = Object.freeze({
 });
 const AUTHORIZED_PROJECT_ID = "o8RQQQgne2c6jXr5";
 const DEPLOYED_PROVIDER_USAGE_TABLE_ID = "WFeE982gMt0XfiIm";
+export const TRANSCRIPTAPI_TRANSCRIPT_ENDPOINT = "https://transcriptapi.com/api/v2/youtube/transcript";
 const SECRET_OR_PAYLOAD_KEY = /(?:api[_-]?key|secret|token|password|authorization|credential[_-]?id|request[_-]?headers|response[_-]?body|raw[_-]?payload|transcript[_-]?text)/i;
 const CLAIM_STATUSES = new Set(["CLAIMED", "ALREADY_CLAIMED", "PRIOR_SUCCESS", "PRIOR_OUTCOME_UNKNOWN", "CLAIM_BACKEND_UNAVAILABLE", "CLAIM_CORRUPT"]);
-const APPLICATION_USAGE_FIELDS = new Set(["schema_version", "usage_id", "run_id", "subject_id", "provider", "endpoint", "purpose", "occurred_at", "credits_used", "credits_remaining", "estimated_cost", "cache_status", "success", "data_returned", "downstream_usage", "escalation_reason", "transcriptapi_sufficient", "execution_budget", "workflow_execution_count", "provider_call_count", "cache_hit_count", "polling_prohibited", "terminal_or_resume_state", "next_action_at", "idempotency_key", "created_at"]);
+const APPLICATION_USAGE_FIELDS = new Set(["schema_version", "usage_id", "run_id", "subject_id", "provider", "endpoint", "purpose", "occurred_at", "credits_used", "credits_remaining", "estimated_cost", "cache_status", "success", "data_returned", "downstream_usage", "escalation_reason", "transcriptapi_sufficient", "metering_source", "metering_status", "metering_observed_at", "execution_budget", "workflow_execution_count", "provider_call_count", "cache_hit_count", "polling_prohibited", "terminal_or_resume_state", "next_action_at", "idempotency_key", "created_at"]);
 const PHYSICAL_USAGE_FIELDS = new Set(["usage_id", "run_id", "subject_id", "provider", "endpoint", "purpose", "occurred_at", "credits_used", "credits_remaining", "estimated_cost", "cache_status", "success", "data_returned", "downstream_usage_json", "escalation_reason", "transcriptapi_sufficient", "execution_budget", "workflow_execution_count", "provider_call_count", "cache_hit_count", "polling_prohibited", "terminal_or_resume_state", "next_action_at", "idempotency_key", "created_at"]);
 const REQUIRED_APPLICATION_USAGE_FIELDS = new Set(["schema_version", "usage_id", "run_id", "subject_id", "provider", "endpoint", "purpose", "occurred_at", "credits_used", "estimated_cost", "cache_status", "success", "data_returned", "downstream_usage", "idempotency_key"]);
 const REQUIRED_PHYSICAL_USAGE_FIELDS = new Set(["usage_id", "run_id", "subject_id", "provider", "endpoint", "purpose", "occurred_at", "estimated_cost", "cache_status", "success", "data_returned", "downstream_usage_json", "execution_budget", "workflow_execution_count", "provider_call_count", "cache_hit_count", "polling_prohibited", "terminal_or_resume_state", "idempotency_key", "created_at"]);
@@ -165,12 +166,12 @@ export class TranscriptAPIProvider extends ProviderStub {
     return { provider: this.provider, ready: Boolean(this.transport), status: this.transport ? "development_transport_ready" : "transport_not_configured", network_call_performed: false };
   }
 
-  normalize_result(raw, { video_id, language, endpoint = "transcript" } = {}) {
+  normalize_result(raw, { video_id, language, endpoint = TRANSCRIPTAPI_TRANSCRIPT_ENDPOINT } = {}) {
     if (!raw || typeof raw !== "object" || !video_id) throw new MediaIntelligenceError("MALFORMED_PROVIDER_RESPONSE", "TranscriptAPI response must contain an object and canonical video ID.");
-    if (endpoint !== "transcript") throw new MediaIntelligenceError("PROVIDER_CAPABILITY_BLOCK", "Only transcript retrieval is enabled for the paid development adapter.");
+    if (endpoint !== TRANSCRIPTAPI_TRANSCRIPT_ENDPOINT) throw new MediaIntelligenceError("PROVIDER_CAPABILITY_BLOCK", "Only the proven TranscriptAPI v2 transcript endpoint is enabled for the paid development adapter.");
     const transcript = validateTranscriptResponse(raw, { video_id, language });
     return {
-      endpoint: "transcript",
+      endpoint: TRANSCRIPTAPI_TRANSCRIPT_ENDPOINT,
       video_id,
       response_version: raw.response_version,
       language: normalizeRequestedLanguage(raw.language),
@@ -185,9 +186,9 @@ export class TranscriptAPIProvider extends ProviderStub {
     };
   }
 
-  async retrieveTranscript({ request, videoId, language = "auto", sample = null, cacheEntryId, now = new Date().toISOString(), timeoutMs = 5000, maxRetries, endpoint = "transcript", retry_authorized = false, prior_attempt_reconciled = false }) {
+  async retrieveTranscript({ request, videoId, language = "auto", sample = null, cacheEntryId, now = new Date().toISOString(), timeoutMs = 5000, maxRetries, endpoint = TRANSCRIPTAPI_TRANSCRIPT_ENDPOINT, retry_authorized = false, prior_attempt_reconciled = false }) {
     if (!request || request.task !== "transcript_retrieval") throw new MediaIntelligenceError("REQUEST_INVALID", "TranscriptAPI retrieval requires a transcript_retrieval request.");
-    if (endpoint !== "transcript") throw new MediaIntelligenceError("PROVIDER_CAPABILITY_BLOCK", "Only transcript retrieval is enabled for the paid development adapter.");
+    if (endpoint !== TRANSCRIPTAPI_TRANSCRIPT_ENDPOINT) throw new MediaIntelligenceError("PROVIDER_CAPABILITY_BLOCK", "Only the proven TranscriptAPI v2 transcript endpoint is enabled for the paid development adapter.");
     if (maxRetries !== undefined) throw new MediaIntelligenceError("RETRY_POLICY_INVALID", "Paid TranscriptAPI retrieval permits exactly one transport attempt and rejects maxRetries.");
     if (this.transportMode === "live") this.validate_config({ environment: request.environment, credential_ref: this.definition.credential_ref });
     if (!this.cache || typeof this.cache.get !== "function" || typeof this.cache.put !== "function") throw new MediaIntelligenceError("CACHE_REQUIRED", "TranscriptAPI retrieval requires a cache implementation.");
@@ -210,7 +211,7 @@ export class TranscriptAPIProvider extends ProviderStub {
     if (claim.status !== "CLAIMED") throw new MediaIntelligenceError(claim.status === "PRIOR_SUCCESS" || claim.status === "PRIOR_OUTCOME_UNKNOWN" || claim.status === "ALREADY_CLAIMED" ? "ATTEMPT_RECONCILIATION_REQUIRED" : claim.status, "Paid operation did not acquire an atomic claim; provider transport is prohibited.");
     const controller = new AbortController();
     let raw;
-    const transportInput = { video_id: canonicalVideoId, language: normalizedLanguage, endpoint, idempotency_key: idempotencyKey, signal: controller.signal };
+    const transportInput = { video_url: `https://www.youtube.com/watch?v=${canonicalVideoId}`, language: normalizedLanguage, endpoint, idempotency_key: idempotencyKey, signal: controller.signal };
     if (this.transportMode === "live") transportInput.credential_ref = this.definition.credential_ref;
     try { raw = await withTimeout(this.transport.request(transportInput), timeoutMs, controller); }
     catch (error) {
@@ -230,8 +231,8 @@ export class TranscriptAPIProvider extends ProviderStub {
     return { cache_status: "miss", provider: "transcriptapi", video_id: canonicalVideoId, result };
   }
 
-  async recordUsage({ request, endpoint, now, cache_status, success, data_returned, idempotencyKey, provider_call_count = 0, cache_hit_count = 0, credits_used = 0, escalation_reason = null, terminal_or_resume_state = success ? "complete" : "failed_terminal" }) {
-    try { await this.usage.record({ schema_version: "1.0.0", usage_id: this.idFactory("provider_usage"), run_id: request.run_id, subject_id: request.subject_id, provider: cache_status === "hit" ? "cache" : "transcriptapi", endpoint, purpose: request.purpose, occurred_at: now, credits_used, credits_remaining: null, estimated_cost: 0, cache_status, success, data_returned, downstream_usage: [], escalation_reason, transcriptapi_sufficient: true, execution_budget: request.provider_call_budget, workflow_execution_count: 1, provider_call_count, cache_hit_count, polling_prohibited: true, terminal_or_resume_state, next_action_at: null, idempotency_key: idempotencyKey, created_at: now }); }
+  async recordUsage({ request, endpoint, now, cache_status, success, data_returned, idempotencyKey, provider_call_count = 0, cache_hit_count = 0, credits_used = 0, escalation_reason = null, metering_source = "none", metering_status = "unavailable", metering_observed_at = null, terminal_or_resume_state = success ? "complete" : "failed_terminal" }) {
+    try { await this.usage.record({ schema_version: "1.0.0", usage_id: this.idFactory("provider_usage"), run_id: request.run_id, subject_id: request.subject_id, provider: cache_status === "hit" ? "cache" : "transcriptapi", endpoint, purpose: request.purpose, occurred_at: now, credits_used, credits_remaining: null, estimated_cost: 0, cache_status, success, data_returned, downstream_usage: [], escalation_reason, transcriptapi_sufficient: true, metering_source, metering_status, metering_observed_at, execution_budget: request.provider_call_budget, workflow_execution_count: 1, provider_call_count, cache_hit_count, polling_prohibited: true, terminal_or_resume_state, next_action_at: null, idempotency_key: idempotencyKey, created_at: now }); }
     catch (error) { throw new MediaIntelligenceError("USAGE_PERSISTENCE_FAILURE", "Paid provider outcome could not be durably recorded; provider recall is prohibited.", { cause: String(error?.message ?? "ledger failure") }); }
   }
 }

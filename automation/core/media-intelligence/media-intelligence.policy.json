@@ -1,134 +1,210 @@
 {
-  "contract_id": "MEDIA-INTELLIGENCE-PHASE-1",
-  "version": "1.0.1",
-  "status": "deployed_development",
-  "environment": "development",
-  "routing": {
-    "principle": "cheapest_sufficient_source",
-    "cache_first": true,
-    "primary_provider": "transcriptapi",
-    "specialist_provider": "scrapecreators",
-    "primary_tasks": ["youtube_search", "channel_discovery", "video_discovery", "playlist_discovery", "transcript_retrieval"],
-    "specialist_tasks": ["audience_comments", "comment_replies", "shorts_intelligence", "community_intelligence", "competitor_enrichment"],
-    "execution_policy": "automation/n8n/execution-conservation.policy.json",
-    "polling_prohibited": true
-  },
-  "providers": {
-    "transcriptapi": {
-      "role": "primary",
-      "budget_posture": "approximately_5_usd_monthly_initially",
-      "credential_ref": "INT | TranscriptAPI | Development | Media Intelligence",
-      "transcript_retrieval_max_attempts": 1,
-      "ambiguous_outcome": "OUTCOME_UNKNOWN_manual_reconciliation_required",
-      "automatic_retry": false
-    },
-    "scrapecreators": {
-      "role": "specialist_free_tier",
-      "paid_upgrade_authorized": false,
-      "broad_polling_authorized": false,
-      "protected_credit_floor": 20,
-      "credential_ref": "INT | ScrapeCreators | Development | Media Intelligence"
-    }
-  },
-  "cache": {
-    "canonical_platform_ids_required": true,
-    "transcript_refresh": "immutable_or_manual",
-    "video_channel_playlist_metadata_refresh": "ttl",
-    "comment_sample_refresh": "ttl_with_sample_parameters",
-    "duplicate_paid_retrieval_default": "deny"
-  },
-  "governance": {
-    "transcript_direct_to_script": false,
-    "audience_signal_eligible_for_claims": false,
-    "source_discovery_confers_reuse_rights": false,
-    "first_live_subject": "janie",
-    "regression_subject": "dolly",
-    "additional_paid_provider_authorized": false
-  },
-  "persistence_plan": {
-    "status": "INF_005_2_deployed_development_verified",
-    "proposed_tables": ["media_sources", "media_intelligence", "provider_usage"],
-    "table_ids": {"media_sources": "MtW6eqUyU7oiPRB0", "media_intelligence": "fPb1OwJbFPbFmqRk", "provider_usage": "WFeE982gMt0XfiIm"},
-    "deployment_commit": "d56f20cb142008d8be2b46095c9321f122fbcf90",
-    "n8n_project": {"name": "INTRST Films", "id": "o8RQQQgne2c6jXr5"},
-    "environment": "development",
-    "existing_tables_modified": false,
-    "rows_inserted": 0,
-    "providers_called": false
-  },
-  "runtime_preparation": {
-    "status": "atomic_claim_implementation_proven_runtime_binding_pending",
-    "controlled_test": {
-      "status": "controlled_test_exception_authorized_production_atomic_claim_deferred",
-      "workflow_name": "INT-TST-013 — Dolly TranscriptAPI Controlled Test — DEV",
-      "workflow_id": "CYYjgF7zthIjMH7c",
-      "source": {"title": "Dolly Parton Interview", "publisher": "Library of Congress / @loc", "canonical_video_id": "PIa6Vot1XcM", "canonical_url": "https://www.youtube.com/watch?v=PIa6Vot1XcM", "classification": "institutional_first_person", "purpose": "first-person evidence concerning Dolly Parton's father, literacy mission, Imagination Library and Library of Congress partnership"},
-      "approval_scope": "AUT-013-DOLLY-002 exactly one TranscriptAPI request",
-      "user_authorization_received": true,
-      "workflow_approval_gate_cleared": true,
-      "approval_status": "controlled_test_authorized",
-      "authorization_id": "AUT-013-DOLLY-002",
-      "provider_call_budget": 1,
-      "maximum_real_transport_attempts": 1,
-      "automatic_retries": 0,
-      "credential_ref": "INT | TranscriptAPI | Development | Media Intelligence",
-      "storage_destination": "private canonical Dolly research/source location: 01 Research & Life File",
-      "production_promotion": "blocked",
-      "executions": 1,
-      "provider_calls": 0,
-      "credits_consumed": 0
-    },
-    "provider_usage_ledger": {
-      "project_id": "o8RQQQgne2c6jXr5",
-      "table_id": "WFeE982gMt0XfiIm",
-      "lookup": "exact_provider_usage.idempotency_key_only",
-      "claim": "required_atomic_operation_claim",
-      "claim_statuses": ["CLAIMED", "ALREADY_CLAIMED", "PRIOR_SUCCESS", "PRIOR_OUTCOME_UNKNOWN", "CLAIM_BACKEND_UNAVAILABLE", "CLAIM_CORRUPT"],
-      "claim_guarantee": "same_operation_key_cannot_return_CLAIMED_twice_concurrently",
-      "persistence": "immutable_insert_only",
-      "duplicate_operation": "reject",
-      "prior_success_or_unknown": "manual_reconciliation_required",
-      "application_projection": "providers.mjs.projectProviderUsageRow",
-      "physical_projection": "downstream_usage_to_downstream_usage_json_and_schema_version_application_only",
-      "broad_scans": false,
-      "polling": false,
-      "logs_without_sensitive_payloads": true,
-      "failure_mode": "fail_closed"
-    },
-    "atomic_claim_backend": {
-      "backend": "postgresql",
-      "version": "postgres-v1",
-      "status": "repository_implementation_proven_runtime_binding_pending",
-      "logical_credential_ref": "INT | PostgreSQL | Development | Atomic Claims",
-      "schema_file": "automation/core/media-intelligence/atomic-claim.postgres.sql",
-      "binding_module": "automation/core/media-intelligence/atomic-claim.mjs",
-      "binding_record": "automation/n8n/workflows/AUT-013-atomic-claim-postgres-dev.binding.json",
-      "atomic_primitive": "PRIMARY KEY(operation_key) plus single-statement INSERT ON CONFLICT DO NOTHING",
-      "n8n_data_table_rows_rejected_as_claim_backend": true,
-      "repository_tests_passed": 5,
-      "repository_tests_failed": 0,
-      "provider_calls_during_proof": 0,
-      "runtime_backend_provisioned": false,
-      "n8n_credential_bound": false
-    },
-    "inactive_workflow": {
-      "name": "INT-AUT-013 — Media Intelligence Layer Phase 1 — DEV",
-      "proposed_filename": "automation/n8n/INT-AUT-013-media-intelligence-layer-phase-1-dev.workflow-spec.json",
-      "environment": "development",
-      "active": false,
-      "mock_transport_only": true,
-      "tag": "project:intrst",
-      "topology": ["workflow_runs_start", "request_validation", "cache_lookup", "atomic_operation_claim", "execution_budget_gate", "exactly_one_mock_transport_attempt", "immutable_usage_outcome", "response_normalization", "cache_persistence", "workflow_runs_terminal_state", "persist_and_exit"],
-      "non_claim_terminal_path": ["workflow_runs_terminal_blocked_or_reconciliation", "persist_and_exit", "zero_provider_calls"],
-      "live_transport": "blocked_until_runtime_postgres_claim_backend_provisioned_and_bound",
-      "concurrency_control": "atomic_claim_only"
-    },
-    "data_table_operations": {
-      "provider_usage": ["exact_read_by_idempotency_key", "immutable_single_row_insert"],
-      "media_sources": ["exact_cache_read", "successful_cache_write_only"],
-      "workflow_runs": ["run_start_insert", "terminal_completion_or_failure_insert"],
-      "schema_mutation_required": false,
-      "rows_created_during_preparation": false
-    }
-  }
+    "contract_id":  "MEDIA-INTELLIGENCE-PHASE-1",
+    "version":  "1.0.1",
+    "status":  "deployed_development",
+    "environment":  "development",
+    "routing":  {
+                    "principle":  "cheapest_sufficient_source",
+                    "cache_first":  true,
+                    "primary_provider":  "transcriptapi",
+                    "specialist_provider":  "scrapecreators",
+                    "primary_tasks":  [
+                                          "youtube_search",
+                                          "channel_discovery",
+                                          "video_discovery",
+                                          "playlist_discovery",
+                                          "transcript_retrieval"
+                                      ],
+                    "specialist_tasks":  [
+                                             "audience_comments",
+                                             "comment_replies",
+                                             "shorts_intelligence",
+                                             "community_intelligence",
+                                             "competitor_enrichment"
+                                         ],
+                    "execution_policy":  "automation/n8n/execution-conservation.policy.json",
+                    "polling_prohibited":  true
+                },
+    "providers":  {
+                      "transcriptapi":  {
+                                            "role":  "primary",
+                                            "budget_posture":  "approximately_5_usd_monthly_initially",
+                                            "credential_ref":  "INT | TranscriptAPI | Development | Media Intelligence",
+                                            "transcript_retrieval_max_attempts":  1,
+                                            "ambiguous_outcome":  "OUTCOME_UNKNOWN_manual_reconciliation_required",
+                                            "automatic_retry":  false
+                                        },
+                      "scrapecreators":  {
+                                             "role":  "specialist_free_tier",
+                                             "paid_upgrade_authorized":  false,
+                                             "broad_polling_authorized":  false,
+                                             "protected_credit_floor":  20,
+                                             "credential_ref":  "INT | ScrapeCreators | Development | Media Intelligence"
+                                         }
+                  },
+    "cache":  {
+                  "canonical_platform_ids_required":  true,
+                  "transcript_refresh":  "immutable_or_manual",
+                  "video_channel_playlist_metadata_refresh":  "ttl",
+                  "comment_sample_refresh":  "ttl_with_sample_parameters",
+                  "duplicate_paid_retrieval_default":  "deny"
+              },
+    "governance":  {
+                       "transcript_direct_to_script":  false,
+                       "audience_signal_eligible_for_claims":  false,
+                       "source_discovery_confers_reuse_rights":  false,
+                       "first_live_subject":  "janie",
+                       "regression_subject":  "dolly",
+                       "additional_paid_provider_authorized":  false
+                   },
+    "persistence_plan":  {
+                             "status":  "INF_005_2_deployed_development_verified",
+                             "proposed_tables":  [
+                                                     "media_sources",
+                                                     "media_intelligence",
+                                                     "provider_usage"
+                                                 ],
+                             "table_ids":  {
+                                               "media_sources":  "MtW6eqUyU7oiPRB0",
+                                               "media_intelligence":  "fPb1OwJbFPbFmqRk",
+                                               "provider_usage":  "WFeE982gMt0XfiIm"
+                                           },
+                             "deployment_commit":  "d56f20cb142008d8be2b46095c9321f122fbcf90",
+                             "n8n_project":  {
+                                                 "name":  "INTRST Films",
+                                                 "id":  "o8RQQQgne2c6jXr5"
+                                             },
+                             "environment":  "development",
+                             "existing_tables_modified":  false,
+                             "rows_inserted":  0,
+                             "providers_called":  true
+                         },
+    "runtime_preparation":  {
+                                "status":  "atomic_claim_implementation_proven_runtime_binding_pending",
+                                "controlled_test":  {
+                                                        "status":  "controlled_test_complete_production_atomic_claim_deferred",
+                                                        "workflow_name":  "INT-TST-013 â€” Dolly TranscriptAPI Controlled Test â€” DEV",
+                                                        "workflow_id":  "CYYjgF7zthIjMH7c",
+                                                        "source":  {
+                                                                       "title":  "Dolly Parton Interview",
+                                                                       "publisher":  "Library of Congress / @loc",
+                                                                       "canonical_video_id":  "PIa6Vot1XcM",
+                                                                       "canonical_url":  "https://www.youtube.com/watch?v=PIa6Vot1XcM",
+                                                                       "classification":  "institutional_first_person",
+                                                                       "purpose":  "first-person evidence concerning Dolly Parton\u0027s father, literacy mission, Imagination Library and Library of Congress partnership"
+                                                                   },
+                                                        "approval_scope":  "AUT-013-DOLLY-002 exactly one TranscriptAPI request",
+                                                        "user_authorization_received":  true,
+                                                        "workflow_approval_gate_cleared":  true,
+                                                        "approval_status":  "controlled_test_authorized",
+                                                        "authorization_id":  "AUT-013-DOLLY-002",
+                                                        "provider_call_budget":  1,
+                                                        "maximum_real_transport_attempts":  1,
+                                                        "automatic_retries":  0,
+                                                        "credential_ref":  "INT | TranscriptAPI | Development | Media Intelligence",
+                                                        "storage_destination":  "private canonical Dolly research/source location: 01 Research \u0026 Life File",
+                                                        "production_promotion":  "blocked",
+                                                        "executions":  6,
+                                                        "provider_calls":  1,
+                                                        "credits_consumed":  1,
+                                                        "transport_attempts":  1,
+                                                        "retries":  0,
+                                                        "execution_id":  "34896",
+                                                        "run_id":  "AUT-013-DOLLY-002:34896",
+                                                        "http_status":  200,
+                                                        "cache_result":  "miss",
+                                                        "endpoint":  "https://transcriptapi.com/api/v2/youtube/transcript",
+                                                        "metering_source":  "operator_authenticated_provider_account_evidence",
+                                                        "metering_status":  "reconciled",
+                                                        "metering_observed_at":  "2026-09-06T16:26:08.017Z",
+                                                        "usage_balance_endpoint_available":  false,
+                                                        "provider_usage_credits_used":  null,
+                                                        "provider_usage_credits_remaining":  null,
+                                                        "pre_provider_reconciliations":  ["34893", "34895"]
+                                                    },
+                                "provider_usage_ledger":  {
+                                                              "project_id":  "o8RQQQgne2c6jXr5",
+                                                              "table_id":  "WFeE982gMt0XfiIm",
+                                                              "lookup":  "exact_provider_usage.idempotency_key_only",
+                                                              "claim":  "required_atomic_operation_claim",
+                                                              "claim_statuses":  [
+                                                                                     "CLAIMED",
+                                                                                     "ALREADY_CLAIMED",
+                                                                                     "PRIOR_SUCCESS",
+                                                                                     "PRIOR_OUTCOME_UNKNOWN",
+                                                                                     "CLAIM_BACKEND_UNAVAILABLE",
+                                                                                     "CLAIM_CORRUPT"
+                                                                                 ],
+                                                              "claim_guarantee":  "same_operation_key_cannot_return_CLAIMED_twice_concurrently",
+                                                              "persistence":  "immutable_insert_only",
+                                                              "duplicate_operation":  "reject",
+                                                              "prior_success_or_unknown":  "manual_reconciliation_required",
+                                                              "application_projection":  "providers.mjs.projectProviderUsageRow",
+                                                              "physical_projection":  "downstream_usage_to_downstream_usage_json_and_schema_version_application_only",
+                                                              "broad_scans":  false,
+                                                              "polling":  false,
+                                                              "logs_without_sensitive_payloads":  true,
+                                                              "failure_mode":  "fail_closed"
+                                                          },
+                                "atomic_claim_backend":  {
+                                                             "backend":  "postgresql",
+                                                             "version":  "postgres-v1",
+                                                             "status":  "repository_implementation_proven_runtime_binding_pending",
+                                                             "logical_credential_ref":  "INT | PostgreSQL | Development | Atomic Claims",
+                                                             "schema_file":  "automation/core/media-intelligence/atomic-claim.postgres.sql",
+                                                             "binding_module":  "automation/core/media-intelligence/atomic-claim.mjs",
+                                                             "binding_record":  "automation/n8n/workflows/AUT-013-atomic-claim-postgres-dev.binding.json",
+                                                             "atomic_primitive":  "PRIMARY KEY(operation_key) plus single-statement INSERT ON CONFLICT DO NOTHING",
+                                                             "n8n_data_table_rows_rejected_as_claim_backend":  true,
+                                                             "repository_tests_passed":  5,
+                                                             "repository_tests_failed":  0,
+                                                             "provider_calls_during_proof":  0,
+                                                             "runtime_backend_provisioned":  false,
+                                                             "n8n_credential_bound":  false
+                                                         },
+                                "inactive_workflow":  {
+                                                          "name":  "INT-AUT-013 â€” Media Intelligence Layer Phase 1 â€” DEV",
+                                                          "proposed_filename":  "automation/n8n/INT-AUT-013-media-intelligence-layer-phase-1-dev.workflow-spec.json",
+                                                          "environment":  "development",
+                                                          "active":  false,
+                                                          "mock_transport_only":  true,
+                                                          "tag":  "project:intrst",
+                                                          "topology":  [
+                                                                           "workflow_runs_start",
+                                                                           "request_validation",
+                                                                           "cache_lookup",
+                                                                           "atomic_operation_claim",
+                                                                           "execution_budget_gate",
+                                                                           "exactly_one_mock_transport_attempt",
+                                                                           "immutable_usage_outcome",
+                                                                           "response_normalization",
+                                                                           "cache_persistence",
+                                                                           "workflow_runs_terminal_state",
+                                                                           "persist_and_exit"
+                                                                       ],
+                                                          "non_claim_terminal_path":  [
+                                                                                          "workflow_runs_terminal_blocked_or_reconciliation",
+                                                                                          "persist_and_exit",
+                                                                                          "zero_provider_calls"
+                                                                                      ],
+                                                          "live_transport":  "blocked_until_runtime_postgres_claim_backend_provisioned_and_bound",
+                                                          "concurrency_control":  "atomic_claim_only"
+                                                      },
+                                "data_table_operations":  {
+                                                              "provider_usage":  [
+                                                                                     "exact_read_by_idempotency_key",
+                                                                                     "immutable_single_row_insert"
+                                                                                 ],
+                                                              "media_sources":  [
+                                                                                    "exact_cache_read",
+                                                                                    "successful_cache_write_only"
+                                                                                ],
+                                                              "workflow_runs":  [
+                                                                                    "run_start_insert",
+                                                                                    "terminal_completion_or_failure_insert"
+                                                                                ],
+                                                              "schema_mutation_required":  false,
+                                                              "rows_created_during_preparation":  false
+                                                          }
+                            }
 }

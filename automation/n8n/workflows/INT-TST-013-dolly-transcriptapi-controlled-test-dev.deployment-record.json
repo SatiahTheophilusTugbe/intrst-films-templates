@@ -1,5 +1,5 @@
 ﻿{
-    "record_type":  "deployment_preparation",
+    "record_type":  "controlled_test_reconciliation",
     "work_item":  "AUT-013",
     "workflow_path":  "automation/n8n/workflows/INT-TST-013-dolly-transcriptapi-controlled-test-dev.workflow.json",
     "workflow_name":  "INT-TST-013 â€” Dolly TranscriptAPI Controlled Test â€” DEV",
@@ -29,26 +29,46 @@
     "provider_call_budget":  1,
     "maximum_real_transport_attempts":  1,
     "automatic_retries":  0,
-    "executions":  2,
-    "provider_calls":  0,
-    "credits_consumed":  0,
-    "data_table_rows_inserted":  4,
+    "executions":  6,
+    "provider_calls":  1,
+    "credits_consumed":  1,
+    "transport_attempts":  1,
+    "retries":  0,
+    "data_table_rows_inserted":  10,
+    "pre_provider_reconciliations":  [
+        {"execution_id": "34893", "status": "known_safe_failure", "provider_calls": 0, "transport_attempts": 0, "terminal_row_appended": true},
+        {"execution_id": "34895", "status": "known_safe_failure", "provider_calls": 0, "transport_attempts": 0, "terminal_row_appended": true}
+    ],
     "execution_result":  {
-                             "execution_id":  "34891",
-                             "status":  "error",
-                             "verdict":  "FAIL — KNOWN SAFE FAILURE",
+                             "execution_id":  "34896",
+                             "run_id":  "AUT-013-DOLLY-002:34896",
+                             "status":  "success",
+                             "verdict":  "PASS — CONTROLLED TEST COMPLETE",
+                             "source_id":  "SRC-010",
+                             "cache_result":  "miss",
+                             "endpoint":  "https://transcriptapi.com/api/v2/youtube/transcript",
+                             "http_status":  200,
                              "last_node_executed":  "TranscriptAPI single request (approval required)",
                              "provider_http_reached":  true,
-                             "provider_request_transmitted":  false,
-                             "provider_transport_attempts":  0,
-                             "provider_calls":  0,
-                             "credits_consumed":  0,
+                             "provider_request_transmitted":  true,
+                             "provider_transport_attempts":  1,
+                             "provider_calls":  1,
+                             "retries":  0,
+                             "credits_consumed":  1,
+                             "metering_source":  "operator_authenticated_provider_account_evidence",
+                             "metering_status":  "reconciled",
+                             "provider_usage_physical_credits_used":  null,
+                             "provider_usage_physical_credits_remaining":  null,
+                             "provider_usage_persisted_endpoint":  "https://api.transcriptapi.com/v1/transcript",
+                             "provider_usage_historical_metadata_preserved":  true,
                              "workflow_runs_rows":  2,
-                             "provider_usage_rows":  0,
-                             "media_sources_rows":  0,
+                             "provider_usage_rows":  1,
+                             "media_sources_rows":  1,
                              "media_intelligence_rows":  0,
-                             "error_class":  "PRE_PROVIDER_REQUEST_VALIDATION",
-                             "error_message":  "TranscriptAPI request body validation failed before transport; no provider request transmitted."
+                             "terminal_state":  "persist_and_exit",
+                             "raw_transcript_persisted":  false,
+                             "error_class":  null,
+                             "error_message":  null
                          },
     "runtime_data_table_operations":  {
                                           "workflow_runs":  {
@@ -72,7 +92,7 @@
                                  "algorithm":  "sha256",
                                  "canonicalization":  "controlled-test semantic fingerprint; strips workflow/version/timestamp/ownership metadata, credential immutable IDs and Data Table schema serialization; retains security-relevant nodes, parameters, normalized Code behavior, connections, tag names, inactive state and terminal contract",
                                  "repository_and_runtime_equal":  true,
-                                 "sha256":  "faa7f81dea8f2dee4f12c9778d7a1644eb87fcf59e5f587b9e87b98fb47a0308"
+                                 "sha256":  "6c9282f89e8dbe35c7d593e9a2339d57016ac02a0d4b5766d82136357abd1758"
                              },
     "atomic_claim_backend":  {
                                  "backend":  "postgresql",
@@ -85,5 +105,5 @@
                              },
     "production_status":  "paid runtime not deployed; production promotion blocked pending runtime PostgreSQL atomic-claim provisioning and binding",
     "rollback":  "archive only workflow CYYjgF7zthIjMH7c after project-scoped ownership verification",
-    "provider_execution_status":  "replacement authorization AUT-013-DOLLY-002 executed exactly once; authorization survived durable start persistence; local HTTP JSON-body validation failed before provider transmission; no TranscriptAPI or ScrapeCreators call; no provider credit consumed; no retry or second execution authorized"
+    "provider_execution_status":  "PASS — CONTROLLED TEST COMPLETE; AUT-013-DOLLY-002 executed exactly once with HTTP 200, one TranscriptAPI call, one transport attempt, zero retries and one billed credit reconciled from authenticated provider-account evidence; no ScrapeCreators call; workflow remains inactive; production atomic/idempotent claim gate remains open"
 }

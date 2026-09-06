@@ -1,6 +1,6 @@
 # INTRST Media Intelligence Layer — Phase 1 Contract
 
-Status: INF-005.2 deployed and verified in development; runtime adapter is local/captured-response only and provider calls remain disabled.
+Status: INF-005.2 deployed and verified in development; the supervised AUT-013 controlled test completed successfully, while unattended runtime remains production-blocked.
 
 Deployment: `d56f20cb142008d8be2b46095c9321f122fbcf90` created the three empty project-scoped Data Tables in `INTRST Films` (`o8RQQQgne2c6jXr5`): `media_sources` (`MtW6eqUyU7oiPRB0`), `media_intelligence` (`fPb1OwJbFPbFmqRk`), and `provider_usage` (`WFeE982gMt0XfiIm`).
 
@@ -66,10 +66,9 @@ Git and provider_usage retain only sanctioned metadata, hashes, timings, counts 
 Research/source access does not confer production visual, audio or quotation rights. The authorized operation remains
 exactly `AUT-013-DOLLY-002` for `PIa6Vot1XcM`; no other source/provider is authorized.
 
-The first authorized execution reached the exact cache and provider-usage reads and stopped safely at the fixed
-authorization gate before HTTP transport. It produced one workflow_runs start row and one terminal known-safe-failure row;
-provider_usage, media_sources and media_intelligence remain unchanged. The gate has been hardened for any separately
-authorized future run, but this authorization permits no second execution.
+The successful controlled execution `34896` was a cache miss and completed with HTTP 200, one provider transport attempt, one provider call and zero retries. The provider account evidence supplied by the operator reconciles one billed credit; no credit value was inferred from the transcript payload. It produced one workflow_runs start row and one terminal persist-and-exit row, one immutable provider_usage row, one sanitized media_sources row and zero media_intelligence rows. Executions `34893` and `34895` were preserved and reconciled with appended known-safe pre-provider terminal rows. The public API reference exposes no programmatic usage/balance endpoint, so credits_used/credits_remaining remain nullable in the physical usage row and reconciliation metadata is retained in the application/deployment record. The workflow remains inactive.
+
+The live contract is TranscriptAPI `GET https://transcriptapi.com/api/v2/youtube/transcript` with `video_url` and `language` query parameters and Bearer authentication. The immutable provider_usage row from execution `34896` is preserved as written (including its nullable credit fields and historical endpoint value); the canonical adapter and workflow now use the proven v2 contract, and the operator's authenticated account evidence reconciles one billed credit without creating a second usage event.
 
 ```text
 node automation/core/media-intelligence/validate-media-intelligence.mjs

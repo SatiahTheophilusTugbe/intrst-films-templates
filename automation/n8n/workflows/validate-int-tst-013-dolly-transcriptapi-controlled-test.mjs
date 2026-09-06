@@ -31,7 +31,7 @@ export function validateControlledWorkflow(w){
   if(w.nodes.some(n=>Object.prototype.hasOwnProperty.call(n,"credentials")&&n.name!=="TranscriptAPI single request (approval required)"))fail("unexpected credentials");
   const http=w.nodes.find(n=>n.type==="n8n-nodes-base.httpRequest");
   if(!http||http.name!=="TranscriptAPI single request (approval required)"||http.credentials?.httpHeaderAuth?.name!==CREDENTIAL_NAME)fail("credential binding");
-  if(http.parameters.url!=="https://api.transcriptapi.com/v1/transcript"||http.parameters.options?.response?.response?.responseFormat!=="json"||http.parameters.options?.timeout!==5000)fail("fixed provider request");
+  if(http.parameters.method!=="GET"||http.parameters.url!=="https://transcriptapi.com/api/v2/youtube/transcript"||http.parameters.sendQuery!==true||JSON.stringify(http.parameters.queryParameters?.parameters)!==JSON.stringify([{name:"video_url",value:VIDEO_ID},{name:"language",value:"en"}])||http.parameters.options?.response?.response?.responseFormat!=="json"||http.parameters.options?.timeout!==15000)fail("fixed provider request");
   const serialized=JSON.stringify(w);
   if(/ScrapeCreators|scrapecreators|scheduleTrigger|webhook|executeWorkflowTrigger|waitNode|polling_loop|polling_enabled|setInterval|setTimeout|retryOnFail|maxTries|production_mode|live_mode/i.test(serialized))fail("forbidden mode or retry capability");
   if(!serialized.includes(`approved_video_id:'${VIDEO_ID}'`)||!serialized.includes("CONTROLLED_TEST_AUTHORIZATION_INVALID"))fail("approval gate not fixed");
