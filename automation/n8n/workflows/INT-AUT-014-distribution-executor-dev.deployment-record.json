@@ -8,7 +8,7 @@
   "environment": "development",
   "active": false,
   "tag": "project:intrst",
-  "credential_binding": {"status":"pending","logical_name":"INT | Blotato | Development | Distribution","credential_type":"blotatoApi","secret_bound":false},
+  "credential_binding": {"status":"pending","http_logical_name":"INT | Blotato | Development | Distribution","http_credential_type":"httpTemplatedCustomAuth","native_logical_name":"INT | Blotato Native | Development | Distribution","native_credential_type":"blotatoApi","secret_bound":false},
   "account_routing": {
     "facebook":"__FACEBOOK_BLOTATO_ACCOUNT_ID__",
     "instagram":"__INSTAGRAM_BLOTATO_ACCOUNT_ID__",
@@ -19,8 +19,8 @@
     "linkedin":"__LINKEDIN_BLOTATO_ACCOUNT_ID__"
   },
   "runtime_state": "READY_FOR_CREDENTIAL_BINDING",
-  "fixture": {"content_output_id":"INT-OUT-01K4X4Q7B6D0MMPY000000004","platform":"facebook","execution_id":"34916","result":"READY_FOR_CREDENTIAL_BINDING","external_calls":0,"automatic_retries":0},
-  "semantic_fingerprint": "sha256:861969f1b0628d37052042f2607d3274387fc52d6c199c7ee74103572f257fa7",
+  "fixture": {"content_output_id":"INT-OUT-01K4X4Q7B6D0MMPY000000004","platform":"facebook","execution_id":"34917","result":"READY_FOR_CREDENTIAL_BINDING","external_calls":0,"automatic_retries":0},
+  "semantic_fingerprint": "sha256:765daf3c5a7c2018e20578cd30a2aa8fcbb22aea2906695d3018924d11688930",
   "rollback": "archive only workflow AknakVMx2prJrsZw after project-scoped ownership verification",
   "production_promotion": "blocked_pending_credential_binding_and_controlled_publish"
 }

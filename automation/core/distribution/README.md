@@ -25,7 +25,8 @@ Development binding surface:
 
 ```text
 logical credential: INT | Blotato | Development | Distribution
-credential type: blotatoApi
+HTTP credential type: httpTemplatedCustomAuth
+native credential type: blotatoApi
 api_key: __SET_IN_N8N__
 facebook: __FACEBOOK_BLOTATO_ACCOUNT_ID__
 instagram: __INSTAGRAM_BLOTATO_ACCOUNT_ID__
@@ -34,4 +35,4 @@ youtube: __YOUTUBE_BLOTATO_ACCOUNT_ID__
 x: __X_BLOTATO_ACCOUNT_ID__
 ```
 
-The authorized n8n project has no Blotato credential yet. No external publication is attempted until the credential and destination account IDs are supplied in n8n.
+The installed native Blotato node uses `blotatoApi`. The raw HTTP adapter uses n8n's `httpTemplatedCustomAuth` with an `Authorization: Bearer {{api_key}}` header template; the same underlying secret may be entered by the operator, but n8n treats these as different credential types. If both modes are deployed, the native mode uses `INT | Blotato Native | Development | Distribution`. The authorized n8n project has neither credential yet. No external publication is attempted until the credential and destination account IDs are supplied in n8n.
