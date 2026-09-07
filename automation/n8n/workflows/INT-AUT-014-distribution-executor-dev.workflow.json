@@ -1,39 +1,914 @@
 {
-  "$schema":"../../../schemas/n8n-project-scope.schema.json",
-  "name":"INT-AUT-014 — Distribution Executor — DEV",
-  "active":false,
-  "tags":[{"name":"project:intrst"}],
-  "settings":{"executionOrder":"v1"},
-  "meta":{"project_id":"o8RQQQgne2c6jXr5","environment":"development","runtime_state":"READY_FOR_CREDENTIAL_BINDING","mock_external_calls":0,"automatic_retries":0,"transport_branches":["blotato-http:facebook","blotato-http:instagram","blotato-native:threads","blotato-native:youtube","blotato-native:x"],"persistence_tables":["publishing_log","workflow_runs"],"http_credential_logical_name":"INT | Blotato | Development | Distribution","http_credential_type":"httpTemplatedCustomAuth","http_secret_field":"api_key","http_provider_header":"blotato-api-key","native_credential_logical_name":"INT | Blotato Native | Development | Distribution","native_credential_type":"blotatoApi","account_config_version":"distribution-runtime-config@1.0.0"},
-  "nodes":[
-    {"name":"Manual Trigger","type":"n8n-nodes-base.manualTrigger","typeVersion":1,"position":[0,0],"parameters":{}},
-    {"name":"Initialize Distribution Request","type":"n8n-nodes-base.code","typeVersion":2,"position":[224,0],"parameters":{"mode":"runOnceForAllItems","jsCode":"const content_output_id = $json.content_output_id ?? 'INT-OUT-01K4X4Q7B6D0MMPY000000004'; return [{json:{content_output_id,mode:'controlled_manual',budget:{max_publications:1,max_attempts:1,automatic_retries:0},environment:'development'}}];"}},
-    {"name":"Build workflow_runs START row","type":"n8n-nodes-base.code","typeVersion":2,"position":[224,180],"parameters":{"mode":"runOnceForAllItems","jsCode":"const r=$('Initialize Distribution Request').first().json;const n=new Date().toISOString();const id='AUT-012:'+($execution.id??'manual');return [{json:{run_id:id,root_run_id:id,parent_run_id:'',workflow_key:'INT-AUT-014',workflow_name:'INT-AUT-014 — Distribution Executor — DEV',workflow_version:'distribution-executor@1.1.0',module:'distribution',environment:r.environment,n8n_workflow_id:'AknakVMx2prJrsZw',n8n_execution_id:String($execution.id??''),subject_id:'',story_object_id:'',manifest_id:'',output_id:r.content_output_id,started_at:n,status:'started',state_from:'',state_to:'started',attempt:0,provider:'',human_review_required:true,review_status:'pending',input_ids_json:JSON.stringify([r.content_output_id]),output_ids_json:'[]',source_ids_json:'[]',claim_ids_json:'[]',asset_ids_json:'[]',idempotency_key:'run:'+id,created_at:n,updated_at:n}}];"}},
-    {"name":"Persist workflow_runs START","type":"n8n-nodes-base.dataTable","typeVersion":1.1,"position":[448,180],"parameters":{"resource":"row","operation":"insert","dataTableId":{"__rl":true,"mode":"id","value":"ZdOyJqa5ffTkwUSV"}}},
-    {"name":"Resolve content_output","type":"n8n-nodes-base.dataTable","typeVersion":1.1,"position":[448,0],"parameters":{"resource":"row","operation":"get","dataTableId":{"__rl":true,"mode":"id","value":"P29q3HqS7JHr147x"},"matchType":"allConditions","filters":{"conditions":[{"keyName":"output_id","condition":"eq","keyValue":"={{ $('Initialize Distribution Request').item.json.content_output_id }}"}]},"returnAll":false,"limit":2}},
-    {"name":"Extract Canonical Relationships","type":"n8n-nodes-base.code","typeVersion":2,"position":[672,0],"parameters":{"mode":"runOnceForAllItems","jsCode":"const row = $input.first().json; const asset_ids = JSON.parse(row.asset_ids_json ?? '[]'); return [{json:{...row,asset_id:asset_ids[0] ?? null,output_id:row.output_id,story_object_id:row.story_object_id}}];"}},
-    {"name":"Resolve story_object","type":"n8n-nodes-base.dataTable","typeVersion":1.1,"position":[896,0],"parameters":{"resource":"row","operation":"get","dataTableId":{"__rl":true,"mode":"id","value":"wtmCJyYutgIATmla"},"matchType":"allConditions","filters":{"conditions":[{"keyName":"story_object_id","condition":"eq","keyValue":"={{ $('Extract Canonical Relationships').item.json.story_object_id }}"}]},"returnAll":false,"limit":2}},
-    {"name":"Resolve asset_registry","type":"n8n-nodes-base.dataTable","typeVersion":1.1,"position":[1120,0],"parameters":{"resource":"row","operation":"get","dataTableId":{"__rl":true,"mode":"id","value":"cegEOJrqfZv6pcfI"},"matchType":"allConditions","filters":{"conditions":[{"keyName":"asset_id","condition":"eq","keyValue":"={{ $('Extract Canonical Relationships').item.json.asset_id }}"}]},"returnAll":false,"limit":2}},
-    {"name":"Resolve approval_queue","type":"n8n-nodes-base.dataTable","typeVersion":1.1,"position":[1344,0],"parameters":{"resource":"row","operation":"get","dataTableId":{"__rl":true,"mode":"id","value":"I50dgyTWCoCvPnDt"},"matchType":"allConditions","filters":{"conditions":[{"keyName":"entity_id","condition":"eq","keyValue":"={{ $('Extract Canonical Relationships').item.json.output_id }}"}]},"returnAll":false,"limit":2}},
-    {"name":"Resolve centralized distribution config","type":"n8n-nodes-base.code","typeVersion":2,"position":[1568,180],"parameters":{"mode":"runOnceForAllItems","jsCode":"const output=$('Resolve content_output').first().json;const accounts={facebook:'__FACEBOOK_BLOTATO_ACCOUNT_ID__',instagram:'__INSTAGRAM_BLOTATO_ACCOUNT_ID__',threads:'__THREADS_BLOTATO_ACCOUNT_ID__',youtube:'__YOUTUBE_BLOTATO_ACCOUNT_ID__',x:'__X_BLOTATO_ACCOUNT_ID__',tiktok:'__TIKTOK_BLOTATO_ACCOUNT_ID__',linkedin:'__LINKEDIN_BLOTATO_ACCOUNT_ID__'};const adapter_modes={facebook:'http',instagram:'http',threads:'native',youtube:'native',x:'native',tiktok:'native',linkedin:'native'};return [{json:{...$input.first().json,output,distribution_config:{version:'distribution-runtime-config@1.0.0',accounts,adapter_modes,http_credential_logical_name:'INT | Blotato | Development | Distribution',http_credential_type:'httpTemplatedCustomAuth',native_credential_logical_name:'INT | Blotato Native | Development | Distribution',native_credential_type:'blotatoApi',automatic_retries:0}}}];"}},
-    {"name":"Render platform-native payload","type":"n8n-nodes-base.code","typeVersion":2,"position":[1568,0],"parameters":{"mode":"runOnceForAllItems","jsCode":"const item=$('Resolve centralized distribution config').first().json;const o=item.output;const m=JSON.parse(o.manifest_json??'{}');const p=(m.platform_targets??[m.platform??'facebook'])[0];const r=item.distribution_config;const intent=typeof m.engagement_intent==='string'?m.engagement_intent:m.engagement_intent?.intent;if(!intent)throw new Error('MISSING_ENGAGEMENT_INTENT');const tags=Array.isArray(m.hashtags)?m.hashtags.slice(0,3):[];const body=String(m.caption??'').trim();const clean=body.endsWith(intent)?body.slice(0,-intent.length).trim():body;const tagLine=tags.length?'#'+tags.map(x=>String(x).replace(/^#/,'')).join(' #'):'';const firstComment=[intent,tagLine].filter(Boolean).join('\\n\\n');const caption=p==='facebook'||p==='instagram'?clean:p==='x'?[clean,tagLine].filter(Boolean).join('\\n\\n').slice(0,280):[clean,firstComment].filter(Boolean).join('\\n\\n');return [{json:{content_output_id:o.output_id,platform:p,account_id:r.accounts[p],adapter_mode:r.adapter_modes[p],caption,caption_body:clean,first_comment:['facebook','instagram'].includes(p)?firstComment:null,engagement_intent:m.engagement_intent,hashtags:tags,character_count:caption.length,render_version:'distribution-renderer@1.1.0',engagement_rendered:p!=='x',media_urls:[o.media_drive_url??''],title:m.title??null,distribution_config:r}}];"}},
-    {"name":"Select Blotato publisher adapter","type":"n8n-nodes-base.code","typeVersion":2,"position":[1792,0],"parameters":{"mode":"runOnceForAllItems","jsCode":"const item=$input.first().json;return [{json:{...item,provider:'blotato',adapter:item.adapter_mode==='http'?'blotato-http':'blotato-native',idempotency_key:'publish:'+item.content_output_id+':'+item.platform+':1'}}];"}},
-    {"name":"Exact publishing duplicate lookup","type":"n8n-nodes-base.dataTable","typeVersion":1.1,"position":[2016,180],"parameters":{"resource":"row","operation":"get","dataTableId":{"__rl":true,"mode":"id","value":"qHmuRSglzmNT3Oj9"},"matchType":"allConditions","filters":{"conditions":[{"keyName":"output_id","condition":"eq","keyValue":"={{ $('Select Blotato publisher adapter').item.json.content_output_id }}"},{"keyName":"platform","condition":"eq","keyValue":"={{ $('Select Blotato publisher adapter').item.json.platform }}"}]},"returnAll":false,"limit":2}},
-    {"name":"Duplicate publication gate","type":"n8n-nodes-base.code","typeVersion":2,"position":[2240,180],"parameters":{"mode":"runOnceForAllItems","jsCode":"const b=$('Select Blotato publisher adapter').first().json;const rows=$input.all().map(x=>x.json).filter(x=>x&&x.output_id);const m=rows.filter(x=>{try{return JSON.parse(x.payload_json??'{}').account_id===b.account_id}catch{return false}});return [{json:{...b,duplicate_status:m.some(x=>x.status==='published')?'ALREADY_PUBLISHED':m.some(x=>['submitted','outcome_unknown','reconciliation_required'].includes(x.status))?'RECONCILIATION_REQUIRED':'NONE',duplicate_rows:m.length}}];"}},
-    {"name":"Credential and account binding gate","type":"n8n-nodes-base.code","typeVersion":2,"position":[2016,0],"parameters":{"mode":"runOnceForAllItems","jsCode":"const item=$input.first().json;const accountReady=Boolean(item.account_id&&!String(item.account_id).startsWith('__'));const credentialBound=false;const ready=accountReady&&credentialBound;const credential_type=item.adapter_mode==='http'?'httpTemplatedCustomAuth':'blotatoApi';return [{json:{...item,status:ready?'READY_FOR_LIVE_PUBLISH':'READY_FOR_CREDENTIAL_BINDING',credential_logical_name:item.adapter_mode==='http'?'INT | Blotato | Development | Distribution':'INT | Blotato Native | Development | Distribution',credential_type,automatic_retries:0,external_call:ready,credential_binding_status:credentialBound?'bound':'pending'}}];"}},
-    {"name":"Credential and account readiness","type":"n8n-nodes-base.if","typeVersion":2.3,"position":[2240,0],"parameters":{"conditions":{"options":{"caseSensitive":true,"leftValue":"","typeValidation":"strict"},"conditions":[{"leftValue":"={{ $json.external_call }}","rightValue":true,"operator":{"type":"boolean","operation":"equals"}}],"combinator":"and"}}},
-    {"name":"Route publisher transport","type":"n8n-nodes-base.switch","typeVersion":3.4,"position":[2464,0],"parameters":{"mode":"expression","numberOutputs":5,"output":"={{ $json.platform === 'facebook' ? 0 : $json.platform === 'instagram' ? 1 : $json.platform === 'threads' ? 2 : $json.platform === 'youtube' ? 3 : 4 }}","looseTypeValidation":false}},
-    {"name":"Blotato HTTP — Facebook","type":"n8n-nodes-base.httpRequest","typeVersion":4.5,"position":[2688,-240],"parameters":{"method":"POST","url":"https://backend.blotato.com/v2/posts","authentication":"genericCredentialType","genericAuthType":"httpTemplatedCustomAuth","sendHeaders":true,"specifyHeaders":"keypair","headerParameters":{"parameters":[{"name":"Content-Type","value":"application/json"}]},"sendBody":true,"contentType":"json","specifyBody":"json","jsonBody":"={{ JSON.stringify({post:{accountId:$json.account_id,content:{text:$json.caption,mediaUrls:$json.media_urls,platform:'facebook'},target:{targetType:'facebook'}}}) }}"}},
-    {"name":"Blotato HTTP — Instagram","type":"n8n-nodes-base.httpRequest","typeVersion":4.5,"position":[2688,-80],"parameters":{"method":"POST","url":"https://backend.blotato.com/v2/posts","authentication":"genericCredentialType","genericAuthType":"httpTemplatedCustomAuth","sendHeaders":true,"specifyHeaders":"keypair","headerParameters":{"parameters":[{"name":"Content-Type","value":"application/json"}]},"sendBody":true,"contentType":"json","specifyBody":"json","jsonBody":"={{ JSON.stringify({post:{accountId:$json.account_id,content:{text:$json.caption,mediaUrls:$json.media_urls,platform:'instagram'},target:{targetType:'instagram'}}}) }}"}},
-    {"name":"Blotato Native — Threads","type":"@blotato/n8n-nodes-blotato.blotato","typeVersion":2,"position":[2688,80],"parameters":{"resource":"post","operation":"create","platform":"threads","accountId":{"__rl":true,"mode":"id","value":"={{ $json.account_id }}"},"postContentText":"={{ $json.caption }}","postContentMediaUrls":"={{ ($json.media_urls ?? []).join(',') }}","useNextFreeSlot":false}},
-    {"name":"Blotato Native — YouTube","type":"@blotato/n8n-nodes-blotato.blotato","typeVersion":2,"position":[2688,240],"parameters":{"resource":"post","operation":"create","platform":"youtube","accountId":{"__rl":true,"mode":"id","value":"={{ $json.account_id }}"},"postContentText":"={{ $json.caption }}","postContentMediaUrls":"={{ ($json.media_urls ?? []).join(',') }}","useNextFreeSlot":false,"postCreateYoutubeOptionTitle":"={{ $json.title ?? '' }}","postCreateYoutubeOptionPrivacyStatus":"public"}},
-    {"name":"Blotato Native — X","type":"@blotato/n8n-nodes-blotato.blotato","typeVersion":2,"position":[2688,400],"parameters":{"resource":"post","operation":"create","platform":"twitter","accountId":{"__rl":true,"mode":"id","value":"={{ $json.account_id }}"},"postContentText":"={{ $json.caption }}","postContentMediaUrls":"={{ ($json.media_urls ?? []).join(',') }}","useNextFreeSlot":false}},
-    {"name":"Normalize Blotato provider result","type":"n8n-nodes-base.code","typeVersion":2,"position":[3136,80],"parameters":{"mode":"runOnceForAllItems","jsCode":"const item=$input.first().json;const body=item.body??item;const status=body.postSubmissionId?'submitted':(body.platformPostId||body.postId?'published':'unknown');return [{json:{...item,provider_job_id:body.postSubmissionId??null,platform_post_id:body.platformPostId??body.postId??null,public_url:body.publicUrl??body.postUrl??null,provider_status:status,outcome:status==='published'?'SUCCESS':status==='submitted'?'SUBMITTED':'OUTCOME_UNKNOWN',attempt_count:1,retry_count:0}}];"}},
-    {"name":"Build workflow_runs terminal row","type":"n8n-nodes-base.code","typeVersion":2,"position":[3360,180],"parameters":{"mode":"runOnceForAllItems","jsCode":"const x=$input.first().json;const o=$('Resolve content_output').first().json;const n=new Date().toISOString();const id='AUT-012:'+($execution.id??'manual');return [{json:{...x,run_id:id,root_run_id:id,parent_run_id:'',workflow_key:'INT-AUT-014',workflow_name:'INT-AUT-014 — Distribution Executor — DEV',workflow_version:'distribution-executor@1.1.0',module:'distribution',environment:'development',n8n_workflow_id:'AknakVMx2prJrsZw',n8n_execution_id:String($execution.id??''),subject_id:o.subject_id,story_object_id:o.story_object_id,manifest_id:o.manifest_id,output_id:o.output_id,started_at:n,completed_at:n,status:x.status??'READY_FOR_CREDENTIAL_BINDING',state_from:'started',state_to:x.status??'READY_FOR_CREDENTIAL_BINDING',attempt:0,provider:x.provider??'blotato',human_review_required:true,review_status:'pending',input_ids_json:JSON.stringify([o.output_id]),output_ids_json:'[]',source_ids_json:'[]',claim_ids_json:o.claim_ids_json??'[]',asset_ids_json:o.asset_ids_json??'[]',idempotency_key:'run:'+id,created_at:n,updated_at:n}}];"}},
-    {"name":"Persist workflow_runs terminal","type":"n8n-nodes-base.dataTable","typeVersion":1.1,"position":[3584,180],"parameters":{"resource":"row","operation":"insert","dataTableId":{"__rl":true,"mode":"id","value":"ZdOyJqa5ffTkwUSV"}}},
-    {"name":"Persist and exit","type":"n8n-nodes-base.code","typeVersion":2,"position":[3808,0],"parameters":{"mode":"runOnceForAllItems","jsCode":"const item=$input.first().json;return [{json:{status:item.status??'READY_FOR_CREDENTIAL_BINDING',external_calls:item.external_call?1:0,automatic_retries:0,retries:0,rendered_payload:{caption:item.caption??null,first_comment:item.first_comment??null,hashtags:item.hashtags??[],character_count:item.character_count??0,render_version:item.render_version??null,engagement_rendered:item.engagement_rendered??false},persistence_tables:['publishing_log','workflow_runs'],persist_and_exit:true}}];"}}
-  ],
-  "connections":{
-    "Manual Trigger":{"main":[[{"node":"Initialize Distribution Request","type":"main","index":0}]]},"Initialize Distribution Request":{"main":[[{"node":"Build workflow_runs START row","type":"main","index":0}]]},"Build workflow_runs START row":{"main":[[{"node":"Persist workflow_runs START","type":"main","index":0}]]},"Persist workflow_runs START":{"main":[[{"node":"Resolve content_output","type":"main","index":0}]]},"Resolve content_output":{"main":[[{"node":"Extract Canonical Relationships","type":"main","index":0}]]},"Extract Canonical Relationships":{"main":[[{"node":"Resolve story_object","type":"main","index":0}]]},"Resolve story_object":{"main":[[{"node":"Resolve asset_registry","type":"main","index":0}]]},"Resolve asset_registry":{"main":[[{"node":"Resolve approval_queue","type":"main","index":0}]]},"Resolve approval_queue":{"main":[[{"node":"Resolve centralized distribution config","type":"main","index":0}]]},"Resolve centralized distribution config":{"main":[[{"node":"Render platform-native payload","type":"main","index":0}]]},"Render platform-native payload":{"main":[[{"node":"Select Blotato publisher adapter","type":"main","index":0}]]},"Select Blotato publisher adapter":{"main":[[{"node":"Exact publishing duplicate lookup","type":"main","index":0}]]},"Exact publishing duplicate lookup":{"main":[[{"node":"Duplicate publication gate","type":"main","index":0}]]},"Duplicate publication gate":{"main":[[{"node":"Credential and account binding gate","type":"main","index":0}]]},"Credential and account binding gate":{"main":[[{"node":"Credential and account readiness","type":"main","index":0}]]},"Credential and account readiness":{"main":[[{"node":"Route publisher transport","type":"main","index":0}],[{"node":"Build workflow_runs terminal row","type":"main","index":0}]]},"Route publisher transport":{"main":[[{"node":"Blotato HTTP — Facebook","type":"main","index":0}],[{"node":"Blotato HTTP — Instagram","type":"main","index":0}],[{"node":"Blotato Native — Threads","type":"main","index":0}],[{"node":"Blotato Native — YouTube","type":"main","index":0}],[{"node":"Blotato Native — X","type":"main","index":0}]]},"Blotato HTTP — Facebook":{"main":[[{"node":"Normalize Blotato provider result","type":"main","index":0}]]},"Blotato HTTP — Instagram":{"main":[[{"node":"Normalize Blotato provider result","type":"main","index":0}]]},"Blotato Native — Threads":{"main":[[{"node":"Normalize Blotato provider result","type":"main","index":0}]]},"Blotato Native — YouTube":{"main":[[{"node":"Normalize Blotato provider result","type":"main","index":0}]]},"Blotato Native — X":{"main":[[{"node":"Normalize Blotato provider result","type":"main","index":0}]]},"Normalize Blotato provider result":{"main":[[{"node":"Build workflow_runs terminal row","type":"main","index":0}]]},"Build workflow_runs terminal row":{"main":[[{"node":"Persist workflow_runs terminal","type":"main","index":0}]]},"Persist workflow_runs terminal":{"main":[[{"node":"Persist and exit","type":"main","index":0}]]}
-  }
+    "$schema":  "../../../schemas/n8n-project-scope.schema.json",
+    "name":  "INT-AUT-014 — Distribution Executor — DEV",
+    "active":  false,
+    "tags":  [
+                 {
+                     "name":  "project:intrst"
+                 }
+             ],
+    "settings":  {
+                     "executionOrder":  "v1"
+                 },
+    "meta":  {
+                 "project_id":  "o8RQQQgne2c6jXr5",
+                 "environment":  "development",
+                 "runtime_state":  "READY_FOR_CREDENTIAL_BINDING",
+                 "mock_external_calls":  0,
+                 "automatic_retries":  0,
+                 "transport_branches":  [
+                                            "blotato-http:facebook",
+                                            "blotato-http:instagram",
+                                            "blotato-http:tiktok",
+                                            "blotato-native:threads",
+                                            "blotato-native:youtube",
+                                            "blotato-native:x"
+                                        ],
+                 "persistence_tables":  [
+                                            "publishing_log",
+                                            "workflow_runs"
+                                        ],
+                 "http_credential_logical_name":  "INT | Blotato | Development | Distribution",
+                 "http_credential_type":  "httpHeaderAuth",
+                 "http_secret_field":  "api_key",
+                 "http_provider_header":  "blotato-api-key",
+                 "native_credential_logical_name":  "INT | Blotato Native | Development | Distribution",
+                 "native_credential_type":  "blotatoApi",
+                 "account_config_version":  "distribution-runtime-config@1.1.0"
+             },
+    "nodes":  [
+                  {
+                      "name":  "Manual Trigger",
+                      "type":  "n8n-nodes-base.manualTrigger",
+                      "typeVersion":  1,
+                      "position":  [
+                                       0,
+                                       0
+                                   ],
+                      "parameters":  {
+
+                                     }
+                  },
+                  {
+                      "name":  "Initialize Distribution Request",
+                      "type":  "n8n-nodes-base.code",
+                      "typeVersion":  2,
+                      "position":  [
+                                       224,
+                                       0
+                                   ],
+                      "parameters":  {
+                                         "mode":  "runOnceForAllItems",
+                                         "jsCode":  "const content_output_id = $json.content_output_id ?? \u0027INT-OUT-01K4X4Q7B6D0MMPY000000004\u0027; return [{json:{content_output_id,mode:\u0027controlled_manual\u0027,budget:{max_publications:1,max_attempts:1,automatic_retries:0},environment:\u0027development\u0027}}];"
+                                     }
+                  },
+                  {
+                      "name":  "Build workflow_runs START row",
+                      "type":  "n8n-nodes-base.code",
+                      "typeVersion":  2,
+                      "position":  [
+                                       224,
+                                       180
+                                   ],
+                      "parameters":  {
+                                         "mode":  "runOnceForAllItems",
+                                         "jsCode":  "const r=$(\u0027Initialize Distribution Request\u0027).first().json;const n=new Date().toISOString();const id=\u0027AUT-012:\u0027+($execution.id??\u0027manual\u0027);return [{json:{run_id:id,root_run_id:id,parent_run_id:\u0027\u0027,workflow_key:\u0027INT-AUT-014\u0027,workflow_name:\u0027INT-AUT-014 — Distribution Executor — DEV\u0027,workflow_version:\u0027distribution-executor@1.1.0\u0027,module:\u0027distribution\u0027,environment:r.environment,n8n_workflow_id:\u0027AknakVMx2prJrsZw\u0027,n8n_execution_id:String($execution.id??\u0027\u0027),subject_id:\u0027\u0027,story_object_id:\u0027\u0027,manifest_id:\u0027\u0027,output_id:r.content_output_id,started_at:n,status:\u0027started\u0027,state_from:\u0027\u0027,state_to:\u0027started\u0027,attempt:0,provider:\u0027\u0027,human_review_required:true,review_status:\u0027pending\u0027,input_ids_json:JSON.stringify([r.content_output_id]),output_ids_json:\u0027[]\u0027,source_ids_json:\u0027[]\u0027,claim_ids_json:\u0027[]\u0027,asset_ids_json:\u0027[]\u0027,idempotency_key:\u0027run:\u0027+id,created_at:n,updated_at:n}}];"
+                                     }
+                  },
+                  {
+                      "name":  "Persist workflow_runs START",
+                      "type":  "n8n-nodes-base.dataTable",
+                      "typeVersion":  1.1,
+                      "position":  [
+                                       448,
+                                       180
+                                   ],
+                      "parameters":  {
+                                         "resource":  "row",
+                                         "operation":  "insert",
+                                         "dataTableId":  {
+                                                             "__rl":  true,
+                                                             "mode":  "id",
+                                                             "value":  "ZdOyJqa5ffTkwUSV"
+                                                         }
+                                     }
+                  },
+                  {
+                      "name":  "Resolve content_output",
+                      "type":  "n8n-nodes-base.dataTable",
+                      "typeVersion":  1.1,
+                      "position":  [
+                                       448,
+                                       0
+                                   ],
+                      "parameters":  {
+                                         "resource":  "row",
+                                         "operation":  "get",
+                                         "dataTableId":  {
+                                                             "__rl":  true,
+                                                             "mode":  "id",
+                                                             "value":  "P29q3HqS7JHr147x"
+                                                         },
+                                         "matchType":  "allConditions",
+                                         "filters":  {
+                                                         "conditions":  [
+                                                                            {
+                                                                                "keyName":  "output_id",
+                                                                                "condition":  "eq",
+                                                                                "keyValue":  "={{ $(\u0027Initialize Distribution Request\u0027).item.json.content_output_id }}"
+                                                                            }
+                                                                        ]
+                                                     },
+                                         "returnAll":  false,
+                                         "limit":  2
+                                     }
+                  },
+                  {
+                      "name":  "Extract Canonical Relationships",
+                      "type":  "n8n-nodes-base.code",
+                      "typeVersion":  2,
+                      "position":  [
+                                       672,
+                                       0
+                                   ],
+                      "parameters":  {
+                                         "mode":  "runOnceForAllItems",
+                                         "jsCode":  "const row = $input.first().json; const asset_ids = JSON.parse(row.asset_ids_json ?? \u0027[]\u0027); return [{json:{...row,asset_id:asset_ids[0] ?? null,output_id:row.output_id,story_object_id:row.story_object_id}}];"
+                                     }
+                  },
+                  {
+                      "name":  "Resolve story_object",
+                      "type":  "n8n-nodes-base.dataTable",
+                      "typeVersion":  1.1,
+                      "position":  [
+                                       896,
+                                       0
+                                   ],
+                      "parameters":  {
+                                         "resource":  "row",
+                                         "operation":  "get",
+                                         "dataTableId":  {
+                                                             "__rl":  true,
+                                                             "mode":  "id",
+                                                             "value":  "wtmCJyYutgIATmla"
+                                                         },
+                                         "matchType":  "allConditions",
+                                         "filters":  {
+                                                         "conditions":  [
+                                                                            {
+                                                                                "keyName":  "story_object_id",
+                                                                                "condition":  "eq",
+                                                                                "keyValue":  "={{ $(\u0027Extract Canonical Relationships\u0027).item.json.story_object_id }}"
+                                                                            }
+                                                                        ]
+                                                     },
+                                         "returnAll":  false,
+                                         "limit":  2
+                                     }
+                  },
+                  {
+                      "name":  "Resolve asset_registry",
+                      "type":  "n8n-nodes-base.dataTable",
+                      "typeVersion":  1.1,
+                      "position":  [
+                                       1120,
+                                       0
+                                   ],
+                      "parameters":  {
+                                         "resource":  "row",
+                                         "operation":  "get",
+                                         "dataTableId":  {
+                                                             "__rl":  true,
+                                                             "mode":  "id",
+                                                             "value":  "cegEOJrqfZv6pcfI"
+                                                         },
+                                         "matchType":  "allConditions",
+                                         "filters":  {
+                                                         "conditions":  [
+                                                                            {
+                                                                                "keyName":  "asset_id",
+                                                                                "condition":  "eq",
+                                                                                "keyValue":  "={{ $(\u0027Extract Canonical Relationships\u0027).item.json.asset_id }}"
+                                                                            }
+                                                                        ]
+                                                     },
+                                         "returnAll":  false,
+                                         "limit":  2
+                                     }
+                  },
+                  {
+                      "name":  "Resolve approval_queue",
+                      "type":  "n8n-nodes-base.dataTable",
+                      "typeVersion":  1.1,
+                      "position":  [
+                                       1344,
+                                       0
+                                   ],
+                      "parameters":  {
+                                         "resource":  "row",
+                                         "operation":  "get",
+                                         "dataTableId":  {
+                                                             "__rl":  true,
+                                                             "mode":  "id",
+                                                             "value":  "I50dgyTWCoCvPnDt"
+                                                         },
+                                         "matchType":  "allConditions",
+                                         "filters":  {
+                                                         "conditions":  [
+                                                                            {
+                                                                                "keyName":  "entity_id",
+                                                                                "condition":  "eq",
+                                                                                "keyValue":  "={{ $(\u0027Extract Canonical Relationships\u0027).item.json.output_id }}"
+                                                                            }
+                                                                        ]
+                                                     },
+                                         "returnAll":  false,
+                                         "limit":  2
+                                     }
+                  },
+                  {
+                      "name":  "Resolve centralized distribution config",
+                      "type":  "n8n-nodes-base.code",
+                      "typeVersion":  2,
+                      "position":  [
+                                       1568,
+                                       180
+                                   ],
+                      "parameters":  {
+                                         "mode":  "runOnceForAllItems",
+                                         "jsCode":  "const output=$(\u0027Resolve content_output\u0027).first().json;const accounts={facebook:\u0027__FACEBOOK_BLOTATO_ACCOUNT_ID__\u0027,instagram:\u0027__INSTAGRAM_BLOTATO_ACCOUNT_ID__\u0027,threads:\u0027__THREADS_BLOTATO_ACCOUNT_ID__\u0027,youtube:\u0027__YOUTUBE_BLOTATO_ACCOUNT_ID__\u0027,x:\u0027__X_BLOTATO_ACCOUNT_ID__\u0027,tiktok:\u0027__TIKTOK_BLOTATO_ACCOUNT_ID__\u0027};const adapter_modes={facebook:\u0027http\u0027,instagram:\u0027http\u0027,tiktok:\u0027http\u0027,threads:\u0027native\u0027,youtube:\u0027native\u0027,x:\u0027native\u0027};return [{json:{...$input.first().json,output,distribution_config:{version:\u0027distribution-runtime-config@1.1.0\u0027,accounts,adapter_modes,http_credential_logical_name:\u0027INT | Blotato | Development | Distribution\u0027,http_credential_type:\u0027httpHeaderAuth\u0027,native_credential_logical_name:\u0027INT | Blotato Native | Development | Distribution\u0027,native_credential_type:\u0027blotatoApi\u0027,automatic_retries:0}}}];"
+                                     }
+                  },
+                  {
+                      "name":  "Render platform-native payload",
+                      "type":  "n8n-nodes-base.code",
+                      "typeVersion":  2,
+                      "position":  [
+                                       1568,
+                                       0
+                                   ],
+                      "parameters":  {
+                                         "mode":  "runOnceForAllItems",
+                                         "jsCode":  "const item=$(\u0027Resolve centralized distribution config\u0027).first().json;const o=item.output;const m=JSON.parse(o.manifest_json??\u0027{}\u0027);const p=(m.platform_targets??[m.platform??\u0027facebook\u0027])[0];const r=item.distribution_config;const intent=typeof m.engagement_intent===\u0027string\u0027?m.engagement_intent:m.engagement_intent?.intent;if(!intent)throw new Error(\u0027MISSING_ENGAGEMENT_INTENT\u0027);const tags=Array.isArray(m.hashtags)?m.hashtags.slice(0,3):[];const body=String(m.caption??\u0027\u0027).trim();const clean=body.endsWith(intent)?body.slice(0,-intent.length).trim():body;const tagLine=tags.length?\u0027#\u0027+tags.map(x=\u003eString(x).replace(/^#/,\u0027\u0027)).join(\u0027 #\u0027):\u0027\u0027;const firstComment=[intent,tagLine].filter(Boolean).join(\u0027\\n\\n\u0027);const caption=p===\u0027facebook\u0027||p===\u0027instagram\u0027?clean:p===\u0027x\u0027?[clean,tagLine].filter(Boolean).join(\u0027\\n\\n\u0027).slice(0,280):[clean,firstComment].filter(Boolean).join(\u0027\\n\\n\u0027);return [{json:{content_output_id:o.output_id,platform:p,account_id:r.accounts[p],adapter_mode:r.adapter_modes[p],caption,caption_body:clean,first_comment:[\u0027facebook\u0027,\u0027instagram\u0027].includes(p)?firstComment:null,engagement_intent:m.engagement_intent,hashtags:tags,character_count:caption.length,render_version:\u0027distribution-renderer@1.1.0\u0027,engagement_rendered:p!==\u0027x\u0027,media_urls:[o.media_drive_url??\u0027\u0027],title:m.title??null,distribution_config:r}}];"
+                                     }
+                  },
+                  {
+                      "name":  "Select Blotato publisher adapter",
+                      "type":  "n8n-nodes-base.code",
+                      "typeVersion":  2,
+                      "position":  [
+                                       1792,
+                                       0
+                                   ],
+                      "parameters":  {
+                                         "mode":  "runOnceForAllItems",
+                                         "jsCode":  "const item=$input.first().json;return [{json:{...item,provider:\u0027blotato\u0027,adapter:item.adapter_mode===\u0027http\u0027?\u0027blotato-http\u0027:\u0027blotato-native\u0027,idempotency_key:\u0027publish:\u0027+item.content_output_id+\u0027:\u0027+item.platform+\u0027:1\u0027}}];"
+                                     }
+                  },
+                  {
+                      "name":  "Exact publishing duplicate lookup",
+                      "type":  "n8n-nodes-base.dataTable",
+                      "typeVersion":  1.1,
+                      "position":  [
+                                       2016,
+                                       180
+                                   ],
+                      "parameters":  {
+                                         "resource":  "row",
+                                         "operation":  "get",
+                                         "dataTableId":  {
+                                                             "__rl":  true,
+                                                             "mode":  "id",
+                                                             "value":  "qHmuRSglzmNT3Oj9"
+                                                         },
+                                         "matchType":  "allConditions",
+                                         "filters":  {
+                                                         "conditions":  [
+                                                                            {
+                                                                                "keyName":  "output_id",
+                                                                                "condition":  "eq",
+                                                                                "keyValue":  "={{ $(\u0027Select Blotato publisher adapter\u0027).item.json.content_output_id }}"
+                                                                            },
+                                                                            {
+                                                                                "keyName":  "platform",
+                                                                                "condition":  "eq",
+                                                                                "keyValue":  "={{ $(\u0027Select Blotato publisher adapter\u0027).item.json.platform }}"
+                                                                            }
+                                                                        ]
+                                                     },
+                                         "returnAll":  false,
+                                         "limit":  2
+                                     }
+                  },
+                  {
+                      "name":  "Duplicate publication gate",
+                      "type":  "n8n-nodes-base.code",
+                      "typeVersion":  2,
+                      "position":  [
+                                       2240,
+                                       180
+                                   ],
+                      "parameters":  {
+                                         "mode":  "runOnceForAllItems",
+                                         "jsCode":  "const b=$(\u0027Select Blotato publisher adapter\u0027).first().json;const rows=$input.all().map(x=\u003ex.json).filter(x=\u003ex\u0026\u0026x.output_id);const m=rows.filter(x=\u003e{try{return JSON.parse(x.payload_json??\u0027{}\u0027).account_id===b.account_id}catch{return false}});return [{json:{...b,duplicate_status:m.some(x=\u003ex.status===\u0027published\u0027)?\u0027ALREADY_PUBLISHED\u0027:m.some(x=\u003e[\u0027submitted\u0027,\u0027outcome_unknown\u0027,\u0027reconciliation_required\u0027].includes(x.status))?\u0027RECONCILIATION_REQUIRED\u0027:\u0027NONE\u0027,duplicate_rows:m.length}}];"
+                                     }
+                  },
+                  {
+                      "name":  "Credential and account binding gate",
+                      "type":  "n8n-nodes-base.code",
+                      "typeVersion":  2,
+                      "position":  [
+                                       2016,
+                                       0
+                                   ],
+                      "parameters":  {
+                                         "mode":  "runOnceForAllItems",
+                                         "jsCode":  "const item=$input.first().json;const accountReady=Boolean(item.account_id\u0026\u0026!String(item.account_id).startsWith(\u0027__\u0027));const credentialBound=false;const ready=accountReady\u0026\u0026credentialBound;const credential_type=item.adapter_mode===\u0027http\u0027?\u0027httpHeaderAuth\u0027:\u0027blotatoApi\u0027;return [{json:{...item,status:ready?\u0027READY_FOR_LIVE_PUBLISH\u0027:\u0027READY_FOR_CREDENTIAL_BINDING\u0027,credential_logical_name:item.adapter_mode===\u0027http\u0027?\u0027INT | Blotato | Development | Distribution\u0027:\u0027INT | Blotato Native | Development | Distribution\u0027,credential_type,automatic_retries:0,external_call:ready,credential_binding_status:credentialBound?\u0027bound\u0027:\u0027pending\u0027}}];"
+                                     }
+                  },
+                  {
+                      "name":  "Credential and account readiness",
+                      "type":  "n8n-nodes-base.if",
+                      "typeVersion":  2.3,
+                      "position":  [
+                                       2240,
+                                       0
+                                   ],
+                      "parameters":  {
+                                         "conditions":  {
+                                                            "options":  {
+                                                                            "caseSensitive":  true,
+                                                                            "leftValue":  "",
+                                                                            "typeValidation":  "strict"
+                                                                        },
+                                                            "conditions":  [
+                                                                               {
+                                                                                   "leftValue":  "={{ $json.external_call }}",
+                                                                                   "rightValue":  true,
+                                                                                   "operator":  {
+                                                                                                    "type":  "boolean",
+                                                                                                    "operation":  "equals"
+                                                                                                }
+                                                                               }
+                                                                           ],
+                                                            "combinator":  "and"
+                                                        }
+                                     }
+                  },
+                  {
+                      "name":  "Route publisher transport",
+                      "type":  "n8n-nodes-base.switch",
+                      "typeVersion":  3.4,
+                      "position":  [
+                                       2464,
+                                       0
+                                   ],
+                      "parameters":  {
+                                         "mode":  "expression",
+                                         "numberOutputs":  6,
+                                         "output":  "={{ $json.platform === \u0027facebook\u0027 ? 0 : $json.platform === \u0027instagram\u0027 ? 1 : $json.platform === \u0027tiktok\u0027 ? 2 : $json.platform === \u0027threads\u0027 ? 3 : $json.platform === \u0027youtube\u0027 ? 4 : 5 }}",
+                                         "looseTypeValidation":  false
+                                     }
+                  },
+                  {
+                      "name":  "Blotato HTTP — Facebook",
+                      "type":  "n8n-nodes-base.httpRequest",
+                      "typeVersion":  4.5,
+                      "position":  [
+                                       2688,
+                                       -240
+                                   ],
+                      "parameters":  {
+                                         "method":  "POST",
+                                         "url":  "https://backend.blotato.com/v2/posts",
+                                         "authentication":  "genericCredentialType",
+                                         "genericAuthType":  "httpHeaderAuth",
+                                         "sendHeaders":  true,
+                                         "specifyHeaders":  "keypair",
+                                         "headerParameters":  {
+                                                                  "parameters":  [
+                                                                                     {
+                                                                                         "name":  "Content-Type",
+                                                                                         "value":  "application/json"
+                                                                                     }
+                                                                                 ]
+                                                              },
+                                         "sendBody":  true,
+                                         "contentType":  "json",
+                                         "specifyBody":  "json",
+                                         "jsonBody":  "={{ JSON.stringify({post:{accountId:$json.account_id,content:{text:$json.caption,mediaUrls:$json.media_urls,platform:\u0027facebook\u0027},target:{targetType:\u0027facebook\u0027}}}) }}"
+                                     }
+                  },
+                  {
+                      "name":  "Blotato HTTP — Instagram",
+                      "type":  "n8n-nodes-base.httpRequest",
+                      "typeVersion":  4.5,
+                      "position":  [
+                                       2688,
+                                       -80
+                                   ],
+                      "parameters":  {
+                                         "method":  "POST",
+                                         "url":  "https://backend.blotato.com/v2/posts",
+                                         "authentication":  "genericCredentialType",
+                                         "genericAuthType":  "httpHeaderAuth",
+                                         "sendHeaders":  true,
+                                         "specifyHeaders":  "keypair",
+                                         "headerParameters":  {
+                                                                  "parameters":  [
+                                                                                     {
+                                                                                         "name":  "Content-Type",
+                                                                                         "value":  "application/json"
+                                                                                     }
+                                                                                 ]
+                                                              },
+                                         "sendBody":  true,
+                                         "contentType":  "json",
+                                         "specifyBody":  "json",
+                                         "jsonBody":  "={{ JSON.stringify({post:{accountId:$json.account_id,content:{text:$json.caption,mediaUrls:$json.media_urls,platform:\u0027instagram\u0027},target:{targetType:\u0027instagram\u0027}}}) }}"
+                                     }
+                  },
+                  {
+                      "name":  "Blotato Native — Threads",
+                      "type":  "@blotato/n8n-nodes-blotato.blotato",
+                      "typeVersion":  2,
+                      "position":  [
+                                       2688,
+                                       80
+                                   ],
+                      "parameters":  {
+                                         "resource":  "post",
+                                         "operation":  "create",
+                                         "platform":  "threads",
+                                         "accountId":  {
+                                                           "__rl":  true,
+                                                           "mode":  "id",
+                                                           "value":  "={{ $json.account_id }}"
+                                                       },
+                                         "postContentText":  "={{ $json.caption }}",
+                                         "postContentMediaUrls":  "={{ ($json.media_urls ?? []).join(\u0027,\u0027) }}",
+                                         "useNextFreeSlot":  false
+                                     }
+                  },
+                  {
+                      "name":  "Blotato Native — YouTube",
+                      "type":  "@blotato/n8n-nodes-blotato.blotato",
+                      "typeVersion":  2,
+                      "position":  [
+                                       2688,
+                                       240
+                                   ],
+                      "parameters":  {
+                                         "resource":  "post",
+                                         "operation":  "create",
+                                         "platform":  "youtube",
+                                         "accountId":  {
+                                                           "__rl":  true,
+                                                           "mode":  "id",
+                                                           "value":  "={{ $json.account_id }}"
+                                                       },
+                                         "postContentText":  "={{ $json.caption }}",
+                                         "postContentMediaUrls":  "={{ ($json.media_urls ?? []).join(\u0027,\u0027) }}",
+                                         "useNextFreeSlot":  false,
+                                         "postCreateYoutubeOptionTitle":  "={{ $json.title ?? \u0027\u0027 }}",
+                                         "postCreateYoutubeOptionPrivacyStatus":  "public"
+                                     }
+                  },
+                  {
+                      "name":  "Blotato Native — X",
+                      "type":  "@blotato/n8n-nodes-blotato.blotato",
+                      "typeVersion":  2,
+                      "position":  [
+                                       2688,
+                                       400
+                                   ],
+                      "parameters":  {
+                                         "resource":  "post",
+                                         "operation":  "create",
+                                         "platform":  "twitter",
+                                         "accountId":  {
+                                                           "__rl":  true,
+                                                           "mode":  "id",
+                                                           "value":  "={{ $json.account_id }}"
+                                                       },
+                                         "postContentText":  "={{ $json.caption }}",
+                                         "postContentMediaUrls":  "={{ ($json.media_urls ?? []).join(\u0027,\u0027) }}",
+                                         "useNextFreeSlot":  false
+                                     }
+                  },
+                  {
+                      "name":  "Normalize Blotato provider result",
+                      "type":  "n8n-nodes-base.code",
+                      "typeVersion":  2,
+                      "position":  [
+                                       3136,
+                                       80
+                                   ],
+                      "parameters":  {
+                                         "mode":  "runOnceForAllItems",
+                                         "jsCode":  "const item=$input.first().json;const body=item.body??item;const status=body.postSubmissionId?\u0027submitted\u0027:(body.platformPostId||body.postId?\u0027published\u0027:\u0027unknown\u0027);return [{json:{...item,provider_job_id:body.postSubmissionId??null,platform_post_id:body.platformPostId??body.postId??null,public_url:body.publicUrl??body.postUrl??null,provider_status:status,outcome:status===\u0027published\u0027?\u0027SUCCESS\u0027:status===\u0027submitted\u0027?\u0027SUBMITTED\u0027:\u0027OUTCOME_UNKNOWN\u0027,attempt_count:1,retry_count:0}}];"
+                                     }
+                  },
+                  {
+                      "name":  "Build workflow_runs terminal row",
+                      "type":  "n8n-nodes-base.code",
+                      "typeVersion":  2,
+                      "position":  [
+                                       3360,
+                                       180
+                                   ],
+                      "parameters":  {
+                                         "mode":  "runOnceForAllItems",
+                                         "jsCode":  "const x=$input.first().json;const o=$(\u0027Resolve content_output\u0027).first().json;const n=new Date().toISOString();const id=\u0027AUT-012:\u0027+($execution.id??\u0027manual\u0027);return [{json:{...x,run_id:id,root_run_id:id,parent_run_id:\u0027\u0027,workflow_key:\u0027INT-AUT-014\u0027,workflow_name:\u0027INT-AUT-014 — Distribution Executor — DEV\u0027,workflow_version:\u0027distribution-executor@1.1.0\u0027,module:\u0027distribution\u0027,environment:\u0027development\u0027,n8n_workflow_id:\u0027AknakVMx2prJrsZw\u0027,n8n_execution_id:String($execution.id??\u0027\u0027),subject_id:o.subject_id,story_object_id:o.story_object_id,manifest_id:o.manifest_id,output_id:o.output_id,started_at:n,completed_at:n,status:x.status??\u0027READY_FOR_CREDENTIAL_BINDING\u0027,state_from:\u0027started\u0027,state_to:x.status??\u0027READY_FOR_CREDENTIAL_BINDING\u0027,attempt:0,provider:x.provider??\u0027blotato\u0027,human_review_required:true,review_status:\u0027pending\u0027,input_ids_json:JSON.stringify([o.output_id]),output_ids_json:\u0027[]\u0027,source_ids_json:\u0027[]\u0027,claim_ids_json:o.claim_ids_json??\u0027[]\u0027,asset_ids_json:o.asset_ids_json??\u0027[]\u0027,idempotency_key:\u0027run:\u0027+id,created_at:n,updated_at:n}}];"
+                                     }
+                  },
+                  {
+                      "name":  "Persist workflow_runs terminal",
+                      "type":  "n8n-nodes-base.dataTable",
+                      "typeVersion":  1.1,
+                      "position":  [
+                                       3584,
+                                       180
+                                   ],
+                      "parameters":  {
+                                         "resource":  "row",
+                                         "operation":  "insert",
+                                         "dataTableId":  {
+                                                             "__rl":  true,
+                                                             "mode":  "id",
+                                                             "value":  "ZdOyJqa5ffTkwUSV"
+                                                         }
+                                     }
+                  },
+                  {
+                      "name":  "Persist and exit",
+                      "type":  "n8n-nodes-base.code",
+                      "typeVersion":  2,
+                      "position":  [
+                                       3808,
+                                       0
+                                   ],
+                      "parameters":  {
+                                         "mode":  "runOnceForAllItems",
+                                         "jsCode":  "const item=$input.first().json;return [{json:{status:item.status??\u0027READY_FOR_CREDENTIAL_BINDING\u0027,external_calls:item.external_call?1:0,automatic_retries:0,retries:0,rendered_payload:{caption:item.caption??null,first_comment:item.first_comment??null,hashtags:item.hashtags??[],character_count:item.character_count??0,render_version:item.render_version??null,engagement_rendered:item.engagement_rendered??false},persistence_tables:[\u0027publishing_log\u0027,\u0027workflow_runs\u0027],persist_and_exit:true}}];"
+                                     }
+                  },
+                  {
+                      "name":  "Blotato HTTP — TikTok",
+                      "type":  "n8n-nodes-base.httpRequest",
+                      "typeVersion":  4.5,
+                      "position":  [
+                                       2688,
+                                       80
+                                   ],
+                      "parameters":  {
+                                         "method":  "POST",
+                                         "url":  "https://backend.blotato.com/v2/posts",
+                                         "authentication":  "genericCredentialType",
+                                         "genericAuthType":  "httpHeaderAuth",
+                                         "sendHeaders":  true,
+                                         "specifyHeaders":  "keypair",
+                                         "headerParameters":  {
+                                                                  "parameters":  [
+                                                                                     {
+                                                                                         "name":  "Content-Type",
+                                                                                         "value":  "application/json"
+                                                                                     }
+                                                                                 ]
+                                                              },
+                                         "sendBody":  true,
+                                         "contentType":  "json",
+                                         "specifyBody":  "json",
+                                         "jsonBody":  "={{ JSON.stringify({post:{accountId:$json.account_id,content:{text:$json.caption,mediaUrls:$json.media_urls,platform:\u0027tiktok\u0027},target:{targetType:\u0027tiktok\u0027}}}) }}"
+                                     }
+                  }
+              ],
+    "connections":  {
+                        "Manual Trigger":  {
+                                               "main":  [
+                                                            [
+                                                                {
+                                                                    "node":  "Initialize Distribution Request",
+                                                                    "type":  "main",
+                                                                    "index":  0
+                                                                }
+                                                            ]
+                                                        ]
+                                           },
+                        "Initialize Distribution Request":  {
+                                                                "main":  [
+                                                                             [
+                                                                                 {
+                                                                                     "node":  "Build workflow_runs START row",
+                                                                                     "type":  "main",
+                                                                                     "index":  0
+                                                                                 }
+                                                                             ]
+                                                                         ]
+                                                            },
+                        "Build workflow_runs START row":  {
+                                                              "main":  [
+                                                                           [
+                                                                               {
+                                                                                   "node":  "Persist workflow_runs START",
+                                                                                   "type":  "main",
+                                                                                   "index":  0
+                                                                               }
+                                                                           ]
+                                                                       ]
+                                                          },
+                        "Persist workflow_runs START":  {
+                                                            "main":  [
+                                                                         [
+                                                                             {
+                                                                                 "node":  "Resolve content_output",
+                                                                                 "type":  "main",
+                                                                                 "index":  0
+                                                                             }
+                                                                         ]
+                                                                     ]
+                                                        },
+                        "Resolve content_output":  {
+                                                       "main":  [
+                                                                    [
+                                                                        {
+                                                                            "node":  "Extract Canonical Relationships",
+                                                                            "type":  "main",
+                                                                            "index":  0
+                                                                        }
+                                                                    ]
+                                                                ]
+                                                   },
+                        "Extract Canonical Relationships":  {
+                                                                "main":  [
+                                                                             [
+                                                                                 {
+                                                                                     "node":  "Resolve story_object",
+                                                                                     "type":  "main",
+                                                                                     "index":  0
+                                                                                 }
+                                                                             ]
+                                                                         ]
+                                                            },
+                        "Resolve story_object":  {
+                                                     "main":  [
+                                                                  [
+                                                                      {
+                                                                          "node":  "Resolve asset_registry",
+                                                                          "type":  "main",
+                                                                          "index":  0
+                                                                      }
+                                                                  ]
+                                                              ]
+                                                 },
+                        "Resolve asset_registry":  {
+                                                       "main":  [
+                                                                    [
+                                                                        {
+                                                                            "node":  "Resolve approval_queue",
+                                                                            "type":  "main",
+                                                                            "index":  0
+                                                                        }
+                                                                    ]
+                                                                ]
+                                                   },
+                        "Resolve approval_queue":  {
+                                                       "main":  [
+                                                                    [
+                                                                        {
+                                                                            "node":  "Resolve centralized distribution config",
+                                                                            "type":  "main",
+                                                                            "index":  0
+                                                                        }
+                                                                    ]
+                                                                ]
+                                                   },
+                        "Resolve centralized distribution config":  {
+                                                                        "main":  [
+                                                                                     [
+                                                                                         {
+                                                                                             "node":  "Render platform-native payload",
+                                                                                             "type":  "main",
+                                                                                             "index":  0
+                                                                                         }
+                                                                                     ]
+                                                                                 ]
+                                                                    },
+                        "Render platform-native payload":  {
+                                                               "main":  [
+                                                                            [
+                                                                                {
+                                                                                    "node":  "Select Blotato publisher adapter",
+                                                                                    "type":  "main",
+                                                                                    "index":  0
+                                                                                }
+                                                                            ]
+                                                                        ]
+                                                           },
+                        "Select Blotato publisher adapter":  {
+                                                                 "main":  [
+                                                                              [
+                                                                                  {
+                                                                                      "node":  "Exact publishing duplicate lookup",
+                                                                                      "type":  "main",
+                                                                                      "index":  0
+                                                                                  }
+                                                                              ]
+                                                                          ]
+                                                             },
+                        "Exact publishing duplicate lookup":  {
+                                                                  "main":  [
+                                                                               [
+                                                                                   {
+                                                                                       "node":  "Duplicate publication gate",
+                                                                                       "type":  "main",
+                                                                                       "index":  0
+                                                                                   }
+                                                                               ]
+                                                                           ]
+                                                              },
+                        "Duplicate publication gate":  {
+                                                           "main":  [
+                                                                        [
+                                                                            {
+                                                                                "node":  "Credential and account binding gate",
+                                                                                "type":  "main",
+                                                                                "index":  0
+                                                                            }
+                                                                        ]
+                                                                    ]
+                                                       },
+                        "Credential and account binding gate":  {
+                                                                    "main":  [
+                                                                                 [
+                                                                                     {
+                                                                                         "node":  "Credential and account readiness",
+                                                                                         "type":  "main",
+                                                                                         "index":  0
+                                                                                     }
+                                                                                 ]
+                                                                             ]
+                                                                },
+                        "Credential and account readiness":  {
+                                                                 "main":  [
+                                                                              [
+                                                                                  {
+                                                                                      "node":  "Route publisher transport",
+                                                                                      "type":  "main",
+                                                                                      "index":  0
+                                                                                  }
+                                                                              ],
+                                                                              [
+                                                                                  {
+                                                                                      "node":  "Build workflow_runs terminal row",
+                                                                                      "type":  "main",
+                                                                                      "index":  0
+                                                                                  }
+                                                                              ]
+                                                                          ]
+                                                             },
+                        "Route publisher transport":  {
+                                                          "main":  [
+                                                                       [
+                                                                           {
+                                                                               "node":  "Blotato HTTP — Facebook",
+                                                                               "type":  "main",
+                                                                               "index":  0
+                                                                           }
+                                                                       ],
+                                                                       [
+                                                                           {
+                                                                               "node":  "Blotato HTTP — Instagram",
+                                                                               "type":  "main",
+                                                                               "index":  0
+                                                                           }
+                                                                       ],
+                                                                       [
+                                                                           {
+                                                                               "node":  "Blotato Native — Threads",
+                                                                               "type":  "main",
+                                                                               "index":  0
+                                                                           }
+                                                                       ],
+                                                                       [
+                                                                           {
+                                                                               "node":  "Blotato Native — YouTube",
+                                                                               "type":  "main",
+                                                                               "index":  0
+                                                                           }
+                                                                       ],
+                                                                       [
+                                                                           {
+                                                                               "node":  "Blotato Native — X",
+                                                                               "type":  "main",
+                                                                               "index":  0
+                                                                           }
+                                                                       ],
+                                                                       [
+                                                                           {
+                                                                               "node":  "Blotato HTTP — TikTok",
+                                                                               "type":  "main",
+                                                                               "index":  0
+                                                                           }
+                                                                       ]
+                                                                   ]
+                                                      },
+                        "Blotato HTTP — Facebook":  {
+                                                          "main":  [
+                                                                       [
+                                                                           {
+                                                                               "node":  "Normalize Blotato provider result",
+                                                                               "type":  "main",
+                                                                               "index":  0
+                                                                           }
+                                                                       ]
+                                                                   ]
+                                                      },
+                        "Blotato HTTP — Instagram":  {
+                                                           "main":  [
+                                                                        [
+                                                                            {
+                                                                                "node":  "Normalize Blotato provider result",
+                                                                                "type":  "main",
+                                                                                "index":  0
+                                                                            }
+                                                                        ]
+                                                                    ]
+                                                       },
+                        "Blotato Native — Threads":  {
+                                                           "main":  [
+                                                                        [
+                                                                            {
+                                                                                "node":  "Normalize Blotato provider result",
+                                                                                "type":  "main",
+                                                                                "index":  0
+                                                                            }
+                                                                        ]
+                                                                    ]
+                                                       },
+                        "Blotato Native — YouTube":  {
+                                                           "main":  [
+                                                                        [
+                                                                            {
+                                                                                "node":  "Normalize Blotato provider result",
+                                                                                "type":  "main",
+                                                                                "index":  0
+                                                                            }
+                                                                        ]
+                                                                    ]
+                                                       },
+                        "Blotato Native — X":  {
+                                                     "main":  [
+                                                                  [
+                                                                      {
+                                                                          "node":  "Normalize Blotato provider result",
+                                                                          "type":  "main",
+                                                                          "index":  0
+                                                                      }
+                                                                  ]
+                                                              ]
+                                                 },
+                        "Normalize Blotato provider result":  {
+                                                                  "main":  [
+                                                                               [
+                                                                                   {
+                                                                                       "node":  "Build workflow_runs terminal row",
+                                                                                       "type":  "main",
+                                                                                       "index":  0
+                                                                                   }
+                                                                               ]
+                                                                           ]
+                                                              },
+                        "Build workflow_runs terminal row":  {
+                                                                 "main":  [
+                                                                              [
+                                                                                  {
+                                                                                      "node":  "Persist workflow_runs terminal",
+                                                                                      "type":  "main",
+                                                                                      "index":  0
+                                                                                  }
+                                                                              ]
+                                                                          ]
+                                                             },
+                        "Persist workflow_runs terminal":  {
+                                                               "main":  [
+                                                                            [
+                                                                                {
+                                                                                    "node":  "Persist and exit",
+                                                                                    "type":  "main",
+                                                                                    "index":  0
+                                                                                }
+                                                                            ]
+                                                                        ]
+                                                           },
+                        "Blotato HTTP — TikTok":  {
+                                                      "main":  [
+                                                                   {
+                                                                       "node":  "Normalize Blotato provider result",
+                                                                       "type":  "main",
+                                                                       "index":  0
+                                                                   }
+                                                               ]
+                                                  }
+                    }
 }

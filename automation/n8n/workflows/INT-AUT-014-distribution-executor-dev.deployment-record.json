@@ -1,29 +1,57 @@
 {
-  "$schema": "../../../schemas/n8n-project-scope.schema.json",
-  "deployment_record_id": "INT-DEP-AUT-014-DIST-DEV",
-  "work_item": "AUT-012",
-  "workflow_name": "INT-AUT-014 — Distribution Executor — DEV",
-  "workflow_id": "AknakVMx2prJrsZw",
-  "project": {"name":"INTRST Films","id":"o8RQQQgne2c6jXr5"},
-  "environment": "development",
-  "active": false,
-  "tag": "project:intrst",
-  "credential_binding": {"status":"pending","http_logical_name":"INT | Blotato | Development | Distribution","http_credential_type":"httpTemplatedCustomAuth","native_logical_name":"INT | Blotato Native | Development | Distribution","native_credential_type":"blotatoApi","secret_bound":false},
-  "account_routing": {
-    "facebook":"__FACEBOOK_BLOTATO_ACCOUNT_ID__",
-    "instagram":"__INSTAGRAM_BLOTATO_ACCOUNT_ID__",
-    "threads":"__THREADS_BLOTATO_ACCOUNT_ID__",
-    "youtube":"__YOUTUBE_BLOTATO_ACCOUNT_ID__",
-    "x":"__X_BLOTATO_ACCOUNT_ID__",
-    "tiktok":"__TIKTOK_BLOTATO_ACCOUNT_ID__",
-    "linkedin":"__LINKEDIN_BLOTATO_ACCOUNT_ID__"
-  },
-  "runtime_state": "READY_FOR_CREDENTIAL_BINDING",
-  "runtime_version_id": "d6c56c5e-36fb-447d-a79d-76315fcf36e9",
-  "node_count": 26,
-  "transport_branches": ["blotato-http:facebook","blotato-http:instagram","blotato-native:threads","blotato-native:youtube","blotato-native:x"],
-  "fixture": {"content_output_id":"INT-OUT-01K4X4Q7B6D0MMPY000000004","platform":"facebook","execution_id":"34923","result":"READY_FOR_CREDENTIAL_BINDING","external_calls":0,"automatic_retries":0,"rendered":{"first_comment":true,"hashtags":3,"render_version":"distribution-renderer@1.1.0"}},
-  "semantic_fingerprint": "sha256:transport-ready-pending-recalculation",
-  "rollback": "archive only workflow AknakVMx2prJrsZw after project-scoped ownership verification",
-  "production_promotion": "blocked_pending_credential_binding_and_controlled_publish"
+    "$schema":  "../../../schemas/n8n-project-scope.schema.json",
+    "deployment_record_id":  "INT-DEP-AUT-014-DIST-DEV",
+    "work_item":  "AUT-014",
+    "workflow_name":  "INT-AUT-014 Ã¢â‚¬â€ Distribution Executor Ã¢â‚¬â€ DEV",
+    "workflow_id":  "AknakVMx2prJrsZw",
+    "project":  {
+                    "name":  "INTRST Films",
+                    "id":  "o8RQQQgne2c6jXr5"
+                },
+    "environment":  "development",
+    "active":  false,
+    "tag":  "project:intrst",
+    "credential_binding":  {
+                               "status":  "pending",
+                               "http_logical_name":  "INT | Blotato | Development | Distribution",
+                               "http_credential_type":  "httpHeaderAuth",
+                               "native_logical_name":  "INT | Blotato Native | Development | Distribution",
+                               "native_credential_type":  "blotatoApi",
+                               "secret_bound":  false
+                           },
+    "account_routing":  {
+                            "facebook":  "__FACEBOOK_BLOTATO_ACCOUNT_ID__",
+                            "instagram":  "__INSTAGRAM_BLOTATO_ACCOUNT_ID__",
+                            "threads":  "__THREADS_BLOTATO_ACCOUNT_ID__",
+                            "youtube":  "__YOUTUBE_BLOTATO_ACCOUNT_ID__",
+                            "x":  "__X_BLOTATO_ACCOUNT_ID__",
+                            "tiktok":  "__TIKTOK_BLOTATO_ACCOUNT_ID__"
+                        },
+    "runtime_state":  "READY_FOR_CREDENTIAL_BINDING",
+    "runtime_version_id":  "134136aa-a2e7-4981-8383-055f7c8a9b9d",
+    "node_count":  27,
+    "transport_branches":  [
+                               "blotato-http:facebook",
+                               "blotato-http:instagram",
+                               "blotato-http:tiktok",
+                               "blotato-native:threads",
+                               "blotato-native:youtube",
+                               "blotato-native:x"
+                           ],
+    "fixture":  {
+                    "content_output_id":  "INT-OUT-01K4X4Q7B6D0MMPY000000004",
+                    "platform":  "facebook",
+                    "execution_id":  "34947",
+                    "result":  "READY_FOR_CREDENTIAL_BINDING",
+                    "external_calls":  0,
+                    "automatic_retries":  0,
+                    "rendered":  {
+                                     "first_comment":  true,
+                                     "hashtags":  3,
+                                     "render_version":  "distribution-renderer@1.1.0"
+                                 }
+                },
+    "semantic_fingerprint":  "sha256:a3d9fa3b6907b77ed8f234065cf393ddbeeca22ca3b1e75a06404f37f3d930a9",
+    "rollback":  "archive only workflow AknakVMx2prJrsZw after project-scoped ownership verification",
+    "production_promotion":  "blocked_pending_credential_binding_and_controlled_publish"
 }

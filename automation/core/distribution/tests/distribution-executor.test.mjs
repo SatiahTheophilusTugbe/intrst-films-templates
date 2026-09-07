@@ -88,6 +88,16 @@ test("routing remains subject- and format-agnostic", () => {
   assert.equal(DISTRIBUTION_ROUTING.threads.adapter_mode, "native");
   assert.equal(DISTRIBUTION_ROUTING.youtube.adapter_mode, "native");
   assert.equal(DISTRIBUTION_ROUTING.x.adapter_mode, "native");
+  assert.equal(DISTRIBUTION_ROUTING.tiktok.adapter_mode, "http");
+  assert.throws(() => renderPlatformPayload({ platform: "linkedin", caption: "Body", engagement_intent: "Intent" }), { code: "PLATFORM_UNSUPPORTED" });
+});
+
+test("TikTok uses the HTTP adapter and does not inherit first-comment behavior", () => {
+  const payload = renderPlatformPayload({ platform: "tiktok", caption: "Story body", engagement_intent: "Invite the audience to respond.", hashtags: ["Story", "Legacy"] });
+  assert.equal(payload.adapter_mode, "http");
+  assert.equal(payload.first_comment, undefined);
+  assert.equal(payload.caption, "Story body\n\n#Story #Legacy");
+  assert.equal(payload.engagement_rendered, false);
 });
 
 test("Facebook and Instagram render engagement intent as a separate first comment", () => {

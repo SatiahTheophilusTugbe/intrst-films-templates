@@ -8,7 +8,7 @@ export class DistributionContractError extends Error {
 }
 
 const TERMINAL_SUCCESS = new Set(["published"]);
-const SUPPORTED_PLATFORMS = new Set(["youtube", "facebook", "instagram", "tiktok", "x", "threads", "linkedin"]);
+const SUPPORTED_PLATFORMS = new Set(["youtube", "facebook", "instagram", "tiktok", "x", "threads"]);
 
 function fail(code, message, details) {
   throw new DistributionContractError(code, message, details);

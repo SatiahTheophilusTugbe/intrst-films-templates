@@ -12,10 +12,10 @@ if (workflow.nodes.filter((node) => node.type === "n8n-nodes-base.manualTrigger"
 if (workflow.nodes.some((node) => forbidden.has(node.type))) throw new Error("forbidden trigger node present");
 if (workflow.nodes.some((node) => node.credentials)) throw new Error("credential reference present");
 const httpNodes = workflow.nodes.filter((node) => node.type === "n8n-nodes-base.httpRequest");
-if (httpNodes.length !== 2 || !httpNodes.every((node) => node.parameters.url === "https://backend.blotato.com/v2/posts")) throw new Error("Blotato HTTP transport contract invalid");
-if (!JSON.stringify(workflow).includes("httpTemplatedCustomAuth") || !JSON.stringify(workflow).includes("blotato-api-key")) throw new Error("HTTP credential contract missing");
+if (httpNodes.length !== 3 || !httpNodes.every((node) => node.parameters.url === "https://backend.blotato.com/v2/posts")) throw new Error("Blotato HTTP transport contract invalid");
+if (!JSON.stringify(workflow).includes("httpHeaderAuth") || !JSON.stringify(workflow).includes("blotato-api-key")) throw new Error("HTTP credential contract missing");
 if (workflow.nodes.filter((node) => node.type === "@blotato/n8n-nodes-blotato.blotato").length !== 3) throw new Error("native Blotato transport branches missing");
 for (const required of ["Resolve content_output", "Resolve story_object", "Resolve asset_registry", "Resolve approval_queue", "Render platform-native payload", "Select Blotato publisher adapter", "Credential and account binding gate", "Persist and exit"]) if (!names.includes(required)) throw new Error(`missing node: ${required}`);
 if (!JSON.stringify(workflow).includes("READY_FOR_CREDENTIAL_BINDING") || !JSON.stringify(workflow).includes("automatic_retries") || !JSON.stringify(workflow).includes("Credential and account readiness")) throw new Error("credential-gated terminal contract missing");
-if (!names.includes("Exact publishing duplicate lookup") || !names.includes("Persist workflow_runs START") || !names.includes("Persist workflow_runs terminal")) throw new Error("durable distribution path missing");
+if (!names.some((name) => name.includes("TikTok")) || !names.includes("Exact publishing duplicate lookup") || !names.includes("Persist workflow_runs START") || !names.includes("Persist workflow_runs terminal")) throw new Error("durable distribution path missing");
 console.log("INT-AUT-014 inactive generic Distribution Executor valid");

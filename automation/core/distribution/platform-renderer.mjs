@@ -2,7 +2,7 @@ export class PlatformRenderError extends Error {
   constructor(code, message, details = {}) { super(message); this.name = "PlatformRenderError"; this.code = code; this.details = details; }
 }
 
-const SUPPORTED = new Set(["facebook", "instagram", "threads", "youtube", "x", "tiktok", "linkedin"]);
+const SUPPORTED = new Set(["facebook", "instagram", "threads", "youtube", "x", "tiktok"]);
 const ACCOUNT_KEYS = {
   facebook: "__FACEBOOK_BLOTATO_ACCOUNT_ID__",
   instagram: "__INSTAGRAM_BLOTATO_ACCOUNT_ID__",
@@ -10,7 +10,6 @@ const ACCOUNT_KEYS = {
   youtube: "__YOUTUBE_BLOTATO_ACCOUNT_ID__",
   x: "__X_BLOTATO_ACCOUNT_ID__",
   tiktok: "__TIKTOK_BLOTATO_ACCOUNT_ID__",
-  linkedin: "__LINKEDIN_BLOTATO_ACCOUNT_ID__",
 };
 
 function fail(code, message, details) { throw new PlatformRenderError(code, message, details); }
@@ -28,8 +27,7 @@ export const DISTRIBUTION_ROUTING = Object.freeze({
   threads: { adapter_mode: "native", account_id: ACCOUNT_KEYS.threads, first_comment: false },
   youtube: { adapter_mode: "native", account_id: ACCOUNT_KEYS.youtube, first_comment: false },
   x: { adapter_mode: "native", account_id: ACCOUNT_KEYS.x, first_comment: false },
-  tiktok: { adapter_mode: "native", account_id: ACCOUNT_KEYS.tiktok, first_comment: false },
-  linkedin: { adapter_mode: "native", account_id: ACCOUNT_KEYS.linkedin, first_comment: false },
+  tiktok: { adapter_mode: "http", account_id: ACCOUNT_KEYS.tiktok, first_comment: false },
 });
 
 function intentText(value) {
@@ -63,12 +61,15 @@ export function renderPlatformPayload({ platform, caption_body, caption, engagem
   } else if (platform === "x") {
     payload.caption = `${body}${tagLine ? `\n\n${tagLine}` : ""}`.slice(0, 280);
     payload.engagement_rendered = false;
+  } else if (platform === "tiktok") {
+    payload.caption = [body, tagLine].filter(Boolean).join("\n\n");
+    payload.engagement_rendered = false;
   } else {
     payload.caption = `${body}\n\n${closing}`;
   }
   payload.character_count = payload.caption.length;
   payload.render_version = "distribution-renderer@1.1.0";
-  payload.engagement_rendered = route.first_comment || platform !== "x";
+  payload.engagement_rendered = route.first_comment || (platform !== "x" && platform !== "tiktok");
   return payload;
 }
 

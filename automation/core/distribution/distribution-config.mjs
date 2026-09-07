@@ -1,7 +1,7 @@
 export const DISTRIBUTION_CREDENTIALS = Object.freeze({
   http: Object.freeze({
     logical_name: "INT | Blotato | Development | Distribution",
-    credential_type: "httpTemplatedCustomAuth",
+    credential_type: "httpHeaderAuth",
     secret_field: "api_key",
     provider_header: "blotato-api-key",
   }),
@@ -18,12 +18,11 @@ export const DISTRIBUTION_ACCOUNT_CONFIG = Object.freeze({
   youtube: "__YOUTUBE_BLOTATO_ACCOUNT_ID__",
   x: "__X_BLOTATO_ACCOUNT_ID__",
   tiktok: "__TIKTOK_BLOTATO_ACCOUNT_ID__",
-  linkedin: "__LINKEDIN_BLOTATO_ACCOUNT_ID__",
 });
 
 export function resolveDistributionConfig(platform, overrides = {}) {
   const account_id = overrides.account_id ?? DISTRIBUTION_ACCOUNT_CONFIG[platform];
-  const adapter_mode = ["facebook", "instagram"].includes(platform) ? "http" : "native";
+  const adapter_mode = ["facebook", "instagram", "tiktok"].includes(platform) ? "http" : "native";
   const credential = DISTRIBUTION_CREDENTIALS[adapter_mode];
   return { platform, account_id, adapter_mode, credential: { ...credential } };
 }
