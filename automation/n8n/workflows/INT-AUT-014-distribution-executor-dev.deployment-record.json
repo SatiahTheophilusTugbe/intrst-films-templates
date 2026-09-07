@@ -20,26 +20,28 @@
                                "secret_bound":  false
                            },
     "account_routing":  {
-                            "facebook":  "__FACEBOOK_BLOTATO_ACCOUNT_ID__",
-                            "instagram":  "__INSTAGRAM_BLOTATO_ACCOUNT_ID__",
-                            "threads":  "__THREADS_BLOTATO_ACCOUNT_ID__",
-                            "youtube":  "__YOUTUBE_BLOTATO_ACCOUNT_ID__",
-                            "x":  "__X_BLOTATO_ACCOUNT_ID__",
-                            "tiktok":  "__TIKTOK_BLOTATO_ACCOUNT_ID__"
+                            "facebook":  "22864",
+                            "instagram":  "69849",
+                            "threads":  "9386",
+                            "youtube":  "49204",
+                            "x":  "25655",
+                            "tiktok":  "58729"
                         },
-    "runtime_state":  "REPAIR_DEPLOYED_SYNTHETIC_PERSISTENCE_PATH_35150_35153_ZERO_CALL_PREFLIGHT_35155",
-    "runtime_version_id":  "8ea719d9-459c-4f71-bcea-ce48fa0134d6",
+    "runtime_state":  "REPAIR_DEPLOYED_TARGET_AWARE_PERSISTENCE_ZERO_CALL_PREFLIGHT_35155_POST_TEST_REMOVAL_REPORTED",
+    "runtime_version_id":  "abcf8193-ebdc-40d5-9cf1-bf5348a0516b",
     "node_count":  29,
     "repair":  {
                     "account_routing":  "verified Facebook accountId 22864 with INTRST Films pageId 101607426321841",
                     "provider_media_resolution":  "explicit provider_media_url or deterministic Wikimedia Commons Special:FilePath resolution from approved source_url",
                     "threads_rendering":  "deterministic <=500 character boundary truncation; optional engagement and hashtags dropped before story substance",
                     "publishing_log":  "immutable result insert on provider-result paths using the existing qHmuRSglzmNT3Oj9 table",
-                    "transport_error_policy":  "continue to normalization, OUTCOME_UNKNOWN, zero automatic retries"
+                    "transport_error_policy":  "continue to normalization, OUTCOME_UNKNOWN, zero automatic retries",
+                    "target_identity_persistence":  "fan-in builders map every branch; platform, account, submission, provider post, platform post and attempt identifiers remain distinct",
+                    "duplicate_prevention":  "exact account-aware idempotency lookup plus atomic claim binding; unresolved production claim fails closed before transport"
                 },
     "repository_runtime_parity":  {
                                         "status":  "verified",
-                                        "method":  "checked-in inline Render node is byte-identical to deployed Render code and behaviorally compared on Facebook, Instagram, Threads boundary, X budget and TikTok fixtures",
+                                        "method":  "checked-in inline Render node and deployed Render implementation are behaviorally compared on Facebook, Instagram, Threads boundary, X budget, TikTok media routing and Wikimedia media-resolution fixtures; fan-in persistence parity is checked separately",
                                         "renderer_version":  "distribution-renderer@1.3.0",
                                         "parity_markers":  ["distribution-renderer@1.3.0", "provider_media_url", "first_comment", "slice(0,280)", "500"]
                                     },
@@ -103,8 +105,20 @@
                                                     "youtube":  "SKIPPED_INELIGIBLE_FORMAT"
                                                 },
                                 "workflow_active":  false,
-                                "workflow_version_id":  "8ea719d9-459c-4f71-bcea-ce48fa0134d6"
+                                "workflow_version_id":  "abcf8193-ebdc-40d5-9cf1-bf5348a0516b"
                             },
+    "post_test_removal_report":  {
+                                      "execution_id":  "35160",
+                                      "reported_by":  "operator",
+                                      "reported_at":  "2026-09-07",
+                                      "scope":  ["facebook", "instagram", "threads", "x", "tiktok"],
+                                      "historical_result_preserved":  true,
+                                      "historical_provider_identifiers_preserved":  true,
+                                      "removal_state":  "user_reported_removed_not_independently_verified",
+                                      "idempotency_reset":  false,
+                                      "republish_authorization":  false,
+                                      "provider_status_lookup_performed":  false
+                                  },
     "transport_branches":  [
                                "blotato-http:facebook",
                                "blotato-http:instagram",

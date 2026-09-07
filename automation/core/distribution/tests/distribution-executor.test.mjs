@@ -33,6 +33,7 @@ function fixtureDeps({ existing = [], credential = { logical_name: "INT | Blotat
     resolvePublisherCredential: async () => credential,
     persistPublishingLog: async (row) => calls.logs.push(row),
     persistWorkflowRun: async (row) => calls.runs.push(row),
+    claimPublication: async ({ idempotency_key }) => ({ status: "CLAIMED", attempt_id: `${idempotency_key}:attempt` }),
   };
 }
 
@@ -51,6 +52,22 @@ test("blocks duplicate successful target before adapter transport", async () => 
   const deps = fixtureDeps({ existing: [{ status: "published" }] });
   await assert.rejects(() => preflightDistribution(request, deps), { code: "ALREADY_PUBLISHED" });
   assert.equal(deps.calls.submit, 0);
+});
+
+test("fails closed when atomic duplicate protection is unavailable", async () => {
+  const deps = fixtureDeps();
+  delete deps.claimPublication;
+  await assert.rejects(() => executeDistribution(request, deps), { code: "DUPLICATE_PROTECTION_UNAVAILABLE" });
+  assert.equal(deps.calls.submit, 0);
+});
+
+test("only an atomic CLAIMED result may reach publisher transport", async () => {
+  for (const status of ["ALREADY_CLAIMED", "PRIOR_SUCCESS", "PRIOR_OUTCOME_UNKNOWN", "CLAIM_CORRUPT", "CLAIM_BACKEND_UNAVAILABLE"]) {
+    const deps = fixtureDeps();
+    deps.claimPublication = async () => ({ status });
+    await assert.rejects(() => executeDistribution(request, deps), { code: status });
+    assert.equal(deps.calls.submit, 0, status);
+  }
 });
 
 test("missing publisher credential fails closed before transport", async () => {

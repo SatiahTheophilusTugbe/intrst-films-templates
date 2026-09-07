@@ -71,7 +71,7 @@ test("checked-in inline renderer is behaviorally equivalent on representative pl
   };
   const asset = { source_url: "https://commons.wikimedia.org/wiki/File:Young-Dolly-Parton.jpg" };
   const output = { output_id: "SYNTHETIC-OUT", manifest_json: JSON.stringify(manifest) };
-  const fields = ["caption", "first_comment", "hashtags", "character_count", "media_urls", "adapter_mode"];
+  const fields = ["caption", "first_comment", "hashtags", "character_count", "media_urls", "adapter_mode", "engagement_rendered"];
   const normalize = (value) => Object.fromEntries(fields.map((field) => [field, value[field] ?? null]));
   const inlineRunner = new Function("$input", "$", `return (async () => {${inline}})()`);
   for (const platform of ["facebook", "instagram", "threads", "x", "tiktok"]) {
@@ -93,7 +93,35 @@ test("transport branches are bounded and preserve the corrected Facebook account
   const transports = workflow.nodes.filter((node) => node.type === "n8n-nodes-base.httpRequest" || node.type === "@blotato/n8n-nodes-blotato.blotato");
   assert.ok(transports.every((node) => node.retryOnFail !== true));
   assert.ok(serialized.includes("profile_page_id"));
-  assert.ok(serialized.includes("__FACEBOOK_PROFILE_PAGE_ID__"));
+  assert.ok(serialized.includes('profile_page_id'));
+  assert.ok(serialized.includes('101607426321841'));
+});
+
+test("persistence fan-in preserves per-platform identity and atomic claim remains fail-closed", () => {
+  const logBuilder = workflow.nodes.find((node) => node.name === "Build publishing_log result row")?.parameters?.jsCode ?? "";
+  const runBuilder = workflow.nodes.find((node) => node.name === "Build workflow_runs terminal row")?.parameters?.jsCode ?? "";
+  const gate = workflow.nodes.find((node) => node.name === "Credential and account binding gate")?.parameters?.jsCode ?? "";
+  const duplicateLookup = workflow.nodes.find((node) => node.name === "Exact publishing duplicate lookup")?.parameters ?? {};
+  assert.match(logBuilder, /\$input\.all\(\)\.map/);
+  assert.match(runBuilder, /\$input\.all\(\)\.map/);
+  assert.doesNotMatch(logBuilder, /\$input\.first\(\)/);
+  assert.doesNotMatch(runBuilder, /\$input\.first\(\)/);
+  assert.match(logBuilder, /account_id/);
+  assert.match(logBuilder, /provider_submission_id/);
+  assert.match(logBuilder, /provider_post_id/);
+  assert.match(logBuilder, /platform_post_id/);
+  assert.match(gate, /atomic_claim_binding/);
+  assert.match(gate, /BLOCKED_ATOMIC_CLAIM_REQUIRED/);
+  assert.equal(duplicateLookup.filters.conditions.length, 1);
+  assert.equal(duplicateLookup.filters.conditions[0].keyName, "idempotency_key");
+});
+
+test("centralized runtime configuration records the unresolved production claim boundary", () => {
+  const config = workflow.nodes.find((node) => node.name === "Resolve centralized distribution config")?.parameters?.jsCode ?? "";
+  assert.match(config, /distribution-runtime-config@1\.5\.0/);
+  assert.match(config, /atomic_claim_binding/);
+  assert.match(config, /guarantee:false/);
+  assert.equal(serialized.includes("linkedin"), false);
 });
 
 test("transport URL and account routing are not input-controlled", () => {

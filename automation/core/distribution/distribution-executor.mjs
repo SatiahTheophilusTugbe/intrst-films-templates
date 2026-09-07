@@ -83,20 +83,34 @@ export async function preflightDistribution(request, deps) {
   if (approval.status !== "approved" || approval.decision !== "approved" || !approval.decision_actor) fail("APPROVAL_BLOCK", "Publish approval is incomplete.");
   const captions = manifest.caption ?? manifest.copy?.caption ?? manifest.platform_copy;
   if (!captions && !manifest.platform_captions) fail("MISSING_COPY", "Approved platform-native copy is missing.");
-  const existing = await deps.findPublishingLog({ output_id: output.output_id, platform: targets[0], instruction_version: output.version });
+  const account_id = manifest.destination_account ?? null;
+  const existing = await deps.findPublishingLog({ output_id: output.output_id, platform: targets[0], account_id, instruction_version: output.version });
   if (existing?.some((row) => TERMINAL_SUCCESS.has(row.status))) fail("ALREADY_PUBLISHED", "Output is already published to the target platform.");
   const adapter = await deps.resolvePublisherAdapter(targets[0], output);
   validateAdapter(adapter);
   const credential = await deps.resolvePublisherCredential(targets[0], output);
   if (!credential) fail("CREDENTIAL_FAILURE", "No authorized publisher credential is available for the target.");
   await adapter.validateConfig({ platform: targets[0], credential, destination: manifest.destination_account ?? null });
-  return { output, story, asset: { ...asset, provider_media_url: providerMediaUrl }, approval, manifest, targets, adapter, credential, existing };
+  return { output, story, asset: { ...asset, provider_media_url: providerMediaUrl }, approval, manifest, targets, adapter, credential, existing, account_id };
 }
 
 export async function executeDistribution(request, deps) {
   const context = await preflightDistribution(request, deps);
   const platform = context.targets[0];
-  const idempotencyKey = `publish:${context.output.output_id}:${platform}:${context.output.version}`;
+  const idempotencyKey = `publish:${context.output.output_id}:${platform}:${context.account_id ?? "unresolved"}:${context.output.version}`;
+  if (typeof deps.claimPublication !== "function") fail("DUPLICATE_PROTECTION_UNAVAILABLE", "An atomic publication claim capability is required before transport.");
+  const claim = await deps.claimPublication({
+    idempotency_key: idempotencyKey,
+    output_id: context.output.output_id,
+    platform,
+    account_id: context.account_id,
+    run_id: request.run_id,
+    requested_at: new Date().toISOString(),
+  });
+  if (!claim || claim.status !== "CLAIMED") {
+    const code = claim?.status ?? "CLAIM_BACKEND_UNAVAILABLE";
+    fail(code, `Publication claim did not return CLAIMED: ${code}.`, { idempotency_key: idempotencyKey });
+  }
   const event = {
     run_id: request.run_id,
     content_output_id: context.output.output_id,
@@ -104,8 +118,10 @@ export async function executeDistribution(request, deps) {
     asset_ids: JSON.parse(context.output.asset_ids_json),
     approval_id: context.approval.review_id,
     platform,
+    account_id: context.account_id,
     provider: context.adapter.name ?? "publisher-adapter",
     idempotency_key: idempotencyKey,
+    attempt_id: claim.attempt_id ?? `${idempotencyKey}:${request.run_id}`,
     attempt: 1,
     retry_count: 0,
     state: "preflight_passed",
