@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { createPublisherAdapter, executeDistribution, preflightDistribution } from "../distribution-executor.mjs";
+import { createPublisherAdapter, executeDistribution, preflightDistribution, resolveProviderMediaUrl } from "../distribution-executor.mjs";
 import { DISTRIBUTION_ROUTING, renderPlatformPayload } from "../platform-renderer.mjs";
 import { BLOTATO_HTTP_CREDENTIAL, createBlotatoHttpAdapter } from "../publisher-adapters.mjs";
 import { createBlotatoFirstCommentAdapter } from "../first-comment-adapter.mjs";
@@ -26,7 +26,7 @@ function fixtureDeps({ existing = [], credential = { logical_name: "INT | Blotat
     calls,
     loadContentOutput: async () => ({ output_id: ids.output, story_object_id: ids.story, version: "1.0.0", status: "approved_for_publish", publish_clearance: true, editorial_approval: true, rights_clearance: true, asset_ids_json: JSON.stringify([ids.asset]), manifest_json: JSON.stringify({ platform_targets: ["facebook"], caption: "Approved copy" }) }),
     loadStoryObject: async () => ({ story_object_id: ids.story, approval_state: "approved", approved_by: "operator", approved_at: "2026-09-06T00:00:00Z" }),
-    loadAsset: async () => ({ asset_id: ids.asset, rights_status: "publishable", identity_status: "verified", technical_status: "acquired_original_file", drive_url: "https://drive.example/asset" }),
+    loadAsset: async () => ({ asset_id: ids.asset, rights_status: "publishable", identity_status: "verified", technical_status: "acquired_original_file", drive_url: "https://drive.example/asset", provider_media_url: "https://media.example/asset.jpg" }),
     loadApproval: async () => ({ review_id: ids.approval, status: "approved", decision: "approved", decision_actor: "operator" }),
     findPublishingLog: async () => existing,
     resolvePublisherAdapter: async () => publisher,
@@ -93,6 +93,12 @@ test("routing remains subject- and format-agnostic", () => {
   assert.throws(() => renderPlatformPayload({ platform: "linkedin", caption: "Body", engagement_intent: "Intent" }), { code: "PLATFORM_UNSUPPORTED" });
 });
 
+test("provider media delivery is explicit or deterministically derived from an approved Wikimedia file page", () => {
+  assert.equal(resolveProviderMediaUrl({ provider_media_url: "https://cdn.example/asset.jpg" }), "https://cdn.example/asset.jpg");
+  assert.equal(resolveProviderMediaUrl({ source_url: "https://commons.wikimedia.org/wiki/File:Young-Dolly-Parton.jpg" }), "https://commons.wikimedia.org/wiki/Special:FilePath/Young-Dolly-Parton.jpg");
+  assert.equal(resolveProviderMediaUrl({ source_url: "https://example.com/private/file" }), null);
+});
+
 test("TikTok uses the HTTP adapter and does not inherit first-comment behavior", () => {
   const payload = renderPlatformPayload({ platform: "tiktok", caption: "Story body", engagement_intent: "Invite the audience to respond.", hashtags: ["Story", "Legacy"] });
   assert.equal(payload.adapter_mode, "http");
@@ -107,7 +113,7 @@ test("Facebook and Instagram render engagement intent as a separate first commen
     assert.equal(payload.first_comment, "Invite the audience to respond.");
     assert.equal(payload.caption, "Story body\n\n#Story #Legacy");
     assert.equal(typeof payload.character_count, "number");
-    assert.equal(payload.render_version, "distribution-renderer@1.2.0");
+    assert.equal(payload.render_version, "distribution-renderer@1.3.0");
   }
 });
 
@@ -118,6 +124,21 @@ test("Threads and YouTube render engagement intent in the closing paragraph", ()
     assert.match(payload.caption, /#Story$/);
     assert.equal(payload.first_comment, undefined);
   }
+});
+
+test("Threads renderer is deterministic and never exceeds 500 characters", () => {
+  const body = "Dolly Parton turned a personal family wound into a durable literacy institution. " + "Her work continues to put books directly into children's homes and to make reading feel possible for every family.";
+  const payload = renderPlatformPayload({ platform: "threads", caption: body, engagement_intent: "Which part of her legacy changed how you understand her?", hashtags: ["Literacy", "DollyParton", "Books"] });
+  assert.ok(payload.character_count <= 500);
+  assert.ok(payload.caption.startsWith("Dolly Parton turned a personal family wound"));
+  assert.equal(payload.render_version, "distribution-renderer@1.3.0");
+});
+
+test("Threads drops optional engagement and hashtags before cutting story substance", () => {
+  const body = "A".repeat(480);
+  const payload = renderPlatformPayload({ platform: "threads", caption: body, engagement_intent: "A very long engagement prompt that cannot fit beside the story without changing its meaning.", hashtags: ["One", "Two", "Three"] });
+  assert.equal(payload.caption, body);
+  assert.equal(payload.character_count, 480);
 });
 
 test("X prioritizes substance and may omit engagement and hashtags", () => {

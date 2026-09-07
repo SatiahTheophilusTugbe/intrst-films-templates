@@ -12,6 +12,14 @@ const ACCOUNT_KEYS = {
   tiktok: "__TIKTOK_BLOTATO_ACCOUNT_ID__",
 };
 
+export const DISTRIBUTION_RENDERER_PARITY_MARKERS = Object.freeze([
+  "distribution-renderer@1.3.0",
+  "provider_media_url",
+  "first_comment",
+  "slice(0,280)",
+  "500",
+]);
+
 function fail(code, message, details) { throw new PlatformRenderError(code, message, details); }
 function hashtags(values) {
   if (!Array.isArray(values)) return [];
@@ -43,6 +51,32 @@ function removeTrailingIntent(caption, intent) {
   return normalizedCaption;
 }
 
+function truncateAtBoundary(value, limit) {
+  if (value.length <= limit) return value;
+  const prefix = value.slice(0, limit).trimEnd();
+  const sentenceEnd = Math.max(prefix.lastIndexOf("."), prefix.lastIndexOf("!"), prefix.lastIndexOf("?"));
+  if (sentenceEnd >= Math.floor(limit * 0.55)) return prefix.slice(0, sentenceEnd + 1).trim();
+  const wordEnd = prefix.lastIndexOf(" ");
+  return (wordEnd > 0 ? prefix.slice(0, wordEnd) : prefix).trim();
+}
+
+function renderThreadsCaption(body, intent, tagValues) {
+  const max = 500;
+  const tagLines = [];
+  for (const tag of tagValues) {
+    const candidate = [...tagLines, tag];
+    const line = `#${candidate.join(" #")}`;
+    const withIntent = [body, intent, line].filter(Boolean).join("\n\n");
+    if (withIntent.length <= max) tagLines.push(tag);
+  }
+  const tagLine = tagLines.length ? `#${tagLines.join(" #")}` : "";
+  const withIntent = [body, intent, tagLine].filter(Boolean).join("\n\n");
+  if (withIntent.length <= max) return withIntent;
+  const bodyAndIntent = [body, intent].filter(Boolean).join("\n\n");
+  if (bodyAndIntent.length <= max) return bodyAndIntent;
+  return truncateAtBoundary(body, max);
+}
+
 export function renderPlatformPayload({ platform, caption_body, caption, engagement_intent, hashtags: inputHashtags = [], media_urls = [], title = null, account_id = null }) {
   if (!SUPPORTED.has(platform)) fail("PLATFORM_UNSUPPORTED", `No renderer is defined for ${platform}.`);
   const sourceCaption = caption_body ?? caption;
@@ -66,11 +100,14 @@ export function renderPlatformPayload({ platform, caption_body, caption, engagem
   } else if (platform === "tiktok") {
     payload.caption = [body, tagLine].filter(Boolean).join("\n\n");
     payload.engagement_rendered = false;
+  } else if (platform === "threads") {
+    payload.caption = renderThreadsCaption(body, intent, tags);
+    payload.engagement_rendered = payload.caption.includes(intent);
   } else {
     payload.caption = `${body}\n\n${closing}`;
   }
   payload.character_count = payload.caption.length;
-  payload.render_version = "distribution-renderer@1.2.0";
+  payload.render_version = "distribution-renderer@1.3.0";
   payload.engagement_rendered = route.first_comment || (platform !== "x" && platform !== "tiktok");
   return payload;
 }

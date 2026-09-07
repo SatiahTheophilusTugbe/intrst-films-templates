@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { DISTRIBUTION_RENDERER_PARITY_MARKERS } from "../../../core/distribution/platform-renderer.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const workflow = JSON.parse(fs.readFileSync(path.join(here, "..", "INT-AUT-014-distribution-executor-dev.workflow.json"), "utf8"));
@@ -34,6 +35,28 @@ test("canonical dependency order precedes adapter gate", () => {
   assert.ok(order.indexOf("Credential and account binding gate") < order.indexOf("Persist and exit"));
   assert.ok(order.indexOf("Credential and account readiness") < order.indexOf("Blotato HTTP — Facebook"));
   assert.ok(order.indexOf("Credential and account readiness") < order.indexOf("Blotato Native — Threads"));
+});
+
+test("repair contract includes provider media resolution, bounded Threads rendering and durable publishing results", () => {
+  assert.ok(workflow.meta.repair_contract.provider_media_resolution);
+  assert.ok(serialized.includes("distribution-renderer@1.3.0"));
+  assert.equal(workflow.meta.repair_contract.threads_max_characters, 500);
+  assert.ok(workflow.nodes.some((node) => node.name === "Build publishing_log result row"));
+  assert.ok(workflow.nodes.some((node) => node.name === "Persist publishing_log result"));
+  assert.ok(serialized.includes("qHmuRSglzmNT3Oj9"));
+});
+
+test("checked-in inline renderer carries the canonical renderer parity markers", () => {
+  const inline = workflow.nodes.find((node) => node.name === "Render platform-native payload")?.parameters?.jsCode ?? "";
+  assert.ok(inline.length > 0);
+  for (const marker of DISTRIBUTION_RENDERER_PARITY_MARKERS) assert.ok(inline.includes(marker), "inline renderer missing parity marker: " + marker);
+});
+
+test("transport branches are bounded and preserve the corrected Facebook account/page contract", () => {
+  const transports = workflow.nodes.filter((node) => node.type === "n8n-nodes-base.httpRequest" || node.type === "@blotato/n8n-nodes-blotato.blotato");
+  assert.ok(transports.every((node) => node.retryOnFail !== true));
+  assert.ok(serialized.includes("profile_page_id"));
+  assert.ok(serialized.includes("__FACEBOOK_PROFILE_PAGE_ID__"));
 });
 
 test("transport URL and account routing are not input-controlled", () => {

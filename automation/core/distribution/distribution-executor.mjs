@@ -44,6 +44,15 @@ function engagementIntent(manifest) {
   return typeof value === "string" ? value.trim() : typeof value?.intent === "string" ? value.intent.trim() : "";
 }
 
+export function resolveProviderMediaUrl(asset) {
+  const explicit = asset?.provider_media_url ?? asset?.public_media_url ?? asset?.delivery_url;
+  if (typeof explicit === "string" && /^https?:\/\//.test(explicit)) return explicit;
+  const sourceUrl = typeof asset?.source_url === "string" ? asset.source_url : "";
+  const match = sourceUrl.match(/^https:\/\/commons\.wikimedia\.org\/wiki\/File:(.+)$/);
+  if (match) return `https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(decodeURIComponent(match[1]))}`;
+  return null;
+}
+
 export function validateDistributionRequest(request) {
   required(request?.content_output_id, "content_output_id");
   if (request.mode !== "controlled_manual") fail("POLICY_BLOCK", "Distribution execution requires controlled_manual mode.");
@@ -61,13 +70,14 @@ export async function preflightDistribution(request, deps) {
   const assetIds = parseJson(output.asset_ids_json, "content_output.asset_ids_json");
   if (!Array.isArray(assetIds) || assetIds.length === 0) fail("MISSING_ASSET", "Output has no asset relationship.");
   const asset = await required(await deps.loadAsset(assetIds[0]), "asset");
+  const providerMediaUrl = resolveProviderMediaUrl(asset);
   const approval = await required(await deps.loadApproval(output.output_id), "approval");
   const { manifest, targets } = outputTargets(output);
   if (output.status !== "approved_for_publish" || output.publish_clearance !== true || output.editorial_approval !== true || output.rights_clearance !== true) {
     fail("APPROVAL_BLOCK", "Content output is not fully approved for publishing.");
   }
   if (story.approval_state !== "approved" || !story.approved_by || !story.approved_at) fail("APPROVAL_BLOCK", "Story Object approval is incomplete.");
-  if (asset.rights_status !== "publishable" || asset.identity_status !== "verified" || asset.technical_status !== "acquired_original_file" || !asset.drive_url) {
+  if (asset.rights_status !== "publishable" || asset.identity_status !== "verified" || asset.technical_status !== "acquired_original_file" || !asset.drive_url || !providerMediaUrl) {
     fail("RIGHTS_BLOCK", "Asset rights, identity or file verification is incomplete.");
   }
   if (approval.status !== "approved" || approval.decision !== "approved" || !approval.decision_actor) fail("APPROVAL_BLOCK", "Publish approval is incomplete.");
@@ -80,7 +90,7 @@ export async function preflightDistribution(request, deps) {
   const credential = await deps.resolvePublisherCredential(targets[0], output);
   if (!credential) fail("CREDENTIAL_FAILURE", "No authorized publisher credential is available for the target.");
   await adapter.validateConfig({ platform: targets[0], credential, destination: manifest.destination_account ?? null });
-  return { output, story, asset, approval, manifest, targets, adapter, credential, existing };
+  return { output, story, asset: { ...asset, provider_media_url: providerMediaUrl }, approval, manifest, targets, adapter, credential, existing };
 }
 
 export async function executeDistribution(request, deps) {

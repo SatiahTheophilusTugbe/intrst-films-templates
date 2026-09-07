@@ -27,9 +27,60 @@
                             "x":  "__X_BLOTATO_ACCOUNT_ID__",
                             "tiktok":  "__TIKTOK_BLOTATO_ACCOUNT_ID__"
                         },
-    "runtime_state":  "CONTROLLED_PUBLISH_ATTEMPTED_NO_VERIFIED_PUBLIC_POST",
-    "runtime_version_id":  "9f704ae2-f801-4c25-ad17-4c9e1dc10526",
-    "node_count":  27,
+    "runtime_state":  "REPAIR_DEPLOYED_ZERO_CALL_PREFLIGHT_35145",
+    "runtime_version_id":  "12597395-9f05-447d-8486-c53754e11087",
+    "node_count":  29,
+    "repair":  {
+                    "account_routing":  "verified Facebook accountId 22864 with INTRST Films pageId 101607426321841",
+                    "provider_media_resolution":  "explicit provider_media_url or deterministic Wikimedia Commons Special:FilePath resolution from approved source_url",
+                    "threads_rendering":  "deterministic <=500 character boundary truncation; optional engagement and hashtags dropped before story substance",
+                    "publishing_log":  "immutable result insert on provider-result paths using the existing qHmuRSglzmNT3Oj9 table",
+                    "transport_error_policy":  "continue to normalization, OUTCOME_UNKNOWN, zero automatic retries"
+                },
+    "repository_runtime_parity":  {
+                                        "status":  "verified",
+                                        "method":  "inline Render node carries canonical renderer parity markers and matches deployed runtime behavior",
+                                        "renderer_version":  "distribution-renderer@1.3.0",
+                                        "parity_markers":  ["distribution-renderer@1.3.0", "provider_media_url", "first_comment", "slice(0,280)", "500"]
+                                    },
+    "media_delivery_evidence":  {
+                                    "asset_id":  "INT-AST-01K4X4Q7B6D0MMPY000000003",
+                                    "source_url":  "https://commons.wikimedia.org/wiki/File:Young-Dolly-Parton.jpg",
+                                    "derived_provider_media_url":  "https://commons.wikimedia.org/wiki/Special:FilePath/Young-Dolly-Parton.jpg",
+                                    "approved_asset_basis":  "existing cleared A1 asset; Wikimedia Commons file record",
+                                    "unauthenticated_retrieval":  "public source page and original-file link resolved; sandbox HEAD status was unavailable",
+                                    "redirect_chain":  "Special:FilePath resolves to upload.wikimedia.org original-file URL",
+                                    "mime_type":  "image/jpeg",
+                                    "format":  "JPEG, 765x941 original",
+                                    "provider_retrieval":  "unproven until Blotato verification"
+                                },
+    "facebook_binding_evidence":  {
+                                      "provider":  "Blotato account inventory",
+                                      "account_id":  "22864",
+                                      "page_id":  "101607426321841",
+                                      "account_identity":  "INTRST Films page under the verified Blotato account",
+                                      "secret_material":  "not recorded"
+                                  },
+    "synthetic_publishing_log_persistence":  {
+                                                 "table_id":  "qHmuRSglzmNT3Oj9",
+                                                 "project_id":  "o8RQQQgne2c6jXr5",
+                                                 "fixture_output_id":  "SYNTHETIC-AUT014-PERSISTENCE",
+                                                 "lineage_id":  "SYNTHETIC-AUT014-PERSISTENCE-LINEAGE",
+                                                 "inserted_rows":  6,
+                                                 "statuses":  ["published", "known_failure", "submitted", "outcome_unknown", "submitted_then_failed represented as known_failure", "published_comment_reconciliation_required"],
+                                                 "all_rows_synthetic":  true,
+                                                 "provider_calls":  0,
+                                                 "automatic_retries":  0,
+                                                 "readback_verified":  true,
+                                                 "main_success_preserved_on_comment_failure":  true
+                                             },
+    "zero_call_preflight":  {
+                                "execution_id":  "35145",
+                                "result":  "READY_FOR_CONTROLLED_FIVE_PLATFORM_PUBLISH",
+                                "external_calls":  0,
+                                "automatic_retries":  0,
+                                "workflow_active":  false
+                            },
     "transport_branches":  [
                                "blotato-http:facebook",
                                "blotato-http:instagram",
@@ -65,7 +116,7 @@
                     "rendered":  {
                                      "first_comment":  true,
                                      "hashtags":  3,
-                                     "render_version":  "distribution-renderer@1.2.0"
+                                     "render_version":  "distribution-renderer@1.3.0"
                                  }
                 },
     "semantic_fingerprint":  "sha256:a3d9fa3b6907b77ed8f234065cf393ddbeeca22ca3b1e75a06404f37f3d930a9",
