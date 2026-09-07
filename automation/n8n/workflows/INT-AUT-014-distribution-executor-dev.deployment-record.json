@@ -27,8 +27,8 @@
                             "x":  "__X_BLOTATO_ACCOUNT_ID__",
                             "tiktok":  "__TIKTOK_BLOTATO_ACCOUNT_ID__"
                         },
-    "runtime_state":  "REPAIR_DEPLOYED_ZERO_CALL_PREFLIGHT_35145",
-    "runtime_version_id":  "12597395-9f05-447d-8486-c53754e11087",
+    "runtime_state":  "REPAIR_DEPLOYED_SYNTHETIC_PERSISTENCE_PATH_35150_35153_ZERO_CALL_PREFLIGHT_35155",
+    "runtime_version_id":  "8ea719d9-459c-4f71-bcea-ce48fa0134d6",
     "node_count":  29,
     "repair":  {
                     "account_routing":  "verified Facebook accountId 22864 with INTRST Films pageId 101607426321841",
@@ -39,7 +39,7 @@
                 },
     "repository_runtime_parity":  {
                                         "status":  "verified",
-                                        "method":  "inline Render node carries canonical renderer parity markers and matches deployed runtime behavior",
+                                        "method":  "checked-in inline Render node is byte-identical to deployed Render code and behaviorally compared on Facebook, Instagram, Threads boundary, X budget and TikTok fixtures",
                                         "renderer_version":  "distribution-renderer@1.3.0",
                                         "parity_markers":  ["distribution-renderer@1.3.0", "provider_media_url", "first_comment", "slice(0,280)", "500"]
                                     },
@@ -74,12 +74,36 @@
                                                  "readback_verified":  true,
                                                  "main_success_preserved_on_comment_failure":  true
                                              },
+    "synthetic_persistence_path_executions":  {
+                                                 "workflow_id":  "AknakVMx2prJrsZw",
+                                                 "project_id":  "o8RQQQgne2c6jXr5",
+                                                 "execution_ids":  ["35150", "35151", "35152", "35153"],
+                                                 "path":  "pinned synthetic provider results through Normalize → publishing_log insert → workflow_runs terminal insert",
+                                                 "outcomes":  ["published", "submitted", "known_failure", "outcome_unknown"],
+                                                 "lineage_preserved":  true,
+                                                 "comment_failure_preserves_main_success":  true,
+                                                 "production_reconciliation_excluded":  true,
+                                                 "provider_calls":  0,
+                                                 "automatic_retries":  0,
+                                                 "superseded_execution":  "35149 retained as synthetic historical evidence of the pre-fix normalization defect; excluded from validation"
+                                             },
     "zero_call_preflight":  {
-                                "execution_id":  "35145",
+                                "execution_id":  "35155",
                                 "result":  "READY_FOR_CONTROLLED_FIVE_PLATFORM_PUBLISH",
                                 "external_calls":  0,
                                 "automatic_retries":  0,
-                                "workflow_active":  false
+                                "publication_calls":  0,
+                                "comment_calls":  0,
+                                "target_outcomes":  {
+                                                    "facebook":  "READY_FOR_CONTROLLED_FIVE_PLATFORM_PUBLISH",
+                                                    "instagram":  "READY_FOR_CONTROLLED_FIVE_PLATFORM_PUBLISH",
+                                                    "threads":  "READY_FOR_CONTROLLED_FIVE_PLATFORM_PUBLISH",
+                                                    "x":  "READY_FOR_CONTROLLED_FIVE_PLATFORM_PUBLISH",
+                                                    "tiktok":  "READY_FOR_CONTROLLED_FIVE_PLATFORM_PUBLISH",
+                                                    "youtube":  "SKIPPED_INELIGIBLE_FORMAT"
+                                                },
+                                "workflow_active":  false,
+                                "workflow_version_id":  "8ea719d9-459c-4f71-bcea-ce48fa0134d6"
                             },
     "transport_branches":  [
                                "blotato-http:facebook",

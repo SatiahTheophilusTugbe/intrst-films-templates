@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { DISTRIBUTION_RENDERER_PARITY_MARKERS } from "../../../core/distribution/platform-renderer.mjs";
+import { DISTRIBUTION_RENDERER_PARITY_MARKERS, renderPlatformPayload } from "../../../core/distribution/platform-renderer.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const workflow = JSON.parse(fs.readFileSync(path.join(here, "..", "INT-AUT-014-distribution-executor-dev.workflow.json"), "utf8"));
@@ -50,6 +50,43 @@ test("checked-in inline renderer carries the canonical renderer parity markers",
   const inline = workflow.nodes.find((node) => node.name === "Render platform-native payload")?.parameters?.jsCode ?? "";
   assert.ok(inline.length > 0);
   for (const marker of DISTRIBUTION_RENDERER_PARITY_MARKERS) assert.ok(inline.includes(marker), "inline renderer missing parity marker: " + marker);
+});
+
+test("checked-in inline renderer is behaviorally equivalent on representative platform fixtures", async () => {
+  const inline = workflow.nodes.find((node) => node.name === "Render platform-native payload")?.parameters?.jsCode ?? "";
+  const manifest = {
+    caption: "Dolly turned a family wound into a library for millions of children. ".repeat(8),
+    engagement_intent: "Which part of her legacy changed how you understand her?",
+    hashtags: ["Literacy", "DollyParton", "Books"],
+  };
+  const configuration = {
+    accounts: {
+      facebook: { blotato_account_id: "22864", profile_page_id: "101607426321841" },
+      instagram: { blotato_account_id: "69849" },
+      threads: { blotato_account_id: "9386" },
+      x: { blotato_account_id: "25655" },
+      tiktok: { blotato_account_id: "58729" },
+    },
+    adapter_modes: { facebook: "http", instagram: "http", threads: "native", x: "native", tiktok: "http" },
+  };
+  const asset = { source_url: "https://commons.wikimedia.org/wiki/File:Young-Dolly-Parton.jpg" };
+  const output = { output_id: "SYNTHETIC-OUT", manifest_json: JSON.stringify(manifest) };
+  const fields = ["caption", "first_comment", "hashtags", "character_count", "media_urls", "adapter_mode"];
+  const normalize = (value) => Object.fromEntries(fields.map((field) => [field, value[field] ?? null]));
+  const inlineRunner = new Function("$input", "$", `return (async () => {${inline}})()`);
+  for (const platform of ["facebook", "instagram", "threads", "x", "tiktok"]) {
+    const canonical = renderPlatformPayload({
+      platform,
+      caption_body: manifest.caption,
+      engagement_intent: manifest.engagement_intent,
+      hashtags: manifest.hashtags,
+      media_urls: ["https://commons.wikimedia.org/wiki/Special:FilePath/Young-Dolly-Parton.jpg"],
+      account_id: configuration.accounts[platform].blotato_account_id,
+    });
+    const input = { json: { output, platform, distribution_config: configuration } };
+    const inlineResult = (await inlineRunner({ all: () => [input] }, () => ({ first: () => ({ json: asset }) })))[0].json;
+    assert.deepEqual(normalize(inlineResult), normalize(canonical), `renderer parity mismatch for ${platform}`);
+  }
 });
 
 test("transport branches are bounded and preserve the corrected Facebook account/page contract", () => {
