@@ -55,7 +55,7 @@ test("checked-in inline renderer carries the canonical renderer parity markers",
 test("checked-in inline renderer is behaviorally equivalent on representative platform fixtures", async () => {
   const inline = workflow.nodes.find((node) => node.name === "Render platform-native payload")?.parameters?.jsCode ?? "";
   const manifest = {
-    caption: "Dolly turned a family wound into a library for millions of children. ".repeat(8),
+    caption: String.raw`Dolly turned a family wound into a library for millions of children. \n\n${"The story continued with durable work. ".repeat(8)}`,
     engagement_intent: "Which part of her legacy changed how you understand her?",
     hashtags: ["Literacy", "DollyParton", "Books"],
   };
@@ -86,6 +86,9 @@ test("checked-in inline renderer is behaviorally equivalent on representative pl
     const input = { json: { output, platform, distribution_config: configuration } };
     const inlineResult = (await inlineRunner({ all: () => [input] }, () => ({ first: () => ({ json: asset }) })))[0].json;
     assert.deepEqual(normalize(inlineResult), normalize(canonical), `renderer parity mismatch for ${platform}`);
+    assert.equal(canonical.caption.includes("\\n"), false, `canonical renderer leaked escaped newlines for ${platform}`);
+    assert.equal(inlineResult.caption.includes("\\n"), false, `inline renderer leaked escaped newlines for ${platform}`);
+    if (platform !== "x") assert.equal(canonical.caption.includes("\n\n"), true, `paragraph breaks missing for ${platform}`);
   }
 });
 

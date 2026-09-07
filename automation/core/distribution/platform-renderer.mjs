@@ -44,6 +44,10 @@ function intentText(value) {
   return "";
 }
 
+function normalizeParagraphBreaks(value) {
+  return String(value).replaceAll(String.fromCharCode(92, 110), String.fromCharCode(10));
+}
+
 function removeTrailingIntent(caption, intent) {
   const normalizedCaption = caption.trim();
   if (!intent) return normalizedCaption;
@@ -79,7 +83,7 @@ function renderThreadsCaption(body, intent, tagValues) {
 
 export function renderPlatformPayload({ platform, caption_body, caption, engagement_intent, hashtags: inputHashtags = [], media_urls = [], title = null, account_id = null }) {
   if (!SUPPORTED.has(platform)) fail("PLATFORM_UNSUPPORTED", `No renderer is defined for ${platform}.`);
-  const sourceCaption = caption_body ?? caption;
+  const sourceCaption = normalizeParagraphBreaks(caption_body ?? caption);
   if (!sourceCaption || typeof sourceCaption !== "string") fail("MISSING_COPY", "Caption body is required.");
   const intent = intentText(engagement_intent);
   if (!intent) fail("MISSING_ENGAGEMENT_INTENT", "engagement_intent is required.");
