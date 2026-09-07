@@ -12,7 +12,7 @@
     "active":  false,
     "tag":  "project:intrst",
     "credential_binding":  {
-                               "status":  "pending",
+                               "status":  "bound_in_n8n_development",
                                "http_logical_name":  "INT | Blotato | Development | Distribution",
                                "http_credential_type":  "httpHeaderAuth",
                                "native_logical_name":  "INT | Blotato Native | Development | Distribution",
@@ -27,8 +27,8 @@
                             "x":  "__X_BLOTATO_ACCOUNT_ID__",
                             "tiktok":  "__TIKTOK_BLOTATO_ACCOUNT_ID__"
                         },
-    "runtime_state":  "READY_FOR_CREDENTIAL_BINDING",
-    "runtime_version_id":  "134136aa-a2e7-4981-8383-055f7c8a9b9d",
+    "runtime_state":  "CONTROLLED_PUBLISH_ATTEMPTED_NO_VERIFIED_PUBLIC_POST",
+    "runtime_version_id":  "9f704ae2-f801-4c25-ad17-4c9e1dc10526",
     "node_count":  27,
     "transport_branches":  [
                                "blotato-http:facebook",
@@ -40,18 +40,35 @@
                            ],
     "fixture":  {
                     "content_output_id":  "INT-OUT-01K4X4Q7B6D0MMPY000000004",
-                    "platform":  "facebook",
-                    "execution_id":  "34947",
-                    "result":  "READY_FOR_CREDENTIAL_BINDING",
-                    "external_calls":  0,
+                    "platforms_attempted":  ["facebook", "instagram", "threads", "x", "tiktok"],
+                    "executions":  ["35138", "35140", "35141"],
+                    "result":  "PARTIAL — 0 OF 5 VERIFIED PUBLISHED",
+                    "external_calls":  5,
                     "automatic_retries":  0,
+                    "first_comment_calls":  0,
+                    "first_comment_adapter":  {
+                        "provider":  "blotato_mcp",
+                        "tool":  "mcp__blotato__blotato_post_comment",
+                        "top_level":  true,
+                        "parent_comment_id":  "omitted",
+                        "required_post_identifier":  "published Blotato postId resolved from blotato_list_posts",
+                        "calls_made":  0,
+                        "reason_not_called":  "No Facebook or Instagram post reached verified published state"
+                    },
+                    "outcomes":  {
+                        "facebook":  "KNOWN_FAILURE — HTTP 500 Account 101607426321841 not found",
+                        "instagram":  "SUBMITTED_THEN_FAILED — media metadata inaccessible",
+                        "threads":  "KNOWN_FAILURE — HTTP 422 text length exceeds 500 characters",
+                        "x":  "SUBMITTED_THEN_FAILED — media metadata inaccessible",
+                        "tiktok":  "SUBMITTED_THEN_FAILED — media metadata inaccessible"
+                    },
                     "rendered":  {
                                      "first_comment":  true,
                                      "hashtags":  3,
-                                     "render_version":  "distribution-renderer@1.1.0"
+                                     "render_version":  "distribution-renderer@1.2.0"
                                  }
                 },
     "semantic_fingerprint":  "sha256:a3d9fa3b6907b77ed8f234065cf393ddbeeca22ca3b1e75a06404f37f3d930a9",
     "rollback":  "archive only workflow AknakVMx2prJrsZw after project-scoped ownership verification",
-    "production_promotion":  "blocked_pending_credential_binding_and_controlled_publish"
+    "production_promotion":  "blocked_pending_verified_media_transport_and_durable_publication_persistence"
 }

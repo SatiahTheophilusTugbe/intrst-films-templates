@@ -55,9 +55,11 @@ export function renderPlatformPayload({ platform, caption_body, caption, engagem
   const tagLine = tags.length ? `#${tags.join(" #")}` : "";
   const body = removeTrailingIntent(sourceCaption, intent);
   const closing = `${intent}${tagLine ? `\n\n${tagLine}` : ""}`;
+  const firstComment = intent;
   const payload = { platform, account_id: resolvedAccount, caption: body, media_urls: [...media_urls], title, hashtags: tags, engagement_intent: intent, adapter_mode: route.adapter_mode };
   if (route.first_comment) {
-    payload.first_comment = closing;
+    payload.first_comment = firstComment;
+    payload.caption = [body, tagLine].filter(Boolean).join("\n\n");
   } else if (platform === "x") {
     payload.caption = `${body}${tagLine ? `\n\n${tagLine}` : ""}`.slice(0, 280);
     payload.engagement_rendered = false;
@@ -68,7 +70,7 @@ export function renderPlatformPayload({ platform, caption_body, caption, engagem
     payload.caption = `${body}\n\n${closing}`;
   }
   payload.character_count = payload.caption.length;
-  payload.render_version = "distribution-renderer@1.1.0";
+  payload.render_version = "distribution-renderer@1.2.0";
   payload.engagement_rendered = route.first_comment || (platform !== "x" && platform !== "tiktok");
   return payload;
 }
@@ -81,7 +83,7 @@ export function normalizePublisherResult(input, context) {
     account_id: context.account_id,
     provider: "blotato",
     adapter_mode: context.adapter_mode,
-    provider_job_id: result.provider_job_id ?? result.submissionId ?? result.id ?? null,
+    provider_job_id: result.provider_job_id ?? result.postSubmissionId ?? result.submissionId ?? result.id ?? null,
     platform_post_id: result.platform_post_id ?? result.postId ?? null,
     public_url: result.public_url ?? result.postUrl ?? null,
     submitted_at: result.submitted_at ?? null,

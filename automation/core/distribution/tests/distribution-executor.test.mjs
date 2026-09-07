@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { createPublisherAdapter, executeDistribution, preflightDistribution } from "../distribution-executor.mjs";
 import { DISTRIBUTION_ROUTING, renderPlatformPayload } from "../platform-renderer.mjs";
 import { BLOTATO_HTTP_CREDENTIAL, createBlotatoHttpAdapter } from "../publisher-adapters.mjs";
+import { createBlotatoFirstCommentAdapter } from "../first-comment-adapter.mjs";
 
 const ids = {
   output: "INT-OUT-01K4X4Q7B6D0MMPY000000004",
@@ -17,8 +18,8 @@ function fixtureDeps({ existing = [], credential = { logical_name: "INT | Blotat
   const publisher = adapter ?? createPublisherAdapter({
     name: "test-publisher",
     validateConfig: async () => true,
-    submit: async () => { calls.submit += 1; return { status: "published", provider_post_id: "provider-post-1", provider_post_url: "https://public.example/post-1" }; },
-    normalizeResult: (value) => value,
+    submit: async () => { calls.submit += 1; return { status: "published", submissionId: "provider-post-1", provider_post_url: "https://public.example/post-1" }; },
+    normalizeResult: (value) => ({ ...value, provider_job_id: value.submissionId ?? null }),
     normalizeError: () => "PUBLISH_FAILURE",
   });
   return {
@@ -103,10 +104,10 @@ test("TikTok uses the HTTP adapter and does not inherit first-comment behavior",
 test("Facebook and Instagram render engagement intent as a separate first comment", () => {
   for (const platform of ["facebook", "instagram"]) {
     const payload = renderPlatformPayload({ platform, caption: "Story body", engagement_intent: "Invite the audience to respond.", hashtags: ["Story", "Legacy"] });
-    assert.equal(payload.first_comment, "Invite the audience to respond.\n\n#Story #Legacy");
-    assert.equal(payload.caption, "Story body");
+    assert.equal(payload.first_comment, "Invite the audience to respond.");
+    assert.equal(payload.caption, "Story body\n\n#Story #Legacy");
     assert.equal(typeof payload.character_count, "number");
-    assert.equal(payload.render_version, "distribution-renderer@1.1.0");
+    assert.equal(payload.render_version, "distribution-renderer@1.2.0");
   }
 });
 
@@ -127,8 +128,8 @@ test("X prioritizes substance and may omit engagement and hashtags", () => {
 
 test("renderer removes a duplicated trailing engagement question", () => {
   const payload = renderPlatformPayload({ platform: "facebook", caption_body: "Story body\n\nInvite the audience to respond.", engagement_intent: { intent: "Invite the audience to respond.", tone: "reflective", optional: false }, hashtags: ["#Story"] });
-  assert.equal(payload.caption, "Story body");
-  assert.equal(payload.first_comment, "Invite the audience to respond.\n\n#Story");
+  assert.equal(payload.caption, "Story body\n\n#Story");
+  assert.equal(payload.first_comment, "Invite the audience to respond.");
 });
 
 test("renderer caps contextual hashtags at three", () => {
@@ -164,4 +165,53 @@ test("Blotato adapters share a normalized result contract and reject placeholder
     retry_count: 0,
     error_class: null,
   });
+});
+
+test("MCP first-comment adapter creates a top-level comment with the published Blotato post ID", async () => {
+  const calls = [];
+  const adapter = createBlotatoFirstCommentAdapter({
+    listPublishedPosts: async () => [{ postId: "blotato-post-1", postSubmissionId: "submission-1", platform: "facebook", accountId: "101607426321841", state: { type: "published" } }],
+    postComment: async (args) => { calls.push(args); return { id: "comment-1", status: "queued" }; },
+  });
+  const postId = await adapter.resolvePublishedPostId({ platform: "facebook", account_id: "101607426321841", postSubmissionId: "submission-1" });
+  const result = await adapter.postFirstComment({ platform: "facebook", postId, postIdSource: "blotato_list_posts.published.postId", text: "Invite the audience to respond." });
+  assert.deepEqual(calls, [{ postId: "blotato-post-1", text: "Invite the audience to respond." }]);
+  assert.equal(result.status, "queued");
+  assert.equal(result.parent_comment_id, null);
+});
+
+test("MCP first-comment adapter rejects submission IDs and ambiguous post resolution", async () => {
+  const adapter = createBlotatoFirstCommentAdapter({
+    listPublishedPosts: async () => [
+      { postId: "a", postSubmissionId: "submission-1", platform: "instagram", accountId: "69849", state: { type: "published" } },
+      { postId: "b", postSubmissionId: "submission-1", platform: "instagram", accountId: "69849", state: { type: "published" } },
+    ],
+    postComment: async () => ({ status: "queued" }),
+  });
+  await assert.rejects(() => adapter.resolvePublishedPostId({ platform: "instagram", account_id: "69849", postSubmissionId: "submission-1" }), { code: "POST_ID_AMBIGUOUS" });
+  await assert.rejects(() => adapter.postFirstComment({ platform: "instagram", postId: "submission-1", text: "Invite the audience to respond." }), { code: "POST_ID_UNRESOLVED" });
+});
+
+test("main publication success is preserved while a first comment is queued", async () => {
+  const deps = fixtureDeps();
+  deps.loadContentOutput = async () => ({ output_id: ids.output, story_object_id: ids.story, version: "1.0.0", status: "approved_for_publish", publish_clearance: true, editorial_approval: true, rights_clearance: true, asset_ids_json: JSON.stringify([ids.asset]), manifest_json: JSON.stringify({ platform_targets: ["facebook"], caption: "Approved copy", engagement_intent: "Invite the audience to respond." }) });
+  deps.firstCommentAdapter = {
+    resolvePublishedPostId: async ({ postSubmissionId }) => { assert.equal(postSubmissionId, "provider-post-1"); return "blotato-post-1"; },
+    postFirstComment: async ({ postId, text, postIdSource }) => { assert.deepEqual({ postId, text, postIdSource }, { postId: "blotato-post-1", text: "Invite the audience to respond.", postIdSource: "blotato_list_posts.published.postId" }); return { status: "queued" }; },
+  };
+  const result = await executeDistribution(request, deps);
+  assert.equal(result.status, "published_comment_queued");
+  assert.equal(deps.calls.logs.at(-1).status, "published_comment_queued");
+});
+
+test("first-comment resolution failure preserves the main publication", async () => {
+  const deps = fixtureDeps();
+  deps.loadContentOutput = async () => ({ output_id: ids.output, story_object_id: ids.story, version: "1.0.0", status: "approved_for_publish", publish_clearance: true, editorial_approval: true, rights_clearance: true, asset_ids_json: JSON.stringify([ids.asset]), manifest_json: JSON.stringify({ platform_targets: ["instagram"], caption: "Approved copy", engagement_intent: "Invite the audience to respond." }) });
+  deps.firstCommentAdapter = {
+    resolvePublishedPostId: async () => { throw Object.assign(new Error("ambiguous"), { code: "POST_ID_AMBIGUOUS" }); },
+    postFirstComment: async () => { throw new Error("must not be called"); },
+  };
+  const result = await executeDistribution(request, deps);
+  assert.equal(result.status, "published_comment_reconciliation_required");
+  assert.equal(deps.calls.logs.at(-1).status, "published_comment_reconciliation_required");
 });

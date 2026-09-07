@@ -39,6 +39,11 @@ function validateAdapter(adapter) {
   }
 }
 
+function engagementIntent(manifest) {
+  const value = manifest?.engagement_intent;
+  return typeof value === "string" ? value.trim() : typeof value?.intent === "string" ? value.intent.trim() : "";
+}
+
 export function validateDistributionRequest(request) {
   required(request?.content_output_id, "content_output_id");
   if (request.mode !== "controlled_manual") fail("POLICY_BLOCK", "Distribution execution requires controlled_manual mode.");
@@ -110,6 +115,29 @@ export async function executeDistribution(request, deps) {
   const outcome = normalized.outcome ?? (normalized.status === "published" ? "SUCCESS" : normalized.status === "submitted" ? "SUBMITTED" : "OUTCOME_UNKNOWN");
   if (outcome !== "SUCCESS" && outcome !== "SUBMITTED") fail("PUBLISH_FAILURE", "Publisher returned an unsupported terminal outcome.");
   const status = outcome === "SUCCESS" ? "published" : "submitted";
+  if (status === "published" && ["facebook", "instagram"].includes(platform) && deps.firstCommentAdapter && engagementIntent(context.manifest)) {
+    try {
+      const postId = await deps.firstCommentAdapter.resolvePublishedPostId({
+        platform,
+        account_id: context.manifest.destination_account ?? null,
+        postSubmissionId: normalized.provider_job_id,
+      });
+      const comment = await deps.firstCommentAdapter.postFirstComment({
+        platform,
+        postId,
+        postIdSource: "blotato_list_posts.published.postId",
+        text: engagementIntent(context.manifest),
+      });
+      await deps.persistPublishingLog({ ...event, ...normalized, status: "published_comment_queued", first_comment_requested: true, first_comment_status: comment.status, first_comment_post_id: postId, retry_count: 0 });
+      await deps.persistWorkflowRun({ ...event, state: "published_comment_queued", status: "published_comment_queued", first_comment_status: comment.status, first_comment_post_id: postId });
+      return { ...normalized, status: "published_comment_queued", first_comment: comment, provider_calls: 1, retry_count: 0, idempotency_key: idempotencyKey };
+    } catch (error) {
+      const errorClass = error?.code ?? "COMMENT_RECONCILIATION_REQUIRED";
+      await deps.persistPublishingLog({ ...event, ...normalized, status: "published_comment_reconciliation_required", first_comment_requested: true, first_comment_status: "reconciliation_required", error_class: errorClass, retry_count: 0 });
+      await deps.persistWorkflowRun({ ...event, state: "published_comment_reconciliation_required", status: "published_comment_reconciliation_required", error_class: errorClass });
+      return { ...normalized, status: "published_comment_reconciliation_required", first_comment: { status: "reconciliation_required", error_class: errorClass }, provider_calls: 1, retry_count: 0, idempotency_key: idempotencyKey };
+    }
+  }
   await deps.persistPublishingLog({ ...event, ...normalized, status, retry_count: 0 });
   await deps.persistWorkflowRun({ ...event, state: status, status });
   return { ...normalized, status, provider_calls: 1, retry_count: 0, idempotency_key: idempotencyKey };
