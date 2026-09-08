@@ -13,10 +13,10 @@ const ACCOUNT_KEYS = {
 };
 
 export const DISTRIBUTION_RENDERER_PARITY_MARKERS = Object.freeze([
-  "distribution-renderer@1.3.0",
+  "distribution-renderer@1.3.1",
   "provider_media_url",
   "first_comment",
-  "slice(0,280)",
+  "COPY_REVIEW_REQUIRED",
   "500",
 ]);
 
@@ -83,8 +83,9 @@ function renderThreadsCaption(body, intent, tagValues) {
 
 export function renderPlatformPayload({ platform, caption_body, caption, engagement_intent, hashtags: inputHashtags = [], media_urls = [], title = null, account_id = null }) {
   if (!SUPPORTED.has(platform)) fail("PLATFORM_UNSUPPORTED", `No renderer is defined for ${platform}.`);
-  const sourceCaption = normalizeParagraphBreaks(caption_body ?? caption);
-  if (!sourceCaption || typeof sourceCaption !== "string") fail("MISSING_COPY", "Caption body is required.");
+  const rawCaption = caption_body ?? caption;
+  if (typeof rawCaption !== "string" || !rawCaption.trim()) fail("MISSING_COPY", "Caption body is required.");
+  const sourceCaption = normalizeParagraphBreaks(rawCaption);
   const intent = intentText(engagement_intent);
   if (!intent) fail("MISSING_ENGAGEMENT_INTENT", "engagement_intent is required.");
   const route = DISTRIBUTION_ROUTING[platform];
@@ -92,6 +93,7 @@ export function renderPlatformPayload({ platform, caption_body, caption, engagem
   const tags = hashtags(inputHashtags);
   const tagLine = tags.length ? `#${tags.join(" #")}` : "";
   const body = removeTrailingIntent(sourceCaption, intent);
+  if (!body) fail("MISSING_COPY", "Story body must remain after engagement separation.");
   const closing = `${intent}${tagLine ? `\n\n${tagLine}` : ""}`;
   const firstComment = intent;
   const payload = { platform, account_id: resolvedAccount, caption: body, media_urls: [...media_urls], title, hashtags: tags, engagement_intent: intent, adapter_mode: route.adapter_mode };
@@ -99,7 +101,9 @@ export function renderPlatformPayload({ platform, caption_body, caption, engagem
     payload.first_comment = firstComment;
     payload.caption = [body, tagLine].filter(Boolean).join("\n\n");
   } else if (platform === "x") {
-    payload.caption = `${body}${tagLine ? `\n\n${tagLine}` : ""}`.slice(0, 280);
+    if (body.length > 280) fail("COPY_REVIEW_REQUIRED", "X story exceeds the renderer budget; supply a coherent platform-native variant.", { character_count: body.length, limit: 280 });
+    const withTags = [body, tagLine].filter(Boolean).join("\n\n");
+    payload.caption = withTags.length <= 280 ? withTags : body;
     payload.engagement_rendered = false;
   } else if (platform === "tiktok") {
     payload.caption = [body, tagLine].filter(Boolean).join("\n\n");
@@ -111,8 +115,8 @@ export function renderPlatformPayload({ platform, caption_body, caption, engagem
     payload.caption = `${body}\n\n${closing}`;
   }
   payload.character_count = payload.caption.length;
-  payload.render_version = "distribution-renderer@1.3.0";
-  payload.engagement_rendered = route.first_comment || (platform !== "x" && platform !== "tiktok");
+  payload.render_version = "distribution-renderer@1.3.1";
+  payload.engagement_rendered ??= route.first_comment || platform === "youtube";
   return payload;
 }
 

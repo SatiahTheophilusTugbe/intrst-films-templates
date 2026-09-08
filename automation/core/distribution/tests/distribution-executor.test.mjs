@@ -130,7 +130,7 @@ test("Facebook and Instagram render engagement intent as a separate first commen
     assert.equal(payload.first_comment, "Invite the audience to respond.");
     assert.equal(payload.caption, "Story body\n\n#Story #Legacy");
     assert.equal(typeof payload.character_count, "number");
-    assert.equal(payload.render_version, "distribution-renderer@1.3.0");
+    assert.equal(payload.render_version, "distribution-renderer@1.3.1");
   }
 });
 
@@ -148,7 +148,7 @@ test("Threads renderer is deterministic and never exceeds 500 characters", () =>
   const payload = renderPlatformPayload({ platform: "threads", caption: body, engagement_intent: "Which part of her legacy changed how you understand her?", hashtags: ["Literacy", "DollyParton", "Books"] });
   assert.ok(payload.character_count <= 500);
   assert.ok(payload.caption.startsWith("Dolly Parton turned a personal family wound"));
-  assert.equal(payload.render_version, "distribution-renderer@1.3.0");
+  assert.equal(payload.render_version, "distribution-renderer@1.3.1");
 });
 
 test("Threads drops optional engagement and hashtags before cutting story substance", () => {

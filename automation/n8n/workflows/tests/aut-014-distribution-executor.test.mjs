@@ -39,7 +39,7 @@ test("canonical dependency order precedes adapter gate", () => {
 
 test("repair contract includes provider media resolution, bounded Threads rendering and durable publishing results", () => {
   assert.ok(workflow.meta.repair_contract.provider_media_resolution);
-  assert.ok(serialized.includes("distribution-renderer@1.3.0"));
+  assert.ok(serialized.includes("distribution-renderer@1.3.1"));
   assert.equal(workflow.meta.repair_contract.threads_max_characters, 500);
   assert.ok(workflow.nodes.some((node) => node.name === "Build publishing_log result row"));
   assert.ok(workflow.nodes.some((node) => node.name === "Persist publishing_log result"));
@@ -77,13 +77,14 @@ test("checked-in inline renderer is behaviorally equivalent on representative pl
   for (const platform of ["facebook", "instagram", "threads", "x", "tiktok"]) {
     const canonical = renderPlatformPayload({
       platform,
-      caption_body: manifest.caption,
+      caption_body: platform === "x" ? "A complete platform-native story." : manifest.caption,
       engagement_intent: manifest.engagement_intent,
       hashtags: manifest.hashtags,
       media_urls: ["https://commons.wikimedia.org/wiki/Special:FilePath/Young-Dolly-Parton.jpg"],
       account_id: configuration.accounts[platform].blotato_account_id,
     });
-    const input = { json: { output, platform, distribution_config: configuration } };
+    const platformOutput = platform === "x" ? { ...output, manifest_json: JSON.stringify({ ...manifest, caption: "A complete platform-native story." }) } : output;
+    const input = { json: { output: platformOutput, platform, distribution_config: configuration } };
     const inlineResult = (await inlineRunner({ all: () => [input] }, () => ({ first: () => ({ json: asset }) })))[0].json;
     assert.deepEqual(normalize(inlineResult), normalize(canonical), `renderer parity mismatch for ${platform}`);
     assert.equal(canonical.caption.includes("\\n"), false, `canonical renderer leaked escaped newlines for ${platform}`);
@@ -133,4 +134,43 @@ test("transport URL and account routing are not input-controlled", () => {
   assert.ok(workflow.meta.account_config_version);
   assert.equal(serialized.includes("Authorization: Bearer"), false);
   assert.equal(serialized.includes("linkedin"), false);
+});
+
+test("canonical and inline renderers reject invalid copy and preserve actual rendered intent", async () => {
+  const inline = workflow.nodes.find(n => n.name === "Render platform-native payload").parameters.jsCode;
+  const run = new Function("$input", "$", `return (async () => {${inline}})()`);
+  const renderInline = async (platform, manifest) => (await run({ all: () => [{ json: {
+    platform, output: { output_id: "SYNTHETIC-RENDER", manifest_json: JSON.stringify(manifest) },
+    distribution_config: { accounts: { [platform]: "synthetic-account" }, adapter_modes: { [platform]: "native" } },
+  } }] }, () => ({ first: () => ({ json: { provider_media_url: "https://media.example/image.jpg" } }) })))[0].json;
+  const cases = [
+    { caption: undefined, error: "MISSING_COPY" },
+    { caption: null, error: "MISSING_COPY" },
+    { caption: 123, error: "MISSING_COPY" },
+    { caption: "   ", error: "MISSING_COPY" },
+    { caption: "Respond?", error: "MISSING_COPY" },
+    { caption: "Story.", hashtags: ["One", "one"], error: "COPY_VALIDATION" },
+    { caption: "Story.", hashtags: ["A", "B", "C", "D"], error: "COPY_VALIDATION" },
+    { platform: "x", caption: "a".repeat(281), error: "COPY_REVIEW_REQUIRED" },
+  ];
+  for (const { platform = "threads", error, ...copy } of cases) {
+    const manifest = { engagement_intent: "Respond?", ...copy };
+    assert.throws(() => renderPlatformPayload({ platform, ...manifest }), { code: error });
+    await assert.rejects(() => renderInline(platform, manifest), new RegExp(error));
+  }
+  for (const [platform, manifest, expected, rendered] of [
+    ["threads", { caption: "a".repeat(499), engagement_intent: "Respond?" }, "a".repeat(499), false],
+    ["threads", { caption: "Story.", engagement_intent: "  Respond?  " }, "Story.\n\nRespond?", true],
+    ["x", { caption: "a".repeat(280), engagement_intent: "Respond?", hashtags: ["Tag"] }, "a".repeat(280), false],
+    ["x", { caption: "Story.", engagement_intent: "Respond?", hashtags: ["Tag"] }, "Story.\n\n#Tag", false],
+    ["facebook", { caption_body: "First.\\n\\nSecond.", caption: "Stale.", engagement_intent: "Respond?" }, "First.\n\nSecond.", true],
+  ]) {
+    const canonical = renderPlatformPayload({ platform, ...manifest });
+    const deployed = await renderInline(platform, manifest);
+    assert.equal(canonical.caption, expected);
+    assert.equal(deployed.caption, expected);
+    assert.equal(canonical.engagement_rendered, rendered);
+    assert.equal(deployed.engagement_rendered, rendered);
+    assert.equal(deployed.character_count, expected.length);
+  }
 });
