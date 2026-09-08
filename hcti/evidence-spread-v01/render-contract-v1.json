@@ -1,0 +1,15 @@
+{
+  "format_id":"INTRST_EVIDENCE_SPREAD_V1",
+  "status":"WORKING_REVIEW_ONLY",
+  "canvas":{"width":1080,"height":1350,"aspect_ratio":"4:5"},
+  "allowed_modes":["source_first","claim_first","detail_first"],
+  "required_fields":["mode","claim","source_image","interpretation","provenance"],
+  "optional_fields":["detail_image","detail_label","source_label","subject","eyebrow","highlight_text"],
+  "copy_limits":{"claim_words":[5,14],"interpretation_words":[15,40]},
+  "eye_path":["source","detail","implication"],
+  "annotation_rules":{"red_arrows":false,"circles":false,"breaking_news_markup":false,"thin_rules":true,"underlines":true,"crop_insets":true,"translucent_highlights":true},
+  "source_integrity":{"claim_must_not_exceed_evidence":true,"editorial_annotation_distinct":true,"source_context_preserved":true},
+  "brand_tokens":{"signal_blue":"#3497FF","dawn_gold":"#C79A58","warm_ivory":"#F1EEE6","midnight_navy":"#0B1723","cinematic_black":"#080A0C"},
+  "cta_policy":"none_by_default",
+  "publication_authorized":false
+}
