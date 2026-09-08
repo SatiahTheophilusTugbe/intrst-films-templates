@@ -2,33 +2,212 @@
 <html>
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=1080,height=1350,initial-scale=1">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Inter:wght@400;500;600&family=Manrope:wght@600;700&display=swap');
-:root{--midnight:#0B1723;--slate:#182938;--horizon:#375A72;--ivory:#F1EEE6;--gold:#C79A58;--black:#080A0C;}
-*{box-sizing:border-box} html,body{margin:0;width:1080px;height:1350px;background:var(--black);overflow:hidden}
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap');
+
+:root{
+  --midnight:#0B1723;
+  --slate:#182938;
+  --horizon:#375A72;
+  --ivory:#F1EEE6;
+  --gold:#C79A58;
+  --black:#080A0C;
+  --signal:#3497FF;
+  --image-x:{{image_position_x}};
+  --image-y:{{image_position_y}};
+  --blue-bleed:{{blue_bleed_opacity}};
+  --scrim-strength:{{scrim_strength}};
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;width:1080px;height:1350px;overflow:hidden;background:var(--black)}
 body{font-family:Inter,Arial,sans-serif}
-.frame{position:relative;width:1080px;height:1350px;overflow:hidden;background:var(--midnight)}
-.photo{position:absolute;inset:0;background-image:url('{{subject_image}}');background-size:cover;background-position:{{image_position}};filter:saturate(.92) contrast(1.04) brightness(.94)}
-.scrim{position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,10,12,.92) 0%,rgba(11,23,35,.72) 31%,rgba(11,23,35,.18) 58%,rgba(8,10,12,.08) 100%),linear-gradient(0deg,rgba(8,10,12,.90) 0%,rgba(8,10,12,.46) 24%,rgba(8,10,12,0) 58%)}
-.topbar{position:absolute;top:54px;left:62px;right:62px;display:flex;justify-content:space-between;align-items:center;color:var(--ivory);font:600 21px/1 Manrope,Arial;letter-spacing:.18em;text-transform:uppercase}
-.brandmark{display:flex;align-items:center;gap:15px}.goldline{width:34px;height:3px;background:var(--gold)}
-.meta{font:500 17px/1 Inter,Arial;letter-spacing:.13em;opacity:.78}
-.story{position:absolute;left:62px;bottom:92px;width:680px;color:var(--ivory)}
-.kicker{font:600 17px/1.2 Manrope,Arial;letter-spacing:.18em;text-transform:uppercase;color:#d8e4ec;margin-bottom:22px}
-.headline{font:600 88px/.88 'Cormorant Garamond',Georgia,serif;letter-spacing:-.035em;margin:0 0 24px 0;text-wrap:balance;text-shadow:0 1px 0 rgba(0,0,0,.2)}
-.headline em{font-style:normal;color:var(--ivory)}
-.dek{font:500 28px/1.26 Manrope,Arial;max-width:610px;margin:0;color:#edf0ec}
-.footer{position:absolute;right:58px;bottom:48px;color:var(--ivory);font:500 14px/1 Inter,Arial;letter-spacing:.16em;text-transform:uppercase;writing-mode:vertical-rl;transform:rotate(180deg);opacity:.62}
-.evidence{position:absolute;right:0;bottom:0;width:18px;height:280px;background:var(--horizon)}
+
+.frame{
+  position:relative;
+  width:1080px;
+  height:1350px;
+  overflow:hidden;
+  background:var(--midnight);
+  isolation:isolate;
+}
+
+.photo{
+  position:absolute;
+  inset:0;
+  background-image:url('{{subject_image}}');
+  background-size:cover;
+  background-position:var(--image-x) var(--image-y);
+  filter:saturate(1.06) contrast(1.10) brightness(1.04);
+  transform:scale(1.008);
+}
+
+/* Glossy contemporary photo treatment: cool atmospheric lift without faux-vintage aging. */
+.photo-gloss{
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(ellipse at 82% 14%, rgba(255,255,255,.16) 0%, rgba(255,255,255,.05) 18%, transparent 39%),
+    radial-gradient(ellipse at 8% 44%, rgba(52,151,255,.36) 0%, rgba(52,151,255,.13) 25%, transparent 51%),
+    linear-gradient(120deg, rgba(52,151,255,.10) 0%, transparent 35%, rgba(199,154,88,.05) 82%, transparent 100%);
+  mix-blend-mode:screen;
+  pointer-events:none;
+}
+
+.blue-bleed{
+  position:absolute;
+  inset:0;
+  opacity:var(--blue-bleed);
+  background:
+    radial-gradient(circle at -4% 42%, rgba(52,151,255,.82) 0%, rgba(52,151,255,.38) 17%, transparent 40%),
+    radial-gradient(circle at 97% 3%, rgba(52,151,255,.28) 0%, transparent 23%);
+  mix-blend-mode:screen;
+  pointer-events:none;
+}
+
+.scrim{
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(90deg,
+      rgba(8,10,12,calc(.72 * var(--scrim-strength))) 0%,
+      rgba(11,23,35,calc(.55 * var(--scrim-strength))) 30%,
+      rgba(11,23,35,calc(.16 * var(--scrim-strength))) 58%,
+      rgba(8,10,12,.03) 100%),
+    linear-gradient(0deg,
+      rgba(8,10,12,calc(.56 * var(--scrim-strength))) 0%,
+      rgba(8,10,12,calc(.20 * var(--scrim-strength))) 28%,
+      rgba(8,10,12,0) 60%);
+  pointer-events:none;
+}
+
+.topbar{
+  position:absolute;
+  top:52px;
+  left:58px;
+  right:58px;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  color:var(--signal);
+  text-transform:uppercase;
+}
+
+.brandmark,
+.eyebrow{
+  font:800 22px/1 Manrope,Arial,sans-serif;
+  letter-spacing:.055em;
+  color:var(--signal);
+  text-shadow:0 1px 10px rgba(8,10,12,.45);
+}
+
+.brandmark{position:relative;padding-bottom:20px}
+.brandmark:after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:0;
+  width:50px;
+  height:5px;
+  border-radius:3px;
+  background:var(--signal);
+}
+
+.eyebrow{text-align:right}
+
+.story{
+  position:absolute;
+  left:58px;
+  bottom:93px;
+  width:760px;
+  color:var(--ivory);
+}
+
+.kicker{
+  display:inline-block;
+  margin:0 0 26px 0;
+  color:var(--gold);
+  font:800 24px/1.05 Manrope,Arial,sans-serif;
+  letter-spacing:.025em;
+  text-transform:uppercase;
+  text-shadow:0 2px 14px rgba(8,10,12,.62);
+}
+
+.headline{
+  margin:0;
+  max-width:750px;
+  color:var(--ivory);
+  font:700 92px/.91 'Cormorant Garamond',Georgia,serif;
+  letter-spacing:-.038em;
+  text-shadow:0 2px 14px rgba(8,10,12,.36);
+}
+
+.headline .accent-word{color:var(--signal)}
+
+.source-wrap{
+  position:absolute;
+  left:58px;
+  bottom:45px;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  align-items:flex-start;
+}
+
+.goldline{
+  width:46px;
+  height:4px;
+  border-radius:2px;
+  background:var(--gold);
+}
+
+.source{
+  color:rgba(241,238,230,.88);
+  font:600 15px/1 Inter,Arial,sans-serif;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  text-shadow:0 2px 10px rgba(8,10,12,.55);
+}
+
+/* Optional conversion surface. Default fixture leaves it blank/hidden. */
+.cta{
+  display:{{cta_display}};
+  position:absolute;
+  right:58px;
+  bottom:46px;
+  max-width:360px;
+  color:var(--ivory);
+  font:700 15px/1.15 Manrope,Arial,sans-serif;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  text-align:right;
+}
 </style>
 </head>
-<body><main class="frame">
-<div class="photo"></div><div class="scrim"></div>
-<div class="topbar"><div class="brandmark"><span class="goldline"></span><span>INTRST FILMS</span></div><div class="meta">{{subject}} · {{story_label}}</div></div>
-<section class="story">
-<div class="kicker">{{kicker}}</div>
-<h1 class="headline">{{headline_html}}</h1>
-<p class="dek">{{dek}}</p>
-</section>
-<div class="footer">{{source_line}}</div><div class="evidence"></div>
-</main></body></html>
+<body>
+<main class="frame">
+  <div class="photo"></div>
+  <div class="photo-gloss"></div>
+  <div class="blue-bleed"></div>
+  <div class="scrim"></div>
+
+  <header class="topbar">
+    <div class="brandmark">INTRST FILMS</div>
+    <div class="eyebrow">{{subject}} &nbsp;/&nbsp; {{story_label}}</div>
+  </header>
+
+  <section class="story">
+    <div class="kicker">{{kicker}}</div>
+    <h1 class="headline">{{headline_html}}</h1>
+  </section>
+
+  <div class="source-wrap">
+    <div class="goldline"></div>
+    <div class="source">{{source_line}}</div>
+  </div>
+
+  <div class="cta">{{cta_text}}</div>
+</main>
+</body>
+</html>
