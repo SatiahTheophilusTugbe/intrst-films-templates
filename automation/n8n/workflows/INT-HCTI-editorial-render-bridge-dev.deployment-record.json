@@ -32,14 +32,28 @@
     "observed_dimensions": "1680x1350",
     "raw_payload_persisted": false
   },
+  "geometry_verification_execution": {
+    "execution_id": "35209",
+    "runtime_version_id": "ac7c43d9-6704-44e9-85f9-c5624a3c7d6e",
+    "status": "success_geometry_verified",
+    "render_calls": 1,
+    "automatic_retries": 0,
+    "provider": "hcti",
+    "render_id": "01a07f6f-0554-79a3-b329-3b89c0c1116a",
+    "image_url": "https://hcti.io/v1/image/01a07f6f-0554-79a3-b329-3b89c0c1116a",
+    "declared_dimensions": "1080x1350",
+    "observed_dimensions": "1080x1350",
+    "raw_payload_persisted": false
+  },
   "visual_qa": {
-    "status": "blocked",
+    "status": "geometry_verified_pending_editorial_review",
     "findings": [
       "HCTI output observed at 1680x1350 with side bars because the first request omitted official viewport dimensions.",
       "Text rendered and font imports loaded; no visible overflow in the observed output.",
-      "Bridge corrected to send viewport_width=1080 and viewport_height=1350; correction is not re-executed in this authorized pass."
+      "Corrected execution 35209 sent viewport_width=1080, viewport_height=1350, and device_scale=1; output observed at 1080x1350.",
+      "Visual inspection found no unintended side bars within the rendered canvas, missing image/fonts, or visible text overflow."
     ],
-    "next_action": "separately authorize a second controlled render if the corrected geometry must be validated",
+    "next_action": "WIN 5 visual/editorial review; no additional render authorized",
     "correction_applied_after_execution": true
   },
   "rollback": "archive only workflow XHjJBrSOoBaFrHYk after project-scoped ownership verification",
