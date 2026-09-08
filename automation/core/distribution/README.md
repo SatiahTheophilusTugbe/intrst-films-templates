@@ -1,6 +1,6 @@
 # Distribution Executor
 
-Status: renderer 1.3.1 repository repair tested; deployment pending. Last reported inactive runtime remains 2680315b-3085-46ce-a648-cfff9b25d669 (renderer 1.3.0). No current repository/runtime parity is claimed. Historical status: repository contract implemented; generic n8n executor deployed inactive with HTTP/native transport branches bound in development. AUT-014 repair sprint completed a transport-disabled five-target preflight; no new publication, retry, activation or republish occurred in this repair pass.
+Status: renderer 1.3.1 deployed and parity-verified in the inactive development workflow. Runtime version is e926d69a-25a3-4505-bc92-8151cbef022a; deployment verification execution 35194 used synthetic pinned inputs with transport disabled and produced zero external calls. Historical status: repository contract implemented; generic n8n executor deployed inactive with HTTP/native transport branches bound in development. AUT-014 repair sprint completed a transport-disabled five-target preflight; no new publication, retry, activation or republish occurred in this repair pass.
 
 The executor is subject-agnostic, output-driven and platform-adapter-based. Its only required runtime input is `content_output_id`, plus a controlled execution envelope:
 
@@ -63,10 +63,10 @@ The previously reported platform counts (Facebook 1,573; Instagram 1,251; Thread
 The production claim boundary is unchanged: AUT-014 has only a fail-closed atomic-claim guard. A proven atomic backend is not runtime-bound. The canonical deferred option is the existing development-only PostgreSQL binding (`AUT-013-atomic-claim-postgres-dev.binding.json`) using a primary key on `operation_key` and single-statement `INSERT ... ON CONFLICT DO NOTHING`; it still requires backend provisioning, a project-owned logical credential, and runtime wiring. No parallel claim system was created and no guard was bypassed.
 
 
-### Repository renderer repair — 2026-09-08 (deployment pending)
+### Repository renderer repair — 2026-09-08 (deployed and parity-verified)
 
 Renderer 1.3.1 rejects missing, non-string, whitespace-only, and engagement-only story bodies before rendering. Canonical and inline renderers share caption_body precedence, trimmed engagement intent, and rejection of duplicate or excess hashtags. Threads now reports engagement_rendered=false when the closing prompt is omitted for space. X no longer blindly slices prose or hashtags: an oversized body raises COPY_REVIEW_REQUIRED for a coherent upstream rewrite, while optional hashtags are omitted if necessary.
 
 The existing 280 budget and character_count still use JavaScript UTF-16 string length. This repair does not claim X weighted URL/Unicode validation or universal platform-limit enforcement; those remain explicit adapter/renderer validation work. No approved editorial content is rewritten by this patch.
 
-The checked-in workflow contains the matching candidate Render code. It is not deployed from this session. Codex Desktop must verify current project/runtime ownership and version, deploy only the scoped Render change through the existing binding-preserving process, and update runtime parity/fingerprint evidence after readback. Keep atomic claims fail-closed and all transport disabled during verification. Do not import the sanitized workflow over live credentials/configuration wholesale. No new publishing is authorized.
+The checked-in workflow contains the matching Render code, deployed only to the existing inactive workflow through a single Render-node parameter update. Runtime version e926d69a-25a3-4505-bc92-8151cbef022a matches the checked-in candidate at commit 42bf52f9dbdb5367721ef62709b3dcdb5c96eade. Synthetic execution 35194 verified invalid/missing-copy rejection through the repository suite, rendered five platform payloads with literal escaped paragraph breaks normalized, and stopped at the transport-disabled gate with external_calls=0 and automatic_retries=0. Credentials, account routing, persistence, and the fail-closed atomic-claim guard were preserved; no wholesale workflow import or publishing mutation occurred.

@@ -27,8 +27,8 @@
                             "x":  "25655",
                             "tiktok":  "58729"
                         },
-    "runtime_state":  "REPAIR_DEPLOYED_TARGET_AWARE_PERSISTENCE_ZERO_CALL_PREFLIGHT_35155_POST_TEST_REMOVAL_REPORTED",
-    "runtime_version_id":  "2680315b-3085-46ce-a648-cfff9b25d669",
+    "runtime_state":  "RENDERER_1_3_1_DEPLOYED_PARITY_VERIFIED_ZERO_CALL_35194_POST_TEST_REMOVAL_REPORTED",
+    "runtime_version_id":  "e926d69a-25a3-4505-bc92-8151cbef022a",
     "node_count":  29,
     "repair":  {
                     "account_routing":  "verified Facebook accountId 22864 with INTRST Films pageId 101607426321841",
@@ -40,8 +40,8 @@
                     "duplicate_prevention":  "exact account-aware idempotency lookup plus atomic claim binding; unresolved production claim fails closed before transport"
                 },
     "repository_runtime_parity": {
-        "status": "pending_deployment",
-        "method": "Canonical/candidate inline behavioral regression tests passed locally; deployed runtime was not accessed in this session. Prior verified runtime remains historical evidence.",
+        "status": "verified",
+        "method": "Scoped Render-node parameter update preserving live credentials/configuration/persistence; project-scoped readback compared the deployed Render implementation to the checked-in candidate, followed by pinned synthetic transport-disabled execution 35194.",
         "renderer_version": "distribution-renderer@1.3.1",
         "parity_markers": [
             "distribution-renderer@1.3.1",
@@ -50,7 +50,10 @@
             "COPY_REVIEW_REQUIRED",
             "500"
         ],
-        "last_verified_runtime_version_id": "2680315b-3085-46ce-a648-cfff9b25d669"
+        "last_verified_runtime_version_id": "e926d69a-25a3-4505-bc92-8151cbef022a",
+        "deployment_commit": "42bf52f9dbdb5367721ef62709b3dcdb5c96eade",
+        "verification_execution_id": "35194",
+        "verification_result": "success; five synthetic platform renders; transport_disabled=true; external_calls=0; automatic_retries=0; provider/comment mutations=0"
     },
     "media_delivery_evidence":  {
                                     "asset_id":  "INT-AST-01K4X4Q7B6D0MMPY000000003",
@@ -186,15 +189,16 @@
     "rollback":  "archive only workflow AknakVMx2prJrsZw after project-scoped ownership verification",
     "production_promotion":  "blocked_pending_verified_media_transport_and_durable_publication_persistence",
     "pending_repository_repair": {
-        "status": "AWAITING_DESKTOP_DEPLOYMENT",
+        "status": "DEPLOYED_AND_PARITY_VERIFIED",
         "renderer_version": "distribution-renderer@1.3.1",
-        "runtime_mutations": 0,
+        "runtime_mutations": 1,
         "publication_mutations": 0,
         "changes": [
             "reject missing or engagement-only body",
             "canonical/inline input-validation parity",
             "accurate Threads engagement flag",
-            "X oversized story fails for editorial review; optional hashtags dropped whole"
+        "X oversized story fails for editorial review; optional hashtags dropped whole",
+        "scoped Render-node deployment and synthetic transport-disabled verification execution 35194"
         ],
         "validation_limit": "character_count remains UTF-16 length; weighted X URL/Unicode validation remains unresolved",
         "rollback": "Restore Render code from prior Git commit 7d88aea475b141e478510601cf998698f5124459; preserve runtime bindings and history",
