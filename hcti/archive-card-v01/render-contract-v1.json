@@ -1,0 +1,13 @@
+{
+  "format_id":"INTRST_ARCHIVE_CARD_V1",
+  "status":"WORKING_REVIEW_ONLY",
+  "canvas":{"width":1080,"height":1350,"aspect_ratio":"4:5"},
+  "allowed_modes":["artifact_protagonist","artifact_interpretation"],
+  "required_fields":["mode","archive_label","headline","artifact_image","provenance"],
+  "optional_fields":["micro_caption","detail_image","detail_label","subject","date_label","source_type","field_tone"],
+  "copy_limits":{"headline_words":[4,12],"micro_caption_words":[12,35]},
+  "source_rules":{"fake_aging":false,"fabricated_provenance":false,"editorial_annotation_must_be_distinct":true,"source_context_must_be_preserved":true},
+  "brand_tokens":{"signal_blue":"#3497FF","dawn_gold":"#C79A58","warm_ivory":"#F1EEE6","midnight_navy":"#0B1723","cinematic_black":"#080A0C"},
+  "cta_policy":"none_by_default",
+  "publication_authorized":false
+}
