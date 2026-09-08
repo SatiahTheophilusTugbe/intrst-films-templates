@@ -16,9 +16,9 @@
     "credential_type": "httpBasicAuth",
     "secret_bound": false
   },
-  "source_commit": "9aa50d2994a90e08221c93e4417d0cdb4550ed23",
+  "source_commit": "1a383d02e4d306deb0fd0543b05e850f6b2b38a7",
   "template_version": "editorial-portrait-v01",
-  "runtime_version_id": "ac7c43d9-6704-44e9-85f9-c5624a3c7d6e",
+  "runtime_version_id": "8b1fa0ca-1697-46b1-a7e6-9f207fbbc8d9",
   "execution_runtime_version_id": "c6e82be9-5f95-4abf-8e83-fa9efa7a1309",
   "controlled_execution": {
     "execution_id": "35207",
@@ -43,7 +43,8 @@
     "image_url": "https://hcti.io/v1/image/01a07f6f-0554-79a3-b329-3b89c0c1116a",
     "declared_dimensions": "1080x1350",
     "observed_dimensions": "1080x1350",
-    "raw_payload_persisted": false
+    "raw_payload_persisted": false,
+    "next_action": "source synchronized; approved full-color asset delivery remains required; no automatic rerender"
   },
   "visual_qa": {
     "status": "geometry_verified_pending_editorial_review",
@@ -57,5 +58,27 @@
     "correction_applied_after_execution": true
   },
   "rollback": "archive only workflow XHjJBrSOoBaFrHYk after project-scoped ownership verification",
-  "tracker": "INTRST Master Build Tracker - Canonical"
+  "tracker": "INTRST Master Build Tracker - Canonical",
+  "source_branch": "design/hcti-editorial-v01",
+  "source_lock_path": "hcti/editorial-portrait-v01/render-lock-v0.4.json",
+  "template_blob_sha": "7bf754b1dacecda0d371597290be1f987ad5d514",
+  "fixture_blob_sha": "984f4210204c7bba53c85893aa833c5a436bb843",
+  "lock_version": "WORKING v0.4",
+  "source_synchronization": {
+    "status": "implemented_fail_closed",
+    "template_source": "locked Git commit",
+    "fixture_source": "locked Git commit",
+    "template_blob_sha": "7bf754b1dacecda0d371597290be1f987ad5d514",
+    "fixture_blob_sha": "984f4210204c7bba53c85893aa833c5a436bb843",
+    "supporting_paragraph_injection": false,
+    "saved_template_id": false,
+    "runtime_image_substitution_only": true,
+    "asset_id": "INT-AST-01K4X4Q7B6D0MMPY000000003",
+    "source_id": "SRC-010",
+    "asset_gate": "approved full-color delivery URL pending",
+    "provider_calls": 0,
+    "render_authorization_preserved": true,
+    "runtime_version_id": "8b1fa0ca-1697-46b1-a7e6-9f207fbbc8d9",
+    "parity": "checked-in Prepare fixed HCTI render jsCode equals deployed node"
+  }
 }

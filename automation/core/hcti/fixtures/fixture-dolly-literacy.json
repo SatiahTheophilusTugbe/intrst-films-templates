@@ -1,13 +1,17 @@
 {
-  "subject": "Dolly Parton",
-  "story_label": "Literacy",
-  "subject_image": "https://commons.wikimedia.org/wiki/Special:FilePath/Young-Dolly-Parton.jpg",
-  "image_position": "58% 31%",
-  "kicker": "Stories worth remembering.",
-  "headline_html": "Her father<br>couldn’t read.<br><em>She built a library.</em>",
-  "dek": "In 1995, Dolly Parton turned a family wound into a system that put books directly into children’s homes.",
-  "source_line": "Sevier County, Tennessee · 1995",
-  "asset_id": "INT-AST-01K4X4Q7B6D0MMPY000000003",
-  "source_id": "SRC-010",
-  "status": "controlled_test_fixture"
+  "subject": "DOLLY PARTON",
+  "story_label": "THE RIPPLE",
+  "subject_image": "<runtime image URL or data URI>",
+  "image_position_x": "64%",
+  "image_position_y": "24%",
+  "blue_bleed_opacity": "0.72",
+  "scrim_strength": "0.92",
+  "layout_variant": "variant-left",
+  "kicker": "STORIES WORTH REMEMBERING.",
+  "headline_html": "Her father<br>couldn’t read.<br>She built a <span class=\"accent-word\">library.</span>",
+  "source_line": "SEVIER COUNTY, TENNESSEE · 1995",
+  "cta_display": "none",
+  "cta_text": "",
+  "render_version": "WORKING v0.4",
+  "status": "REVIEW ONLY / NOT APPROVED DOCTRINE"
 }
