@@ -1,0 +1,22 @@
+{
+  "format_id": "INTRST_NARRATIVE_CAROUSEL_V1",
+  "status": "WORKING_REVIEW_ONLY",
+  "canvas": {"width": 1080, "height": 1350, "aspect_ratio": "4:5"},
+  "render_model": "one HCTI render per slide",
+  "required_sequence": ["hook", "scene", "context", "complication", "reveal", "consequence", "residue"],
+  "allowed_visual_modes": ["photo_bleed", "split_editorial", "object_led", "evidence_led", "closing"],
+  "required_fields_per_slide": ["slide_number", "story_role", "visual_mode", "subject", "eyebrow", "headline_html"],
+  "optional_fields": ["support_copy", "background_image", "object_image", "source_line", "kicker", "mini_hook", "accent_mode", "image_position_x", "image_position_y", "cta_text", "handle_text"],
+  "retention": {
+    "slide_1_words": [6,18],
+    "slides_2_to_4_words": [20,45],
+    "slide_5_words": [12,35],
+    "slide_6_words": [20,45],
+    "slide_7_words": [8,22],
+    "mini_hook_methods": ["contradiction", "delay", "reframe", "specificity", "escalation", "intimacy", "callback"],
+    "rule": "each slide must add information, emotion, proof, or reframe; no repeated filler beat"
+  },
+  "brand_tokens": {"signal_blue":"#3497FF","dawn_gold":"#C79A58","warm_ivory":"#F1EEE6","midnight_navy":"#0B1723","deep_slate":"#182938","cinematic_black":"#080A0C"},
+  "cta_policy": {"slides_1_to_6":"prohibited_by_default","slide_7":"optional_soft_publication_cta"},
+  "publication_authorized": false
+}
