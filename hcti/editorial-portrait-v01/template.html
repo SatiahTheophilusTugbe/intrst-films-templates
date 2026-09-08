@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Inter:wght@400;500;600&family=Manrope:wght@600;700&display=swap');
+:root{--midnight:#0B1723;--slate:#182938;--horizon:#375A72;--ivory:#F1EEE6;--gold:#C79A58;--black:#080A0C;}
+*{box-sizing:border-box} html,body{margin:0;width:1080px;height:1350px;background:var(--black);overflow:hidden}
+body{font-family:Inter,Arial,sans-serif}
+.frame{position:relative;width:1080px;height:1350px;overflow:hidden;background:var(--midnight)}
+.photo{position:absolute;inset:0;background-image:url('{{subject_image}}');background-size:cover;background-position:{{image_position}};filter:saturate(.92) contrast(1.04) brightness(.94)}
+.scrim{position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,10,12,.92) 0%,rgba(11,23,35,.72) 31%,rgba(11,23,35,.18) 58%,rgba(8,10,12,.08) 100%),linear-gradient(0deg,rgba(8,10,12,.90) 0%,rgba(8,10,12,.46) 24%,rgba(8,10,12,0) 58%)}
+.topbar{position:absolute;top:54px;left:62px;right:62px;display:flex;justify-content:space-between;align-items:center;color:var(--ivory);font:600 21px/1 Manrope,Arial;letter-spacing:.18em;text-transform:uppercase}
+.brandmark{display:flex;align-items:center;gap:15px}.goldline{width:34px;height:3px;background:var(--gold)}
+.meta{font:500 17px/1 Inter,Arial;letter-spacing:.13em;opacity:.78}
+.story{position:absolute;left:62px;bottom:92px;width:680px;color:var(--ivory)}
+.kicker{font:600 17px/1.2 Manrope,Arial;letter-spacing:.18em;text-transform:uppercase;color:#d8e4ec;margin-bottom:22px}
+.headline{font:600 88px/.88 'Cormorant Garamond',Georgia,serif;letter-spacing:-.035em;margin:0 0 24px 0;text-wrap:balance;text-shadow:0 1px 0 rgba(0,0,0,.2)}
+.headline em{font-style:normal;color:var(--ivory)}
+.dek{font:500 28px/1.26 Manrope,Arial;max-width:610px;margin:0;color:#edf0ec}
+.footer{position:absolute;right:58px;bottom:48px;color:var(--ivory);font:500 14px/1 Inter,Arial;letter-spacing:.16em;text-transform:uppercase;writing-mode:vertical-rl;transform:rotate(180deg);opacity:.62}
+.evidence{position:absolute;right:0;bottom:0;width:18px;height:280px;background:var(--horizon)}
+</style>
+</head>
+<body><main class="frame">
+<div class="photo"></div><div class="scrim"></div>
+<div class="topbar"><div class="brandmark"><span class="goldline"></span><span>INTRST FILMS</span></div><div class="meta">{{subject}} · {{story_label}}</div></div>
+<section class="story">
+<div class="kicker">{{kicker}}</div>
+<h1 class="headline">{{headline_html}}</h1>
+<p class="dek">{{dek}}</p>
+</section>
+<div class="footer">{{source_line}}</div><div class="evidence"></div>
+</main></body></html>
