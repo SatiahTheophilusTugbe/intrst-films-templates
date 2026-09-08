@@ -1,5 +1,5 @@
 {
-  "version": "0.1.0",
+  "version": "0.2.0",
   "brand": "INTRST Films",
   "design_families": {
     "image_post": [
@@ -8,9 +8,18 @@
       "quote-context"
     ],
     "carousel": [
-      "life-timeline",
-      "before-the-icon",
-      "legacy-after"
+      "narrative-editorial",
+      "object-led",
+      "evidence-led"
+    ],
+    "archive": [
+      "artifact-protagonist",
+      "artifact-interpretation"
+    ],
+    "evidence": [
+      "source-first",
+      "claim-first",
+      "detail-first"
     ],
     "youtube_thumbnail": [
       "face-tension",
@@ -28,12 +37,23 @@
       "motion-essay"
     ]
   },
+  "story_retention_engine": [
+    "hook",
+    "promise",
+    "progression",
+    "mini-hooks",
+    "pivot",
+    "payoff",
+    "residue"
+  ],
   "selection_inputs": [
     "content_pillar",
     "story_angle",
     "platform",
     "asset_availability",
     "emotional_tone",
-    "attention_objective"
+    "attention_objective",
+    "evidence_strength",
+    "image_geometry"
   ]
 }
