@@ -1,0 +1,31 @@
+import assert from "node:assert/strict";
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { buildAttemptIdentity, buildHctiRequest, HCTI_CONTRACT, loadCanonicalFixture, normalizeHctiResult, validateFixture } from "../hcti-bridge.mjs";
+
+const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
+const template = fs.readFileSync(path.join(root, "template.html"), "utf8");
+const fixture = loadCanonicalFixture();
+
+assert.equal(HCTI_CONTRACT.endpoint, "https://hcti.io/v1/image");
+assert.equal(HCTI_CONTRACT.max_attempts, 1);
+assert.equal(HCTI_CONTRACT.automatic_retries, 0);
+assert.equal(validateFixture(fixture).asset_id, "INT-AST-01K4X4Q7B6D0MMPY000000003");
+const request = buildHctiRequest(fixture, template);
+assert.match(request.html, /Dolly Parton/);
+assert.match(request.html, /<em>She built a library\.<\/em>/);
+assert.match(request.html, /https:\/\/commons\.wikimedia\.org\/wiki\/Special:FilePath/);
+assert.equal(request.viewport_width, 1080);
+assert.equal(request.viewport_height, 1350);
+assert.doesNotMatch(request.html, /<script|onerror=|javascript:/i);
+assert.equal(validateFixture({ ...fixture, subject: "<script>alert(1)</script>" }).subject, "<script>alert(1)</script>");
+assert.throws(() => validateFixture({ ...fixture, headline_html: "<strong>unsafe</strong>" }), /unsupported markup/);
+assert.throws(() => validateFixture({ ...fixture, image_position: "9999px 0" }), /image_position/);
+const attempt = buildAttemptIdentity({ runId: "AUT-HCTI-TEST-001", fixture });
+assert.match(attempt, /^hcti-render:[a-f0-9]{64}$/);
+const normalized = normalizeHctiResult({ id: "abc123", url: "https://hcti.io/v1/image/abc123" }, { asset_id: fixture.asset_id, source_id: fixture.source_id, attempt_id: attempt });
+assert.equal(normalized.raw_payload_persisted, false);
+assert.equal(normalized.width, 1080);
+assert.throws(() => normalizeHctiResult({ id: "abc123", url: "https://evil.example/image/abc123" }), (error) => error.code === "MALFORMED_PROVIDER_RESPONSE");
+console.log("hcti bridge tests: 11 passed");

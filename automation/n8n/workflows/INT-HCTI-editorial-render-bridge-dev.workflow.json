@@ -1,0 +1,330 @@
+{
+  "name": "INT-HCTI — Editorial Render Bridge — DEV",
+  "active": false,
+  "tags": [
+    "project:intrst"
+  ],
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": true
+  },
+  "nodes": [
+    {
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {}
+    },
+    {
+      "name": "Build workflow_runs START row",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const now=new Date().toISOString();const runId='HCTI-AUT-003:'+String($execution.id??'manual');return [{json:{run_id:runId,root_run_id:runId,parent_run_id:'',workflow_key:'INT-HCTI-003',workflow_name:'INT-HCTI — Editorial Render Bridge — DEV',workflow_version:'hcti-bridge@1.0.0',module:'render',environment:'development',n8n_workflow_id:String($workflow.id??''),n8n_execution_id:String($execution.id??''),subject_id:'Dolly Parton',story_object_id:'',manifest_id:'',output_id:'',started_at:now,status:'started',state_from:'',state_to:'started',attempt:1,provider:'hcti',human_review_required:true,review_status:'pending',input_ids_json:'[\"INT-AST-01K4X4Q7B6D0MMPY000000003\"]',output_ids_json:'[]',source_ids_json:'[\"SRC-010\"]',claim_ids_json:'[]',asset_ids_json:'[\"INT-AST-01K4X4Q7B6D0MMPY000000003\"]',idempotency_key:'hcti-render-start:'+runId,created_at:now,updated_at:now}}];"
+      }
+    },
+    {
+      "name": "Persist workflow_runs START",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        448,
+        0
+      ],
+      "parameters": {
+        "resource": "row",
+        "operation": "insert",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "ZdOyJqa5ffTkwUSV"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "run_id": "={{ $json.run_id }}",
+            "root_run_id": "={{ $json.root_run_id }}",
+            "parent_run_id": "={{ $json.parent_run_id }}",
+            "workflow_key": "={{ $json.workflow_key }}",
+            "workflow_name": "={{ $json.workflow_name }}",
+            "workflow_version": "={{ $json.workflow_version }}",
+            "module": "={{ $json.module }}",
+            "environment": "={{ $json.environment }}",
+            "n8n_workflow_id": "={{ $json.n8n_workflow_id }}",
+            "n8n_execution_id": "={{ $json.n8n_execution_id }}",
+            "subject_id": "={{ $json.subject_id }}",
+            "story_object_id": "={{ $json.story_object_id }}",
+            "manifest_id": "={{ $json.manifest_id }}",
+            "output_id": "={{ $json.output_id }}",
+            "started_at": "={{ $json.started_at }}",
+            "status": "={{ $json.status }}",
+            "state_from": "={{ $json.state_from }}",
+            "state_to": "={{ $json.state_to }}",
+            "attempt": "={{ $json.attempt }}",
+            "provider": "={{ $json.provider }}",
+            "human_review_required": "={{ $json.human_review_required }}",
+            "review_status": "={{ $json.review_status }}",
+            "input_ids_json": "={{ $json.input_ids_json }}",
+            "output_ids_json": "={{ $json.output_ids_json }}",
+            "source_ids_json": "={{ $json.source_ids_json }}",
+            "claim_ids_json": "={{ $json.claim_ids_json }}",
+            "asset_ids_json": "={{ $json.asset_ids_json }}",
+            "idempotency_key": "={{ $json.idempotency_key }}",
+            "created_at": "={{ $json.created_at }}",
+            "updated_at": "={{ $json.updated_at }}"
+          }
+        },
+        "options": {
+          "optimizeBulk": false
+        }
+      }
+    },
+    {
+      "name": "Prepare fixed HCTI render",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        672,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const f={subject:'Dolly Parton',story_label:'Literacy',subject_image:'https://commons.wikimedia.org/wiki/Special:FilePath/Young-Dolly-Parton.jpg',image_position:'58% 31%',kicker:'Stories worth remembering.',headline_html:'Her father<br>couldn’t read.<br><em>She built a library.</em>',dek:'In 1995, Dolly Parton turned a family wound into a system that put books directly into children’s homes.',source_line:'Sevier County, Tennessee · 1995',asset_id:'INT-AST-01K4X4Q7B6D0MMPY000000003',source_id:'SRC-010'};const e=v=>String(v).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('\"','&quot;').replaceAll(\"'\",\"&#39;\");const h=f.headline_html.replace(/<br\\s*\\/?>/gi,'\\u0000').replace(/<em>([\\s\\S]*?)<\\/em>/gi,'\\u0001$1\\u0002');if(/[<>]/.test(h)||!/^(?:\\d{1,3}%|left|center|right)\\s+(?:\\d{1,3}%|top|center|bottom)$/.test(f.image_position))throw new Error('SCHEMA_VALIDATION');const headline=e(h).replace(/\\u0000/g,'<br>').replace(/\\u0001/g,'<em>').replace(/\\u0002/g,'</em>');const html='<!doctype html><html><head><meta charset=\"utf-8\"><style>@import url(\"https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Inter:wght@400;500;600&family=Manrope:wght@600;700&display=swap\");html,body{width:1080px;height:1350px;margin:0;overflow:hidden}body{background:#101925;color:#f7f0df;font-family:Inter,sans-serif}.frame{position:relative;width:1080px;height:1350px;overflow:hidden}.photo{position:absolute;inset:0;background-image:url(\"'+f.subject_image+'\");background-position:'+f.image_position+';background-size:cover}.scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(16,25,37,.18),rgba(16,25,37,.88))}.copy{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;padding:64px 72px 56px;box-sizing:border-box}.topbar,.footer{font:600 24px/1.2 Manrope,sans-serif;letter-spacing:.08em;text-transform:uppercase}.topbar{display:flex;justify-content:space-between}.kicker{margin:auto 0 18px;color:#f4c96b;font:600 24px/1.2 Manrope,sans-serif}h1{max-width:900px;margin:0 0 28px;font:600 112px/.88 \"Cormorant Garamond\",serif}h1 em{color:#f4c96b;font-style:normal}.dek{max-width:820px;margin:0 0 28px;font:500 30px/1.22 Inter,sans-serif}.footer{color:#d3d9e2;font-size:18px}</style></head><body><main class=\"frame\"><div class=\"photo\"></div><div class=\"scrim\"></div><section class=\"copy\"><div class=\"topbar\"><span>'+e(f.subject)+'</span><span>'+e(f.story_label)+'</span></div><div><div class=\"kicker\">'+e(f.kicker)+'</div><h1>'+headline+'</h1><p class=\"dek\">'+e(f.dek)+'</p></div><div class=\"footer\">'+e(f.source_line)+'</div></section></main></body></html>';const runId=$('Build workflow_runs START row').first().json.run_id;return [{json:{...f,run_id:runId,attempt_id:'hcti-render:'+runId,html,provider:'hcti',endpoint:'https://hcti.io/v1/image',template_version:'editorial-portrait-v01',source_commit:'9aa50d2994a90e08221c93e4417d0cdb4550ed23',width:1080,height:1350,automatic_retries:0,transport_attempt:1}}];"
+      }
+    },
+    {
+      "name": "HCTI Render — Single Attempt",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        896,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://hcti.io/v1/image",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({html: $json.html, device_scale: 1, viewport_width: 1080, viewport_height: 1350}) }}",
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "onError": "continueRegularOutput",
+      "retryOnFail": false
+    },
+    {
+      "name": "Normalize HCTI result",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1120,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const input=$input.first().json;const source=$('Prepare fixed HCTI render').first().json;const body=input.body??input;const ok=typeof body.url==='string'&&/^https:\\/\\/hcti\\.io\\/v1\\/image\\/[A-Za-z0-9_-]+$/.test(body.url)&&typeof body.id==='string'&&body.id;const now=new Date().toISOString();return [{json:{run_id:source.run_id,attempt_id:source.attempt_id,provider:'hcti',endpoint:source.endpoint,asset_id:source.asset_id,source_id:source.source_id,template_version:source.template_version,source_commit:source.source_commit,width:source.width,height:source.height,render_id:ok?body.id:null,image_url:ok?body.url:null,status:ok?'submitted':'outcome_unknown',outcome:ok?'SUBMITTED':'OUTCOME_UNKNOWN',provider_calls:1,transport_attempts:1,automatic_retries:0,raw_payload_persisted:false,created_at:now,updated_at:now,error_class:ok?null:'MALFORMED_PROVIDER_RESPONSE'}}];"
+      }
+    },
+    {
+      "name": "Build workflow_runs terminal row",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1344,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const x=$input.first().json;const now=new Date().toISOString();const status=x.outcome==='SUBMITTED'?'submitted':'outcome_unknown';return [{json:{run_id:x.run_id,root_run_id:x.run_id,parent_run_id:'',workflow_key:'INT-HCTI-003',workflow_name:'INT-HCTI — Editorial Render Bridge — DEV',workflow_version:'hcti-bridge@1.0.0',module:'render',environment:'development',n8n_workflow_id:String($workflow.id??''),n8n_execution_id:String($execution.id??''),subject_id:'Dolly Parton',story_object_id:'',manifest_id:'',output_id:x.render_id??'',started_at:x.created_at,completed_at:now,status,state_from:'started',state_to:status,attempt:1,provider:'hcti',human_review_required:true,review_status:'pending',error_class:x.error_class??'',input_ids_json:'[\"INT-AST-01K4X4Q7B6D0MMPY000000003\"]',output_ids_json:JSON.stringify([x.render_id,x.image_url].filter(Boolean)),source_ids_json:'[\"SRC-010\"]',claim_ids_json:'[]',asset_ids_json:'[\"INT-AST-01K4X4Q7B6D0MMPY000000003\"]',idempotency_key:x.attempt_id,created_at:x.created_at,updated_at:now}}];"
+      }
+    },
+    {
+      "name": "Persist workflow_runs terminal",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        1568,
+        0
+      ],
+      "parameters": {
+        "resource": "row",
+        "operation": "insert",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "ZdOyJqa5ffTkwUSV"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "run_id": "={{ $json.run_id }}",
+            "root_run_id": "={{ $json.root_run_id }}",
+            "parent_run_id": "={{ $json.parent_run_id }}",
+            "workflow_key": "={{ $json.workflow_key }}",
+            "workflow_name": "={{ $json.workflow_name }}",
+            "workflow_version": "={{ $json.workflow_version }}",
+            "module": "={{ $json.module }}",
+            "environment": "={{ $json.environment }}",
+            "n8n_workflow_id": "={{ $json.n8n_workflow_id }}",
+            "n8n_execution_id": "={{ $json.n8n_execution_id }}",
+            "subject_id": "={{ $json.subject_id }}",
+            "story_object_id": "={{ $json.story_object_id }}",
+            "manifest_id": "={{ $json.manifest_id }}",
+            "output_id": "={{ $json.output_id }}",
+            "started_at": "={{ $json.started_at }}",
+            "completed_at": "={{ $json.completed_at }}",
+            "status": "={{ $json.status }}",
+            "state_from": "={{ $json.state_from }}",
+            "state_to": "={{ $json.state_to }}",
+            "attempt": "={{ $json.attempt }}",
+            "provider": "={{ $json.provider }}",
+            "human_review_required": "={{ $json.human_review_required }}",
+            "review_status": "={{ $json.review_status }}",
+            "error_class": "={{ $json.error_class }}",
+            "input_ids_json": "={{ $json.input_ids_json }}",
+            "output_ids_json": "={{ $json.output_ids_json }}",
+            "source_ids_json": "={{ $json.source_ids_json }}",
+            "claim_ids_json": "={{ $json.claim_ids_json }}",
+            "asset_ids_json": "={{ $json.asset_ids_json }}",
+            "idempotency_key": "={{ $json.idempotency_key }}",
+            "created_at": "={{ $json.created_at }}",
+            "updated_at": "={{ $json.updated_at }}"
+          }
+        },
+        "options": {
+          "optimizeBulk": false
+        }
+      }
+    },
+    {
+      "name": "Persist and exit",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1792,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const x=$('Normalize HCTI result').first().json;return [{json:{status:x.status??'submitted',persist_and_exit:true,provider_calls:x.provider_calls??1,transport_attempts:x.transport_attempts??1,automatic_retries:0,render_id:x.render_id??null,image_url:x.image_url??null,width:x.width??1080,height:x.height??1350,raw_payload_persisted:false}}];"
+      }
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Build workflow_runs START row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build workflow_runs START row": {
+      "main": [
+        [
+          {
+            "node": "Persist workflow_runs START",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Persist workflow_runs START": {
+      "main": [
+        [
+          {
+            "node": "Prepare fixed HCTI render",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare fixed HCTI render": {
+      "main": [
+        [
+          {
+            "node": "HCTI Render — Single Attempt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HCTI Render — Single Attempt": {
+      "main": [
+        [
+          {
+            "node": "Normalize HCTI result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize HCTI result": {
+      "main": [
+        [
+          {
+            "node": "Build workflow_runs terminal row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build workflow_runs terminal row": {
+      "main": [
+        [
+          {
+            "node": "Persist workflow_runs terminal",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Persist workflow_runs terminal": {
+      "main": [
+        [
+          {
+            "node": "Persist and exit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "provider": "hcti",
+  "credential_ref": "INT | HCTI | Development | Production Renderer",
+  "credential_type": "httpBasicAuth",
+  "source_commit": "9aa50d2994a90e08221c93e4417d0cdb4550ed23",
+  "template_version": "editorial-portrait-v01",
+  "workflow_version": "hcti-bridge@1.0.1"
+}
