@@ -19,6 +19,7 @@
   "source_commit": "9aa50d2994a90e08221c93e4417d0cdb4550ed23",
   "template_version": "editorial-portrait-v01",
   "runtime_version_id": "ac7c43d9-6704-44e9-85f9-c5624a3c7d6e",
+  "execution_runtime_version_id": "c6e82be9-5f95-4abf-8e83-fa9efa7a1309",
   "controlled_execution": {
     "execution_id": "35207",
     "status": "success_render_qa_blocked",
@@ -38,7 +39,8 @@
       "Text rendered and font imports loaded; no visible overflow in the observed output.",
       "Bridge corrected to send viewport_width=1080 and viewport_height=1350; correction is not re-executed in this authorized pass."
     ],
-    "next_action": "separately authorize a second controlled render if the corrected geometry must be validated"
+    "next_action": "separately authorize a second controlled render if the corrected geometry must be validated",
+    "correction_applied_after_execution": true
   },
   "rollback": "archive only workflow XHjJBrSOoBaFrHYk after project-scoped ownership verification",
   "tracker": "INTRST Master Build Tracker - Canonical"
