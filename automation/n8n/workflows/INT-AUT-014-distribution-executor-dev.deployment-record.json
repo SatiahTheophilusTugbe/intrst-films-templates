@@ -119,6 +119,24 @@
                                       "republish_authorization":  false,
                                       "provider_status_lookup_performed":  false
                                   },
+    "premium_preview_review":  {
+                               "status":  "review_package_incomplete_pending_canva_asset_ingest_and_export",
+                               "selected_asset_id":  "INT-AST-01K4X4Q7B6D0MMPY000000003",
+                               "selected_asset_source":  "SRC-010 / Wikimedia Commons Young-Dolly-Parton.jpg",
+                               "selected_asset_source_format":  "JPEG, 765x941 original",
+                               "registered_drive_mime":  "image/webp",
+                               "canva_master_id":  "DAHTdazDglU",
+                               "canva_master_view_url":  "https://www.canva.com/d/1UPp0UcPdWXLbov",
+                               "canva_master_state":  "working_placeholder_unmodified",
+                               "canva_export":  "not_created",
+                               "canva_delivery_validation":  "pending",
+                               "canva_ingest_blocker":  "public Wikimedia fetch returned non-200 to Canva; private Drive sediment file reference was rejected by Canva upload",
+                               "platform_copy_character_counts":  {"facebook":1573,"instagram":1251,"threads":422,"x":218,"tiktok":829},
+                               "first_comment_hashtags":  0,
+                               "claim_backend":  "fail_closed_guard_only",
+                               "atomic_claim_backend":  "unresolved_deferred_postgresql_binding",
+                               "publication_or_comment_mutations":  0
+                           },
     "transport_branches":  [
                                "blotato-http:facebook",
                                "blotato-http:instagram",
