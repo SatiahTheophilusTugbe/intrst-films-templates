@@ -1,6 +1,6 @@
 {
   "format_id": "INTRST_NARRATIVE_CAROUSEL_V1",
-  "status": "WORKING_REVIEW_ONLY_ANCHOR_GATE_PENDING",
+  "status": "ANCHOR_DESIGN_APPROVED_RUNTIME_VALIDATION_PENDING",
   "canvas": {
     "width": 1080,
     "height": 1350,
@@ -37,7 +37,8 @@
     "kicker",
     "mini_hook",
     "cta_text",
-    "handle_text"
+    "handle_text",
+    "deck_name"
   ],
   "retention": {
     "slide_1_words": [
@@ -84,7 +85,7 @@
     "slide_7": "optional_soft_publication_cta"
   },
   "publication_authorized": false,
-  "design_revision": "2.0-candidate",
+  "design_revision": "2.2-anchor-approved",
   "slide_count": 7,
   "page_spine": {
     "left_px": 0,
@@ -109,7 +110,7 @@
     "HTML-escape plain-text fields; headline_html permits only br and span class=\"accent\"; reject other markup.",
     "Use verified image URL/data URI and bounded percentage crop positions; no unresolved placeholders.",
     "Wait for images and all three brand fonts; inspect rendered copy bounds, face crop, source readability and spine at 1080x1350.",
-    "Slide 7 handle defaults to @INTRSTFilms; CTA defaults to Follow for stories worth remembering. only if editorially authorized in payload."
+    "Slide 7 handle defaults to @watchintrstfilms; CTA defaults to Follow for stories worth remembering. only if editorially authorized in payload."
   ],
   "asset_gate": {
     "production": "exact A4 original JPEG 2400x3530, delivered and verified by WIN 4",
@@ -123,10 +124,19 @@
       6,
       7
     ],
-    "palette_approved": false,
+    "palette_approved": true,
     "hcti_render_verified": false,
-    "user_visual_approval": false,
-    "remaining_slides": "blocked pending anchor approval"
+    "user_visual_approval": true,
+    "remaining_slides": "anchor approval received; slides 2-5 may proceed"
   },
-  "compatibility": "Existing format_id and placeholder names retained. New payloads use photo_bleed or closing. Legacy modes remain in CSS but slide-number overrides enforce full bleed and ending hierarchy. Runtime validation is a WIN 4 integration requirement, not implemented by this JSON."
+  "compatibility": "Existing format_id and placeholder names retained. New payloads use photo_bleed or closing. Legacy modes remain in CSS but slide-number overrides enforce full bleed and ending hierarchy. Runtime validation is a WIN 4 integration requirement, not implemented by this JSON.",
+  "publication_footer": {
+    "deck_name": "THE SECOND STORY",
+    "deck_name_status": "approved with anchor design",
+    "deck_position": "bottom left, 60px horizontal and 52px bottom clearance",
+    "photo_credit": "bottom right, 60px horizontal and 52px bottom clearance",
+    "numbering": "oversized translucent 01..07 at bottom right, above photo credit",
+    "handle": "@watchintrstfilms",
+    "ghost_number_opacity": 0.09
+  }
 }
