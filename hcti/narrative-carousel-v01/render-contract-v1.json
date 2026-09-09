@@ -1,22 +1,132 @@
 {
   "format_id": "INTRST_NARRATIVE_CAROUSEL_V1",
-  "status": "WORKING_REVIEW_ONLY",
-  "canvas": {"width": 1080, "height": 1350, "aspect_ratio": "4:5"},
+  "status": "WORKING_REVIEW_ONLY_ANCHOR_GATE_PENDING",
+  "canvas": {
+    "width": 1080,
+    "height": 1350,
+    "aspect_ratio": "4:5"
+  },
   "render_model": "one HCTI render per slide",
-  "required_sequence": ["hook", "scene", "context", "complication", "reveal", "consequence", "residue"],
-  "allowed_visual_modes": ["photo_bleed", "split_editorial", "object_led", "evidence_led", "closing"],
-  "required_fields_per_slide": ["slide_number", "story_role", "visual_mode", "subject", "eyebrow", "headline_html"],
-  "optional_fields": ["support_copy", "background_image", "object_image", "source_line", "kicker", "mini_hook", "accent_mode", "image_position_x", "image_position_y", "cta_text", "handle_text"],
+  "required_sequence": [
+    "hook",
+    "scene",
+    "context",
+    "complication",
+    "reveal",
+    "consequence",
+    "residue"
+  ],
+  "allowed_visual_modes": [
+    "photo_bleed",
+    "closing"
+  ],
+  "required_fields_per_slide": [
+    "slide_number",
+    "story_role",
+    "visual_mode",
+    "subject",
+    "eyebrow",
+    "headline_html",
+    "background_image",
+    "image_position_x",
+    "image_position_y"
+  ],
+  "optional_fields": [
+    "support_copy",
+    "source_line",
+    "kicker",
+    "mini_hook",
+    "cta_text",
+    "handle_text"
+  ],
   "retention": {
-    "slide_1_words": [6,18],
-    "slides_2_to_4_words": [20,45],
-    "slide_5_words": [12,35],
-    "slide_6_words": [20,45],
-    "slide_7_words": [8,22],
-    "mini_hook_methods": ["contradiction", "delay", "reframe", "specificity", "escalation", "intimacy", "callback"],
+    "slide_1_words": [
+      6,
+      18
+    ],
+    "slides_2_to_4_words": [
+      20,
+      45
+    ],
+    "slide_5_words": [
+      12,
+      35
+    ],
+    "slide_6_words": [
+      20,
+      45
+    ],
+    "slide_7_words": [
+      8,
+      22
+    ],
+    "mini_hook_methods": [
+      "contradiction",
+      "delay",
+      "reframe",
+      "specificity",
+      "escalation",
+      "intimacy",
+      "callback"
+    ],
     "rule": "each slide must add information, emotion, proof, or reframe; no repeated filler beat"
   },
-  "brand_tokens": {"signal_blue":"#3497FF","dawn_gold":"#C79A58","warm_ivory":"#F1EEE6","midnight_navy":"#0B1723","deep_slate":"#182938","cinematic_black":"#080A0C"},
-  "cta_policy": {"slides_1_to_6":"prohibited_by_default","slide_7":"optional_soft_publication_cta"},
-  "publication_authorized": false
+  "brand_tokens": {
+    "editorial_coral": "#F06F61",
+    "soft_saffron": "#E6B85C",
+    "warm_ivory": "#F1EEE6",
+    "midnight_navy": "#0B1723",
+    "deep_slate": "#182938",
+    "cinematic_black": "#080A0C"
+  },
+  "cta_policy": {
+    "slides_1_to_6": "prohibited_by_default",
+    "slide_7": "optional_soft_publication_cta"
+  },
+  "publication_authorized": false,
+  "design_revision": "2.0-candidate",
+  "slide_count": 7,
+  "page_spine": {
+    "left_px": 0,
+    "top_px": 0,
+    "width_px": 10,
+    "height_px": 1350,
+    "segments": 7,
+    "equal_track_height": "1350/7 CSS pixels",
+    "gap_px": 0,
+    "active": "first slide_number segments from top",
+    "completion": "continuous coral strip on slide 7"
+  },
+  "layout_by_slide": {
+    "1-5": "full-bleed, lower/bottom-third narrative; shorten copy if it overflows the zone",
+    "6": "dominant consequence/statistic headline with selective accent and reflective paragraph",
+    "7": "reflective headline, second residue line, breathing room, saffron rule, coral handle, soft ivory CTA"
+  },
+  "validation_requirements": [
+    "Require exactly seven uniquely numbered slides 1..7 in canonical role order for a complete sequence.",
+    "Anchor preview is the explicit ordered subset [1,6,7]; do not generate slides 2..5 until user visual approval.",
+    "slide_number must be an integer in 1..7; never interpolate arbitrary CSS or attribute text.",
+    "HTML-escape plain-text fields; headline_html permits only br and span class=\"accent\"; reject other markup.",
+    "Use verified image URL/data URI and bounded percentage crop positions; no unresolved placeholders.",
+    "Wait for images and all three brand fonts; inspect rendered copy bounds, face crop, source readability and spine at 1080x1350.",
+    "Slide 7 handle defaults to @INTRSTFilms; CTA defaults to Follow for stories worth remembering. only if editorially authorized in payload."
+  ],
+  "asset_gate": {
+    "production": "exact A4 original JPEG 2400x3530, delivered and verified by WIN 4",
+    "reference": "500x735 derivative retained; any reference proof must be labelled non-production",
+    "alterations": "editorial crop/overlays only; no colorization, generative expansion, face alteration or substitution",
+    "attribution": "Curtis Hilbun / CC BY 3.0; source and license link in accompanying provenance; indicate crop; portrait is context, not literacy evidence"
+  },
+  "review_gate": {
+    "first_renders": [
+      1,
+      6,
+      7
+    ],
+    "palette_approved": false,
+    "hcti_render_verified": false,
+    "user_visual_approval": false,
+    "remaining_slides": "blocked pending anchor approval"
+  },
+  "compatibility": "Existing format_id and placeholder names retained. New payloads use photo_bleed or closing. Legacy modes remain in CSS but slide-number overrides enforce full bleed and ending hierarchy. Runtime validation is a WIN 4 integration requirement, not implemented by this JSON."
 }

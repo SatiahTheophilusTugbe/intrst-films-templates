@@ -1,9 +1,9 @@
 <!doctype html><html><head><meta charset="utf-8"><style>
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap');
-:root{--signal:#3497FF;--gold:#C79A58;--ivory:#F1EEE6;--navy:#0B1723;--slate:#182938;--black:#080A0C;--x:{{image_position_x}};--y:{{image_position_y}}}
+:root{--signal:#F06F61;--gold:#E6B85C;--ivory:#F1EEE6;--navy:#0B1723;--slate:#182938;--black:#080A0C;--x:{{image_position_x}};--y:{{image_position_y}}}
 *{box-sizing:border-box}html,body{margin:0;width:1080px;height:1350px;overflow:hidden;background:var(--black)}body{font-family:Inter,Arial,sans-serif}.frame{position:relative;width:1080px;height:1350px;overflow:hidden;background:var(--navy);color:var(--ivory)}
-.photo{position:absolute;inset:0;background:url('{{background_image}}') var(--x) var(--y)/cover no-repeat;filter:saturate(1.06) contrast(1.08) brightness(1.02)}
-.gloss{position:absolute;inset:0;background:radial-gradient(ellipse at 85% 12%,rgba(255,255,255,.15),transparent 34%),radial-gradient(circle at -5% 40%,rgba(52,151,255,.32),transparent 43%);mix-blend-mode:screen}
+.photo{position:absolute;inset:0;background:url('{{background_image}}') var(--x) var(--y)/cover no-repeat;filter:none}
+.gloss{position:absolute;inset:0;background:radial-gradient(ellipse at 85% 12%,rgba(255,255,255,.15),transparent 34%),radial-gradient(circle at -5% 40%,rgba(240,111,97,.18),transparent 43%);mix-blend-mode:screen}
 .scrim{position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,10,12,.78),rgba(11,23,35,.45) 42%,rgba(8,10,12,.08) 74%),linear-gradient(0deg,rgba(8,10,12,.68),transparent 58%)}
 .top{position:absolute;top:52px;left:58px;right:58px;display:flex;justify-content:space-between;color:var(--signal);font:800 20px/1 Manrope;letter-spacing:.06em;text-transform:uppercase}.brand:after{content:"";display:block;width:46px;height:4px;background:var(--signal);margin-top:14px;border-radius:2px}.index{opacity:.92}
 .copy{position:absolute;left:58px;right:58px;bottom:112px;max-width:830px}.kicker{color:var(--gold);font:800 20px/1.05 Manrope;text-transform:uppercase;margin-bottom:22px}.headline{font:700 86px/.91 'Cormorant Garamond';letter-spacing:-.035em;margin:0;color:var(--ivory)}.headline .accent{color:var(--signal)}.support{margin-top:26px;max-width:720px;font:500 27px/1.32 Manrope;color:rgba(241,238,230,.95)}.mini{margin-top:22px;font:700 20px/1.25 Manrope;color:var(--signal)}
@@ -12,4 +12,39 @@
 .frame.object_led .photo{opacity:.34}.frame.object_led .object{display:block}.object{display:none;position:absolute;right:72px;top:215px;width:430px;height:700px;background:url('{{object_image}}') center/contain no-repeat;filter:drop-shadow(0 25px 45px rgba(0,0,0,.42))}.frame.object_led .copy{width:560px}.frame.object_led .headline{font-size:76px}
 .frame.evidence_led .photo{opacity:.22}.frame.evidence_led .copy{width:510px}.frame.evidence_led .headline{font-size:70px}.frame.evidence_led .object{display:block;right:56px;top:180px;width:470px;height:850px;background-color:#F1EEE6;background-size:contain;background-repeat:no-repeat}
 .frame.closing .scrim{background:linear-gradient(0deg,rgba(8,10,12,.86),rgba(11,23,35,.20) 56%,rgba(8,10,12,.06))}.frame.closing .copy{max-width:890px}.cta{display:{{cta_display}};margin-top:30px;color:var(--signal);font:800 20px/1.2 Manrope;text-transform:uppercase}.handle{display:{{cta_display}};margin-top:10px;color:var(--ivory);font:700 17px/1.2 Manrope;letter-spacing:.05em}
-</style></head><body><main class="frame {{visual_mode}}"><div class="photo"></div><div class="gloss"></div><div class="scrim"></div><div class="object"></div><header class="top"><div class="brand">INTRST FILMS</div><div class="index">{{eyebrow}} &nbsp; {{slide_number}}/7</div></header><section class="copy"><div class="kicker">{{kicker}}</div><h1 class="headline">{{headline_html}}</h1><div class="support">{{support_copy}}</div><div class="mini">{{mini_hook}}</div><div class="cta">{{cta_text}}</div><div class="handle">{{handle_text}}</div></section><div class="source">{{source_line}}</div></main></body></html>
+
+/* Carousel v2 candidate: identity placement retained; accents await visual approval. */
+.page-spine{position:absolute;left:0;top:0;bottom:0;width:10px;display:grid;grid-template-rows:repeat(7,minmax(0,1fr));gap:0;z-index:5;background:rgba(241,238,230,.10)}
+.page-spine i{display:block;min-height:0;background:transparent}
+.frame[data-slide="1"] .page-spine i:nth-child(-n+1){background:var(--signal)}
+.frame[data-slide="2"] .page-spine i:nth-child(-n+2){background:var(--signal)}
+.frame[data-slide="3"] .page-spine i:nth-child(-n+3){background:var(--signal)}
+.frame[data-slide="4"] .page-spine i:nth-child(-n+4){background:var(--signal)}
+.frame[data-slide="5"] .page-spine i:nth-child(-n+5){background:var(--signal)}
+.frame[data-slide="6"] .page-spine i:nth-child(-n+6){background:var(--signal)}
+.frame[data-slide="7"] .page-spine i:nth-child(-n+7){background:var(--signal)}
+
+/* Story role controls ending composition, even with legacy visual_mode payloads. */
+.frame .cta,.frame .handle{display:none}
+.frame .support:empty,.frame .mini:empty,.frame .kicker:empty{display:none}
+.frame[data-slide] .photo,.frame[data-slide] .gloss{inset:0}
+.frame[data-slide] .photo{opacity:1}
+.frame[data-slide] .scrim{background:linear-gradient(0deg,rgba(8,10,12,.98) 0%,rgba(11,23,35,.85) 26%,rgba(8,10,12,.28) 53%,rgba(8,10,12,.08) 74%),linear-gradient(180deg,rgba(8,10,12,.65),transparent 18%)}
+.frame[data-slide] .copy{left:58px;right:58px;width:auto;max-width:850px;bottom:108px}
+.frame[data-slide] .headline{font-size:78px;line-height:.96}
+.frame[data-slide] .support{font-size:26px;line-height:1.32;max-width:760px;margin-top:20px}
+.frame[data-slide] .object{display:none}
+.frame[data-slide="6"] .copy{bottom:150px;max-width:900px}
+.frame[data-slide="6"] .headline{font-size:96px;line-height:.95}
+.frame[data-slide="6"] .support{margin-top:30px;max-width:740px}
+.frame[data-slide="6"] .mini{display:none}
+.frame[data-slide="7"] .copy{bottom:146px;max-width:890px}
+.frame[data-slide="7"] .headline{font-size:92px;line-height:.98}
+.frame[data-slide="7"] .support{max-width:710px;margin-top:28px;font-size:28px}
+.frame[data-slide="7"] .mini{display:none}
+.frame[data-slide="7"] .handle{display:block;margin-top:42px;color:var(--signal);font:800 23px/1.25 Manrope;letter-spacing:0}
+.frame[data-slide="7"] .handle:before{content:"";display:block;background:var(--gold);width:64px;height:2px;margin-bottom:24px}
+.frame[data-slide="7"] .cta{display:block;margin-top:12px;color:var(--ivory);font:500 21px/1.3 Manrope;text-transform:none;letter-spacing:0}
+.frame[data-slide="7"] .handle:empty,.frame[data-slide="7"] .cta:empty{display:none}
+.source{right:58px;line-height:1.3;text-transform:none;letter-spacing:.01em}
+</style></head><body><main class="frame {{visual_mode}}" data-slide="{{slide_number}}"><div class="photo"></div><div class="gloss"></div><div class="scrim"></div><div class="object"></div><div class="page-spine" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><header class="top"><div class="brand">INTRST FILMS</div><div class="index">{{eyebrow}} &nbsp; {{slide_number}}/7</div></header><section class="copy"><div class="kicker">{{kicker}}</div><h1 class="headline">{{headline_html}}</h1><div class="support">{{support_copy}}</div><div class="mini">{{mini_hook}}</div><div class="handle">{{handle_text}}</div><div class="cta">{{cta_text}}</div></section><div class="source">{{source_line}}</div></main></body></html>
