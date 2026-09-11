@@ -68,4 +68,16 @@
 .ghost-number{position:absolute;right:54px;bottom:110px;font:800 142px/1 Manrope;letter-spacing:-.06em;color:rgba(241,238,230,.09)}
 .deck-name{position:absolute;left:60px;bottom:52px;color:var(--gold);font:800 25px/1.2 Manrope;letter-spacing:.055em}
 .source{left:auto;right:60px;bottom:52px;width:510px;text-align:right;font-size:18px;line-height:1.25;color:rgba(241,238,230,.76)}
+
+/* v2.4: source-specific compositions; approved cover and close unchanged. */
+.frame.place .photo{background-size:auto 190%;background-position:65% 100%}
+.frame.place .scrim{background:linear-gradient(0deg,rgba(8,10,12,.99),rgba(11,23,35,.88) 32%,rgba(8,10,12,.08) 62%),linear-gradient(180deg,rgba(8,10,12,.76),transparent 22%)}
+.frame.book_detail .photo{background-size:auto 110%;background-position:48% 45%}
+.frame.documentary .photo{inset:120px 0 auto;height:720px;background-size:cover;background-position:center}
+.frame.documentary .gloss{display:none}
+.frame.documentary .scrim{background:linear-gradient(180deg,#080A0C 0px,rgba(8,10,12,.20) 160px,transparent 240px,transparent 590px,rgba(8,10,12,.78) 760px,#080A0C 850px)}
+.frame.documentary[data-slide="5"] .copy{bottom:230px}
+.frame.documentary[data-slide="6"] .headline{font-size:96px;line-height:.94}
+.frame.documentary[data-slide="6"] .copy{bottom:218px}
+.frame.documentary[data-slide="6"] .scrim{background:linear-gradient(180deg,#080A0C 0px,rgba(8,10,12,.12) 140px,transparent 210px,transparent 470px,rgba(8,10,12,.88) 640px,#080A0C 810px)}
 </style></head><body><main class="frame {{visual_mode}}" data-slide="{{slide_number}}"><div class="photo"></div><div class="gloss"></div><div class="scrim"></div><div class="object"></div><div class="page-spine" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><header class="top"><div class="brand">INTRST FILMS</div><div class="index">{{eyebrow}}</div></header><section class="copy"><div class="kicker">{{kicker}}</div><h1 class="headline">{{headline_html}}</h1><div class="support">{{support_copy}}</div><div class="mini">{{mini_hook}}</div><div class="handle">{{handle_text}}</div><div class="cta">{{cta_text}}</div></section><div class="ghost-number" aria-label="Slide {{slide_number}} of 7">0{{slide_number}}</div><div class="deck-name">{{deck_name}}</div><div class="source">{{source_line}}</div></main></body></html>
