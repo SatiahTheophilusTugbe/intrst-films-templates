@@ -15,7 +15,7 @@
     "cta_display": "none",
     "source_line": "Curtis Hilbun / CC BY 3.0 · Cropped",
     "slide_number": 1,
-    "headline_html": "Her father could not<br><span class=\"accent\">read or write.</span>",
+    "headline_html": "Her father<br>could not<br><span class=\"accent\">read or write.</span>",
     "story_role": "hook",
     "subject": "DOLLY PARTON",
     "copy_status": "approved_anchor_design"
@@ -36,7 +36,7 @@
     "cta_display": "none",
     "source_line": "RCA Records · 1977 publicity portrait<br>Public domain (US) · Cropped",
     "slide_number": 2,
-    "headline_html": "It began<br><span class=\"accent\">close to home.</span>",
+    "headline_html": "It began<br><span class=\"accent\">close to<br>home.</span>",
     "story_role": "scene",
     "subject": "DOLLY PARTON",
     "copy_status": "proposed_editorial_wording"
@@ -57,7 +57,7 @@
     "cta_display": "none",
     "source_line": "Newfound Gap · Regional context, 2010<br>Douglas P. Perkins / CC BY 3.0 · Cropped",
     "slide_number": 3,
-    "headline_html": "A local beginning.<br><span class=\"accent\">A larger possibility.</span>",
+    "headline_html": "A local<br>beginning.<br><span class=\"accent\">A larger possibility.</span>",
     "story_role": "context",
     "subject": "DOLLY PARTON",
     "copy_status": "proposed_editorial_wording"
@@ -78,7 +78,7 @@
     "cta_display": "none",
     "source_line": "Illustrative book detail · Not a program book<br>Ben White / CC0 · Cropped",
     "slide_number": 4,
-    "headline_html": "How do you make<br><span class=\"accent\">a beginning last?</span>",
+    "headline_html": "How do you make<br><span class=\"accent\">a beginning<br>last?</span>",
     "story_role": "complication",
     "subject": "DOLLY PARTON",
     "copy_status": "proposed_editorial_wording"
@@ -99,7 +99,7 @@
     "cta_display": "none",
     "source_line": "Library of Congress · Reading event, 2018<br>Shawn Miller / LOC · Public domain (US)",
     "slide_number": 5,
-    "headline_html": "The gift was<br><span class=\"accent\">a rhythm.</span>",
+    "headline_html": "The gift<br>was<br><span class=\"accent\">a rhythm.</span>",
     "story_role": "reveal",
     "subject": "DOLLY PARTON",
     "copy_status": "proposed_editorial_wording"
