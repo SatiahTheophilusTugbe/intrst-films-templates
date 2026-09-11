@@ -88,7 +88,7 @@
     "slide_7": "optional_soft_publication_cta"
   },
   "publication_authorized": false,
-  "design_revision": "2.4-six-image-sequence-review",
+  "design_revision": "2.5-slide6-text-system-review",
   "slide_count": 7,
   "page_spine": {
     "left_px": 0,
@@ -132,7 +132,7 @@
     "palette_approved": true,
     "hcti_render_verified": false,
     "user_visual_approval": true,
-    "remaining_slides": "Distinct imagery on 2-6 rendered; imagery and source-specific geometry pending visual review",
+    "remaining_slides": "All seven re-rendered with Slide6 text hierarchy per user direction; visual review pending",
     "full_sequence_approved": false
   },
   "compatibility": "Existing format_id and placeholder names retained. New payloads use photo_bleed or closing. Legacy modes remain in CSS but slide-number overrides enforce full bleed and ending hierarchy. Runtime validation is a WIN 4 integration requirement, not implemented by this JSON.",
@@ -150,5 +150,13 @@
     "unique_images": 6,
     "repeated_image": "A4 on opening and closing as intentional callback",
     "rule": "Use at least six distinct source photographs in this seven-slide fixture. Crops of one image count as one. Preserve source context and item-level attribution."
+  },
+  "typography": {
+    "reference": "Slide6 v2.4",
+    "headline": "Cormorant Garamond700,96px,.94 line-height",
+    "support": "32px,1.3 line-height,30px gap",
+    "kicker": "27px,24px bottom gap",
+    "copy_top_px": 600,
+    "scope": "All seven slides; six-image sequence retained; new line breaks only, wording unchanged"
   }
 }
