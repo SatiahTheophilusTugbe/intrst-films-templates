@@ -18,7 +18,10 @@
   ],
   "allowed_visual_modes": [
     "photo_bleed",
-    "closing"
+    "closing",
+    "place",
+    "book_detail",
+    "documentary"
   ],
   "required_fields_per_slide": [
     "slide_number",
@@ -85,7 +88,7 @@
     "slide_7": "optional_soft_publication_cta"
   },
   "publication_authorized": false,
-  "design_revision": "2.3-complete-sequence-review",
+  "design_revision": "2.4-six-image-sequence-review",
   "slide_count": 7,
   "page_spine": {
     "left_px": 0,
@@ -101,7 +104,8 @@
   "layout_by_slide": {
     "1-5": "full-bleed, lower/bottom-third narrative; shorten copy if it overflows the zone",
     "6": "dominant consequence/statistic headline with selective accent and reflective paragraph",
-    "7": "reflective headline, second residue line, breathing room, saffron rule, coral handle, soft ivory CTA"
+    "7": "reflective headline, second residue line, breathing room, saffron rule, coral handle, soft ivory CTA",
+    "5-6": "Documentary wide photo with localized bottom fade; protect faces, children and milestone book"
   },
   "validation_requirements": [
     "Require exactly seven uniquely numbered slides 1..7 in canonical role order for a complete sequence.",
@@ -116,7 +120,8 @@
     "production": "Exact A4 original acquired by WIN 5; Drive 1FEpzAp4GI_i3zu8-AawepKxIqTNWq4_Y; 2400x3530 JPEG",
     "reference": "500x735 derivative retained; any reference proof must be labelled non-production",
     "alterations": "editorial crop/overlays only; no colorization, generative expansion, face alteration or substitution",
-    "attribution": "Curtis Hilbun / CC BY 3.0; source and license link in accompanying provenance; indicate crop; portrait is context, not literacy evidence"
+    "attribution": "Curtis Hilbun / CC BY 3.0; source and license link in accompanying provenance; indicate crop; portrait is context, not literacy evidence",
+    "manifest": "asset-manifest-dolly-v2.json"
   },
   "review_gate": {
     "first_renders": [
@@ -127,7 +132,7 @@
     "palette_approved": true,
     "hcti_render_verified": false,
     "user_visual_approval": true,
-    "remaining_slides": "2-5 rendered; user visual and editorial wording review pending",
+    "remaining_slides": "Distinct imagery on 2-6 rendered; imagery and source-specific geometry pending visual review",
     "full_sequence_approved": false
   },
   "compatibility": "Existing format_id and placeholder names retained. New payloads use photo_bleed or closing. Legacy modes remain in CSS but slide-number overrides enforce full bleed and ending hierarchy. Runtime validation is a WIN 4 integration requirement, not implemented by this JSON.",
@@ -140,5 +145,10 @@
     "handle": "@watchintrstfilms",
     "ghost_number_opacity": 0.09
   },
-  "fixture_path": "fixture-dolly-seven-slides.json"
+  "fixture_path": "fixture-dolly-seven-slides.json",
+  "image_sequence": {
+    "unique_images": 6,
+    "repeated_image": "A4 on opening and closing as intentional callback",
+    "rule": "Use at least six distinct source photographs in this seven-slide fixture. Crops of one image count as one. Preserve source context and item-level attribution."
+  }
 }
