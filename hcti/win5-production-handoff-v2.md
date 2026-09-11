@@ -37,3 +37,9 @@ FROM THE RECORD: PS-001, The Big Interview with Dan Rather, 2014; short typeset 
 New carousel interiors use the current WIN 5 handoff's literacy spine (father → 1995 Sevier County launch → regular books before school age → 2018 milestone). Connective wording is proposed, not silently promoted to canonical editorial copy. The older EP003 publishing package follows a different life-story/death framing and was not reused. Editorial must reconcile it separately before publication; this handoff verifies no current death/health claims.
 
 Open gates: user review of carousel interiors and typography polish; final editorial wording/source release; HCTI runtime parity; production approval. Existing design approvals remain valid within their recorded scope. These are production-source candidates, not a declaration of runtime completion.
+
+## v2.4 image-sequence update
+
+Six distinct source images now replace the repeated-portrait layout proof. Read narrative-carousel-v01/asset-manifest-dolly-v2.json for Drive IDs, source links, original dimensions, hashes and per-slide context. Preserve original images; local asset paths resolve to those exact Drive objects. Carousel fixture modes now include place, book_detail and documentary. Slides1/7 remain unchanged; slide6 retains consequence hierarchy with 96px headline to accommodate the actual milestone photograph. New image treatment on2–6 requires visual review. Do not mistake contextual landscape/book imagery for historical program documentation.
+
+Frontend Design by anthropics/skills installed at user request. Its general guidance remains subordinate to INTRST approved tokens and doctrine; no other third-party skills installed.
