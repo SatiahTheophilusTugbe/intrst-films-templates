@@ -64,6 +64,19 @@
   "template_blob_sha": "7bf754b1dacecda0d371597290be1f987ad5d514",
   "fixture_blob_sha": "984f4210204c7bba53c85893aa833c5a436bb843",
   "lock_version": "WORKING v0.4",
+  "four_format_validation": {
+    "source_commit": "29e89dea8ec36ee35102117a5790bf804a2e24fc",
+    "lock_path": "hcti/four-format-master-lock-v1.json",
+    "locked_files_verified": 15,
+    "canvas": "1080x1350",
+    "device_scale": 1,
+    "output_format": "png",
+    "max_attempts": 1,
+    "automatic_retries": 0,
+    "asset_ids_verified": ["1FEpzAp4GI_i3zu8-AawepKxIqTNWq4_Y", "1R2zBFOGZreOzM7DaZRsXnYLB-xagCjYt", "1tIU-DSxZvKgybPABbK6z-NkQI8PjiFtQ", "1RKDjQ7fLotG-PToknmb20S1ozbkp-0Rv", "1WtJZzwV1Jylp8PBewVla6NnYRktmecHp", "1fVjXvmiwjIR7yWh--Oe8gcHlBZLIX4of"],
+    "missing_assets": ["source-photo.png", "source-caption.png"],
+    "status": "repository_integrated_preprovider_blocked"
+  },
   "source_synchronization": {
     "status": "implemented_fail_closed",
     "template_source": "locked Git commit",

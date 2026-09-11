@@ -1,0 +1,86 @@
+{
+  "format_id": "INTRST_EVIDENCE_SPREAD_V1",
+  "status": "DESIGN_APPROVED_RUNTIME_VALIDATION_PENDING",
+  "canvas": {
+    "width": 1080,
+    "height": 1350,
+    "aspect_ratio": "4:5"
+  },
+  "allowed_modes": [
+    "source_first"
+  ],
+  "required_fields": [
+    "subject",
+    "eyebrow",
+    "claim_html",
+    "source_image",
+    "source_label",
+    "source_context",
+    "interpretation",
+    "scope_note",
+    "date_label",
+    "date_context",
+    "detail_image",
+    "detail_note",
+    "provenance"
+  ],
+  "optional_fields": [],
+  "copy_limits": {
+    "claim_words": [
+      5,
+      14
+    ],
+    "interpretation_words": [
+      15,
+      40
+    ]
+  },
+  "eye_path": [
+    "source",
+    "detail",
+    "implication"
+  ],
+  "annotation_rules": {
+    "red_arrows": false,
+    "circles": false,
+    "breaking_news_markup": false,
+    "thin_rules": true,
+    "underlines": true,
+    "crop_insets": true,
+    "translucent_highlights": true,
+    "highlight_position": "fixture-specific; verify against actual caption, never assume universal coordinates"
+  },
+  "source_integrity": {
+    "claim_must_not_exceed_evidence": true,
+    "editorial_annotation_distinct": true,
+    "source_context_preserved": true,
+    "source_crops_must_come_from_verified_original": true
+  },
+  "brand_tokens": {
+    "warm_ivory": "#F1EEE6",
+    "charcoal": "#202322",
+    "deep_crimson": "#B8424E",
+    "pale_copper": "#D79A71"
+  },
+  "cta_policy": "none_by_default",
+  "publication_authorized": false,
+  "design_revision": "2.1-readability-refinement",
+  "slide_count": 1,
+  "composition": "one-slide asymmetric editorial source spread",
+  "design_approval": {
+    "approved": true,
+    "date": "2026-09-11",
+    "format_name": "THE PROOF",
+    "scope": "single-slide visual composition, typography, palette and source treatment",
+    "hcti_runtime_verified": false
+  },
+  "legacy_modes": "claim_first and detail_first belong to v1; not implemented by v2. Reject them rather than silently render the same composition.",
+  "typography_refinement": {
+    "date": "2026-09-11",
+    "source_label_px": 21,
+    "supporting_text_px": 22,
+    "scope_px": 23,
+    "provenance_px": 20,
+    "status": "rendered_for_review"
+  }
+}

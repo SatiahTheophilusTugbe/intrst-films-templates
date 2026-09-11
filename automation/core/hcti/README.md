@@ -28,3 +28,17 @@ The locked v0.4 contract maps `subject_image`, `image_position_x`,
 injection is prohibited. Headline markup is limited to approved `<br>` and
 `<span class="accent-word">` tags. Dimension, crop, color, and effect controls
 are not caller-configurable.
+
+## Four-format validation integration
+
+The four-format source mirror under `hcti/` is pinned to design commit
+`29e89dea8ec36ee35102117a5790bf804a2e24fc` and is verified against all 15
+recorded Git blob and SHA-256 values before use. `four-format-bridge.mjs`
+validates the single image, seven-slide carousel, archive card, and evidence
+spread, substitutes only approved runtime image URLs, preserves raw HTML/CSS,
+and emits 1080x1350 PNG requests with device scale 1 and zero retries.
+
+The controlled ten-output batch remains blocked before provider transport until
+the canonical evidence fixture assets `source-photo.png` and
+`source-caption.png` are acquired and registered. The existing v0.4 single-image
+lock remains unchanged. No HCTI submission has been made for this batch.

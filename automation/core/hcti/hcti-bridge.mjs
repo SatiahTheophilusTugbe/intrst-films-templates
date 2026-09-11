@@ -42,7 +42,7 @@ const required = (value, name) => {
 };
 
 function blobSha(content) {
-  const bytes = Buffer.from(content, "utf8");
+  const bytes = Buffer.from(content.replaceAll("\r\n", "\n"), "utf8");
   return crypto.createHash("sha1").update(`blob ${bytes.length}`).update(Buffer.from([0])).update(bytes).digest("hex");
 }
 

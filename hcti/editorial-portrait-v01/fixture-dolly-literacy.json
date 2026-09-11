@@ -1,0 +1,17 @@
+{
+  "subject": "DOLLY PARTON",
+  "story_label": "THE RIPPLE",
+  "subject_image": "<runtime image URL or data URI>",
+  "image_position_x": "64%",
+  "image_position_y": "24%",
+  "blue_bleed_opacity": "0.72",
+  "scrim_strength": "0.92",
+  "layout_variant": "variant-left",
+  "kicker": "STORIES WORTH REMEMBERING.",
+  "headline_html": "Her father<br>couldn’t read.<br>She built a <span class=\"accent-word\">library.</span>",
+  "source_line": "SEVIER COUNTY, TENNESSEE · 1995",
+  "cta_display": "none",
+  "cta_text": "",
+  "render_version": "WORKING v0.4",
+  "status": "REVIEW ONLY / NOT APPROVED DOCTRINE"
+}

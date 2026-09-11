@@ -1,0 +1,17 @@
+{
+  "subject": "HAYDEN PANETTIERE",
+  "story_label": "THE HUMAN QUESTION",
+  "subject_image": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Hayden_Panettiere_2007.jpg",
+  "image_position_x": "58%",
+  "image_position_y": "22%",
+  "blue_bleed_opacity": "0.58",
+  "scrim_strength": "0.88",
+  "layout_variant": "variant-bottom",
+  "kicker": "STORIES WORTH REMEMBERING.",
+  "headline_html": "The world knew<br>her face <span class=\"accent-word\">first.</span>",
+  "source_line": "2007 HEROES-ERA PORTRAIT · CC BY 2.0 · RAVEN UNDERWOOD",
+  "cta_display": "none",
+  "cta_text": "",
+  "render_version": "WORKING v0.4 STRESS TEST",
+  "status": "REVIEW ONLY / SECOND-SUBJECT VALIDATION"
+}

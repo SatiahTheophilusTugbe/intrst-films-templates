@@ -1,0 +1,82 @@
+{
+  "version": 1,
+  "date": "2026-09-11",
+  "status": "DESIGN_SOURCE_LOCK_RUNTIME_PARITY_PENDING",
+  "repository": "SatiahTheophilusTugbe/intrst-films-templates",
+  "branch": "design/hcti-editorial-v01",
+  "canvas": [
+    1080,
+    1350
+  ],
+  "files": {
+    "hcti/editorial-portrait-v01/render-lock-v0.4.json": {
+      "sha256": "9364406d1b3272ae2ceff94395cc0bd78c67d57c72905cb680d8ef3637ad1470",
+      "git_blob_sha": "9be8c317bb81d2366cae97df14611b84ae0f9d44"
+    },
+    "hcti/editorial-portrait-v01/fixture-hayden-visibility.json": {
+      "sha256": "55befddb568e67e1ac52aeff5cc95f3ee01c12bea4911cfbd2e3255d783914c2",
+      "git_blob_sha": "24d3c2bf2bd2397bcd82b082f85479bae300a46d"
+    },
+    "hcti/editorial-portrait-v01/render-contract-v1.json": {
+      "sha256": "9d6147b930443bca3dd1406f0e70616d747eaa533a779eec522db829dbaacb26",
+      "git_blob_sha": "ee02e1a905db9a44f3cbaa24bc5b61db7d09300b"
+    },
+    "hcti/editorial-portrait-v01/fixture-dolly-literacy.json": {
+      "sha256": "f83067474dc53b2da0398db6ab9b182a159be10ca9f1b783d27f0dfe29b929a3",
+      "git_blob_sha": "984f4210204c7bba53c85893aa833c5a436bb843"
+    },
+    "hcti/editorial-portrait-v01/template.html": {
+      "sha256": "3c1a29d5ff01dbeffae92a620df067e084bc447a653ba939f4c5f9c50821d84b",
+      "git_blob_sha": "7bf754b1dacecda0d371597290be1f987ad5d514"
+    },
+    "hcti/narrative-carousel-v01/asset-manifest-dolly-v2.json": {
+      "sha256": "d289a257e0a5246bb44ddd3fa412ea0f5f46c6636af358d45cf2e3caa8b6616d",
+      "git_blob_sha": "73a6efbb7c5a6fdc3e9df51536ecd7d1ab41efc2"
+    },
+    "hcti/narrative-carousel-v01/fixture-dolly-seven-slides.json": {
+      "sha256": "381b981c7c60a7e8eff609c669e892b1d98e9f0d6f9aad7776bb090143850f3b",
+      "git_blob_sha": "fbc7214a710b98ef9142a7f03bc04850de893701"
+    },
+    "hcti/narrative-carousel-v01/render-contract-v1.json": {
+      "sha256": "be96819f6edac0bfec1ad3a5ff12b69d5896e95caa80626cefed0845026a8ea9",
+      "git_blob_sha": "cd20ff52fd1d4d13d0cf157a684a995490a0cc97"
+    },
+    "hcti/narrative-carousel-v01/template.html": {
+      "sha256": "a4c24d3732ac71e469b26a0d3451741d72c25c189655ea784dc9962522eade5e",
+      "git_blob_sha": "91a855a574c17e51bdf2d96b7e29415cbfd3d39f"
+    },
+    "hcti/archive-card-v01/render-contract-v1.json": {
+      "sha256": "85810c0fe246421af4942a766b52e8ffaec8fdd9ac4aa1c056963c8be10ff28a",
+      "git_blob_sha": "8615b4ade53f629fdbc2dca237310e9545853347"
+    },
+    "hcti/archive-card-v01/fixture-dolly-ownership.json": {
+      "sha256": "ee04f355fbcd227c5ad7a20bb01828a28e9c6e5343321e5cdd364674201fcf74",
+      "git_blob_sha": "89f5ffd727acb09b239341bdb2c93a879f25d6f3"
+    },
+    "hcti/archive-card-v01/template.html": {
+      "sha256": "2ecdcc2e3dee37f39830c50abaa2cba4f0c17b05f33d4afff31b15d5fc498cb2",
+      "git_blob_sha": "00b2af746f7895bcd05496f6ab63277dcfb59fe9"
+    },
+    "hcti/evidence-spread-v01/fixture-dolly-loc.json": {
+      "sha256": "3452979ed88d6f5afaf1d0fb749222fe9814c7e1a5e24ee0a85805ab9371c139",
+      "git_blob_sha": "74a9cb1fa9091ace0d77c5a1dd51b0a2f631425f"
+    },
+    "hcti/evidence-spread-v01/render-contract-v1.json": {
+      "sha256": "234ec80505718d8e3f448ec2653312f957e793b21d360e7f6133155a81b4d9a5",
+      "git_blob_sha": "5d20a84b2ed938ef1e1aa5f8b632c36782822466"
+    },
+    "hcti/evidence-spread-v01/template.html": {
+      "sha256": "d231f024b78877bfcf508e69130714b7a9142be6eac036fd40ccf10c112f01d8",
+      "git_blob_sha": "e85c962cff6098788653b7357c8aa3b82c9fc95c"
+    }
+  },
+  "preflight": "hcti/layout-preflight-v1.js",
+  "copy_line_limits": {
+    "single": 4,
+    "carousel": 4,
+    "archive": 2,
+    "evidence": 2
+  },
+  "policy": "Reject over-limit input; request editorial shortening. No auto-shrink, clipping or source substitution. Image crop and contrast need visual review per asset.",
+  "publishing_authorized": false
+}
