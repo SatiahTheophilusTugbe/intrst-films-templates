@@ -7,7 +7,7 @@ Use repository SatiahTheophilusTugbe/intrst-films-templates, branch design/hcti-
 | Format | Existing template folder under hcti/ | Fixture | Review state |
 |---|---|---|---|
 | Single image | editorial-portrait-v01 | fixture-dolly-literacy.json | Existing v0.4 benchmark, no design changes |
-| THE SECOND STORY | narrative-carousel-v01 | fixture-dolly-seven-slides.json | Anchors 1/6/7 approved; interiors 2–5 rendered for review |
+| THE SECOND STORY | narrative-carousel-v01 | fixture-dolly-seven-slides.json | Full seven-slide v2.6 design accepted; scrim opacity 0.78 |
 | FROM THE RECORD | archive-card-v01 | fixture-dolly-ownership.json | Verdigris/Brass and cleaner portrait approved |
 | THE PROOF | evidence-spread-v01 | fixture-dolly-loc.json | Composition approved; larger supporting type rendered for review |
 
@@ -36,10 +36,31 @@ FROM THE RECORD: PS-001, The Big Interview with Dan Rather, 2014; short typeset 
 
 New carousel interiors use the current WIN 5 handoff's literacy spine (father → 1995 Sevier County launch → regular books before school age → 2018 milestone). Connective wording is proposed, not silently promoted to canonical editorial copy. The older EP003 publishing package follows a different life-story/death framing and was not reused. Editorial must reconcile it separately before publication; this handoff verifies no current death/health claims.
 
-Open gates: user review of carousel interiors and typography polish; final editorial wording/source release; HCTI runtime parity; production approval. Existing design approvals remain valid within their recorded scope. These are production-source candidates, not a declaration of runtime completion.
+Open gates: final editorial wording/source release; HCTI runtime parity; production approval. Existing design approvals remain valid within their recorded scope. These are production-source candidates, not a declaration of runtime completion.
 
 ## v2.4 image-sequence update
 
 Six distinct source images now replace the repeated-portrait layout proof. Read narrative-carousel-v01/asset-manifest-dolly-v2.json for Drive IDs, source links, original dimensions, hashes and per-slide context. Preserve original images; local asset paths resolve to those exact Drive objects. Carousel fixture modes now include place, book_detail and documentary. Slides1/7 remain unchanged; slide6 retains consequence hierarchy with 96px headline to accommodate the actual milestone photograph. New image treatment on2–6 requires visual review. Do not mistake contextual landscape/book imagery for historical program documentation.
 
 Frontend Design by anthropics/skills installed at user request. Its general guidance remains subordinate to INTRST approved tokens and doctrine; no other third-party skills installed.
+
+
+## Production hardening / 2026-09-11
+
+The user's go-ahead authorizes locking the four-format design package and handing it to WIN 4. This records a design baseline, not evidence that the inactive runtime has executed it. Existing single-image v0.4 lock remains untouched.
+
+Read `four-format-master-lock-v1.json`: compare every listed Git blob SHA and SHA-256 before rendering. Fetch all listed files from the immutable final handoff commit. Abort on mismatch. Palette, image treatments, typography and placements are pinned by the template bytes; no saved-template IDs or ad hoc style overrides. Carousel v2.6 uses shared 96px/.94 Cormorant headlines, 32px supporting text, y=600 copy origin, 0.78 scrim-layer opacity and 0.09 ghost numerals.
+
+### Layout acceptance
+
+Run `layout-preflight-v1.js` in the local browser after decoding images and loading fonts. Call `intrstLayoutPreflight(format)` with single/carousel/archive/evidence. Any returned issue rejects the payload before provider submission. Repeat geometry checks in a browser matching the provider as closely as available; compare actual HCTI output visually. The helper does not itself integrate with n8n, validate CSS background downloads, verify editorial claims or assess facial crops.
+
+Headline limits: single and carousel 4 rendered lines; archive and evidence 2 rendered lines. Retain approved font sizes. If copy exceeds a line limit or collides with a protected section, request a shorter editorial payload; never silently rewrite, shrink or clip. Credits must remain inside the canvas and clear of the deck name. Word counts alone cannot guarantee fit.
+
+### Stress-test evidence
+
+16 local Chromium cases: four formats × baseline, 89-character headline, extended attribution and wide documentary photograph. All four baseline cases passed measured geometry. The long single-image headline exceeded 4 lines; archive and evidence long headlines also collided with protected content. The new preflight rejected all three. Carousel's long headline and all extended-credit cases passed these checks. Wide images fit their containers; this is not approval of their crop or use. Test copy and substitute images are deliberately synthetic layout probes and must never become editorial payloads. Baseline designs remain unchanged.
+
+### WIN 4 execution checklist
+
+Use existing bridge ID XHjJBrSOoBaFrHYk; inspect its actual current name/configuration and existing credential binding, rather than creating duplicates based on historical labels above. Keep it inactive. Integrate the lock and preflight, then run a controlled ten-output raw-HTML render. Return execution ID, immutable source commit, per-output dimensions and SHA-256, font/image-load evidence and comparison against the supplied references. No publishing or AUT-014 changes. If provider/browser layout differs, return the failed case to WIN 5 rather than modifying design tokens.
