@@ -75,7 +75,51 @@
     "automatic_retries": 0,
     "asset_ids_verified": ["1FEpzAp4GI_i3zu8-AawepKxIqTNWq4_Y", "1R2zBFOGZreOzM7DaZRsXnYLB-xagCjYt", "1tIU-DSxZvKgybPABbK6z-NkQI8PjiFtQ", "1RKDjQ7fLotG-PToknmb20S1ozbkp-0Rv", "1WtJZzwV1Jylp8PBewVla6NnYRktmecHp", "1fVjXvmiwjIR7yWh--Oe8gcHlBZLIX4of"],
     "missing_assets": ["source-photo.png", "source-caption.png"],
-    "status": "repository_integrated_preprovider_blocked"
+    "status": "source_derivatives_registered_delivery_blocked",
+    "source_crop_recovery": {
+      "source_url": "https://www.loc.gov/lcm/pdf/LCM_2018_0506.pdf",
+      "source_pdf_sha256": "72a5b625d943476d1ab0a37319a61fb973016a334cc4ba53db54a510024de519",
+      "page": {"pdf_index_zero_based": 25, "printed_page": 24, "page_size_points": "612x792"},
+      "coordinate_convention": "top_left_pdf_point_rectangle_x1_y1_x2_y2",
+      "rendering": {"tool": "Poppler pdftoppm", "version": "26.07.0"},
+      "assets": [
+        {
+          "name": "source-photo.png",
+          "drive_id": "1UaABWs9vmb4rdMVy7UrJdSqCDv3uvHat",
+          "drive_title": "EP003_LOC_2018_p24_source-photo_RECONSTRUCTED_3x.png",
+          "folder_id": "1xZPYMfDVXtFf0T8_6uSeYI7ZvYVGSa5O",
+          "crop_points": [0, 25, 350, 260],
+          "scale": 3,
+          "dimensions": "1050x705",
+          "mime_type": "image/png",
+          "bytes": 905785,
+          "sha256": "f57e4e3683eba9933b246d3c80e5756b6fb9c78f975c968db4dfc4a3fe306b74",
+          "derivative_status": "reconstructed_source_derivative",
+          "drive_visibility": "private_not_shared",
+          "provider_delivery": "unverified"
+        },
+        {
+          "name": "source-caption.png",
+          "drive_id": "1PImStJZFfqYkvRdbygBIP_DpnZJkGCb7",
+          "drive_title": "EP003_LOC_2018_p24_source-caption_RECONSTRUCTED_4x.png",
+          "folder_id": "1xZPYMfDVXtFf0T8_6uSeYI7ZvYVGSa5O",
+          "crop_points": [62, 479, 274, 520],
+          "scale": 4,
+          "dimensions": "848x164",
+          "mime_type": "image/png",
+          "bytes": 24584,
+          "sha256": "41748dad26c831aa6ca39882c0e9eb1329510a515cdb4244e0e03ba6f6d56091",
+          "derivative_status": "reconstructed_source_derivative",
+          "drive_visibility": "private_not_shared",
+          "provider_delivery": "unverified"
+        }
+      ],
+      "source_credit": "Photograph: Shawn Miller / Library of Congress; Library of Congress Magazine, May-June 2018, p. 24",
+      "rights_review": "existing research/source review preserved; no additional rights approval inferred",
+      "comparison": "photo and caption text visually match the supplied THE PROOF reference treatment; highlight remains fixture-specific and unchanged",
+      "hcti_submission": false,
+      "remaining_blocker": "approved runtime-accessible delivery reference for both private Drive derivatives"
+    }
   },
   "source_synchronization": {
     "status": "implemented_fail_closed",

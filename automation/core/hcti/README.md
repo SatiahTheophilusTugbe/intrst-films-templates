@@ -42,3 +42,22 @@ The controlled ten-output batch remains blocked before provider transport until
 the canonical evidence fixture assets `source-photo.png` and
 `source-caption.png` are acquired and registered. The existing v0.4 single-image
 lock remains unchanged. No HCTI submission has been made for this batch.
+
+## THE PROOF source-crop recovery
+
+The two missing evidence derivatives were reconstructed from the locked source
+`https://www.loc.gov/lcm/pdf/LCM_2018_0506.pdf`, SHA-256
+`72a5b625d943476d1ab0a37319a61fb973016a334cc4ba53db54a510024de519`, PDF page
+26 / printed page 24. Coordinates use the source proof's top-left PDF-point
+rectangle convention: `source-photo.png` `(0,25,350,260)` at 3x, and
+`source-caption.png` `(62,479,274,520)` at 4x. Poppler `pdftoppm` 26.07.0 was
+used for deterministic rasterization. The resulting derivatives are 1050x705
+and 848x164 PNGs with hashes recorded in the deployment record; they are
+registered in the existing EP003 `03 Verified Stills` folder as reconstructed
+source derivatives, not byte-identical originals.
+
+Drive files are currently private/not shared. No sharing permission was changed,
+so an approved HCTI-accessible delivery reference remains required before the
+evidence output can be rendered. The LOC/photographer credit and existing
+research/source rights review remain unchanged; reconstruction is not a new
+publication-rights determination.
