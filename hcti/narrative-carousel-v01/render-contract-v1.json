@@ -85,7 +85,7 @@
     "slide_7": "optional_soft_publication_cta"
   },
   "publication_authorized": false,
-  "design_revision": "2.2-anchor-approved",
+  "design_revision": "2.3-complete-sequence-review",
   "slide_count": 7,
   "page_spine": {
     "left_px": 0,
@@ -113,7 +113,7 @@
     "Slide 7 handle defaults to @watchintrstfilms; CTA defaults to Follow for stories worth remembering. only if editorially authorized in payload."
   ],
   "asset_gate": {
-    "production": "exact A4 original JPEG 2400x3530, delivered and verified by WIN 4",
+    "production": "Exact A4 original acquired by WIN 5; Drive 1FEpzAp4GI_i3zu8-AawepKxIqTNWq4_Y; 2400x3530 JPEG",
     "reference": "500x735 derivative retained; any reference proof must be labelled non-production",
     "alterations": "editorial crop/overlays only; no colorization, generative expansion, face alteration or substitution",
     "attribution": "Curtis Hilbun / CC BY 3.0; source and license link in accompanying provenance; indicate crop; portrait is context, not literacy evidence"
@@ -127,7 +127,8 @@
     "palette_approved": true,
     "hcti_render_verified": false,
     "user_visual_approval": true,
-    "remaining_slides": "anchor approval received; slides 2-5 may proceed"
+    "remaining_slides": "2-5 rendered; user visual and editorial wording review pending",
+    "full_sequence_approved": false
   },
   "compatibility": "Existing format_id and placeholder names retained. New payloads use photo_bleed or closing. Legacy modes remain in CSS but slide-number overrides enforce full bleed and ending hierarchy. Runtime validation is a WIN 4 integration requirement, not implemented by this JSON.",
   "publication_footer": {
@@ -138,5 +139,6 @@
     "numbering": "oversized translucent 01..07 at bottom right, above photo credit",
     "handle": "@watchintrstfilms",
     "ghost_number_opacity": 0.09
-  }
+  },
+  "fixture_path": "fixture-dolly-seven-slides.json"
 }
