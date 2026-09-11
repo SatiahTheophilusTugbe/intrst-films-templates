@@ -1,13 +1,72 @@
 {
-  "format_id":"INTRST_ARCHIVE_CARD_V1",
-  "status":"WORKING_REVIEW_ONLY",
-  "canvas":{"width":1080,"height":1350,"aspect_ratio":"4:5"},
-  "allowed_modes":["artifact_protagonist","artifact_interpretation"],
-  "required_fields":["mode","archive_label","headline","artifact_image","provenance"],
-  "optional_fields":["micro_caption","detail_image","detail_label","subject","date_label","source_type","field_tone"],
-  "copy_limits":{"headline_words":[4,12],"micro_caption_words":[12,35]},
-  "source_rules":{"fake_aging":false,"fabricated_provenance":false,"editorial_annotation_must_be_distinct":true,"source_context_must_be_preserved":true},
-  "brand_tokens":{"signal_blue":"#3497FF","dawn_gold":"#C79A58","warm_ivory":"#F1EEE6","midnight_navy":"#0B1723","cinematic_black":"#080A0C"},
-  "cta_policy":"none_by_default",
-  "publication_authorized":false
+  "format_id": "INTRST_ARCHIVE_CARD_V1",
+  "status": "DESIGN_APPROVED_RUNTIME_VALIDATION_PENDING",
+  "canvas": {
+    "width": 1080,
+    "height": 1350,
+    "aspect_ratio": "4:5"
+  },
+  "allowed_modes": [
+    "artifact_protagonist"
+  ],
+  "required_fields": [
+    "mode",
+    "subject",
+    "artifact_image",
+    "source_type",
+    "date_label",
+    "excerpt_html",
+    "excerpt_attribution_html",
+    "kicker",
+    "headline",
+    "micro_caption",
+    "provenance"
+  ],
+  "optional_fields": [
+    "detail_display",
+    "detail_image",
+    "detail_label"
+  ],
+  "copy_limits": {
+    "headline_words": [
+      3,
+      12
+    ],
+    "micro_caption_words": [
+      12,
+      35
+    ]
+  },
+  "source_rules": {
+    "fake_aging": false,
+    "fabricated_provenance": false,
+    "editorial_annotation_must_be_distinct": true,
+    "source_context_must_be_preserved": true,
+    "typeset_excerpt_must_be_labelled": true,
+    "excerpt_markup_allowlist": [
+      "br",
+      "em"
+    ],
+    "photo_does_not_evidence_interview": true
+  },
+  "brand_tokens": {
+    "verdigris": "#4FA99A",
+    "antique_brass": "#B89355",
+    "warm_ivory": "#F1EEE6",
+    "dark_field": "#0A1819"
+  },
+  "cta_policy": "none_by_default",
+  "publication_authorized": false,
+  "design_revision": "2.1-verdigris-clean-portrait-approved",
+  "alternate_color_study": {
+    "plum": "#21151F",
+    "muted_rose": "#BF9CAB",
+    "copper": "#D79A71"
+  },
+  "design_approval": {
+    "approved": true,
+    "date": "2026-09-11",
+    "scope": "Verdigris/Brass, FROM THE RECORD, localized portrait fade",
+    "hcti_runtime_verified": false
+  }
 }
