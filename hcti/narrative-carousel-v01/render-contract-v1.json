@@ -1,6 +1,6 @@
 {
   "format_id": "INTRST_NARRATIVE_CAROUSEL_V1",
-  "status": "ANCHOR_DESIGN_APPROVED_RUNTIME_VALIDATION_PENDING",
+  "status": "DESIGN_LOCKED_RUNTIME_VALIDATION_PENDING",
   "canvas": {
     "width": 1080,
     "height": 1350,
@@ -88,7 +88,7 @@
     "slide_7": "optional_soft_publication_cta"
   },
   "publication_authorized": false,
-  "design_revision": "2.5-slide6-text-system-review",
+  "design_revision": "2.6-master-design-lock",
   "slide_count": 7,
   "page_spine": {
     "left_px": 0,
@@ -109,12 +109,12 @@
   },
   "validation_requirements": [
     "Require exactly seven uniquely numbered slides 1..7 in canonical role order for a complete sequence.",
-    "Anchor preview is the explicit ordered subset [1,6,7]; do not generate slides 2..5 until user visual approval.",
     "slide_number must be an integer in 1..7; never interpolate arbitrary CSS or attribute text.",
     "HTML-escape plain-text fields; headline_html permits only br and span class=\"accent\"; reject other markup.",
     "Use verified image URL/data URI and bounded percentage crop positions; no unresolved placeholders.",
     "Wait for images and all three brand fonts; inspect rendered copy bounds, face crop, source readability and spine at 1080x1350.",
-    "Slide 7 handle defaults to @watchintrstfilms; CTA defaults to Follow for stories worth remembering. only if editorially authorized in payload."
+    "Slide 7 handle defaults to @watchintrstfilms; CTA defaults to Follow for stories worth remembering. only if editorially authorized in payload.",
+    "Run hcti/layout-preflight-v1.js after image/font loading; reject nonempty issues. Never auto-shrink or clip copy."
   ],
   "asset_gate": {
     "production": "Exact A4 original acquired by WIN 5; Drive 1FEpzAp4GI_i3zu8-AawepKxIqTNWq4_Y; 2400x3530 JPEG",
@@ -132,8 +132,8 @@
     "palette_approved": true,
     "hcti_render_verified": false,
     "user_visual_approval": true,
-    "remaining_slides": "All seven re-rendered with Slide6 text hierarchy per user direction; visual review pending",
-    "full_sequence_approved": false
+    "remaining_slides": "Full sequence accepted by user; source lock and production hardening authorized.",
+    "full_sequence_approved": true
   },
   "compatibility": "Existing format_id and placeholder names retained. New payloads use photo_bleed or closing. Legacy modes remain in CSS but slide-number overrides enforce full bleed and ending hierarchy. Runtime validation is a WIN 4 integration requirement, not implemented by this JSON.",
   "publication_footer": {
@@ -158,5 +158,6 @@
     "kicker": "27px,24px bottom gap",
     "copy_top_px": 600,
     "scope": "All seven slides; six-image sequence retained; new line breaks only, wording unchanged"
-  }
+  },
+  "scrim_layer_opacity": 0.78
 }
