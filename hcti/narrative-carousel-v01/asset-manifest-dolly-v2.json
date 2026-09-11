@@ -1,0 +1,113 @@
+{
+  "revision": "2.4",
+  "status": "design_review_assets_acquired",
+  "assets": [
+    {
+      "local": "A1-high.jpg",
+      "drive_id": "1R2zBFOGZreOzM7DaZRsXnYLB-xagCjYt",
+      "drive_name": "EP003_DOLLY_A1_RCA_1977_MASTER_2212x2743.jpg",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Young-Dolly-Parton_(higher_quality_scan).jpg",
+      "author": "RCA Records",
+      "rights_basis": "Public domain in US, per Commons publication-without-notice record",
+      "context": "1977 publicity portrait; not a childhood/family photograph",
+      "slide": 2,
+      "dimensions": [
+        2212,
+        2743
+      ],
+      "sha256": "4167d7728f74d677e47c41624273ffc5e411e73584ec0f15e24c85f9bc20d246",
+      "bytes": 2073521,
+      "alterations": "CSS crop/scrim only; original bytes retained",
+      "publication_authorized": false
+    },
+    {
+      "local": "mountains.jpg",
+      "drive_id": "1tIU-DSxZvKgybPABbK6z-NkQI8PjiFtQ",
+      "drive_name": "EP003_CONTEXT_Newfound_Gap_Douglas_Perkins_CC-BY-3.0_2400x1800.jpg",
+      "source_url": "https://commons.wikimedia.org/wiki/File:2010-05.newfound_gap.jpg",
+      "author": "Douglas P. Perkins",
+      "rights_basis": "CC BY 3.0",
+      "context": "Newfound Gap2010; regional context, not the 1995 launch or childhood home",
+      "slide": 3,
+      "dimensions": [
+        2400,
+        1800
+      ],
+      "sha256": "c8267da2945730e33406f03d69badac184401cdce705f210d0f08f41b846eedd",
+      "bytes": 3166332,
+      "alterations": "CSS crop/scrim only; original bytes retained",
+      "publication_authorized": false,
+      "license_url": "https://creativecommons.org/licenses/by/3.0/"
+    },
+    {
+      "local": "open-book.jpg",
+      "drive_id": "1RKDjQ7fLotG-PToknmb20S1ozbkp-0Rv",
+      "drive_name": "EP003_CONTEXT_Open_Book_Ben_White_CC0_4288x2848.jpg",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Open_book_(Unsplash).jpg",
+      "author": "Ben White",
+      "rights_basis": "CC0, pre-June2017 Unsplash publication per Commons",
+      "context": "Illustrative book detail; not an Imagination Library title",
+      "slide": 4,
+      "dimensions": [
+        4288,
+        2848
+      ],
+      "sha256": "16849bf7ef5fa0860deb2c5c92efa65fac0e86116988ebb90d8934204b630f62",
+      "bytes": 5264182,
+      "alterations": "CSS crop/scrim only; original bytes retained",
+      "publication_authorized": false,
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+    },
+    {
+      "local": "reading.png",
+      "drive_id": "1WtJZzwV1Jylp8PBewVla6NnYRktmecHp",
+      "drive_name": "EP003_DOLLY_LOC_Reading_2018_Shawn_Miller_1168x731.png",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Dolly_Parton_reads_to_children_in_the_Library_of_Congress_Great_Hall_in_2018.png",
+      "author": "Shawn Miller / Library of Congress",
+      "rights_basis": "US federal employee work, per Commons PD-US-LOC record",
+      "context": "2018 LOC reading event; not a photograph of routine program delivery",
+      "slide": 5,
+      "dimensions": [
+        1168,
+        731
+      ],
+      "sha256": "c426e32774def745c3e62591d92f2c13218ec03f810ac6145cb8305e868b334c",
+      "bytes": 1574839,
+      "alterations": "CSS crop/scrim only; original bytes retained",
+      "publication_authorized": false
+    },
+    {
+      "local": "milestone.jpg",
+      "drive_id": "1fVjXvmiwjIR7yWh--Oe8gcHlBZLIX4of",
+      "drive_name": "EP003_DOLLY_LOC_100M_Dedication_2018_Shawn_Miller_5760x3840.jpg",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Librarian_of_Congress_Carla_Hayden_(left)_and_Dolly_Parton_unveil_“Coat_of_Many_Colors,”_the_book_Parton_donated_to_the_Library_this_week.jpg",
+      "author": "Shawn Miller / Library of Congress",
+      "rights_basis": "US federal employee work, per Commons PD-US-LOC record",
+      "context": "February27 2018 LOC 100-millionth-book dedication",
+      "slide": 6,
+      "dimensions": [
+        5760,
+        3840
+      ],
+      "sha256": "4866e172d9db3bdc1b7c4c8f91a84d22d97a515647cead6ee0083c19f7bc2553",
+      "bytes": 1712367,
+      "alterations": "CSS crop/scrim only; original bytes retained",
+      "publication_authorized": false
+    },
+    {
+      "local": "A4.jpg",
+      "drive_id": "1FEpzAp4GI_i3zu8-AawepKxIqTNWq4_Y",
+      "slides": [
+        1,
+        7
+      ],
+      "author": "Curtis Hilbun",
+      "rights_basis": "CC BY3.0",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Dolly_Parton_accepting_Liseberg_Applause_Award_2010_portrait.jpg",
+      "license_url": "https://creativecommons.org/licenses/by/3.0/",
+      "context": "2010 Liseberg award; subject portrait",
+      "sha256": "48c70ee8e8ce89a684fda410b6b58c0eb3a22e8d1f8e66bf0b5e3cf467e1e35f"
+    }
+  ],
+  "editorial_boundary": "Source selection proposed by WIN5; final editorial/source-release approval separate."
+}
