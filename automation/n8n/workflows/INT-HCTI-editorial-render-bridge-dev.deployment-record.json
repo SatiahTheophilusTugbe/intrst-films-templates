@@ -74,8 +74,8 @@
     "max_attempts": 1,
     "automatic_retries": 0,
     "asset_ids_verified": ["1FEpzAp4GI_i3zu8-AawepKxIqTNWq4_Y", "1R2zBFOGZreOzM7DaZRsXnYLB-xagCjYt", "1tIU-DSxZvKgybPABbK6z-NkQI8PjiFtQ", "1RKDjQ7fLotG-PToknmb20S1ozbkp-0Rv", "1WtJZzwV1Jylp8PBewVla6NnYRktmecHp", "1fVjXvmiwjIR7yWh--Oe8gcHlBZLIX4of"],
-    "missing_assets": ["source-photo.png", "source-caption.png"],
-    "status": "source_derivatives_registered_delivery_blocked",
+    "missing_assets": [],
+    "status": "private_delivery_repository_adapter_ready_runtime_blocked",
     "source_crop_recovery": {
       "source_url": "https://www.loc.gov/lcm/pdf/LCM_2018_0506.pdf",
       "source_pdf_sha256": "72a5b625d943476d1ab0a37319a61fb973016a334cc4ba53db54a510024de519",
@@ -118,7 +118,38 @@
       "rights_review": "existing research/source review preserved; no additional rights approval inferred",
       "comparison": "photo and caption text visually match the supplied THE PROOF reference treatment; highlight remains fixture-specific and unchanged",
       "hcti_submission": false,
-      "remaining_blocker": "approved runtime-accessible delivery reference for both private Drive derivatives"
+      "remaining_blocker": "project-owned n8n Google Drive credential and authoritative HCTI request-size limit"
+    },
+    "private_asset_delivery": {
+      "contract_version": "1.0.0",
+      "mode": "authenticated_google_drive_bytes_to_transient_data_uri",
+      "google_drive_credential": {
+        "logical_name": "INT | Google Drive | Development | HCTI Asset Delivery",
+        "credential_type": "googleDriveOAuth2Api",
+        "project_scoped_lookup_count": 0,
+        "status": "missing"
+      },
+      "project_asset_inventory": {
+        "folder_id": "1xZPYMfDVXtFf0T8_6uSeYI7ZvYVGSa5O",
+        "required_files_found": 8,
+        "all_not_shared": true,
+        "all_downloadable_by_authenticated_account": true
+      },
+      "verification": {
+        "required": ["mime_type", "width", "height", "bytes", "sha256"],
+        "source_photo_verified": true,
+        "source_caption_verified": true,
+        "encoded_payload_persisted": false
+      },
+      "hcti_request_size": {
+        "official_limit_status": "not_published_in_official_documentation",
+        "transport_gate": "HCTI_REQUEST_LIMIT_UNPROVEN",
+        "measured_request_bytes": [2940497, 2945750, 2775676, 4232771, 7029917, 2110795, 2294201, 2945778, 2940358, 1244756]
+      },
+      "runtime_mutated": false,
+      "batch_execution_ids": [],
+      "hcti_calls": 0,
+      "automatic_retries": 0
     }
   },
   "source_synchronization": {

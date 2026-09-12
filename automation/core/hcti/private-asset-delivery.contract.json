@@ -1,0 +1,94 @@
+{
+  "version": "1.0.0",
+  "delivery_mode": "authenticated_google_drive_bytes_to_transient_data_uri",
+  "google_drive_credential": {
+    "logical_name": "INT | Google Drive | Development | HCTI Asset Delivery",
+    "credential_type": "googleDriveOAuth2Api",
+    "project_id": "o8RQQQgne2c6jXr5",
+    "binding_status": "required_not_bound_at_verification"
+  },
+  "hcti": {
+    "endpoint": "https://hcti.io/v1/image",
+    "request_size_limit_bytes": null,
+    "request_size_limit_status": "not_published_in_official_documentation",
+    "request_contract_source": "https://docs.htmlcsstoimage.com/getting-started/using-the-api",
+    "request_contract_verified_at": "2026-09-11",
+    "viewport_width": 1080,
+    "viewport_height": 1350,
+    "device_scale": 1,
+    "format": "png",
+    "maximum_attempts_per_output": 1,
+    "automatic_retries": 0
+  },
+  "source_pdf": {
+    "url": "https://www.loc.gov/lcm/pdf/LCM_2018_0506.pdf",
+    "sha256": "72a5b625d943476d1ab0a37319a61fb973016a334cc4ba53db54a510024de519",
+    "historical_display_sha256": "72A5B625D943476D1AB0A37319A61FB973016A334CC4BA53DB54A510024DE519"
+  },
+  "assets": {
+    "A4": {
+      "drive_id": "1FEpzAp4GI_i3zu8-AawepKxIqTNWq4_Y",
+      "mime_type": "image/jpeg",
+      "width": 2400,
+      "height": 3530,
+      "bytes": 2201083,
+      "sha256": "48c70ee8e8ce89a684fda410b6b58c0eb3a22e8d1f8e66bf0b5e3cf467e1e35f"
+    },
+    "assets/A1-high.jpg": {
+      "drive_id": "1R2zBFOGZreOzM7DaZRsXnYLB-xagCjYt",
+      "mime_type": "image/jpeg",
+      "width": 2212,
+      "height": 2743,
+      "bytes": 2073521,
+      "sha256": "4167d7728f74d677e47c41624273ffc5e411e73584ec0f15e24c85f9bc20d246"
+    },
+    "assets/mountains.jpg": {
+      "drive_id": "1tIU-DSxZvKgybPABbK6z-NkQI8PjiFtQ",
+      "mime_type": "image/jpeg",
+      "width": 2400,
+      "height": 1800,
+      "bytes": 3166332,
+      "sha256": "c8267da2945730e33406f03d69badac184401cdce705f210d0f08f41b846eedd"
+    },
+    "assets/open-book.jpg": {
+      "drive_id": "1RKDjQ7fLotG-PToknmb20S1ozbkp-0Rv",
+      "mime_type": "image/jpeg",
+      "width": 4288,
+      "height": 2848,
+      "bytes": 5264182,
+      "sha256": "16849bf7ef5fa0860deb2c5c92efa65fac0e86116988ebb90d8934204b630f62"
+    },
+    "assets/reading.png": {
+      "drive_id": "1WtJZzwV1Jylp8PBewVla6NnYRktmecHp",
+      "mime_type": "image/png",
+      "width": 1168,
+      "height": 731,
+      "bytes": 1574839,
+      "sha256": "c426e32774def745c3e62591d92f2c13218ec03f810ac6145cb8305e868b334c"
+    },
+    "assets/milestone.jpg": {
+      "drive_id": "1fVjXvmiwjIR7yWh--Oe8gcHlBZLIX4of",
+      "mime_type": "image/jpeg",
+      "width": 5760,
+      "height": 3840,
+      "bytes": 1712367,
+      "sha256": "4866e172d9db3bdc1b7c4c8f91a84d22d97a515647cead6ee0083c19f7bc2553"
+    },
+    "source_photo": {
+      "drive_id": "1UaABWs9vmb4rdMVy7UrJdSqCDv3uvHat",
+      "mime_type": "image/png",
+      "width": 1050,
+      "height": 705,
+      "bytes": 905785,
+      "sha256": "f57e4e3683eba9933b246d3c80e5756b6fb9c78f975c968db4dfc4a3fe306b74"
+    },
+    "source_caption": {
+      "drive_id": "1PImStJZFfqYkvRdbygBIP_DpnZJkGCb7",
+      "mime_type": "image/png",
+      "width": 848,
+      "height": 164,
+      "bytes": 24584,
+      "sha256": "41748dad26c831aa6ca39882c0e9eb1329510a515cdb4244e0e03ba6f6d56091"
+    }
+  }
+}

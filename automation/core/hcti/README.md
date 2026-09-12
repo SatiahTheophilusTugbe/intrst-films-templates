@@ -38,10 +38,19 @@ validates the single image, seven-slide carousel, archive card, and evidence
 spread, substitutes only approved runtime image URLs, preserves raw HTML/CSS,
 and emits 1080x1350 PNG requests with device scale 1 and zero retries.
 
-The controlled ten-output batch remains blocked before provider transport until
-the canonical evidence fixture assets `source-photo.png` and
-`source-caption.png` are acquired and registered. The existing v0.4 single-image
-lock remains unchanged. No HCTI submission has been made for this batch.
+All eight canonical source images required by the ten-output batch are present
+in the existing private EP003 `03 Verified Stills` folder. The repository
+private-delivery adapter validates downloaded PNG/JPEG bytes against canonical
+MIME type, dimensions, byte size, and SHA-256 before constructing a transient
+data URI. Sanitized evidence excludes image bytes and encoded payloads.
+
+Runtime deployment and provider submission remain fail-closed for two concrete
+reasons: the authorized n8n project has no `googleDriveOAuth2Api` credential,
+and current official HCTI documentation does not publish a request-body size
+limit (`https://docs.htmlcsstoimage.com/getting-started/using-the-api`, checked
+2026-09-11). The measured JSON request bodies range from 1,244,756 to 7,029,917 bytes.
+No project workflow mutation or HCTI submission was made while either gate was
+unproven. The existing v0.4 single-image lock remains unchanged.
 
 ## THE PROOF source-crop recovery
 
@@ -56,8 +65,9 @@ and 848x164 PNGs with hashes recorded in the deployment record; they are
 registered in the existing EP003 `03 Verified Stills` folder as reconstructed
 source derivatives, not byte-identical originals.
 
-Drive files are currently private/not shared. No sharing permission was changed,
-so an approved HCTI-accessible delivery reference remains required before the
-evidence output can be rendered. The LOC/photographer credit and existing
-research/source rights review remain unchanged; reconstruction is not a new
-publication-rights determination.
+Drive files are private/not shared and remain downloadable by the authenticated
+Drive account. No sharing permission was changed. The intended runtime delivery
+mode is authenticated n8n Drive download, byte verification, and in-memory data
+URI substitution; data URIs must never be pinned, logged, or persisted. The
+LOC/photographer credit and existing research/source rights review remain
+unchanged; reconstruction is not a new publication-rights determination.
