@@ -1,0 +1,41 @@
+{
+  "status": "BROWSER_VERIFIED_RUNTIME_PENDING",
+  "system": "INTRST HCTI Editorial Portrait",
+  "render_version": "v0.5-semantic-image",
+  "repository": "SatiahTheophilusTugbe/intrst-films-templates",
+  "required_branch": "design/hcti-editorial-v01",
+  "template_path": "hcti/editorial-portrait-v01/template-image-v2.html",
+  "template_blob_sha": "47165af3b6e286a60b7177ff97a7dd9186d1d454",
+  "fixture_path": "hcti/editorial-portrait-v01/fixture-dolly-literacy.json",
+  "fixture_blob_sha": "984f4210204c7bba53c85893aa833c5a436bb843",
+  "render_mode": "raw_html_css",
+  "saved_hcti_template_allowed": false,
+  "required_output": {
+    "width": 1080,
+    "height": 1350,
+    "layout_variant": "variant-left"
+  },
+  "required_visual_contract": {
+    "brandmark": "INTRST FILMS",
+    "brandmark_color": "#3497FF",
+    "eyebrow_color": "#3497FF",
+    "kicker": "STORIES WORTH REMEMBERING.",
+    "kicker_color": "#C79A58",
+    "headline_base_color": "#F1EEE6",
+    "headline_accent_text": "library.",
+    "headline_accent_color": "#3497FF",
+    "supporting_paragraph_allowed": false,
+    "blue_atmospheric_bleed_required": true,
+    "gloss_layer_required": true,
+    "cta_display": "none"
+  },
+  "fail_closed": [
+    "branch_mismatch",
+    "template_sha_mismatch",
+    "fixture_sha_mismatch",
+    "saved_template_reference_present",
+    "supporting_paragraph_present"
+  ],
+  "publishing_authorized": false,
+  "supersedes": "render-lock-v0.4.json for image binding only; old lock retained"
+}
