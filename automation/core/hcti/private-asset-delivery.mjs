@@ -86,14 +86,15 @@ export function measureFourFormatRequestBodies(contract = PRIVATE_ASSET_DELIVERY
 }
 
 export function assertHctiRequestSize(requestBytes, limitBytes = PRIVATE_ASSET_DELIVERY_CONTRACT.hcti.request_size_limit_bytes) {
-  if (!Number.isSafeInteger(limitBytes) || limitBytes <= 0) fail("HCTI_REQUEST_LIMIT_UNPROVEN", "No authoritative HCTI request-size limit is configured; provider transport is blocked.", { request_bytes: requestBytes });
   if (!Number.isSafeInteger(requestBytes) || requestBytes <= 0) fail("HCTI_REQUEST_INVALID", "Measured request size must be a positive integer.");
+  if (limitBytes == null) return { allowed_by: "controlled_canary_authorization", request_bytes: requestBytes, documented_limit_bytes: null };
+  if (!Number.isSafeInteger(limitBytes) || limitBytes <= 0) fail("HCTI_REQUEST_LIMIT_INVALID", "Configured HCTI request-size limit must be a positive safe integer.", { request_bytes: requestBytes, limit_bytes: limitBytes });
   if (requestBytes > limitBytes) fail("HCTI_REQUEST_TOO_LARGE", "Measured HCTI request exceeds the proven provider limit.", { request_bytes: requestBytes, limit_bytes: limitBytes });
-  return true;
+  return { allowed_by: "documented_limit", request_bytes: requestBytes, documented_limit_bytes: limitBytes };
 }
 
 export function assertRuntimeDeliveryReady({ contract = PRIVATE_ASSET_DELIVERY_CONTRACT, credentialBindingStatus = contract.google_drive_credential?.binding_status, requestSizeLimitBytes = contract.hcti.request_size_limit_bytes } = {}) {
-  if (credentialBindingStatus !== "bound") fail("DRIVE_CREDENTIAL_UNAVAILABLE", "A project-owned Google Drive credential is required before private-asset retrieval.");
+  if (!["bound", "bound_project_scoped"].includes(credentialBindingStatus)) fail("DRIVE_CREDENTIAL_UNAVAILABLE", "A project-owned Google Drive credential is required before private-asset retrieval.");
   for (const measurement of measureFourFormatRequestBodies(contract)) assertHctiRequestSize(measurement.request_bytes, requestSizeLimitBytes);
   return true;
 }

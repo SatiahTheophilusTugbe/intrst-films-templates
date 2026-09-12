@@ -1,6 +1,6 @@
 {
   "deployment_record_id": "INT-DEP-HCTI-003-RENDER-DEV",
-  "work_item": "AUT-003",
+  "work_item": "AUT-004",
   "workflow_name": "INT-HCTI — Editorial Render Bridge — DEV",
   "workflow_id": "XHjJBrSOoBaFrHYk",
   "project": {
@@ -18,7 +18,7 @@
   },
   "source_commit": "1a383d02e4d306deb0fd0543b05e850f6b2b38a7",
   "template_version": "editorial-portrait-v01",
-  "runtime_version_id": "8b1fa0ca-1697-46b1-a7e6-9f207fbbc8d9",
+  "runtime_version_id": "9d3eb077-0be2-4bad-90b7-c986e0e3eed9",
   "execution_runtime_version_id": "c6e82be9-5f95-4abf-8e83-fa9efa7a1309",
   "controlled_execution": {
     "execution_id": "35207",
@@ -75,7 +75,7 @@
     "automatic_retries": 0,
     "asset_ids_verified": ["1FEpzAp4GI_i3zu8-AawepKxIqTNWq4_Y", "1R2zBFOGZreOzM7DaZRsXnYLB-xagCjYt", "1tIU-DSxZvKgybPABbK6z-NkQI8PjiFtQ", "1RKDjQ7fLotG-PToknmb20S1ozbkp-0Rv", "1WtJZzwV1Jylp8PBewVla6NnYRktmecHp", "1fVjXvmiwjIR7yWh--Oe8gcHlBZLIX4of"],
     "missing_assets": [],
-    "status": "private_delivery_repository_adapter_ready_runtime_blocked",
+    "status": "private_delivery_deployed_canary_outcome_unknown",
     "source_crop_recovery": {
       "source_url": "https://www.loc.gov/lcm/pdf/LCM_2018_0506.pdf",
       "source_pdf_sha256": "72a5b625d943476d1ab0a37319a61fb973016a334cc4ba53db54a510024de519",
@@ -121,13 +121,14 @@
       "remaining_blocker": "project-owned n8n Google Drive credential and authoritative HCTI request-size limit"
     },
     "private_asset_delivery": {
-      "contract_version": "1.0.0",
+      "contract_version": "1.1.0",
       "mode": "authenticated_google_drive_bytes_to_transient_data_uri",
       "google_drive_credential": {
-        "logical_name": "INT | Google Drive | Development | HCTI Asset Delivery",
+        "logical_name": "INT | Google Drive | Development | HCTI Asset Read",
         "credential_type": "googleDriveOAuth2Api",
-        "project_scoped_lookup_count": 0,
-        "status": "missing"
+        "project_scoped_lookup_count": 1,
+        "status": "bound_project_scoped",
+        "credential_value_inspected": false
       },
       "project_asset_inventory": {
         "folder_id": "1xZPYMfDVXtFf0T8_6uSeYI7ZvYVGSa5O",
@@ -142,13 +143,46 @@
         "encoded_payload_persisted": false
       },
       "hcti_request_size": {
-        "official_limit_status": "not_published_in_official_documentation",
-        "transport_gate": "HCTI_REQUEST_LIMIT_UNPROVEN",
+        "official_limit_status": "not_published_controlled_canary_authorized",
+        "transport_gate": "largest_measured_request_single_attempt_canary",
         "measured_request_bytes": [2940497, 2945750, 2775676, 4232771, 7029917, 2110795, 2294201, 2945778, 2940358, 1244756]
       },
-      "runtime_mutated": false,
-      "batch_execution_ids": [],
-      "hcti_calls": 0,
+      "runtime_mutated": true,
+      "runtime_version_id": "9d3eb077-0be2-4bad-90b7-c986e0e3eed9",
+      "runtime_node_count": 21,
+      "runtime_active": false,
+      "transport_enabled_postflight": false,
+      "repository_workflow_sha256": "bf0ae8526e0803da66262ae87b5cecf6ed6d9da69eb2790dfe7259f731dc31e2",
+      "requested_output_identities": ["single-image", "carousel-01", "carousel-02", "carousel-03", "carousel-04", "carousel-05", "carousel-06", "carousel-07", "archive", "evidence"],
+      "preflight": {
+        "execution_id": "36218",
+        "run_id": "HCTI-FOUR-FORMAT:36218",
+        "result": "preflight_verified",
+        "drive_assets_verified": 8,
+        "locked_outputs_verified": 10,
+        "provider_calls": 0,
+        "automatic_retries": 0
+      },
+      "canary": {
+        "execution_id": "36219",
+        "run_id": "HCTI-FOUR-FORMAT:36219",
+        "output_identity": "carousel-04",
+        "asset_key": "assets/open-book.jpg",
+        "measured_request_bytes": 7029917,
+        "transport_node_invocations": 1,
+        "provider_receipt": "unknown",
+        "render_id": null,
+        "image_url": null,
+        "result": "outcome_unknown",
+        "error_class": "TERMINAL_PERSISTENCE_MISSING_AFTER_TRANSPORT_GATE",
+        "workflow_runs_start_row_id": 76,
+        "workflow_runs_terminal_row_id": 77,
+        "automatic_retries": 0,
+        "remaining_outputs_submitted": 0,
+        "next_action": "reconcile the single HCTI canary outcome before any new render submission"
+      },
+      "batch_execution_ids": ["36218", "36219"],
+      "hcti_calls": "unknown_up_to_1",
       "automatic_retries": 0
     }
   },

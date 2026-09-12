@@ -44,13 +44,21 @@ private-delivery adapter validates downloaded PNG/JPEG bytes against canonical
 MIME type, dimensions, byte size, and SHA-256 before constructing a transient
 data URI. Sanitized evidence excludes image bytes and encoded payloads.
 
-Runtime deployment and provider submission remain fail-closed for two concrete
-reasons: the authorized n8n project has no `googleDriveOAuth2Api` credential,
-and current official HCTI documentation does not publish a request-body size
-limit (`https://docs.htmlcsstoimage.com/getting-started/using-the-api`, checked
-2026-09-11). The measured JSON request bodies range from 1,244,756 to 7,029,917 bytes.
-No project workflow mutation or HCTI submission was made while either gate was
-unproven. The existing v0.4 single-image lock remains unchanged.
+The project-owned `googleDriveOAuth2Api` binding
+`INT | Google Drive | Development | HCTI Asset Read` is installed on all eight
+private-asset reads. Runtime execution `36218` verified the locked assets and
+all ten measured request bodies with transport disabled. No encoded image bytes
+are saved in execution data, workflow records, deployment evidence, or Git.
+
+Official HCTI documentation does not publish a request-body ceiling
+(`https://docs.htmlcsstoimage.com/getting-started/using-the-api`, checked
+2026-09-11). The controlled authorization therefore designated the largest
+measured request, Carousel 4 at 7,029,917 bytes, as the one-attempt canary.
+Execution `36219` opened that transport path but ended without a sanctioned
+terminal result. Its outcome is durably recorded as `outcome_unknown`; no retry
+or remaining batch submission is permitted until provider reconciliation. The
+workflow has been returned to inactive, transport-disabled state. The existing
+v0.4 single-image lock remains unchanged.
 
 ## THE PROOF source-crop recovery
 

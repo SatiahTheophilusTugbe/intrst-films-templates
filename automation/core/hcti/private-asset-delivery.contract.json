@@ -1,16 +1,17 @@
 {
-  "version": "1.0.0",
+  "version": "1.1.0",
   "delivery_mode": "authenticated_google_drive_bytes_to_transient_data_uri",
   "google_drive_credential": {
-    "logical_name": "INT | Google Drive | Development | HCTI Asset Delivery",
+    "logical_name": "INT | Google Drive | Development | HCTI Asset Read",
     "credential_type": "googleDriveOAuth2Api",
     "project_id": "o8RQQQgne2c6jXr5",
-    "binding_status": "required_not_bound_at_verification"
+    "binding_status": "bound_project_scoped"
   },
   "hcti": {
     "endpoint": "https://hcti.io/v1/image",
     "request_size_limit_bytes": null,
-    "request_size_limit_status": "not_published_in_official_documentation",
+    "request_size_limit_status": "not_published_controlled_canary_authorized",
+    "request_size_decision": "measure_exact_body_then_use_carousel-04_as_single-attempt canary; stop on explicit size rejection or ambiguous outcome",
     "request_contract_source": "https://docs.htmlcsstoimage.com/getting-started/using-the-api",
     "request_contract_verified_at": "2026-09-11",
     "viewport_width": 1080,
