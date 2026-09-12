@@ -6,8 +6,10 @@ import { fileURLToPath } from "node:url";
 export const FOUR_FORMAT_CONTRACT = Object.freeze({
   provider: "hcti",
   source_branch: "design/hcti-editorial-v01",
-  source_commit: "29e89dea8ec36ee35102117a5790bf804a2e24fc",
-  lock_path: "hcti/four-format-master-lock-v1.json",
+  source_commit: "ff2a6c51821e7d3edc1dd440f1a677c852fe6a7c",
+  lock_path: "hcti/four-format-master-lock-v2.json",
+  implementation_version: "semantic-image-v2",
+  locked_file_count: 16,
   width: 1080,
   height: 1350,
   output_format: "png",
@@ -66,7 +68,7 @@ function readFile(baseDir, relativePath) {
 export function loadLockedFourFormatSources(baseDir = rootFromModule) {
   const lockBytes = readFile(baseDir, FOUR_FORMAT_CONTRACT.lock_path);
   const lock = JSON.parse(lockBytes.toString("utf8"));
-  if (lock.version !== 1 || lock.branch !== FOUR_FORMAT_CONTRACT.source_branch) fail("LOCK_MISMATCH", "Four-format source lock metadata does not match the approved source.");
+  if (lock.version !== 2 || Object.keys(lock.files ?? {}).length !== FOUR_FORMAT_CONTRACT.locked_file_count) fail("LOCK_MISMATCH", "Four-format source lock metadata does not match semantic-image v2.");
   const files = {};
   for (const [relativePath, expected] of Object.entries(lock.files ?? {})) {
     const bytes = canonicalTextBytes(readFile(baseDir, relativePath));
@@ -137,15 +139,27 @@ function substitute(template, values) {
   if (unknown.length) fail("SCHEMA_VALIDATION", `No value supplied for template fields: ${unknown.join(", ")}`);
   const html = template.replace(/\{\{([^}]+)\}\}/g, (_, name) => values[name]);
   if (/\{\{[^}]+\}\}|saved[-_ ]template|<script\b|javascript:/i.test(html)) fail("SCHEMA_VALIDATION", "Rendered HTML contains unresolved or prohibited content.");
+  if (/(?:background(?:-image)?\s*:[^;}]*url\([^)]*data:image\/|style\s*=\s*["'][^"']*data:image\/)/i.test(html)) {
+    fail("CSS_IMAGE_BINDING_PROHIBITED", "Image bytes must be bound through semantic img src attributes, never CSS.");
+  }
   return html;
+}
+
+export function assertSemanticImageBinding(html, expectedImages) {
+  if (/(?:background(?:-image)?\s*:[^;}]*url\([^)]*data:image\/|style\s*=\s*["'][^"']*data:image\/)/i.test(html)) {
+    fail("CSS_IMAGE_BINDING_PROHIBITED", "Image bytes must be bound through semantic img src attributes, never CSS.");
+  }
+  const semanticImages = html.match(/<img\b[^>]*\bsrc=["'][^"']+["'][^>]*>/gi) ?? [];
+  if (semanticImages.length !== expectedImages) fail("SEMANTIC_IMAGE_BINDING_REQUIRED", `Expected exactly ${expectedImages} active semantic image binding(s).`);
+  return semanticImages.length;
 }
 
 export function buildFourFormatRequest(format, input, sources, assetUrls) {
   const templatePath = {
-    single: "hcti/editorial-portrait-v01/template.html",
-    carousel: "hcti/narrative-carousel-v01/template.html",
-    archive: "hcti/archive-card-v01/template.html",
-    evidence: "hcti/evidence-spread-v01/template.html",
+    single: "hcti/editorial-portrait-v01/template-image-v2.html",
+    carousel: "hcti/narrative-carousel-v01/template-image-v2.html",
+    archive: "hcti/archive-card-v01/template-image-v2.html",
+    evidence: "hcti/evidence-spread-v01/template-image-v2.html",
   }[format];
   const inputForValidation = { ...input };
   if (format === "single") inputForValidation.subject_image = assetUrls.subject_image;
@@ -165,9 +179,13 @@ export function buildFourFormatRequest(format, input, sources, assetUrls) {
     runtime.detail_image = validateImage(assetUrls.detail_image, "assetUrls.detail_image");
   }
   const values = Object.fromEntries(Object.entries(runtime).map(([key, value]) => [key, String(value ?? "")]));
+  const html = substitute(sources.files[templatePath], values);
+  const expectedImages = format === "evidence" ? 2 : 1;
+  const semanticImageCount = assertSemanticImageBinding(html, expectedImages);
   return {
     format,
-    html: substitute(sources.files[templatePath], values),
+    html,
+    semantic_image_count: semanticImageCount,
     viewport_width: FOUR_FORMAT_CONTRACT.width,
     viewport_height: FOUR_FORMAT_CONTRACT.height,
     device_scale: FOUR_FORMAT_CONTRACT.device_scale,

@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { buildFourFormatBatch, FOUR_FORMAT_CONTRACT, loadLockedFourFormatSources } from "../four-format-bridge.mjs";
+import { assertSemanticImageBinding, buildFourFormatBatch, FOUR_FORMAT_CONTRACT, loadLockedFourFormatSources } from "../four-format-bridge.mjs";
 
 const synthetic = {
   A4: "https://example.test/a4.jpg",
@@ -13,7 +13,9 @@ const synthetic = {
 };
 
 const sources = loadLockedFourFormatSources();
-assert.equal(Object.keys(sources.lock.files).length, 15);
+assert.equal(Object.keys(sources.lock.files).length, 16);
+assert.equal(FOUR_FORMAT_CONTRACT.source_commit, "ff2a6c51821e7d3edc1dd440f1a677c852fe6a7c");
+assert.equal(FOUR_FORMAT_CONTRACT.implementation_version, "semantic-image-v2");
 const batch = buildFourFormatBatch({ assetUrls: synthetic });
 assert.equal(batch.outputs.length, 10);
 assert.deepEqual(batch.outputs.map((output) => output.format), ["single", "carousel", "carousel", "carousel", "carousel", "carousel", "carousel", "carousel", "archive", "evidence"]);
@@ -23,7 +25,11 @@ for (const output of batch.outputs) {
   assert.equal(output.device_scale, 1);
   assert.equal(output.output_format, "png");
   assert.doesNotMatch(output.html, /\{\{[^}]+\}\}|saved[-_ ]template|<script\b|javascript:/i);
+  assert.doesNotMatch(output.html, /background(?:-image)?\s*:[^;}]*url\([^)]*data:image\//i);
 }
+assert.equal(batch.outputs.reduce((sum, output) => sum + output.semantic_image_count, 0), 11);
+assert.throws(() => assertSemanticImageBinding('<div style="background-image:url(data:image/png;base64,AAAA)"></div>', 1), (error) => error.code === "CSS_IMAGE_BINDING_PROHIBITED");
+assert.throws(() => assertSemanticImageBinding("<div></div>", 1), (error) => error.code === "SEMANTIC_IMAGE_BINDING_REQUIRED");
 assert.equal((batch.outputs[1].html.match(/<main[^>]+data-slide="1"/g) ?? []).length, 1);
 assert.equal((batch.outputs[7].html.match(/<main[^>]+data-slide="7"/g) ?? []).length, 1);
 assert.match(batch.outputs[0].html, /<span class="accent-word">library\.<\/span>/);
@@ -34,4 +40,4 @@ assert.throws(() => buildFourFormatBatch({ assetUrls: { ...synthetic, "assets/A1
 assert.throws(() => buildFourFormatBatch({ assetUrls: synthetic, carousel: [{ ...JSON.parse(sources.files["hcti/narrative-carousel-v01/fixture-dolly-seven-slides.json"])[0], slide_number: 2 }] }), (error) => error.code === "SCHEMA_VALIDATION");
 assert.equal(FOUR_FORMAT_CONTRACT.max_attempts, 1);
 assert.equal(FOUR_FORMAT_CONTRACT.automatic_retries, 0);
-console.log("four-format bridge tests: 12 passed");
+console.log("four-format bridge tests: 18 passed");

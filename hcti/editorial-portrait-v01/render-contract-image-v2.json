@@ -1,0 +1,59 @@
+{
+  "contract_version": "1.0",
+  "provider": "hcti",
+  "template": "hcti/editorial-portrait-v01/template.html",
+  "output": {
+    "width": 1080,
+    "height": 1350,
+    "format": "png"
+  },
+  "required_fields": [
+    "subject",
+    "story_label",
+    "subject_image",
+    "image_position_x",
+    "image_position_y",
+    "blue_bleed_opacity",
+    "scrim_strength",
+    "layout_variant",
+    "kicker",
+    "headline_html",
+    "source_line",
+    "cta_display",
+    "cta_text"
+  ],
+  "allowed_layout_variants": [
+    "variant-left",
+    "variant-bottom",
+    "variant-offset"
+  ],
+  "defaults": {
+    "blue_bleed_opacity": "0.60",
+    "scrim_strength": "0.90",
+    "layout_variant": "variant-left",
+    "kicker": "STORIES WORTH REMEMBERING.",
+    "cta_display": "none",
+    "cta_text": ""
+  },
+  "validation": {
+    "headline_max_lines_recommended": 3,
+    "accent_word_max_count": 1,
+    "cta_default": "hidden",
+    "public_publish_allowed": false,
+    "visual_approval_required": true
+  },
+  "ownership": {
+    "visual_doctrine": "WIN 5 \u2014 Brand + Design System",
+    "runtime_credentials_and_rendering": "WIN 4 \u2014 Automation + n8n Infrastructure",
+    "distribution": "existing AUT-014 contract after separate approval"
+  },
+  "implementation_version": "semantic-image-v2",
+  "template_path": "hcti/editorial-portrait-v01/template-image-v2.html",
+  "design_change": false,
+  "crop_focus_version": "approved-crop-v1",
+  "image_binding": "semantic img src; never interpolate image bytes into CSS",
+  "image_manifest": "hcti/image-binding-manifest-v2.json",
+  "browser_gate": "hcti/image-binding-gate-v2.js",
+  "runtime_status": "NOT_EXECUTED",
+  "publication_authorized": false
+}

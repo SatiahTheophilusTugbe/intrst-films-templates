@@ -43,6 +43,7 @@ const measurements = measureFourFormatRequestBodies();
 assert.equal(measurements.length, 10);
 assert.deepEqual(measurements.map((item) => item.format), ["single", "carousel", "carousel", "carousel", "carousel", "carousel", "carousel", "carousel", "archive", "evidence"]);
 assert.ok(measurements.every((item) => item.request_bytes > item.asset_bytes));
+assert.equal(measurements.reduce((sum, item) => sum + item.semantic_image_count, 0), 11);
 assert.equal(assertHctiRequestSize(measurements[0].request_bytes).allowed_by, "controlled_canary_authorization");
 assert.equal(assertHctiRequestSize(measurements[0].request_bytes, measurements[0].request_bytes).allowed_by, "documented_limit");
 assert.throws(() => assertHctiRequestSize(measurements[0].request_bytes, measurements[0].request_bytes - 1), (error) => error.code === "HCTI_REQUEST_TOO_LARGE");

@@ -29,14 +29,21 @@ injection is prohibited. Headline markup is limited to approved `<br>` and
 `<span class="accent-word">` tags. Dimension, crop, color, and effect controls
 are not caller-configurable.
 
-## Four-format validation integration
+## Four-format semantic-image v2 integration
 
-The four-format source mirror under `hcti/` is pinned to design commit
-`29e89dea8ec36ee35102117a5790bf804a2e24fc` and is verified against all 15
-recorded Git blob and SHA-256 values before use. `four-format-bridge.mjs`
+The four-format source mirror under `hcti/` is pinned to immutable design commit
+`ff2a6c51821e7d3edc1dd440f1a677c852fe6a7c` and is verified against all 16
+recorded Git blob and SHA-256 values in `four-format-master-lock-v2.json` before use. `four-format-bridge.mjs`
 validates the single image, seven-slide carousel, archive card, and evidence
-spread, substitutes only approved runtime image URLs, preserves raw HTML/CSS,
+spread, substitutes approved runtime image references only into semantic
+`<img src>` bindings, rejects CSS/background image-byte interpolation, preserves raw HTML/CSS,
 and emits 1080x1350 PNG requests with device scale 1 and zero retries.
+
+The ten locked outputs contain eleven required semantic image elements. The
+runtime combines the immutable WIN 5 browser-proof result with exact source-lock
+and registered-byte verification; it records that proof provenance rather than
+claiming that n8n itself is a browser. Any source, hash, element-count, font,
+image-paint, blank-control, or layout mismatch fails closed before HCTI transport.
 
 All eight canonical source images required by the ten-output batch are present
 in the existing private EP003 `03 Verified Stills` folder. The repository
@@ -75,11 +82,12 @@ The 7,029,917-byte request hashed to
 Chromium decoded the same data URI successfully when used as an image source,
 but dropped the oversized CSS `background-image` declaration: computed style
 was `none` and the required image region had zero changed pixels versus a
-no-background control. The current CSS-background delivery mode therefore fails
-browser image-paint validation. A versioned locked-template/runtime binding that
-uses a browser-safe image element is required before another HCTI submission.
+no-background control. That historical CSS-background delivery mode failed
+browser image-paint validation. Semantic-image v2 replaces it with the locked
+browser-safe image elements; the historical request and diagnosis remain
+unchanged.
 
-Bridge version `hcti-bridge@1.2.0` adds immutable pre-transport request evidence
+Bridge version `hcti-bridge@1.3.0` preserves the `1.2.0` immutable pre-transport request evidence
 and immediate transport-settled evidence before download or normalization-
 dependent terminal handling. It classifies documented 4xx rejection, ambiguous
 5xx/network outcomes, malformed 2xx responses, download/geometry failure, and
@@ -87,6 +95,21 @@ post-render visual-QA failure without retries. Transport cannot be enabled unles
 both terminal postflight persistence and browser image-paint verification are
 explicitly true. No credential, raw HTML, response body, image bytes, or data URI
 enters the durable evidence rows.
+
+Semantic-image v2 synchronization keeps transport disabled and selects no
+provider output. It generates new request identities for all ten assembled
+requests and explicitly rejects reuse of execution `36219`'s historical request
+SHA-256 `b0c3bf7d6f3f3d6e853d618c9d9ef15f54407489d5bfbdc95e539f8200249a45`.
+Execution `36219` remains terminal `outcome_unknown`; source synchronization
+does not reconcile it or authorize a retry.
+
+Transport-disabled execution `36428` durably recorded START row 85 and terminal
+row 86 under run `HCTI-FOUR-FORMAT-V2:36428`. It verified all eight registered
+Drive objects, assembled the ten locked outputs with eleven semantic image
+elements, produced ten new request hashes, and exited with zero HCTI calls and
+zero retries. Repository and deployed workflow semantics match fingerprint
+`a325a7a15e75dcba7544d5aa67228f7b40f10077bb4ee1bca286a7a2a3d1a368` at
+inactive runtime version `e3fc8a62-a147-4526-aefc-0df0ffc2778c`.
 
 ## THE PROOF source-crop recovery
 

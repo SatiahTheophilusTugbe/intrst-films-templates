@@ -81,6 +81,7 @@ export function measureFourFormatRequestBodies(contract = PRIVATE_ASSET_DELIVERY
       asset_keys: assetKeys[index],
       request_bytes: Buffer.byteLength(JSON.stringify(body), "utf8") + encodedAssetBytes,
       asset_bytes: assetKeys[index].reduce((sum, key) => sum + contract.assets[key].bytes, 0),
+      semantic_image_count: output.semantic_image_count,
     };
   });
 }

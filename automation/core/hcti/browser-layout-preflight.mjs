@@ -10,7 +10,7 @@ export const REQUIRED_FONT_FACES = Object.freeze([
   "800 16px Manrope",
 ]);
 
-export const BROWSER_PREFLIGHT_VERSION = "browser-preflight@1.1.0";
+export const BROWSER_PREFLIGHT_VERSION = "browser-preflight@2.0.0";
 
 export function inspectBrowserLayout(document, { selectors = [".photo", ".source-photo", ".detail-caption"], expectedFonts = REQUIRED_FONT_FACES } = {}) {
   const issues = [];
@@ -24,9 +24,9 @@ export function inspectBrowserLayout(document, { selectors = [".photo", ".source
     }
     const style = document.defaultView?.getComputedStyle?.(element);
     const background = style?.backgroundImage ?? "none";
-    if (element.tagName !== "IMG" && background === "none") issues.push(`Background image did not parse or load: ${selector}`);
-    if (background !== "none" && !/^url\(["']?(?:https:\/\/|data:image\/(?:png|jpe?g|webp);base64,)/i.test(background)) issues.push(`Background image is not an approved HTTPS URL or image data URI: ${selector}`);
-    if (element.tagName === "IMG" && (!element.complete || !element.naturalWidth)) issues.push(`Image not loaded: ${selector}`);
+    if (element.tagName !== "IMG") issues.push(`Required semantic image element is not an IMG: ${selector}`);
+    if (background !== "none" && /data:image\//i.test(background)) issues.push(`CSS image-byte binding is prohibited: ${selector}`);
+    if (element.tagName === "IMG" && (!element.complete || !element.naturalWidth || !element.naturalHeight)) issues.push(`Image not loaded: ${selector}`);
   }
   return issues;
 }
@@ -36,7 +36,7 @@ export function inspectPaintEvidence(evidence, selector = ".photo") {
   if (evidence?.decoded !== true || !Number.isFinite(evidence?.natural_width) || evidence.natural_width <= 0 || !Number.isFinite(evidence?.natural_height) || evidence.natural_height <= 0) {
     issues.push(`Image bytes did not decode in browser: ${selector}`);
   }
-  if (evidence?.computed_background === "none") issues.push(`Computed background image is none: ${selector}`);
-  if (!Number.isFinite(evidence?.changed_pixel_ratio) || evidence.changed_pixel_ratio <= 0) issues.push(`Image produced no visible pixels in its required region: ${selector}`);
+  if (evidence?.semantic_img !== true) issues.push(`Image binding is not semantic img src: ${selector}`);
+  if (!Number.isFinite(evidence?.changed_pixel_ratio) || evidence.changed_pixel_ratio <= 0.01) issues.push(`Image did not differ materially from its blank control: ${selector}`);
   return issues;
 }

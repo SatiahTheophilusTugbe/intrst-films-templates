@@ -3,12 +3,13 @@ import { buildFourFormatBatch, FOUR_FORMAT_CONTRACT, loadLockedFourFormatSources
 import { PRIVATE_ASSET_DELIVERY_CONTRACT, assertRuntimeDeliveryReady, measureFourFormatRequestBodies } from "./private-asset-delivery.mjs";
 
 const sources = loadLockedFourFormatSources();
-assert.equal(Object.keys(sources.lock.files).length, 15);
-assert.equal(FOUR_FORMAT_CONTRACT.source_commit, "29e89dea8ec36ee35102117a5790bf804a2e24fc");
+assert.equal(Object.keys(sources.lock.files).length, 16);
+assert.equal(FOUR_FORMAT_CONTRACT.source_commit, "ff2a6c51821e7d3edc1dd440f1a677c852fe6a7c");
 assert.equal(FOUR_FORMAT_CONTRACT.width, 1080);
 assert.equal(FOUR_FORMAT_CONTRACT.height, 1350);
 assert.equal(FOUR_FORMAT_CONTRACT.device_scale, 1);
 assert.equal(FOUR_FORMAT_CONTRACT.automatic_retries, 0);
+assert.equal(buildFourFormatBatch({ assetUrls: Object.fromEntries(Object.keys(PRIVATE_ASSET_DELIVERY_CONTRACT.assets).map((key) => [key, `https://example.test/${encodeURIComponent(key)}`])) }).outputs.reduce((sum, output) => sum + output.semantic_image_count, 0), 11);
 assert.throws(() => buildFourFormatBatch({ assetUrls: { A4: "not-an-image" } }), (error) => error.code === "ASSET_NOT_APPROVED");
 assert.equal(PRIVATE_ASSET_DELIVERY_CONTRACT.delivery_mode, "authenticated_google_drive_bytes_to_transient_data_uri");
 assert.equal(PRIVATE_ASSET_DELIVERY_CONTRACT.google_drive_credential.logical_name, "INT | Google Drive | Development | HCTI Asset Read");

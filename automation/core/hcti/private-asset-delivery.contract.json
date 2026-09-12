@@ -1,6 +1,14 @@
 {
-  "version": "1.1.0",
+  "version": "1.2.0",
   "delivery_mode": "authenticated_google_drive_bytes_to_transient_data_uri",
+  "image_binding": {
+    "version": "semantic-image-v2",
+    "source_commit": "ff2a6c51821e7d3edc1dd440f1a677c852fe6a7c",
+    "master_lock": "hcti/four-format-master-lock-v2.json",
+    "required_semantic_image_elements": 11,
+    "css_image_byte_binding_allowed": false,
+    "browser_proof_source": "immutable_win5_semantic_image_v2"
+  },
   "google_drive_credential": {
     "logical_name": "INT | Google Drive | Development | HCTI Asset Read",
     "credential_type": "googleDriveOAuth2Api",

@@ -18,7 +18,7 @@
   },
   "source_commit": "1a383d02e4d306deb0fd0543b05e850f6b2b38a7",
   "template_version": "editorial-portrait-v01",
-  "runtime_version_id": "4a7883c4-2e59-4e88-a9d4-b853eb07f0bb",
+  "runtime_version_id": "e3fc8a62-a147-4526-aefc-0df0ffc2778c",
   "execution_runtime_version_id": "c6e82be9-5f95-4abf-8e83-fa9efa7a1309",
   "controlled_execution": {
     "execution_id": "35207",
@@ -229,6 +229,65 @@
       "batch_execution_ids": ["36218", "36219", "36226", "36230", "36231"],
       "hcti_calls": "unknown_up_to_1",
       "automatic_retries": 0
+    }
+  },
+  "semantic_image_v2_synchronization": {
+    "status": "zero_call_runtime_verified",
+    "source_branch": "design/hcti-editorial-v01",
+    "source_commit": "ff2a6c51821e7d3edc1dd440f1a677c852fe6a7c",
+    "master_lock": "hcti/four-format-master-lock-v2.json",
+    "master_lock_version": "semantic-image-v2",
+    "locked_files_verified": 16,
+    "git_blob_sha_verification": "16_of_16",
+    "sha256_verification": "16_of_16",
+    "workflow_version": "hcti-bridge@1.3.0",
+    "runtime_version_id": "e3fc8a62-a147-4526-aefc-0df0ffc2778c",
+    "runtime_active": false,
+    "runtime_node_count": 27,
+    "semantic_fingerprint": "a325a7a15e75dcba7544d5aa67228f7b40f10077bb4ee1bca286a7a2a3d1a368",
+    "repository_runtime_parity": true,
+    "zero_call_execution": {
+      "execution_id": "36428",
+      "run_id": "HCTI-FOUR-FORMAT-V2:36428",
+      "workflow_runs_start_row_id": 85,
+      "workflow_runs_terminal_row_id": 86,
+      "terminal_status": "semantic_image_v2_preflight_verified",
+      "provider_calls": 0,
+      "automatic_retries": 0
+    },
+    "batch": {
+      "output_identities": ["single-image", "carousel-01", "carousel-02", "carousel-03", "carousel-04", "carousel-05", "carousel-06", "carousel-07", "archive", "evidence"],
+      "semantic_image_elements": 11,
+      "request_bytes": [2940653, 2946226, 2776152, 4233247, 7030393, 2111271, 2294677, 2946254, 2940570, 1245112],
+      "request_sha256": [
+        "ff0bbf149b16a80837def31e5e2fbd8dccce93e9def077ead2451c8d9bf6238f",
+        "c19a92548ff1898fd4f95089671fe8f450c36400c86779fc5f62559705191890",
+        "8d58d73945a32ebbcd9fcbd3142f2582cba06a1a59e895d57fc06fd7fca4b9a8",
+        "228604ef50bed7983a8c60dcbc8d27bcb9cc1bf737fd7b48d2918b688c83e985",
+        "2280eccf6c984b8909104da0281467ca449200fabbb54fb423878d8a07fb53e5",
+        "1b35e62a38f697602cc79299a6d57338a7f9b9848e90eb68059dceed4eb145e5",
+        "10ede71773a16ad07e8d78f664b59f900758223a0a41a74680b9784d4c4646ec",
+        "85cd9604b7ec5cb11e304a8625bdca02025bfcdbc5d8190f4e71b6bf8a6229d6",
+        "4f9307c8dad2d11d79b00bdcb956bc59261b31fec70b701e83cf732ddf3f5947",
+        "fa1549a4e96c757486fc99e68ada605d950d781f81118a860bf28634bccab80f"
+      ],
+      "historical_carousel_04_request_sha256_reused": false,
+      "historical_carousel_04_request_sha256": "b0c3bf7d6f3f3d6e853d618c9d9ef15f54407489d5bfbdc95e539f8200249a45"
+    },
+    "image_binding": {
+      "mode": "semantic_img_data_uri",
+      "css_background_image_data_uri_allowed": false,
+      "required_drive_assets_verified": 8,
+      "runtime_byte_contract": "automation/core/hcti/private-asset-delivery.contract.json",
+      "browser_proof_source": "immutable_win5_semantic_image_v2",
+      "browser_proof_commit": "ff2a6c51821e7d3edc1dd440f1a677c852fe6a7c",
+      "n8n_browser_execution_claimed": false,
+      "encoded_payload_persisted": false
+    },
+    "historical_execution_36219": {
+      "state": "outcome_unknown",
+      "modified_by_this_synchronization": false,
+      "retry_authorized": false
     }
   },
   "source_synchronization": {
