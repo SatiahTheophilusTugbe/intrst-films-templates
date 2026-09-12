@@ -64,3 +64,8 @@ Headline limits: single and carousel 4 rendered lines; archive and evidence 2 re
 ### WIN 4 execution checklist
 
 Use existing bridge ID XHjJBrSOoBaFrHYk; inspect its actual current name/configuration and existing credential binding, rather than creating duplicates based on historical labels above. Keep it inactive. Integrate the lock and preflight, then run a controlled ten-output raw-HTML render. Return execution ID, immutable source commit, per-output dimensions and SHA-256, font/image-load evidence and comparison against the supplied references. No publishing or AUT-014 changes. If provider/browser layout differs, return the failed case to WIN 5 rather than modifying design tokens.
+
+
+## Superseding image-binding repair — 2026-09-12
+
+Use `four-format-master-lock-v2.json`, `image-binding-repair-v2.md`, and each format's `template-image-v2.html` / `render-contract-image-v2.json`. These supersede prior CSS-image binding instructions; single-image now uses render-lock-v0.5.json. Historical templates and locks remain untouched. Source implementation commit: 80ae0490e10abeda0b0cd11c3935fd9b6bb1bab1. All 16 v2 lock entries verified against that commit. Ten browser proofs and eleven required image elements pass decoded-byte, visibility, blank-control and layout checks. Approved design composition preserved. No new photographic derivatives; original source hashes retained. Evidence's existing PDF crops remain unchanged. This repair authorizes no HCTI call or retry of unknown execution 36219, no publication, and no AUT-014 modification.
