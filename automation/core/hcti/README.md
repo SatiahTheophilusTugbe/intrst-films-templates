@@ -60,6 +60,34 @@ or remaining batch submission is permitted until provider reconciliation. The
 workflow has been returned to inactive, transport-disabled state. The existing
 v0.4 single-image lock remains unchanged.
 
+Read-only reconciliation execution `36226` used the project-owned HCTI Basic
+Auth credential against the documented `GET /v1/images?count=50` inventory
+surface. HCTI returned HTTP 404, so the request could not be attributed to zero,
+one, or multiple provider records. Workflow-run rows 78–80 preserve the bounded
+read and reaffirm `outcome_unknown`; they do not infer provider rejection and do
+not authorize a retry.
+
+Local reconstruction of the exact Carousel 4 request proved that the complete
+Open Book bytes were present: 5,264,182-byte JPEG, 4288x2848, SHA-256
+`16849bf7ef5fa0860deb2c5c92efa65fac0e86116988ebb90d8934204b630f62`.
+The 7,029,917-byte request hashed to
+`b0c3bf7d6f3f3d6e853d618c9d9ef15f54407489d5bfbdc95e539f8200249a45`.
+Chromium decoded the same data URI successfully when used as an image source,
+but dropped the oversized CSS `background-image` declaration: computed style
+was `none` and the required image region had zero changed pixels versus a
+no-background control. The current CSS-background delivery mode therefore fails
+browser image-paint validation. A versioned locked-template/runtime binding that
+uses a browser-safe image element is required before another HCTI submission.
+
+Bridge version `hcti-bridge@1.2.0` adds immutable pre-transport request evidence
+and immediate transport-settled evidence before download or normalization-
+dependent terminal handling. It classifies documented 4xx rejection, ambiguous
+5xx/network outcomes, malformed 2xx responses, download/geometry failure, and
+post-render visual-QA failure without retries. Transport cannot be enabled unless
+both terminal postflight persistence and browser image-paint verification are
+explicitly true. No credential, raw HTML, response body, image bytes, or data URI
+enters the durable evidence rows.
+
 ## THE PROOF source-crop recovery
 
 The two missing evidence derivatives were reconstructed from the locked source

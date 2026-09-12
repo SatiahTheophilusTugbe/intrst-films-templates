@@ -18,7 +18,7 @@
   },
   "source_commit": "1a383d02e4d306deb0fd0543b05e850f6b2b38a7",
   "template_version": "editorial-portrait-v01",
-  "runtime_version_id": "9d3eb077-0be2-4bad-90b7-c986e0e3eed9",
+  "runtime_version_id": "4a7883c4-2e59-4e88-a9d4-b853eb07f0bb",
   "execution_runtime_version_id": "c6e82be9-5f95-4abf-8e83-fa9efa7a1309",
   "controlled_execution": {
     "execution_id": "35207",
@@ -75,7 +75,7 @@
     "automatic_retries": 0,
     "asset_ids_verified": ["1FEpzAp4GI_i3zu8-AawepKxIqTNWq4_Y", "1R2zBFOGZreOzM7DaZRsXnYLB-xagCjYt", "1tIU-DSxZvKgybPABbK6z-NkQI8PjiFtQ", "1RKDjQ7fLotG-PToknmb20S1ozbkp-0Rv", "1WtJZzwV1Jylp8PBewVla6NnYRktmecHp", "1fVjXvmiwjIR7yWh--Oe8gcHlBZLIX4of"],
     "missing_assets": [],
-    "status": "private_delivery_deployed_canary_outcome_unknown",
+    "status": "private_delivery_deployed_canary_outcome_unknown_image_binding_blocked",
     "source_crop_recovery": {
       "source_url": "https://www.loc.gov/lcm/pdf/LCM_2018_0506.pdf",
       "source_pdf_sha256": "72a5b625d943476d1ab0a37319a61fb973016a334cc4ba53db54a510024de519",
@@ -118,7 +118,7 @@
       "rights_review": "existing research/source review preserved; no additional rights approval inferred",
       "comparison": "photo and caption text visually match the supplied THE PROOF reference treatment; highlight remains fixture-specific and unchanged",
       "hcti_submission": false,
-      "remaining_blocker": "project-owned n8n Google Drive credential and authoritative HCTI request-size limit"
+      "remaining_blocker": "browser-safe versioned image binding and provider-side attribution of the outcome-unknown Carousel 4 canary"
     },
     "private_asset_delivery": {
       "contract_version": "1.1.0",
@@ -148,11 +148,11 @@
         "measured_request_bytes": [2940497, 2945750, 2775676, 4232771, 7029917, 2110795, 2294201, 2945778, 2940358, 1244756]
       },
       "runtime_mutated": true,
-      "runtime_version_id": "9d3eb077-0be2-4bad-90b7-c986e0e3eed9",
-      "runtime_node_count": 21,
+      "runtime_version_id": "4a7883c4-2e59-4e88-a9d4-b853eb07f0bb",
+      "runtime_node_count": 27,
       "runtime_active": false,
       "transport_enabled_postflight": false,
-      "repository_workflow_sha256": "bf0ae8526e0803da66262ae87b5cecf6ed6d9da69eb2790dfe7259f731dc31e2",
+      "repository_workflow_sha256": "eae57590cf31d419049df41f74359195870c160301bac4fd928cf4f7c3e72a57",
       "requested_output_identities": ["single-image", "carousel-01", "carousel-02", "carousel-03", "carousel-04", "carousel-05", "carousel-06", "carousel-07", "archive", "evidence"],
       "preflight": {
         "execution_id": "36218",
@@ -181,7 +181,52 @@
         "remaining_outputs_submitted": 0,
         "next_action": "reconcile the single HCTI canary outcome before any new render submission"
       },
-      "batch_execution_ids": ["36218", "36219"],
+      "reconciliation": {
+        "execution_id": "36226",
+        "method": "GET https://hcti.io/v1/images?count=50",
+        "bounded_window_start": "2026-09-12T03:27:30.000Z",
+        "bounded_window_end": "2026-09-12T03:29:14.274Z",
+        "http_status": 404,
+        "inventory_result": "unavailable",
+        "candidate_count": null,
+        "provider_receipt": "unknown",
+        "workflow_runs_rows": [78, 79, 80],
+        "superseding_state": "outcome_unknown",
+        "retry_authorized": false
+      },
+      "carousel_04_browser_diagnostic": {
+        "process": "canonical four-format builder plus authenticated canonical Drive bytes in headless Chromium; HCTI transport disabled",
+        "asset_drive_id": "1RKDjQ7fLotG-PToknmb20S1ozbkp-0Rv",
+        "asset_mime": "image/jpeg",
+        "asset_dimensions": "4288x2848",
+        "asset_bytes": 5264182,
+        "asset_sha256": "16849bf7ef5fa0860deb2c5c92efa65fac0e86116988ebb90d8934204b630f62",
+        "request_bytes": 7029917,
+        "request_sha256": "b0c3bf7d6f3f3d6e853d618c9d9ef15f54407489d5bfbdc95e539f8200249a45",
+        "data_uri_complete": true,
+        "direct_image_decode": "4288x2848",
+        "computed_background_image": "none",
+        "painted_pixel_ratio": 0,
+        "visual_qa": "failed_missing_required_open_book_layer",
+        "hcti_lineage_proven": false,
+        "local_preview_sha256": "f61e1584d76ba20ad29c7bd7b5691c95ca228e11d9717da6fbac971be457df35"
+      },
+      "observability_repair": {
+        "workflow_version": "hcti-bridge@1.2.0",
+        "contract_version": "hcti-observability@1.0.0",
+        "pre_transport_request_identity_persisted": true,
+        "transport_settled_before_download": true,
+        "terminal_postflight_required": true,
+        "browser_image_paint_required": true,
+        "browser_image_paint_currently_verified": false,
+        "automatic_retries": 0,
+        "transport_enabled": false,
+        "zero_call_preflight_execution_id": "36231",
+        "zero_call_preflight_rows": [83, 84],
+        "semantic_fingerprint": "3ea64279b4e61bda8b03d0f18443a386e906d27b56a7c7ed674d15102f88ad92",
+        "repository_runtime_parity": true
+      },
+      "batch_execution_ids": ["36218", "36219", "36226", "36230", "36231"],
       "hcti_calls": "unknown_up_to_1",
       "automatic_retries": 0
     }
