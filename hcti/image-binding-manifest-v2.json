@@ -1,0 +1,166 @@
+{
+  "version": "semantic-image-v2",
+  "assets": [
+    {
+      "asset": "A1-high.jpg",
+      "canonical_source_asset_id": "1R2zBFOGZreOzM7DaZRsXnYLB-xagCjYt",
+      "source_sha256": "4167d7728f74d677e47c41624273ffc5e411e73584ec0f15e24c85f9bc20d246",
+      "render_sha256": "4167d7728f74d677e47c41624273ffc5e411e73584ec0f15e24c85f9bc20d246",
+      "derivative_sha256": null,
+      "dimensions": [
+        2212,
+        2743
+      ],
+      "mime_type": "image/jpeg",
+      "transformation_version": "identity-v1",
+      "decision": "Original bytes embedded unchanged; no derivative generated"
+    },
+    {
+      "asset": "mountains.jpg",
+      "canonical_source_asset_id": "1tIU-DSxZvKgybPABbK6z-NkQI8PjiFtQ",
+      "source_sha256": "c8267da2945730e33406f03d69badac184401cdce705f210d0f08f41b846eedd",
+      "render_sha256": "c8267da2945730e33406f03d69badac184401cdce705f210d0f08f41b846eedd",
+      "derivative_sha256": null,
+      "dimensions": [
+        2400,
+        1800
+      ],
+      "mime_type": "image/jpeg",
+      "transformation_version": "identity-v1",
+      "decision": "Original bytes embedded unchanged; no derivative generated"
+    },
+    {
+      "asset": "open-book.jpg",
+      "canonical_source_asset_id": "1RKDjQ7fLotG-PToknmb20S1ozbkp-0Rv",
+      "source_sha256": "16849bf7ef5fa0860deb2c5c92efa65fac0e86116988ebb90d8934204b630f62",
+      "render_sha256": "16849bf7ef5fa0860deb2c5c92efa65fac0e86116988ebb90d8934204b630f62",
+      "derivative_sha256": null,
+      "dimensions": [
+        4288,
+        2848
+      ],
+      "mime_type": "image/jpeg",
+      "transformation_version": "identity-v1",
+      "decision": "Original bytes embedded unchanged; no derivative generated"
+    },
+    {
+      "asset": "reading.png",
+      "canonical_source_asset_id": "1WtJZzwV1Jylp8PBewVla6NnYRktmecHp",
+      "source_sha256": "c426e32774def745c3e62591d92f2c13218ec03f810ac6145cb8305e868b334c",
+      "render_sha256": "c426e32774def745c3e62591d92f2c13218ec03f810ac6145cb8305e868b334c",
+      "derivative_sha256": null,
+      "dimensions": [
+        1168,
+        731
+      ],
+      "mime_type": "image/png",
+      "transformation_version": "identity-v1",
+      "decision": "Original bytes embedded unchanged; no derivative generated"
+    },
+    {
+      "asset": "milestone.jpg",
+      "canonical_source_asset_id": "1fVjXvmiwjIR7yWh--Oe8gcHlBZLIX4of",
+      "source_sha256": "4866e172d9db3bdc1b7c4c8f91a84d22d97a515647cead6ee0083c19f7bc2553",
+      "render_sha256": "4866e172d9db3bdc1b7c4c8f91a84d22d97a515647cead6ee0083c19f7bc2553",
+      "derivative_sha256": null,
+      "dimensions": [
+        5760,
+        3840
+      ],
+      "mime_type": "image/jpeg",
+      "transformation_version": "identity-v1",
+      "decision": "Original bytes embedded unchanged; no derivative generated"
+    },
+    {
+      "asset": "A4.jpg",
+      "canonical_source_asset_id": "1FEpzAp4GI_i3zu8-AawepKxIqTNWq4_Y",
+      "source_sha256": "48c70ee8e8ce89a684fda410b6b58c0eb3a22e8d1f8e66bf0b5e3cf467e1e35f",
+      "render_sha256": "48c70ee8e8ce89a684fda410b6b58c0eb3a22e8d1f8e66bf0b5e3cf467e1e35f",
+      "derivative_sha256": null,
+      "dimensions": [
+        2400,
+        3530
+      ],
+      "mime_type": "image/jpeg",
+      "transformation_version": "identity-v1",
+      "decision": "Original bytes embedded unchanged; no derivative generated"
+    },
+    {
+      "asset": "source-photo.png",
+      "canonical_source_asset_id": "https://www.loc.gov/lcm/pdf/LCM_2018_0506.pdf",
+      "source_sha256": "72a5b625d943476d1ab0a37319a61fb973016a334cc4ba53db54a510024de519",
+      "derivative_sha256": "90e7f2a5c945cae0f375015eec322c07cf2efd1acbc13a9c2bb3363365812833",
+      "render_sha256": "90e7f2a5c945cae0f375015eec322c07cf2efd1acbc13a9c2bb3363365812833",
+      "crop_coordinates_pdf_points": [
+        0,
+        25,
+        350,
+        260
+      ],
+      "pdf_page_index": 25,
+      "scale": 3,
+      "dimensions": [
+        1050,
+        705
+      ],
+      "mime_type": "image/png",
+      "transformation_version": "existing-loc-crop-v1",
+      "decision": "Existing deterministic PDF crop reused unchanged"
+    },
+    {
+      "asset": "source-caption.png",
+      "canonical_source_asset_id": "https://www.loc.gov/lcm/pdf/LCM_2018_0506.pdf",
+      "source_sha256": "72a5b625d943476d1ab0a37319a61fb973016a334cc4ba53db54a510024de519",
+      "derivative_sha256": "dc0adc4452b501cc6ab71af8a0bc1af0addfbd43ec4d2585e153e842e3a36c7b",
+      "render_sha256": "dc0adc4452b501cc6ab71af8a0bc1af0addfbd43ec4d2585e153e842e3a36c7b",
+      "crop_coordinates_pdf_points": [
+        62,
+        479,
+        274,
+        520
+      ],
+      "pdf_page_index": 25,
+      "scale": 4,
+      "dimensions": [
+        848,
+        164
+      ],
+      "mime_type": "image/png",
+      "transformation_version": "existing-loc-crop-v1",
+      "decision": "Existing deterministic PDF crop reused unchanged"
+    }
+  ],
+  "crop_focus_version": "approved-crop-v1",
+  "crop_controls": {
+    "single": "object-position from image_position_x/y; existing scale1.008 and photo filter retained",
+    "carousel_default": "object-position from image_position_x/y",
+    "carousel_3": "object-position65%100%; scale1.9 origin65%100%",
+    "carousel_4": "object-position48%45%; scale1.1 origin48%45%",
+    "carousel_5_6": "center; existing1080x720 image viewport at y120",
+    "archive": "48%20%; existing810x885 viewport x360/y0, canvas clipping retained",
+    "evidence": "source contain/center; caption intrinsic aspect ratio retained"
+  },
+  "allowed_derivatives": [
+    "deterministic resize",
+    "deterministic crop",
+    "sRGB normalization",
+    "JPEG/PNG optimization",
+    "orientation normalization"
+  ],
+  "required_derivative_fields": [
+    "canonical_source_asset_id",
+    "source_sha256",
+    "derivative_sha256",
+    "crop_coordinates_or_object_position",
+    "dimensions",
+    "mime_type",
+    "transformation_version"
+  ],
+  "prohibited": [
+    "colorization",
+    "face alteration",
+    "generative expansion",
+    "substitution",
+    "synthetic reconstruction"
+  ]
+}
