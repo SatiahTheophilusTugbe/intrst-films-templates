@@ -1,0 +1,79 @@
+{
+  "version": 2,
+  "date": "2026-09-12",
+  "status": "BROWSER_VERIFIED_RUNTIME_NOT_EXECUTED",
+  "supersedes": "four-format-master-lock-v1.json; historical files retained",
+  "files": {
+    "hcti/editorial-portrait-v01/template-image-v2.html": {
+      "sha256": "2a7807f3ee0913e01328f318b5cae2245d9e33dcca5fbf7f98f350eec887d966",
+      "git_blob_sha": "47165af3b6e286a60b7177ff97a7dd9186d1d454"
+    },
+    "hcti/editorial-portrait-v01/render-contract-image-v2.json": {
+      "sha256": "05173d8fe362512fb65d700ed6342753ba7899fbcdc38d9bc9ff3d4506baf47c",
+      "git_blob_sha": "9f2f17f7852aeb19d61993aa8a274c9cc24a30ab"
+    },
+    "hcti/editorial-portrait-v01/fixture-dolly-literacy.json": {
+      "sha256": "f83067474dc53b2da0398db6ab9b182a159be10ca9f1b783d27f0dfe29b929a3",
+      "git_blob_sha": "984f4210204c7bba53c85893aa833c5a436bb843"
+    },
+    "hcti/narrative-carousel-v01/template-image-v2.html": {
+      "sha256": "f2f3398bf084ffde13ebddb496a6ab834f6978b274e56f98493c55d0ee08dbcf",
+      "git_blob_sha": "71fb593ab87e345b592570e01c5b18c4aa90b04e"
+    },
+    "hcti/narrative-carousel-v01/render-contract-image-v2.json": {
+      "sha256": "c225cd2d61b8604f81fd2e9f3bc0ed79aacbfbb18e41661a66d95322565dfac3",
+      "git_blob_sha": "2bd335b876933a2952aa18f1c24727bf8b82abaa"
+    },
+    "hcti/narrative-carousel-v01/fixture-dolly-seven-slides.json": {
+      "sha256": "381b981c7c60a7e8eff609c669e892b1d98e9f0d6f9aad7776bb090143850f3b",
+      "git_blob_sha": "fbc7214a710b98ef9142a7f03bc04850de893701"
+    },
+    "hcti/archive-card-v01/template-image-v2.html": {
+      "sha256": "ac7d8c388d44e288827deca1600a53f58358474c57143783bd47c3451c17c955",
+      "git_blob_sha": "c16636ec1ef8a327e62bb0e1d5df2d739842d989"
+    },
+    "hcti/archive-card-v01/render-contract-image-v2.json": {
+      "sha256": "b45c026225cd2eb68a5e29761d33fff51af8a00ca604a8968f1f98beeff80d56",
+      "git_blob_sha": "7d5f2e6e1354d1bfbf6158d4ae0a98927f20be62"
+    },
+    "hcti/archive-card-v01/fixture-dolly-ownership.json": {
+      "sha256": "ee04f355fbcd227c5ad7a20bb01828a28e9c6e5343321e5cdd364674201fcf74",
+      "git_blob_sha": "89f5ffd727acb09b239341bdb2c93a879f25d6f3"
+    },
+    "hcti/evidence-spread-v01/template-image-v2.html": {
+      "sha256": "06e70898a8a9dc4fca56ec96ba95551f7eddffae000f851c53086281e98f73f5",
+      "git_blob_sha": "a90eecaf0b4d4fe6ef5a9b409d1c44ea15c8159f"
+    },
+    "hcti/evidence-spread-v01/render-contract-image-v2.json": {
+      "sha256": "12fbb6babe9f65cac64ca363d88733feddb88d82357a601de3828a96e577e714",
+      "git_blob_sha": "1d54a5ac5ae1db1d58befdec45cbef554b9431ca"
+    },
+    "hcti/evidence-spread-v01/fixture-dolly-loc.json": {
+      "sha256": "3452979ed88d6f5afaf1d0fb749222fe9814c7e1a5e24ee0a85805ab9371c139",
+      "git_blob_sha": "74a9cb1fa9091ace0d77c5a1dd51b0a2f631425f"
+    },
+    "hcti/editorial-portrait-v01/render-lock-v0.5.json": {
+      "sha256": "398ce568d9d5771bebd2cb6e87e84d6dff918e62fe1499b6c4d13b951689f7cb",
+      "git_blob_sha": "c19ddef7320dd86961de253bda09e94329953f0a"
+    },
+    "hcti/image-binding-manifest-v2.json": {
+      "sha256": "20cf88597a802f941f1ea6532cd5bcf9e6efc59eea7e7e25e839d15a23cd8e4c",
+      "git_blob_sha": "ba77188934c0e61883e707bf64f308761b6bb4e9"
+    },
+    "hcti/image-binding-gate-v2.js": {
+      "sha256": "947b921629c12670ad878707a87ccb0fff5c9795b47377896e99c703ed1cbbc2",
+      "git_blob_sha": "ca6a327aa1aebb88f770574c759086b5ab64b9d1"
+    },
+    "hcti/layout-preflight-v1.js": {
+      "sha256": "7354f1fa8e4968624ae483f2cf5d6817f409268de2ce6a7607c64f32d8f058ee",
+      "git_blob_sha": "27c4f0057749045ea5dc337e4d72835146f5eefc"
+    }
+  },
+  "canvas": [
+    1080,
+    1350
+  ],
+  "design_preserved": true,
+  "publication_authorized": false,
+  "provider_calls": 0
+}
