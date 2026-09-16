@@ -141,6 +141,20 @@ submitted. The bridge is inactive and transport-disabled at runtime version
 `c30cb7aa-ce9a-4c5b-b096-daf7a5032e4c`, with repository/runtime semantic
 fingerprint `ea689d522f01ae5ead3b4d2d7b9d77f28148427cc981ec956546eac505ac980b`.
 
+Read-only reconciliation subsequently downloaded the single-image URL supplied
+by the operator and verified the original attempt as a 1080x1350 PNG of
+2,348,316 bytes with SHA-256
+`ea5d5331c67b2cf5a7b8f2d83ca536264d6747ba9848b9713fe4768a7d4c3a91`.
+Append-only row 96 supersedes the unknown outcome without changing rows 92–95.
+Its immutable-browser-proof comparison passed, so the eight remaining outputs
+were each submitted exactly once in executions 37137–37145 (excluding the
+already-rendered Carousel 4). All ten ordered outputs now have verified PNG
+retrieval, 1080x1350 geometry, immutable-proof comparison evidence, unique
+private Drive exports, and terminal rows 129–138 with state
+`RENDERED_PENDING_VISUAL_APPROVAL`. Total HCTI submissions were ten and retries
+were zero. The workflow was restored to inactive, transport-disabled parity at
+runtime version `672dcea2-1ae3-417e-bb74-fea5d05a9835`; no asset was promoted.
+
 ## THE PROOF source-crop recovery
 
 The two missing evidence derivatives were reconstructed from the locked source

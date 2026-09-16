@@ -18,7 +18,7 @@
   },
   "source_commit": "1a383d02e4d306deb0fd0543b05e850f6b2b38a7",
   "template_version": "editorial-portrait-v01",
-  "runtime_version_id": "c30cb7aa-ce9a-4c5b-b096-daf7a5032e4c",
+  "runtime_version_id": "672dcea2-1ae3-417e-bb74-fea5d05a9835",
   "execution_runtime_version_id": "c6e82be9-5f95-4abf-8e83-fa9efa7a1309",
   "controlled_execution": {
     "execution_id": "35207",
@@ -292,11 +292,11 @@
   },
   "controlled_semantic_image_v2_batch": {
     "authorization_id": "HCTI-TEN-OUTPUT-V2-2026-09-13",
-    "status": "stopped_after_unresolved_second_attempt",
+    "status": "ten_outputs_rendered_pending_visual_approval",
     "maximum_authorized_calls": 10,
-    "actual_hcti_calls": 2,
+    "actual_hcti_calls": 10,
     "automatic_retries": 0,
-    "remaining_outputs_submitted": 0,
+    "remaining_outputs_submitted": 8,
     "carousel_04": {
       "execution_id": "36711",
       "run_id": "HCTI-FOUR-FORMAT-V2:36711",
@@ -313,7 +313,9 @@
       "visual_gate": "PROVIDER_RENDERED_AND_VISUAL_GATE_PASSED",
       "immutable_reference_changed_ratio": 0.023727023319615913,
       "historical_blank_control_changed_ratio": 0.987059670781893,
-      "workflow_runs_rows": [87, 88, 89, 90, 91],
+      "workflow_runs_rows": [87, 88, 89, 90, 91, 133],
+      "drive_id": "1h3t7VMTdVN4TpzZO87pDkovLfk1cWW8b",
+      "drive_url": "https://drive.google.com/file/d/1h3t7VMTdVN4TpzZO87pDkovLfk1cWW8b/view?usp=drivesdk",
       "historical_retrieval_defect_preserved": true,
       "reconciliation_mode": "read_only_exact_provider_url"
     },
@@ -324,24 +326,49 @@
       "request_sha256": "ff0bbf149b16a80837def31e5e2fbd8dccce93e9def077ead2451c8d9bf6238f",
       "http_status": 200,
       "render_id": "01a0a7db-aed5-76ea-ae86-17df84980c82",
-      "image_url": null,
-      "provider_result": "outcome_unknown",
-      "error_class": "MALFORMED_PROVIDER_RESPONSE",
-      "workflow_runs_rows": [92, 93, 94, 95],
+      "image_url": "https://hcti.io/v1/image/01a0a7db-aed5-76ea-ae86-17df84980c82",
+      "provider_result": "rendered",
+      "output_mime": "image/png",
+      "output_dimensions": "1080x1350",
+      "output_bytes": 2348316,
+      "output_sha256": "ea5d5331c67b2cf5a7b8f2d83ca536264d6747ba9848b9713fe4768a7d4c3a91",
+      "immutable_reference_changed_ratio": 0.046386831275720165,
+      "drive_id": "13pmK6sEnaxy7j882u3wePmlplMu_EM9o",
+      "drive_url": "https://drive.google.com/file/d/13pmK6sEnaxy7j882u3wePmlplMu_EM9o/view?usp=drivesdk",
+      "workflow_runs_rows": [92, 93, 94, 95, 96, 129],
       "retry_authorized": false,
-      "reconciliation_required": true
+      "reconciliation_required": false,
+      "historical_unknown_preserved": true
+    },
+    "remaining_outputs": [
+      {"output_identity":"carousel-01","execution_id":"37137","render_id":"01a0a840-084e-7494-a46e-a8547cfaacf8","image_url":"https://hcti.io/v1/image/01a0a840-084e-7494-a46e-a8547cfaacf8.png","output_bytes":2233053,"output_sha256":"f8fa79a66f10404365a97f80cc529247ee34250b1301fc1246d0ee35817d1848","drive_id":"1R5JPrcRO8OXnrJLZ9ZSrw51S9Z4ivq2c","drive_url":"https://drive.google.com/file/d/1R5JPrcRO8OXnrJLZ9ZSrw51S9Z4ivq2c/view?usp=drivesdk","immutable_reference_changed_ratio":0.08040603566529493,"terminal_row":130},
+      {"output_identity":"carousel-02","execution_id":"37138","render_id":"01a0a841-53a3-725c-a8b1-f04150333449","image_url":"https://hcti.io/v1/image/01a0a841-53a3-725c-a8b1-f04150333449.png","output_bytes":2097547,"output_sha256":"90d0aa17ae9edf466839a490d36c44080296c4277fc709f5fe22134f834ac9ec","drive_id":"1QqOITyGc8wLLHTvOkU5Gm5iqX1wv-f96","drive_url":"https://drive.google.com/file/d/1QqOITyGc8wLLHTvOkU5Gm5iqX1wv-f96/view?usp=drivesdk","immutable_reference_changed_ratio":0.033246913580246916,"terminal_row":131},
+      {"output_identity":"carousel-03","execution_id":"37139","render_id":"01a0a842-0a56-7d9d-9ac7-6b92667cd912","image_url":"https://hcti.io/v1/image/01a0a842-0a56-7d9d-9ac7-6b92667cd912.png","output_bytes":2163542,"output_sha256":"ee62d6587acd7cf76c96dcf40c620905b776a62374a5ae2be3aeb32ada1501d2","drive_id":"1UNWA_YWXOlHj7E-I6Nz9Vc3Q_s8JT4A2","drive_url":"https://drive.google.com/file/d/1UNWA_YWXOlHj7E-I6Nz9Vc3Q_s8JT4A2/view?usp=drivesdk","immutable_reference_changed_ratio":0.02422976680384088,"terminal_row":132},
+      {"output_identity":"carousel-05","execution_id":"37140","render_id":"01a0a842-a913-7da8-9907-fb7c9b5a3139","image_url":"https://hcti.io/v1/image/01a0a842-a913-7da8-9907-fb7c9b5a3139.png","output_bytes":1389078,"output_sha256":"6e683fb13ff2f0a528d3ee0f3a18ae8a2943a653f466c37b81a1ccd9e64ed14c","drive_id":"1VWLTkGdl9-Sb0DZ1N8eZRl0ufcfufSJi","drive_url":"https://drive.google.com/file/d/1VWLTkGdl9-Sb0DZ1N8eZRl0ufcfufSJi/view?usp=drivesdk","immutable_reference_changed_ratio":0.03305006858710562,"terminal_row":134},
+      {"output_identity":"carousel-06","execution_id":"37141","render_id":"01a0a843-84c6-71e9-a0f0-c3139c8f6043","image_url":"https://hcti.io/v1/image/01a0a843-84c6-71e9-a0f0-c3139c8f6043.png","output_bytes":1340031,"output_sha256":"d36a53bd80b1b63375b92bd037491b31a1b37a7b2293b954261f48ce78ce569d","drive_id":"1RWDxXQHW7wxHTAaZLsETV5-KQAHOvNYF","drive_url":"https://drive.google.com/file/d/1RWDxXQHW7wxHTAaZLsETV5-KQAHOvNYF/view?usp=drivesdk","immutable_reference_changed_ratio":0.03573593964334705,"terminal_row":135},
+      {"output_identity":"carousel-07","execution_id":"37143","render_id":"01a0a844-1b1f-7f0d-bdd3-a495fa11ca66","image_url":"https://hcti.io/v1/image/01a0a844-1b1f-7f0d-bdd3-a495fa11ca66.png","output_bytes":2229687,"output_sha256":"1debcbf9e0a0c72eb8b57d91c119ebf207d0414ed1ab8577d66886e454b4b29a","drive_id":"1CURft6qMXT8uuQxl6ZJ537UhcdQPjf9s","drive_url":"https://drive.google.com/file/d/1CURft6qMXT8uuQxl6ZJ537UhcdQPjf9s/view?usp=drivesdk","immutable_reference_changed_ratio":0.08211248285322359,"terminal_row":136},
+      {"output_identity":"archive","execution_id":"37144","render_id":"01a0a844-cd66-7cba-9608-b1345d522a9a","image_url":"https://hcti.io/v1/image/01a0a844-cd66-7cba-9608-b1345d522a9a.png","output_bytes":1208817,"output_sha256":"ee548755f6a7e2867206efdb2d37bb76a5bd862463de96cea42b814540d0c6c4","drive_id":"1f0bHA25xxAFTAuNI-H-rBUMs2G_Hv8Pm","drive_url":"https://drive.google.com/file/d/1f0bHA25xxAFTAuNI-H-rBUMs2G_Hv8Pm/view?usp=drivesdk","immutable_reference_changed_ratio":0.06456515775034294,"terminal_row":137},
+      {"output_identity":"evidence","execution_id":"37145","render_id":"01a0a845-5d84-7c98-a71e-46a3f7ec0228","image_url":"https://hcti.io/v1/image/01a0a845-5d84-7c98-a71e-46a3f7ec0228.png","output_bytes":711855,"output_sha256":"2af989d3306a388a6932d2a3ea099e986d7e5b0aeee8a4e07a1d04db4b66020c","drive_id":"1rQUqNSg1ELrgwCqt-NspgSbCbJjVg-_p","drive_url":"https://drive.google.com/file/d/1rQUqNSg1ELrgwCqt-NspgSbCbJjVg-_p/view?usp=drivesdk","immutable_reference_changed_ratio":0.07499519890260631,"terminal_row":138}
+    ],
+    "contact_sheet": {
+      "drive_id": "1uaGY5qaO0Rffu70cbyOxKypxIOW_H2EK",
+      "drive_url": "https://drive.google.com/file/d/1uaGY5qaO0Rffu70cbyOxKypxIOW_H2EK/view?usp=drivesdk",
+      "sha256": "866aa39a8aa44d3379bff980357b10a07776adf91ae8e172ebe04dd52ad792b5",
+      "status": "review_only"
     },
     "retrieval_repair": {
       "provider_url_used_exactly": true,
       "extension_appended": false,
       "validation": ["content_type", "decoded_png_signature", "width", "height", "sha256"],
-      "runtime_version_id": "c30cb7aa-ce9a-4c5b-b096-daf7a5032e4c",
+      "runtime_version_id": "672dcea2-1ae3-417e-bb74-fea5d05a9835",
       "runtime_active": false,
       "transport_enabled_postflight": false,
       "semantic_fingerprint": "ea689d522f01ae5ead3b4d2d7b9d77f28148427cc981ec956546eac505ac980b",
       "repository_runtime_parity": true
     },
-    "next_action": "reconcile single-image render 01a0a7db-aed5-76ea-ae86-17df84980c82 read-only before any additional HCTI submission"
+    "final_state": "RENDERED_PENDING_VISUAL_APPROVAL",
+    "workflow_runs_pending_visual_approval_rows": [129,130,131,132,133,134,135,136,137,138],
+    "next_action": "WIN 5 visual approval; no publication or asset promotion"
   },
   "source_synchronization": {
     "status": "implemented_fail_closed",
