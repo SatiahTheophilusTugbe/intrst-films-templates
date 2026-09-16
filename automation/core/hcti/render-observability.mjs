@@ -9,6 +9,38 @@ const fail = (code, message, details = {}) => {
 
 export const HCTI_OBSERVABILITY_VERSION = "hcti-observability@1.0.0";
 
+export function normalizeHctiImageUrl(value) {
+  if (typeof value !== "string" || value.length === 0) return null;
+  try {
+    const url = new URL(value);
+    if (url.protocol !== "https:" || url.hostname !== "hcti.io" || !url.pathname.startsWith("/v1/image/")) return null;
+    return value;
+  } catch {
+    return null;
+  }
+}
+
+export function verifyDownloadedRender({ bytes, content_type, expected_width = 1080, expected_height = 1350 }) {
+  if (!Buffer.isBuffer(bytes) || bytes.length < 24) fail("RENDER_BYTES_INVALID", "Downloaded render bytes are missing or truncated.");
+  const normalizedType = typeof content_type === "string" ? content_type.split(";", 1)[0].trim().toLowerCase() : null;
+  const isPng = bytes.subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]));
+  if (normalizedType !== "image/png" || !isPng) {
+    fail("RENDER_MIME_INVALID", "Downloaded render Content-Type and decoded format must both be image/png.", { content_type: normalizedType, decoded_format: isPng ? "image/png" : "unknown" });
+  }
+  const width = bytes.readUInt32BE(16);
+  const height = bytes.readUInt32BE(20);
+  if (width !== expected_width || height !== expected_height) {
+    fail("RENDER_GEOMETRY_INVALID", "Downloaded render dimensions do not match the requested viewport.", { expected_width, expected_height, width, height });
+  }
+  return {
+    output_mime: "image/png",
+    output_width: width,
+    output_height: height,
+    output_bytes: bytes.length,
+    output_sha256: crypto.createHash("sha256").update(bytes).digest("hex"),
+  };
+}
+
 export function assertTransportObservability({
   transport_enabled,
   terminal_postflight_enabled,
@@ -52,7 +84,7 @@ export function normalizeTransportOutcome(raw, requestEvidence) {
   const status = Number(raw?.statusCode ?? raw?.status ?? 0) || null;
   const body = raw?.body ?? raw;
   const render_id = typeof body?.id === "string" && body.id ? body.id : null;
-  const image_url = typeof body?.url === "string" && /^https:\/\/hcti\.io\/v1\/image\//.test(body.url) ? body.url : null;
+  const image_url = normalizeHctiImageUrl(body?.url);
   const accepted = status !== null && status >= 200 && status < 300;
   const complete = accepted && render_id !== null && image_url !== null;
   const knownRejection = status !== null && status >= 400 && status < 500;

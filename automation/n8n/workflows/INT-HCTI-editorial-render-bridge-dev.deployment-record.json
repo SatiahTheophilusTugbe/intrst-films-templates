@@ -18,7 +18,7 @@
   },
   "source_commit": "1a383d02e4d306deb0fd0543b05e850f6b2b38a7",
   "template_version": "editorial-portrait-v01",
-  "runtime_version_id": "e3fc8a62-a147-4526-aefc-0df0ffc2778c",
+  "runtime_version_id": "c30cb7aa-ce9a-4c5b-b096-daf7a5032e4c",
   "execution_runtime_version_id": "c6e82be9-5f95-4abf-8e83-fa9efa7a1309",
   "controlled_execution": {
     "execution_id": "35207",
@@ -289,6 +289,59 @@
       "modified_by_this_synchronization": false,
       "retry_authorized": false
     }
+  },
+  "controlled_semantic_image_v2_batch": {
+    "authorization_id": "HCTI-TEN-OUTPUT-V2-2026-09-13",
+    "status": "stopped_after_unresolved_second_attempt",
+    "maximum_authorized_calls": 10,
+    "actual_hcti_calls": 2,
+    "automatic_retries": 0,
+    "remaining_outputs_submitted": 0,
+    "carousel_04": {
+      "execution_id": "36711",
+      "run_id": "HCTI-FOUR-FORMAT-V2:36711",
+      "request_bytes": 7030393,
+      "request_sha256": "2280eccf6c984b8909104da0281467ca449200fabbb54fb423878d8a07fb53e5",
+      "http_status": 200,
+      "render_id": "01a09dfa-7dc9-7bca-aaf7-7f1b63317c7f",
+      "image_url": "https://hcti.io/v1/image/01a09dfa-7dc9-7bca-aaf7-7f1b63317c7f.png",
+      "output_mime": "image/png",
+      "output_dimensions": "1080x1350",
+      "output_bytes": 1863845,
+      "output_sha256": "cbfeec508ab2bdcabe8f7ba7980d9bee0efe3efee4ed4c7a4b504ca39c1eef1b",
+      "provider_result": "rendered",
+      "visual_gate": "PROVIDER_RENDERED_AND_VISUAL_GATE_PASSED",
+      "immutable_reference_changed_ratio": 0.023727023319615913,
+      "historical_blank_control_changed_ratio": 0.987059670781893,
+      "workflow_runs_rows": [87, 88, 89, 90, 91],
+      "historical_retrieval_defect_preserved": true,
+      "reconciliation_mode": "read_only_exact_provider_url"
+    },
+    "single_image": {
+      "execution_id": "37125",
+      "run_id": "HCTI-FOUR-FORMAT-V2:37125",
+      "request_bytes": 2940653,
+      "request_sha256": "ff0bbf149b16a80837def31e5e2fbd8dccce93e9def077ead2451c8d9bf6238f",
+      "http_status": 200,
+      "render_id": "01a0a7db-aed5-76ea-ae86-17df84980c82",
+      "image_url": null,
+      "provider_result": "outcome_unknown",
+      "error_class": "MALFORMED_PROVIDER_RESPONSE",
+      "workflow_runs_rows": [92, 93, 94, 95],
+      "retry_authorized": false,
+      "reconciliation_required": true
+    },
+    "retrieval_repair": {
+      "provider_url_used_exactly": true,
+      "extension_appended": false,
+      "validation": ["content_type", "decoded_png_signature", "width", "height", "sha256"],
+      "runtime_version_id": "c30cb7aa-ce9a-4c5b-b096-daf7a5032e4c",
+      "runtime_active": false,
+      "transport_enabled_postflight": false,
+      "semantic_fingerprint": "ea689d522f01ae5ead3b4d2d7b9d77f28148427cc981ec956546eac505ac980b",
+      "repository_runtime_parity": true
+    },
+    "next_action": "reconcile single-image render 01a0a7db-aed5-76ea-ae86-17df84980c82 read-only before any additional HCTI submission"
   },
   "source_synchronization": {
     "status": "implemented_fail_closed",

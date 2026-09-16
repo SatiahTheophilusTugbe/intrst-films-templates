@@ -111,6 +111,36 @@ zero retries. Repository and deployed workflow semantics match fingerprint
 `a325a7a15e75dcba7544d5aa67228f7b40f10077bb4ee1bca286a7a2a3d1a368` at
 inactive runtime version `e3fc8a62-a147-4526-aefc-0df0ffc2778c`.
 
+## Controlled semantic-image v2 batch
+
+Execution `36711` submitted the corrected Carousel 4 request exactly once. HCTI
+returned HTTP 200, render ID `01a09dfa-7dc9-7bca-aaf7-7f1b63317c7f`, and the
+canonical PNG URL. The original downstream retrieval incorrectly appended a
+second `.png`; rows 87–90 preserve that historical defect. Read-only
+reconciliation downloaded the provider URL exactly as returned and verified a
+1080x1350 PNG of 1,863,845 bytes with SHA-256
+`cbfeec508ab2bdcabe8f7ba7980d9bee0efe3efee4ed4c7a4b504ca39c1eef1b`.
+The Open Book image, crop, fonts, layout, overflow, and geometry passed review.
+The output differed materially from the historical blank control and closely
+matched the immutable WIN 5 reference. A superseding append-only row records
+`PROVIDER_RENDERED_AND_VISUAL_GATE_PASSED`; the earlier retrieval-failure row
+was not rewritten.
+
+The retrieval adapter now uses the provider-returned URL byte-for-byte. It does
+not append an extension and validates HTTP Content-Type, decoded PNG signature,
+1080x1350 geometry, byte count, and SHA-256 after download. Regression coverage
+includes URLs with and without `.png`, query strings, malformed/missing URLs,
+MIME/format disagreement, and terminal preservation of HCTI ID and URL.
+
+Execution `37125` then used one authorized attempt for the locked single-image
+output. HCTI returned HTTP 200 and render ID
+`01a0a7db-aed5-76ea-ae86-17df84980c82`, but the provider URL was not retained by
+the runtime normalization boundary. Rows 92–95 preserve the attempt as
+`OUTCOME_UNKNOWN`; it must not be retried. The remaining eight outputs were not
+submitted. The bridge is inactive and transport-disabled at runtime version
+`c30cb7aa-ce9a-4c5b-b096-daf7a5032e4c`, with repository/runtime semantic
+fingerprint `ea689d522f01ae5ead3b4d2d7b9d77f28148427cc981ec956546eac505ac980b`.
+
 ## THE PROOF source-crop recovery
 
 The two missing evidence derivatives were reconstructed from the locked source

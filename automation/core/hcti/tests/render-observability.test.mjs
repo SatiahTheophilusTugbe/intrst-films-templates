@@ -3,8 +3,10 @@ import {
   assertTransportObservability,
   buildRequestEvidence,
   classifyRenderVerification,
+  normalizeHctiImageUrl,
   normalizeTransportOutcome,
   sanitizeObservabilityEvidence,
+  verifyDownloadedRender,
 } from "../render-observability.mjs";
 
 const enabled = {
@@ -37,6 +39,19 @@ assert.equal(normalizeTransportOutcome({ statusCode: 413, body: {} }, evidence).
 assert.equal(normalizeTransportOutcome({ statusCode: 500, body: {} }, evidence).outcome, "OUTCOME_UNKNOWN");
 assert.equal(normalizeTransportOutcome({ statusCode: 200, body: {} }, evidence).error_class, "MALFORMED_PROVIDER_RESPONSE");
 assert.equal(normalizeTransportOutcome({ message: "socket interrupted" }, evidence).outcome, "OUTCOME_UNKNOWN");
+assert.equal(normalizeHctiImageUrl("https://hcti.io/v1/image/render-1.png"), "https://hcti.io/v1/image/render-1.png");
+assert.equal(normalizeHctiImageUrl("https://hcti.io/v1/image/render-1"), "https://hcti.io/v1/image/render-1");
+assert.equal(normalizeHctiImageUrl("https://hcti.io/v1/image/render-1.png?download=1"), "https://hcti.io/v1/image/render-1.png?download=1");
+assert.equal(normalizeHctiImageUrl(""), null);
+assert.equal(normalizeHctiImageUrl("not-a-url"), null);
+assert.equal(normalizeTransportOutcome({ statusCode: 200, body: { id: "render-1" } }, evidence).error_class, "MALFORMED_PROVIDER_RESPONSE");
+
+const png = Buffer.alloc(24);
+Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]).copy(png, 0);
+png.writeUInt32BE(1080, 16);
+png.writeUInt32BE(1350, 20);
+assert.equal(verifyDownloadedRender({ bytes: png, content_type: "image/png; charset=binary" }).output_width, 1080);
+assert.throws(() => verifyDownloadedRender({ bytes: png, content_type: "image/jpeg" }), (error) => error.code === "RENDER_MIME_INVALID");
 
 assert.equal(classifyRenderVerification(success, { retrieval_status: "failed" }).terminal_state, "rendered_download_verification_failed");
 assert.equal(classifyRenderVerification(success, { retrieval_status: "verified", visual_qa_status: "failed" }).terminal_state, "rendered_visual_qa_failed");
@@ -49,4 +64,4 @@ const sanitized = sanitizeObservabilityEvidence({
   response_body: { token: "private" },
 });
 assert.deepEqual(Object.keys(sanitized), ["request_sha256"]);
-console.log("HCTI render observability tests: 18 passed");
+console.log("HCTI render observability tests: 26 passed");
