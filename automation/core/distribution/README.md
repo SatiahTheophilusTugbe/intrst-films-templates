@@ -1,6 +1,38 @@
 # Distribution Executor
 
-Status: renderer 1.3.1 deployed and parity-verified in the inactive development workflow. Runtime version is e926d69a-25a3-4505-bc92-8151cbef022a; deployment verification execution 35194 used synthetic pinned inputs with transport disabled and produced zero external calls. Historical status: repository contract implemented; generic n8n executor deployed inactive with HTTP/native transport branches bound in development. AUT-014 repair sprint completed a transport-disabled five-target preflight; no new publication, retry, activation or republish occurred in this repair pass.
+## Ordered-media integration — 2026-09-24
+
+The canonical module and deployed inactive workflow resolve every asset in exact
+order, validate identity/hash/MIME/dimensions, technical and canonical visual
+approval evidence, and retain the entire media set. Missing, duplicate or
+reordered slides fail closed. Runtime `6b76c40b-8e38-4660-bf05-ce20b29175f5` matches
+the repository operational graph. AUT-015 execution `38554` passed four-format
+reuse/preflight and read back 33 lineage rows, with zero render/publication/comment
+calls and retries. `sync-ordered-media-runtime.mjs` checks source parity.
+
+`platform-format-capabilities.json` records format/count eligibility for this
+1080×1350 PNG batch: Instagram accepts seven ordered images; X exceeds four and
+Threads exceeds one; Facebook's multi-image count remains unverified; TikTok's
+documented photo formats exclude PNG; the YouTube adapter requires video.
+No truncation, separate-slide posts or implicit conversion is allowed.
+Source: https://help.blotato.com/api/publish-post/media (rechecked 2026-09-23 UTC).
+Fresh delivery verification and all later approvals remain required for live use.
+
+The canonical PostgreSQL claim backend is not provisioned/bound: there is no
+project-scoped PostgreSQL credential, and the existing table restricts provider/task
+to transcript retrieval. A publication migration and simultaneous-claim proof
+remain required. No alternate claim system was introduced. Runtime transport stays
+unconditionally closed even when caller data asserts a claim guarantee.
+
+Tracker and project inventory inspection assigned AUT-015 to the inactive Content
+Production Orchestrator `07pRK9XWNiRXHWN9`. Ten assets, four logical outputs and four
+visual-only approvals were promoted and read back. Editorial, derivative-rights
+and publication clearances remain false. The current n8n entry point requires
+`distribution-preflight@1.0.0` and zero budgets; see `../orchestration/README.md`.
+The controlled-manual library interface below is retained for future backend
+binding and synthetic regression tests; it is not live authorization.
+
+Historical Status: renderer 1.3.1 deployed and parity-verified in the inactive development workflow. Runtime version is e926d69a-25a3-4505-bc92-8151cbef022a; deployment verification execution 35194 used synthetic pinned inputs with transport disabled and produced zero external calls. Historical status: repository contract implemented; generic n8n executor deployed inactive with HTTP/native transport branches bound in development. AUT-014 repair sprint completed a transport-disabled five-target preflight; no new publication, retry, activation or republish occurred in this repair pass.
 
 The executor is subject-agnostic, output-driven and platform-adapter-based. Its only required runtime input is `content_output_id`, plus a controlled execution envelope:
 

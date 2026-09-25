@@ -9,6 +9,29 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 const workflow = JSON.parse(fs.readFileSync(path.join(here, "..", "INT-AUT-014-distribution-executor-dev.workflow.json"), "utf8"));
 const serialized = JSON.stringify(workflow);
 
+test("inline validator is exact canonical source", () => {
+  const source = fs.readFileSync(new URL("../../../core/distribution/ordered-media.mjs", import.meta.url), "utf8").replace(/^export /gm, "");
+  const inline = workflow.nodes.find(n => n.name === "Render platform-native payload").parameters.jsCode;
+  assert.ok(inline.startsWith("// BEGIN ORDERED MEDIA\n" + source + "\n// END ORDERED MEDIA\n"));
+});
+
+test("transport remains closed even when input asserts a claim guarantee", () => {
+  const code = workflow.nodes.find(n => n.name === "Credential and account binding gate").parameters.jsCode;
+  const result = new Function("$input", code)({ all: () => [{ json: { approval_eligible: true, media_eligibility: { eligible: true }, duplicate_status: "NONE", distribution_config: { atomic_claim_binding: { guarantee: true }, transport_disabled: false } } }] });
+  assert.equal(result[0].json.external_call, false);
+  assert.equal(result[0].json.status, "BLOCKED_ATOMIC_CLAIM_REQUIRED");
+});
+
+function mediaFixture(url = "https://commons.wikimedia.org/wiki/Special:FilePath/Young-Dolly-Parton.jpg") {
+  const sha256 = "a".repeat(64);
+  const item = { order: 1, asset_id: "SYNTHETIC-AST", delivery_url: url, mime_type: "image/jpeg", width: 1080, height: 1350, sha256,
+    verification: { run_id: "synthetic", sha256, mime_type: "image/jpeg", width: 1080, height: 1350 },
+    visual_approval: { actor: "operator", date: "2026-09-18", status: "VISUAL_APPROVED" },
+    delivery_verification: { url, sha256, checked_at: "2026-09-18", provider_accessible: true } };
+  const asset = { asset_id: item.asset_id, file_hash: sha256, mime_type: item.mime_type, rights_status: "publishable", identity_status: "verified", technical_status: "technically_verified", drive_url: "https://drive.example/asset" };
+  return { media_set: { format: "single_image", items: [item] }, asset, asset_ids_json: JSON.stringify([item.asset_id]) };
+}
+
 test("generic executor is inactive, tagged and credential-free", () => {
   assert.equal(workflow.active, false);
   assert.ok(workflow.tags.some((tag) => tag.name === "project:intrst"));
@@ -19,11 +42,11 @@ test("generic executor is inactive, tagged and credential-free", () => {
 test("transport branches are present but credential-gated", () => {
   assert.equal(workflow.nodes.filter((node) => node.type === "n8n-nodes-base.httpRequest").length, 3);
   assert.equal(workflow.nodes.filter((node) => node.type === "@blotato/n8n-nodes-blotato.blotato").length, 3);
-  for (const forbidden of ["webhook", "scheduleTrigger", "wait", "executeWorkflowTrigger"]) assert.equal(serialized.includes(forbidden), false);
+  for (const forbidden of ["webhook", "scheduleTrigger", "wait"]) assert.equal(serialized.includes(forbidden), false);
+  assert.equal(workflow.nodes.filter(n => n.type === 'n8n-nodes-base.executeWorkflowTrigger').length, 1);
   assert.equal(serialized.includes("httpRequest"), true);
   assert.equal(serialized.includes("httpHeaderAuth"), true);
-  assert.equal(serialized.includes("blotato-api-key"), true);
-  assert.equal(serialized.includes("READY_FOR_CREDENTIAL_BINDING"), true);
+  assert.equal(serialized.includes("LIVE_BLOCKED_UNTIL_ATOMIC_CLAIM_AND_PUBLICATION_APPROVAL"), true);
   assert.equal(workflow.nodes.filter((node) => node.credentials).length, 0);
 });
 
@@ -55,6 +78,7 @@ test("checked-in inline renderer carries the canonical renderer parity markers",
 test("checked-in inline renderer is behaviorally equivalent on representative platform fixtures", async () => {
   const inline = workflow.nodes.find((node) => node.name === "Render platform-native payload")?.parameters?.jsCode ?? "";
   const manifest = {
+    media_set: mediaFixture().media_set,
     caption: String.raw`Dolly turned a family wound into a library for millions of children. \n\n${"The story continued with durable work. ".repeat(8)}`,
     engagement_intent: "Which part of her legacy changed how you understand her?",
     hashtags: ["Literacy", "DollyParton", "Books"],
@@ -70,7 +94,7 @@ test("checked-in inline renderer is behaviorally equivalent on representative pl
     adapter_modes: { facebook: "http", instagram: "http", threads: "native", x: "native", tiktok: "http" },
   };
   const asset = { source_url: "https://commons.wikimedia.org/wiki/File:Young-Dolly-Parton.jpg" };
-  const output = { output_id: "SYNTHETIC-OUT", manifest_json: JSON.stringify(manifest) };
+  const output = { output_id: "SYNTHETIC-OUT", asset_ids_json: mediaFixture().asset_ids_json, manifest_json: JSON.stringify(manifest) };
   const fields = ["caption", "first_comment", "hashtags", "character_count", "media_urls", "adapter_mode", "engagement_rendered"];
   const normalize = (value) => Object.fromEntries(fields.map((field) => [field, value[field] ?? null]));
   const inlineRunner = new Function("$input", "$", `return (async () => {${inline}})()`);
@@ -85,7 +109,7 @@ test("checked-in inline renderer is behaviorally equivalent on representative pl
     });
     const platformOutput = platform === "x" ? { ...output, manifest_json: JSON.stringify({ ...manifest, caption: "A complete platform-native story." }) } : output;
     const input = { json: { output: platformOutput, platform, distribution_config: configuration } };
-    const inlineResult = (await inlineRunner({ all: () => [input] }, () => ({ first: () => ({ json: asset }) })))[0].json;
+    const inlineResult = (await inlineRunner({ all: () => [input] }, () => ({ first: () => ({ json: { assets: [mediaFixture().asset] } }) })))[0].json;
     assert.deepEqual(normalize(inlineResult), normalize(canonical), `renderer parity mismatch for ${platform}`);
     assert.equal(canonical.caption.includes("\\n"), false, `canonical renderer leaked escaped newlines for ${platform}`);
     assert.equal(inlineResult.caption.includes("\\n"), false, `inline renderer leaked escaped newlines for ${platform}`);
@@ -140,9 +164,9 @@ test("canonical and inline renderers reject invalid copy and preserve actual ren
   const inline = workflow.nodes.find(n => n.name === "Render platform-native payload").parameters.jsCode;
   const run = new Function("$input", "$", `return (async () => {${inline}})()`);
   const renderInline = async (platform, manifest) => (await run({ all: () => [{ json: {
-    platform, output: { output_id: "SYNTHETIC-RENDER", manifest_json: JSON.stringify(manifest) },
+    platform, output: { output_id: "SYNTHETIC-RENDER", asset_ids_json: mediaFixture().asset_ids_json, manifest_json: JSON.stringify({ ...manifest, media_set: mediaFixture().media_set }) },
     distribution_config: { accounts: { [platform]: "synthetic-account" }, adapter_modes: { [platform]: "native" } },
-  } }] }, () => ({ first: () => ({ json: { provider_media_url: "https://media.example/image.jpg" } }) })))[0].json;
+  } }] }, () => ({ first: () => ({ json: { assets: [mediaFixture().asset] } }) })))[0].json;
   const cases = [
     { caption: undefined, error: "MISSING_COPY" },
     { caption: null, error: "MISSING_COPY" },

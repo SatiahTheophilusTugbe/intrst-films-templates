@@ -1,0 +1,901 @@
+{
+  "project_id": "o8RQQQgne2c6jXr5",
+  "batch": "HCTI-TEN-OUTPUT-V2-2026-09-13",
+  "visual_approval": {
+    "decision": "PASS — ALL TEN OUTPUTS VISUALLY APPROVED",
+    "actor": "project owner",
+    "date": "2026-09-18",
+    "publication_authorized": false
+  },
+  "assets": [
+    {
+      "asset_id": "INT-AST-01M363YQA7341WTHYK8BMX2KEK",
+      "file_hash": "ea5d5331c67b2cf5a7b8f2d83ca536264d6747ba9848b9713fe4768a7d4c3a91",
+      "render_metadata": {
+        "batch": "HCTI-TEN-OUTPUT-V2-2026-09-13",
+        "render_key": "single-image",
+        "render_id": "01a0a7db-aed5-76ea-ae86-17df84980c82",
+        "drive_id": "13pmK6sEnaxy7j882u3wePmlplMu_EM9o",
+        "source_commit": "ff2a6c51821e7d3edc1dd440f1a677c852fe6a7c",
+        "render_lock": "hcti/four-format-master-lock-v2.json",
+        "width": 1080,
+        "height": 1350,
+        "bytes": 2348316,
+        "render_run_id": "HCTI-FOUR-FORMAT-V2:37125",
+        "source_asset_refs": [
+          "A4"
+        ]
+      }
+    },
+    {
+      "asset_id": "INT-AST-01M363YQA8BE4SVVVXK89XJ5DJ",
+      "file_hash": "f8fa79a66f10404365a97f80cc529247ee34250b1301fc1246d0ee35817d1848",
+      "render_metadata": {
+        "batch": "HCTI-TEN-OUTPUT-V2-2026-09-13",
+        "render_key": "carousel-01",
+        "render_id": "01a0a840-084e-7494-a46e-a8547cfaacf8",
+        "drive_id": "1R5JPrcRO8OXnrJLZ9ZSrw51S9Z4ivq2c",
+        "source_commit": "ff2a6c51821e7d3edc1dd440f1a677c852fe6a7c",
+        "render_lock": "hcti/four-format-master-lock-v2.json",
+        "width": 1080,
+        "height": 1350,
+        "bytes": 2233053,
+        "render_run_id": "HCTI-FOUR-FORMAT-V2:37137",
+        "source_asset_refs": [
+          "A4"
+        ]
+      }
+    },
+    {
+      "asset_id": "INT-AST-01M363YQA8B1B6XYTVJES6CQCG",
+      "file_hash": "90d0aa17ae9edf466839a490d36c44080296c4277fc709f5fe22134f834ac9ec",
+      "render_metadata": {
+        "batch": "HCTI-TEN-OUTPUT-V2-2026-09-13",
+        "render_key": "carousel-02",
+        "render_id": "01a0a841-53a3-725c-a8b1-f04150333449",
+        "drive_id": "1QqOITyGc8wLLHTvOkU5Gm5iqX1wv-f96",
+        "source_commit": "ff2a6c51821e7d3edc1dd440f1a677c852fe6a7c",
+        "render_lock": "hcti/four-format-master-lock-v2.json",
+        "width": 1080,
+        "height": 1350,
+        "bytes": 2097547,
+        "render_run_id": "HCTI-FOUR-FORMAT-V2:37138",
+        "source_asset_refs": [
+          "assets/A1-high.jpg"
+        ]
+      }
+    },
+    {
+      "asset_id": "INT-AST-01M363YQA8ESVZ695JGD6PQ1AZ",
+      "file_hash": "ee62d6587acd7cf76c96dcf40c620905b776a62374a5ae2be3aeb32ada1501d2",
+      "render_metadata": {
+        "batch": "HCTI-TEN-OUTPUT-V2-2026-09-13",
+        "render_key": "carousel-03",
+        "render_id": "01a0a842-0a56-7d9d-9ac7-6b92667cd912",
+        "drive_id": "1UNWA_YWXOlHj7E-I6Nz9Vc3Q_s8JT4A2",
+        "source_commit": "ff2a6c51821e7d3edc1dd440f1a677c852fe6a7c",
+        "render_lock": "hcti/four-format-master-lock-v2.json",
+        "width": 1080,
+        "height": 1350,
+        "bytes": 2163542,
+        "render_run_id": "HCTI-FOUR-FORMAT-V2:37139",
+        "source_asset_refs": [
+          "assets/mountains.jpg"
+        ]
+      }
+    },
+    {
+      "asset_id": "INT-AST-01M363YQA8SE4V867PTS2GXQY8",
+      "file_hash": "cbfeec508ab2bdcabe8f7ba7980d9bee0efe3efee4ed4c7a4b504ca39c1eef1b",
+      "render_metadata": {
+        "batch": "HCTI-TEN-OUTPUT-V2-2026-09-13",
+        "render_key": "carousel-04",
+        "render_id": "01a09dfa-7dc9-7bca-aaf7-7f1b63317c7f",
+        "drive_id": "1h3t7VMTdVN4TpzZO87pDkovLfk1cWW8b",
+        "source_commit": "ff2a6c51821e7d3edc1dd440f1a677c852fe6a7c",
+        "render_lock": "hcti/four-format-master-lock-v2.json",
+        "width": 1080,
+        "height": 1350,
+        "bytes": 1863845,
+        "render_run_id": "HCTI-FOUR-FORMAT-V2:36711",
+        "source_asset_refs": [
+          "assets/open-book.jpg"
+        ]
+      }
+    },
+    {
+      "asset_id": "INT-AST-01M363YQA86GETAWYMDZR5T1QD",
+      "file_hash": "6e683fb13ff2f0a528d3ee0f3a18ae8a2943a653f466c37b81a1ccd9e64ed14c",
+      "render_metadata": {
+        "batch": "HCTI-TEN-OUTPUT-V2-2026-09-13",
+        "render_key": "carousel-05",
+        "render_id": "01a0a842-a913-7da8-9907-fb7c9b5a3139",
+        "drive_id": "1VWLTkGdl9-Sb0DZ1N8eZRl0ufcfufSJi",
+        "source_commit": "ff2a6c51821e7d3edc1dd440f1a677c852fe6a7c",
+        "render_lock": "hcti/four-format-master-lock-v2.json",
+        "width": 1080,
+        "height": 1350,
+        "bytes": 1389078,
+        "render_run_id": "HCTI-FOUR-FORMAT-V2:37140",
+        "source_asset_refs": [
+          "assets/reading.png"
+        ]
+      }
+    },
+    {
+      "asset_id": "INT-AST-01M363YQA8JBAQWCMD29W15T96",
+      "file_hash": "d36a53bd80b1b63375b92bd037491b31a1b37a7b2293b954261f48ce78ce569d",
+      "render_metadata": {
+        "batch": "HCTI-TEN-OUTPUT-V2-2026-09-13",
+        "render_key": "carousel-06",
+        "render_id": "01a0a843-84c6-71e9-a0f0-c3139c8f6043",
+        "drive_id": "1RWDxXQHW7wxHTAaZLsETV5-KQAHOvNYF",
+        "source_commit": "ff2a6c51821e7d3edc1dd440f1a677c852fe6a7c",
+        "render_lock": "hcti/four-format-master-lock-v2.json",
+        "width": 1080,
+        "height": 1350,
+        "bytes": 1340031,
+        "render_run_id": "HCTI-FOUR-FORMAT-V2:37141",
+        "source_asset_refs": [
+          "assets/milestone.jpg"
+        ]
+      }
+    },
+    {
+      "asset_id": "INT-AST-01M363YQA81QKEEJH0AG3DE1FT",
+      "file_hash": "1debcbf9e0a0c72eb8b57d91c119ebf207d0414ed1ab8577d66886e454b4b29a",
+      "render_metadata": {
+        "batch": "HCTI-TEN-OUTPUT-V2-2026-09-13",
+        "render_key": "carousel-07",
+        "render_id": "01a0a844-1b1f-7f0d-bdd3-a495fa11ca66",
+        "drive_id": "1CURft6qMXT8uuQxl6ZJ537UhcdQPjf9s",
+        "source_commit": "ff2a6c51821e7d3edc1dd440f1a677c852fe6a7c",
+        "render_lock": "hcti/four-format-master-lock-v2.json",
+        "width": 1080,
+        "height": 1350,
+        "bytes": 2229687,
+        "render_run_id": "HCTI-FOUR-FORMAT-V2:37143",
+        "source_asset_refs": [
+          "A4"
+        ]
+      }
+    },
+    {
+      "asset_id": "INT-AST-01M363YQA82SQ7ZBPQ5PZR3TXJ",
+      "file_hash": "ee548755f6a7e2867206efdb2d37bb76a5bd862463de96cea42b814540d0c6c4",
+      "render_metadata": {
+        "batch": "HCTI-TEN-OUTPUT-V2-2026-09-13",
+        "render_key": "archive",
+        "render_id": "01a0a844-cd66-7cba-9608-b1345d522a9a",
+        "drive_id": "1f0bHA25xxAFTAuNI-H-rBUMs2G_Hv8Pm",
+        "source_commit": "ff2a6c51821e7d3edc1dd440f1a677c852fe6a7c",
+        "render_lock": "hcti/four-format-master-lock-v2.json",
+        "width": 1080,
+        "height": 1350,
+        "bytes": 1208817,
+        "render_run_id": "HCTI-FOUR-FORMAT-V2:37144",
+        "source_asset_refs": [
+          "A4"
+        ]
+      }
+    },
+    {
+      "asset_id": "INT-AST-01M363YQA94M4436J2QY2QK12Q",
+      "file_hash": "2af989d3306a388a6932d2a3ea099e986d7e5b0aeee8a4e07a1d04db4b66020c",
+      "render_metadata": {
+        "batch": "HCTI-TEN-OUTPUT-V2-2026-09-13",
+        "render_key": "evidence",
+        "render_id": "01a0a845-5d84-7c98-a71e-46a3f7ec0228",
+        "drive_id": "1rQUqNSg1ELrgwCqt-NspgSbCbJjVg-_p",
+        "source_commit": "ff2a6c51821e7d3edc1dd440f1a677c852fe6a7c",
+        "render_lock": "hcti/four-format-master-lock-v2.json",
+        "width": 1080,
+        "height": 1350,
+        "bytes": 711855,
+        "render_run_id": "HCTI-FOUR-FORMAT-V2:37145",
+        "source_asset_refs": [
+          "source_photo",
+          "source_caption"
+        ]
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "output_id": "INT-OUT-01M363YQA9Q40GSCB2PMK3BASK",
+      "format": "single_image",
+      "asset_ids": [
+        "INT-AST-01M363YQA7341WTHYK8BMX2KEK"
+      ],
+      "approval_record_id": "INT-REV-01M363YQA9ZB9E26C1W3RHWRHF",
+      "editorial_approval": false,
+      "rights_clearance": false,
+      "publish_clearance": false
+    },
+    {
+      "output_id": "INT-OUT-01M363YQA9N2T7M2FD6VF7P1NG",
+      "format": "carousel",
+      "asset_ids": [
+        "INT-AST-01M363YQA8BE4SVVVXK89XJ5DJ",
+        "INT-AST-01M363YQA8B1B6XYTVJES6CQCG",
+        "INT-AST-01M363YQA8ESVZ695JGD6PQ1AZ",
+        "INT-AST-01M363YQA8SE4V867PTS2GXQY8",
+        "INT-AST-01M363YQA86GETAWYMDZR5T1QD",
+        "INT-AST-01M363YQA8JBAQWCMD29W15T96",
+        "INT-AST-01M363YQA81QKEEJH0AG3DE1FT"
+      ],
+      "approval_record_id": "INT-REV-01M363YQA9YT6NRFC9HTAK6NM3",
+      "editorial_approval": false,
+      "rights_clearance": false,
+      "publish_clearance": false
+    },
+    {
+      "output_id": "INT-OUT-01M363YQA969Q3Y3JTC8WQXNPV",
+      "format": "archive",
+      "asset_ids": [
+        "INT-AST-01M363YQA82SQ7ZBPQ5PZR3TXJ"
+      ],
+      "approval_record_id": "INT-REV-01M363YQA98CVFMWNDDN1R6VQZ",
+      "editorial_approval": false,
+      "rights_clearance": false,
+      "publish_clearance": false
+    },
+    {
+      "output_id": "INT-OUT-01M363YQA9C2DVF4R2WNMW2XZ9",
+      "format": "evidence",
+      "asset_ids": [
+        "INT-AST-01M363YQA94M4436J2QY2QK12Q"
+      ],
+      "approval_record_id": "INT-REV-01M363YQA9K323XT1455MQJ3AS",
+      "editorial_approval": false,
+      "rights_clearance": false,
+      "publish_clearance": false
+    }
+  ],
+  "readback": {
+    "assets": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "outputs": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "approvals": [
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  "atomic_claim": {
+    "status": "blocked",
+    "reason": "No project-scoped PostgreSQL credential; existing intrst_media_operation_claims restricts provider/task to TranscriptAPI retrieval. Publication extension and concurrent backend proof pending."
+  },
+  "orchestration": {
+    "tracker_id": "AUT-015",
+    "tracker_row": 121,
+    "workflow_id": "07pRK9XWNiRXHWN9",
+    "runtime_version": "ff080079-64bb-4c0b-8cf0-6ee3ca98fa6f",
+    "status": "inactive_zero_call_verified"
+  },
+  "rollback": "Preserve historical rows; revoke/supersede new visual-only records if necessary. Restore prior inactive workflow drafts without credential changes.",
+  "zero_call_test": {
+    "execution_id": "38554",
+    "started_at": "2026-09-23T03:31:16.147Z",
+    "completed_at": "2026-09-23T03:31:19.890Z",
+    "root_run_id": "INT-RUN-01M3652M1K000000000003NN18",
+    "parent_row_id": 176,
+    "lineage_row_ids": [
+      144,
+      145,
+      146,
+      147,
+      148,
+      149,
+      150,
+      151,
+      152,
+      153,
+      154,
+      155,
+      156,
+      157,
+      158,
+      159,
+      160,
+      161,
+      162,
+      163,
+      164,
+      165,
+      166,
+      167,
+      168,
+      169,
+      170,
+      171,
+      172,
+      173,
+      174,
+      175,
+      176
+    ],
+    "lineage_readback_count": 33,
+    "provider_calls": 0,
+    "hcti_render_calls": 0,
+    "publication_calls": 0,
+    "comment_calls": 0,
+    "automatic_retries": 0,
+    "proof_method": "Successful parent execution result plus durable parent/child lineage counters and operational graph parity; raw child execution histories not retained by privacy policy.",
+    "children": [
+      {
+        "format": "single_image",
+        "output_id": "INT-OUT-01M363YQA9Q40GSCB2PMK3BASK",
+        "asset_ids": [
+          "INT-AST-01M363YQA7341WTHYK8BMX2KEK"
+        ],
+        "render_ids": [
+          "01a0a7db-aed5-76ea-ae86-17df84980c82"
+        ],
+        "hashes": [
+          "ea5d5331c67b2cf5a7b8f2d83ca536264d6747ba9848b9713fe4768a7d4c3a91"
+        ],
+        "approval_record_id": "INT-REV-01M363YQA9ZB9E26C1W3RHWRHF",
+        "hcti_reuse_execution_id": "38555",
+        "distribution_execution_id": "38559",
+        "distribution_row_ids": [
+          149,
+          150,
+          151,
+          152,
+          153,
+          154
+        ],
+        "platform_plan": [
+          {
+            "platform": "facebook",
+            "item_count": 1,
+            "eligibility": {
+              "eligible": true,
+              "reason": "MEDIA_FORMAT_ELIGIBLE_APPROVALS_STILL_REQUIRED",
+              "maximum_items": null
+            },
+            "pending_gates": [
+              "EDITORIAL_APPROVAL_REQUIRED",
+              "RIGHTS_CLEARANCE_REQUIRED",
+              "PUBLICATION_APPROVAL_REQUIRED",
+              "ATOMIC_POSTGRES_CLAIM_UNPROVEN",
+              "FRESH_DELIVERY_VERIFICATION_REQUIRED"
+            ]
+          },
+          {
+            "platform": "instagram",
+            "item_count": 1,
+            "eligibility": {
+              "eligible": true,
+              "reason": "MEDIA_FORMAT_ELIGIBLE_APPROVALS_STILL_REQUIRED",
+              "maximum_items": 10
+            },
+            "pending_gates": [
+              "EDITORIAL_APPROVAL_REQUIRED",
+              "RIGHTS_CLEARANCE_REQUIRED",
+              "PUBLICATION_APPROVAL_REQUIRED",
+              "ATOMIC_POSTGRES_CLAIM_UNPROVEN",
+              "FRESH_DELIVERY_VERIFICATION_REQUIRED"
+            ]
+          },
+          {
+            "platform": "threads",
+            "item_count": 1,
+            "eligibility": {
+              "eligible": true,
+              "reason": "MEDIA_FORMAT_ELIGIBLE_APPROVALS_STILL_REQUIRED",
+              "maximum_items": 1
+            },
+            "pending_gates": [
+              "EDITORIAL_APPROVAL_REQUIRED",
+              "RIGHTS_CLEARANCE_REQUIRED",
+              "PUBLICATION_APPROVAL_REQUIRED",
+              "ATOMIC_POSTGRES_CLAIM_UNPROVEN",
+              "FRESH_DELIVERY_VERIFICATION_REQUIRED"
+            ]
+          },
+          {
+            "platform": "x",
+            "item_count": 1,
+            "eligibility": {
+              "eligible": true,
+              "reason": "MEDIA_FORMAT_ELIGIBLE_APPROVALS_STILL_REQUIRED",
+              "maximum_items": 4
+            },
+            "pending_gates": [
+              "EDITORIAL_APPROVAL_REQUIRED",
+              "RIGHTS_CLEARANCE_REQUIRED",
+              "PUBLICATION_APPROVAL_REQUIRED",
+              "ATOMIC_POSTGRES_CLAIM_UNPROVEN",
+              "FRESH_DELIVERY_VERIFICATION_REQUIRED"
+            ]
+          },
+          {
+            "platform": "tiktok",
+            "item_count": 1,
+            "eligibility": {
+              "eligible": false,
+              "reason": "PLATFORM_MIME_INCOMPATIBLE",
+              "maximum_items": null
+            },
+            "pending_gates": [
+              "EDITORIAL_APPROVAL_REQUIRED",
+              "RIGHTS_CLEARANCE_REQUIRED",
+              "PUBLICATION_APPROVAL_REQUIRED",
+              "ATOMIC_POSTGRES_CLAIM_UNPROVEN",
+              "FRESH_DELIVERY_VERIFICATION_REQUIRED"
+            ]
+          },
+          {
+            "platform": "youtube",
+            "item_count": 1,
+            "eligibility": {
+              "eligible": false,
+              "reason": "IMAGE_POST_UNSUPPORTED",
+              "maximum_items": 0
+            },
+            "pending_gates": [
+              "EDITORIAL_APPROVAL_REQUIRED",
+              "RIGHTS_CLEARANCE_REQUIRED",
+              "PUBLICATION_APPROVAL_REQUIRED",
+              "ATOMIC_POSTGRES_CLAIM_UNPROVEN",
+              "FRESH_DELIVERY_VERIFICATION_REQUIRED"
+            ]
+          }
+        ]
+      },
+      {
+        "format": "carousel",
+        "output_id": "INT-OUT-01M363YQA9N2T7M2FD6VF7P1NG",
+        "asset_ids": [
+          "INT-AST-01M363YQA8BE4SVVVXK89XJ5DJ",
+          "INT-AST-01M363YQA8B1B6XYTVJES6CQCG",
+          "INT-AST-01M363YQA8ESVZ695JGD6PQ1AZ",
+          "INT-AST-01M363YQA8SE4V867PTS2GXQY8",
+          "INT-AST-01M363YQA86GETAWYMDZR5T1QD",
+          "INT-AST-01M363YQA8JBAQWCMD29W15T96",
+          "INT-AST-01M363YQA81QKEEJH0AG3DE1FT"
+        ],
+        "render_ids": [
+          "01a0a840-084e-7494-a46e-a8547cfaacf8",
+          "01a0a841-53a3-725c-a8b1-f04150333449",
+          "01a0a842-0a56-7d9d-9ac7-6b92667cd912",
+          "01a09dfa-7dc9-7bca-aaf7-7f1b63317c7f",
+          "01a0a842-a913-7da8-9907-fb7c9b5a3139",
+          "01a0a843-84c6-71e9-a0f0-c3139c8f6043",
+          "01a0a844-1b1f-7f0d-bdd3-a495fa11ca66"
+        ],
+        "hashes": [
+          "f8fa79a66f10404365a97f80cc529247ee34250b1301fc1246d0ee35817d1848",
+          "90d0aa17ae9edf466839a490d36c44080296c4277fc709f5fe22134f834ac9ec",
+          "ee62d6587acd7cf76c96dcf40c620905b776a62374a5ae2be3aeb32ada1501d2",
+          "cbfeec508ab2bdcabe8f7ba7980d9bee0efe3efee4ed4c7a4b504ca39c1eef1b",
+          "6e683fb13ff2f0a528d3ee0f3a18ae8a2943a653f466c37b81a1ccd9e64ed14c",
+          "d36a53bd80b1b63375b92bd037491b31a1b37a7b2293b954261f48ce78ce569d",
+          "1debcbf9e0a0c72eb8b57d91c119ebf207d0414ed1ab8577d66886e454b4b29a"
+        ],
+        "approval_record_id": "INT-REV-01M363YQA9YT6NRFC9HTAK6NM3",
+        "hcti_reuse_execution_id": "38556",
+        "distribution_execution_id": "38560",
+        "distribution_row_ids": [
+          156,
+          157,
+          158,
+          159,
+          160,
+          161
+        ],
+        "platform_plan": [
+          {
+            "platform": "facebook",
+            "item_count": 7,
+            "eligibility": {
+              "eligible": false,
+              "reason": "ADAPTER_MEDIA_LIMIT_UNVERIFIED",
+              "maximum_items": null
+            },
+            "pending_gates": [
+              "EDITORIAL_APPROVAL_REQUIRED",
+              "RIGHTS_CLEARANCE_REQUIRED",
+              "PUBLICATION_APPROVAL_REQUIRED",
+              "ATOMIC_POSTGRES_CLAIM_UNPROVEN",
+              "FRESH_DELIVERY_VERIFICATION_REQUIRED"
+            ]
+          },
+          {
+            "platform": "instagram",
+            "item_count": 7,
+            "eligibility": {
+              "eligible": true,
+              "reason": "MEDIA_FORMAT_ELIGIBLE_APPROVALS_STILL_REQUIRED",
+              "maximum_items": 10
+            },
+            "pending_gates": [
+              "EDITORIAL_APPROVAL_REQUIRED",
+              "RIGHTS_CLEARANCE_REQUIRED",
+              "PUBLICATION_APPROVAL_REQUIRED",
+              "ATOMIC_POSTGRES_CLAIM_UNPROVEN",
+              "FRESH_DELIVERY_VERIFICATION_REQUIRED"
+            ]
+          },
+          {
+            "platform": "threads",
+            "item_count": 7,
+            "eligibility": {
+              "eligible": false,
+              "reason": "PLATFORM_MEDIA_COUNT_INCOMPATIBLE",
+              "maximum_items": 1
+            },
+            "pending_gates": [
+              "EDITORIAL_APPROVAL_REQUIRED",
+              "RIGHTS_CLEARANCE_REQUIRED",
+              "PUBLICATION_APPROVAL_REQUIRED",
+              "ATOMIC_POSTGRES_CLAIM_UNPROVEN",
+              "FRESH_DELIVERY_VERIFICATION_REQUIRED"
+            ]
+          },
+          {
+            "platform": "x",
+            "item_count": 7,
+            "eligibility": {
+              "eligible": false,
+              "reason": "PLATFORM_MEDIA_COUNT_INCOMPATIBLE",
+              "maximum_items": 4
+            },
+            "pending_gates": [
+              "EDITORIAL_APPROVAL_REQUIRED",
+              "RIGHTS_CLEARANCE_REQUIRED",
+              "PUBLICATION_APPROVAL_REQUIRED",
+              "ATOMIC_POSTGRES_CLAIM_UNPROVEN",
+              "FRESH_DELIVERY_VERIFICATION_REQUIRED"
+            ]
+          },
+          {
+            "platform": "tiktok",
+            "item_count": 7,
+            "eligibility": {
+              "eligible": false,
+              "reason": "PLATFORM_MIME_INCOMPATIBLE",
+              "maximum_items": null
+            },
+            "pending_gates": [
+              "EDITORIAL_APPROVAL_REQUIRED",
+              "RIGHTS_CLEARANCE_REQUIRED",
+              "PUBLICATION_APPROVAL_REQUIRED",
+              "ATOMIC_POSTGRES_CLAIM_UNPROVEN",
+              "FRESH_DELIVERY_VERIFICATION_REQUIRED"
+            ]
+          },
+          {
+            "platform": "youtube",
+            "item_count": 7,
+            "eligibility": {
+              "eligible": false,
+              "reason": "IMAGE_POST_UNSUPPORTED",
+              "maximum_items": 0
+            },
+            "pending_gates": [
+              "EDITORIAL_APPROVAL_REQUIRED",
+              "RIGHTS_CLEARANCE_REQUIRED",
+              "PUBLICATION_APPROVAL_REQUIRED",
+              "ATOMIC_POSTGRES_CLAIM_UNPROVEN",
+              "FRESH_DELIVERY_VERIFICATION_REQUIRED"
+            ]
+          }
+        ]
+      },
+      {
+        "format": "archive",
+        "output_id": "INT-OUT-01M363YQA969Q3Y3JTC8WQXNPV",
+        "asset_ids": [
+          "INT-AST-01M363YQA82SQ7ZBPQ5PZR3TXJ"
+        ],
+        "render_ids": [
+          "01a0a844-cd66-7cba-9608-b1345d522a9a"
+        ],
+        "hashes": [
+          "ee548755f6a7e2867206efdb2d37bb76a5bd862463de96cea42b814540d0c6c4"
+        ],
+        "approval_record_id": "INT-REV-01M363YQA98CVFMWNDDN1R6VQZ",
+        "hcti_reuse_execution_id": "38557",
+        "distribution_execution_id": "38561",
+        "distribution_row_ids": [
+          163,
+          164,
+          165,
+          166,
+          167,
+          168
+        ],
+        "platform_plan": [
+          {
+            "platform": "facebook",
+            "item_count": 1,
+            "eligibility": {
+              "eligible": true,
+              "reason": "MEDIA_FORMAT_ELIGIBLE_APPROVALS_STILL_REQUIRED",
+              "maximum_items": null
+            },
+            "pending_gates": [
+              "EDITORIAL_APPROVAL_REQUIRED",
+              "RIGHTS_CLEARANCE_REQUIRED",
+              "PUBLICATION_APPROVAL_REQUIRED",
+              "ATOMIC_POSTGRES_CLAIM_UNPROVEN",
+              "FRESH_DELIVERY_VERIFICATION_REQUIRED"
+            ]
+          },
+          {
+            "platform": "instagram",
+            "item_count": 1,
+            "eligibility": {
+              "eligible": true,
+              "reason": "MEDIA_FORMAT_ELIGIBLE_APPROVALS_STILL_REQUIRED",
+              "maximum_items": 10
+            },
+            "pending_gates": [
+              "EDITORIAL_APPROVAL_REQUIRED",
+              "RIGHTS_CLEARANCE_REQUIRED",
+              "PUBLICATION_APPROVAL_REQUIRED",
+              "ATOMIC_POSTGRES_CLAIM_UNPROVEN",
+              "FRESH_DELIVERY_VERIFICATION_REQUIRED"
+            ]
+          },
+          {
+            "platform": "threads",
+            "item_count": 1,
+            "eligibility": {
+              "eligible": true,
+              "reason": "MEDIA_FORMAT_ELIGIBLE_APPROVALS_STILL_REQUIRED",
+              "maximum_items": 1
+            },
+            "pending_gates": [
+              "EDITORIAL_APPROVAL_REQUIRED",
+              "RIGHTS_CLEARANCE_REQUIRED",
+              "PUBLICATION_APPROVAL_REQUIRED",
+              "ATOMIC_POSTGRES_CLAIM_UNPROVEN",
+              "FRESH_DELIVERY_VERIFICATION_REQUIRED"
+            ]
+          },
+          {
+            "platform": "x",
+            "item_count": 1,
+            "eligibility": {
+              "eligible": true,
+              "reason": "MEDIA_FORMAT_ELIGIBLE_APPROVALS_STILL_REQUIRED",
+              "maximum_items": 4
+            },
+            "pending_gates": [
+              "EDITORIAL_APPROVAL_REQUIRED",
+              "RIGHTS_CLEARANCE_REQUIRED",
+              "PUBLICATION_APPROVAL_REQUIRED",
+              "ATOMIC_POSTGRES_CLAIM_UNPROVEN",
+              "FRESH_DELIVERY_VERIFICATION_REQUIRED"
+            ]
+          },
+          {
+            "platform": "tiktok",
+            "item_count": 1,
+            "eligibility": {
+              "eligible": false,
+              "reason": "PLATFORM_MIME_INCOMPATIBLE",
+              "maximum_items": null
+            },
+            "pending_gates": [
+              "EDITORIAL_APPROVAL_REQUIRED",
+              "RIGHTS_CLEARANCE_REQUIRED",
+              "PUBLICATION_APPROVAL_REQUIRED",
+              "ATOMIC_POSTGRES_CLAIM_UNPROVEN",
+              "FRESH_DELIVERY_VERIFICATION_REQUIRED"
+            ]
+          },
+          {
+            "platform": "youtube",
+            "item_count": 1,
+            "eligibility": {
+              "eligible": false,
+              "reason": "IMAGE_POST_UNSUPPORTED",
+              "maximum_items": 0
+            },
+            "pending_gates": [
+              "EDITORIAL_APPROVAL_REQUIRED",
+              "RIGHTS_CLEARANCE_REQUIRED",
+              "PUBLICATION_APPROVAL_REQUIRED",
+              "ATOMIC_POSTGRES_CLAIM_UNPROVEN",
+              "FRESH_DELIVERY_VERIFICATION_REQUIRED"
+            ]
+          }
+        ]
+      },
+      {
+        "format": "evidence",
+        "output_id": "INT-OUT-01M363YQA9C2DVF4R2WNMW2XZ9",
+        "asset_ids": [
+          "INT-AST-01M363YQA94M4436J2QY2QK12Q"
+        ],
+        "render_ids": [
+          "01a0a845-5d84-7c98-a71e-46a3f7ec0228"
+        ],
+        "hashes": [
+          "2af989d3306a388a6932d2a3ea099e986d7e5b0aeee8a4e07a1d04db4b66020c"
+        ],
+        "approval_record_id": "INT-REV-01M363YQA9K323XT1455MQJ3AS",
+        "hcti_reuse_execution_id": "38558",
+        "distribution_execution_id": "38562",
+        "distribution_row_ids": [
+          170,
+          171,
+          172,
+          173,
+          174,
+          175
+        ],
+        "platform_plan": [
+          {
+            "platform": "facebook",
+            "item_count": 1,
+            "eligibility": {
+              "eligible": true,
+              "reason": "MEDIA_FORMAT_ELIGIBLE_APPROVALS_STILL_REQUIRED",
+              "maximum_items": null
+            },
+            "pending_gates": [
+              "EDITORIAL_APPROVAL_REQUIRED",
+              "RIGHTS_CLEARANCE_REQUIRED",
+              "PUBLICATION_APPROVAL_REQUIRED",
+              "ATOMIC_POSTGRES_CLAIM_UNPROVEN",
+              "FRESH_DELIVERY_VERIFICATION_REQUIRED"
+            ]
+          },
+          {
+            "platform": "instagram",
+            "item_count": 1,
+            "eligibility": {
+              "eligible": true,
+              "reason": "MEDIA_FORMAT_ELIGIBLE_APPROVALS_STILL_REQUIRED",
+              "maximum_items": 10
+            },
+            "pending_gates": [
+              "EDITORIAL_APPROVAL_REQUIRED",
+              "RIGHTS_CLEARANCE_REQUIRED",
+              "PUBLICATION_APPROVAL_REQUIRED",
+              "ATOMIC_POSTGRES_CLAIM_UNPROVEN",
+              "FRESH_DELIVERY_VERIFICATION_REQUIRED"
+            ]
+          },
+          {
+            "platform": "threads",
+            "item_count": 1,
+            "eligibility": {
+              "eligible": true,
+              "reason": "MEDIA_FORMAT_ELIGIBLE_APPROVALS_STILL_REQUIRED",
+              "maximum_items": 1
+            },
+            "pending_gates": [
+              "EDITORIAL_APPROVAL_REQUIRED",
+              "RIGHTS_CLEARANCE_REQUIRED",
+              "PUBLICATION_APPROVAL_REQUIRED",
+              "ATOMIC_POSTGRES_CLAIM_UNPROVEN",
+              "FRESH_DELIVERY_VERIFICATION_REQUIRED"
+            ]
+          },
+          {
+            "platform": "x",
+            "item_count": 1,
+            "eligibility": {
+              "eligible": true,
+              "reason": "MEDIA_FORMAT_ELIGIBLE_APPROVALS_STILL_REQUIRED",
+              "maximum_items": 4
+            },
+            "pending_gates": [
+              "EDITORIAL_APPROVAL_REQUIRED",
+              "RIGHTS_CLEARANCE_REQUIRED",
+              "PUBLICATION_APPROVAL_REQUIRED",
+              "ATOMIC_POSTGRES_CLAIM_UNPROVEN",
+              "FRESH_DELIVERY_VERIFICATION_REQUIRED"
+            ]
+          },
+          {
+            "platform": "tiktok",
+            "item_count": 1,
+            "eligibility": {
+              "eligible": false,
+              "reason": "PLATFORM_MIME_INCOMPATIBLE",
+              "maximum_items": null
+            },
+            "pending_gates": [
+              "EDITORIAL_APPROVAL_REQUIRED",
+              "RIGHTS_CLEARANCE_REQUIRED",
+              "PUBLICATION_APPROVAL_REQUIRED",
+              "ATOMIC_POSTGRES_CLAIM_UNPROVEN",
+              "FRESH_DELIVERY_VERIFICATION_REQUIRED"
+            ]
+          },
+          {
+            "platform": "youtube",
+            "item_count": 1,
+            "eligibility": {
+              "eligible": false,
+              "reason": "IMAGE_POST_UNSUPPORTED",
+              "maximum_items": 0
+            },
+            "pending_gates": [
+              "EDITORIAL_APPROVAL_REQUIRED",
+              "RIGHTS_CLEARANCE_REQUIRED",
+              "PUBLICATION_APPROVAL_REQUIRED",
+              "ATOMIC_POSTGRES_CLAIM_UNPROVEN",
+              "FRESH_DELIVERY_VERIFICATION_REQUIRED"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "verdict": "READY_FOR_END_TO_END_ZERO_CALL_ONLY — LIVE_BLOCKED_UNTIL_ATOMIC_CLAIM_AND_PUBLICATION_APPROVAL",
+  "runtime_parity": [
+    {
+      "workflow_id": "AknakVMx2prJrsZw",
+      "runtime_version": "6b76c40b-8e38-4660-bf05-ce20b29175f5",
+      "active": false,
+      "operational_sha256": "c0be625f7978a394a15a2e62373dece86980ecd75f41688401ba470f8f8889a8",
+      "repository_runtime_equal": true
+    },
+    {
+      "workflow_id": "XHjJBrSOoBaFrHYk",
+      "runtime_version": "c51f3bd8-ad30-4f17-af20-c423dd701445",
+      "active": false,
+      "operational_sha256": "b9c56dbc45033915928819076f9be87c2d3d7e0115da3bf06a7748596deda93a",
+      "repository_runtime_equal": true
+    },
+    {
+      "workflow_id": "07pRK9XWNiRXHWN9",
+      "runtime_version": "ff080079-64bb-4c0b-8cf0-6ee3ca98fa6f",
+      "active": false,
+      "operational_sha256": "077c6131689006d920dad73232dc359d159ddad8b6c5497583015e811fdac9d5",
+      "repository_runtime_equal": true
+    }
+  ],
+  "parity_scope": "Operational nodes, parameters, behavior settings, workflow settings, connections, tags, active state; managed IDs/editor layout excluded. Credential bindings preserved without exporting IDs.",
+  "validation": {
+    "test_runner_cases": 64,
+    "failed": 0,
+    "validators": 6,
+    "inline_source_parity": true
+  },
+  "tracker": {
+    "spreadsheet_id": "17pvXgcRuiMuhScrsWfIEtvSLXv4fT4eMwSuEVGxvzyo",
+    "updated_rows": [
+      64,
+      112,
+      121
+    ],
+    "readback_verified": true
+  },
+  "prior_test": {
+    "execution_id": "38547",
+    "status": "error",
+    "reason": "n8n Code sandbox has no URL global; deterministic HTTPS validation fixed before successful test",
+    "provider_calls": 0,
+    "automatic_retry": false
+  },
+  "rollback_versions": {
+    "distribution": "2de629f1-0c2e-4903-9e1b-b4c33c44f42d",
+    "hcti": "672dcea2-1ae3-417e-bb74-fea5d05a9835"
+  }
+}

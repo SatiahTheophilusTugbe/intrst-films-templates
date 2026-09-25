@@ -7,7 +7,12 @@ const byName = Object.fromEntries(workflow.nodes.map((node) => [node.name, node]
 const next = (source, output = 0) => (workflow.connections[source]?.main?.[output] ?? []).map((edge) => edge.node);
 
 assert.equal(workflow.active, false);
-assert.equal(workflow.nodes.length, 27);
+assert.equal(workflow.nodes.length, 33);
+assert.deepEqual(next('Approved Render Reuse Input'), ['Validate Reuse Request']);
+assert.deepEqual(next('Resolve Existing Approved Output'), ['Verify Reuse Contract']);
+assert.deepEqual(next('Verify Reuse Contract'), ['Persist Reuse Lineage']);
+assert.deepEqual(next('Persist Reuse Lineage'), ['Return Reused Output']);
+assert.deepEqual(next('Return Reused Output'), []);
 assert.equal(workflow.nodes.filter((node) => node.type === "n8n-nodes-base.manualTrigger").length, 1);
 assert.equal(workflow.nodes.filter((node) => node.type === "n8n-nodes-base.googleDrive").length, 8);
 assert.equal(workflow.nodes.filter((node) => node.name === "HCTI Render — Single Attempt").length, 1);
@@ -54,5 +59,5 @@ assert.equal(byName["Build pre-transport evidence row"].parameters.jsCode.includ
 assert.equal(byName["Build transport-settled evidence row"].parameters.jsCode.includes("raw_response_persisted:false"), true);
 assert.equal(workflow.nodes.some((node) => Object.values(node.credentials ?? {}).some((credential) => "id" in credential)), false, "Reusable credential references must not contain immutable credential IDs.");
 assert.equal(/data:image\/(?:png|jpeg);base64,[A-Za-z0-9+/]/.test(JSON.stringify(workflow)), false);
-assert.equal(JSON.stringify(workflow).includes("INT-AUT-014"), false);
-console.log("private delivery workflow tests: 44 passed");
+assert.equal(workflow.nodes.some(n => n.type === 'n8n-nodes-base.executeWorkflow'), false);
+console.log("private delivery workflow tests: 49 passed");

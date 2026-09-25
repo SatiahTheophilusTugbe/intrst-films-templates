@@ -1,5 +1,14 @@
 # HCTI Editorial Render Bridge
 
+Approved creative integration now exposes the versioned `hcti-reuse@1.0.0`
+subworkflow contract to AUT-015 only. Its dedicated reuse path resolves existing
+canonical outputs, preserves render/hash/visual-review lineage, writes
+`workflow_runs`, and returns without entering the rendering transport path.
+Execution 38554 reused all four logical formats with zero HCTI render calls;
+rows 144–147 preserve the reuse children. The workflow remains inactive and
+private source-media execution retention remains disabled. See
+`../orchestration/README.md` and the approved-creative integration deployment record.
+
 Development-only bridge for the pinned `hcti/editorial-portrait-v01` prototype.
 
 - source branch: `design/hcti-editorial-v01`
@@ -156,6 +165,17 @@ were zero. The workflow was restored to inactive, transport-disabled parity at
 runtime version `672dcea2-1ae3-417e-bb74-fea5d05a9835`; no asset was promoted.
 
 ## THE PROOF source-crop recovery
+
+The historical source-crop recovery below is preserved. The operator's subsequent
+2026-09-18 decision is `PASS — ALL TEN OUTPUTS VISUALLY APPROVED`, including
+Carousel 06's INTRST FILMS label, DOLLY PARTON label and complete credit within
+its boundary. This advances visual state only to `VISUAL_APPROVED`; editorial
+publish clearance and publication authorization remain pending, with rights policy
+unchanged. The deployment record stores the explicit operator decision separately
+from historical render evidence. Canonical Data Table promotion/readback is pending
+project-scoped n8n MCP access. The ten images form four logical outputs: single
+image, one ordered seven-slide carousel, archive and evidence; the contact sheet
+remains review-only.
 
 The two missing evidence derivatives were reconstructed from the locked source
 `https://www.loc.gov/lcm/pdf/LCM_2018_0506.pdf`, SHA-256

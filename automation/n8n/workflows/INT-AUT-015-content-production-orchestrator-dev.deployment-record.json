@@ -1,0 +1,14 @@
+{
+  "project_id": "o8RQQQgne2c6jXr5",
+  "tracker_id": "AUT-015",
+  "workflow_id": "07pRK9XWNiRXHWN9",
+  "runtime_version": "ff080079-64bb-4c0b-8cf0-6ee3ca98fa6f",
+  "active": false,
+  "operational_sha256": "077c6131689006d920dad73232dc359d159ddad8b6c5497583015e811fdac9d5",
+  "repository_runtime_equal": true,
+  "contract_version": "content-production@1.0.0",
+  "zero_call_execution_id": "38554",
+  "evidence_record": "automation/n8n/workflows/approved-creative-integration.deployment-record.json",
+  "live_modes": "blocked",
+  "rollback": "Keep inactive; preserve lineage and restore prior inactive child drafts if needed."
+}

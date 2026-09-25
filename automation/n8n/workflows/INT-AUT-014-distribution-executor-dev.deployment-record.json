@@ -1,207 +1,266 @@
 {
-    "$schema":  "../../../schemas/n8n-project-scope.schema.json",
-    "deployment_record_id":  "INT-DEP-AUT-014-DIST-DEV",
-    "work_item":  "AUT-014",
-    "workflow_name":  "INT-AUT-014 Ã¢â‚¬â€ Distribution Executor Ã¢â‚¬â€ DEV",
-    "workflow_id":  "AknakVMx2prJrsZw",
-    "project":  {
-                    "name":  "INTRST Films",
-                    "id":  "o8RQQQgne2c6jXr5"
-                },
-    "environment":  "development",
-    "active":  false,
-    "tag":  "project:intrst",
-    "credential_binding":  {
-                               "status":  "bound_in_n8n_development",
-                               "http_logical_name":  "INT | Blotato | Development | Distribution",
-                               "http_credential_type":  "httpHeaderAuth",
-                               "native_logical_name":  "INT | Blotato Native | Development | Distribution",
-                               "native_credential_type":  "blotatoApi",
-                               "secret_bound":  false
-                           },
-    "account_routing":  {
-                            "facebook":  "22864",
-                            "instagram":  "69849",
-                            "threads":  "9386",
-                            "youtube":  "49204",
-                            "x":  "25655",
-                            "tiktok":  "58729"
-                        },
-    "runtime_state":  "RENDERER_1_3_1_DEPLOYED_PARITY_VERIFIED_ZERO_CALL_35194_POST_TEST_REMOVAL_REPORTED",
-    "runtime_version_id":  "e926d69a-25a3-4505-bc92-8151cbef022a",
-    "node_count":  29,
-    "repair":  {
-                    "account_routing":  "verified Facebook accountId 22864 with INTRST Films pageId 101607426321841",
-                    "provider_media_resolution":  "explicit provider_media_url or deterministic Wikimedia Commons Special:FilePath resolution from approved source_url",
-                    "threads_rendering":  "deterministic <=500 character boundary truncation; optional engagement and hashtags dropped before story substance",
-                    "publishing_log":  "immutable result insert on provider-result paths using the existing qHmuRSglzmNT3Oj9 table",
-                    "transport_error_policy":  "continue to normalization, OUTCOME_UNKNOWN, zero automatic retries",
-                    "target_identity_persistence":  "fan-in builders map every branch; platform, account, submission, provider post, platform post and attempt identifiers remain distinct",
-                    "duplicate_prevention":  "exact account-aware idempotency lookup plus atomic claim binding; unresolved production claim fails closed before transport"
-                },
-    "repository_runtime_parity": {
-        "status": "verified",
-        "method": "Scoped Render-node parameter update preserving live credentials/configuration/persistence; project-scoped readback compared the deployed Render implementation to the checked-in candidate, followed by pinned synthetic transport-disabled execution 35194.",
-        "renderer_version": "distribution-renderer@1.3.1",
-        "parity_markers": [
-            "distribution-renderer@1.3.1",
-            "provider_media_url",
-            "first_comment",
-            "COPY_REVIEW_REQUIRED",
-            "500"
-        ],
-        "last_verified_runtime_version_id": "e926d69a-25a3-4505-bc92-8151cbef022a",
-        "deployment_commit": "42bf52f9dbdb5367721ef62709b3dcdb5c96eade",
-        "verification_execution_id": "35194",
-        "verification_result": "success; five synthetic platform renders; transport_disabled=true; external_calls=0; automatic_retries=0; provider/comment mutations=0"
+  "$schema": "../../../schemas/n8n-project-scope.schema.json",
+  "deployment_record_id": "INT-DEP-AUT-014-DIST-DEV",
+  "ordered_media_candidate": {
+    "version": "ordered-media@1.0.0",
+    "status": "DEPLOYED_INACTIVE_ZERO_CALL_VERIFIED",
+    "canonical_tracker_owner": "AUT-012",
+    "runtime_parity": "verified_operational_graph_and_inline_source",
+    "automatic_retries": 0,
+    "transport_enabled": false,
+    "atomic_claim_binding": "unresolved",
+    "atomic_blocker": "Existing PostgreSQL schema is constrained to transcriptapi/transcript_retrieval; publication extension, provisioning, project-owned binding and database concurrency proof remain required.",
+    "orchestrator_assignment": "AUT-015 / 07pRK9XWNiRXHWN9",
+    "zero_call_n8n_execution_id": "38554"
+  },
+  "work_item": "AUT-014",
+  "workflow_name": "INT-AUT-014 — Distribution Executor — DEV",
+  "workflow_id": "AknakVMx2prJrsZw",
+  "project": {
+    "name": "INTRST Films",
+    "id": "o8RQQQgne2c6jXr5"
+  },
+  "environment": "development",
+  "active": false,
+  "tag": "project:intrst",
+  "credential_binding": {
+    "status": "bound_in_n8n_development",
+    "http_logical_name": "INT | Blotato | Development | Distribution",
+    "http_credential_type": "httpHeaderAuth",
+    "native_logical_name": "INT | Blotato Native | Development | Distribution",
+    "native_credential_type": "blotatoApi",
+    "secret_bound": false
+  },
+  "account_routing": {
+    "facebook": "22864",
+    "instagram": "69849",
+    "threads": "9386",
+    "youtube": "49204",
+    "x": "25655",
+    "tiktok": "58729"
+  },
+  "runtime_state": "RENDERER_1_3_1_DEPLOYED_PARITY_VERIFIED_ZERO_CALL_35194_POST_TEST_REMOVAL_REPORTED",
+  "runtime_version_id": "e926d69a-25a3-4505-bc92-8151cbef022a",
+  "node_count": 29,
+  "repair": {
+    "account_routing": "verified Facebook accountId 22864 with INTRST Films pageId 101607426321841",
+    "provider_media_resolution": "explicit provider_media_url or deterministic Wikimedia Commons Special:FilePath resolution from approved source_url",
+    "threads_rendering": "deterministic <=500 character boundary truncation; optional engagement and hashtags dropped before story substance",
+    "publishing_log": "immutable result insert on provider-result paths using the existing qHmuRSglzmNT3Oj9 table",
+    "transport_error_policy": "continue to normalization, OUTCOME_UNKNOWN, zero automatic retries",
+    "target_identity_persistence": "fan-in builders map every branch; platform, account, submission, provider post, platform post and attempt identifiers remain distinct",
+    "duplicate_prevention": "exact account-aware idempotency lookup plus atomic claim binding; unresolved production claim fails closed before transport"
+  },
+  "repository_runtime_parity": {
+    "status": "verified",
+    "method": "Scoped Render-node parameter update preserving live credentials/configuration/persistence; project-scoped readback compared the deployed Render implementation to the checked-in candidate, followed by pinned synthetic transport-disabled execution 35194.",
+    "renderer_version": "distribution-renderer@1.3.1",
+    "parity_markers": [
+      "distribution-renderer@1.3.1",
+      "provider_media_url",
+      "first_comment",
+      "COPY_REVIEW_REQUIRED",
+      "500"
+    ],
+    "last_verified_runtime_version_id": "e926d69a-25a3-4505-bc92-8151cbef022a",
+    "deployment_commit": "42bf52f9dbdb5367721ef62709b3dcdb5c96eade",
+    "verification_execution_id": "35194",
+    "verification_result": "success; five synthetic platform renders; transport_disabled=true; external_calls=0; automatic_retries=0; provider/comment mutations=0"
+  },
+  "media_delivery_evidence": {
+    "asset_id": "INT-AST-01K4X4Q7B6D0MMPY000000003",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Young-Dolly-Parton.jpg",
+    "derived_provider_media_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Young-Dolly-Parton.jpg",
+    "approved_asset_basis": "existing cleared A1 asset; Wikimedia Commons file record",
+    "unauthenticated_retrieval": "public source page and original-file link resolved; sandbox HEAD status was unavailable",
+    "redirect_chain": "Special:FilePath resolves to upload.wikimedia.org original-file URL",
+    "mime_type": "image/jpeg",
+    "format": "JPEG, 765x941 original",
+    "provider_retrieval": "Historical execution 35160 succeeded for its recorded asset/URL; future exports require separate validation"
+  },
+  "facebook_binding_evidence": {
+    "provider": "Blotato account inventory",
+    "account_id": "22864",
+    "page_id": "101607426321841",
+    "account_identity": "INTRST Films page under the verified Blotato account",
+    "secret_material": "not recorded"
+  },
+  "synthetic_publishing_log_persistence": {
+    "table_id": "qHmuRSglzmNT3Oj9",
+    "project_id": "o8RQQQgne2c6jXr5",
+    "fixture_output_id": "SYNTHETIC-AUT014-PERSISTENCE",
+    "lineage_id": "SYNTHETIC-AUT014-PERSISTENCE-LINEAGE",
+    "inserted_rows": 6,
+    "statuses": [
+      "published",
+      "known_failure",
+      "submitted",
+      "outcome_unknown",
+      "submitted_then_failed represented as known_failure",
+      "published_comment_reconciliation_required"
+    ],
+    "all_rows_synthetic": true,
+    "provider_calls": 0,
+    "automatic_retries": 0,
+    "readback_verified": true,
+    "main_success_preserved_on_comment_failure": true
+  },
+  "synthetic_persistence_path_executions": {
+    "workflow_id": "AknakVMx2prJrsZw",
+    "project_id": "o8RQQQgne2c6jXr5",
+    "execution_ids": [
+      "35150",
+      "35151",
+      "35152",
+      "35153"
+    ],
+    "path": "pinned synthetic provider results through Normalize → publishing_log insert → workflow_runs terminal insert",
+    "outcomes": [
+      "published",
+      "submitted",
+      "known_failure",
+      "outcome_unknown"
+    ],
+    "lineage_preserved": true,
+    "comment_failure_preserves_main_success": true,
+    "production_reconciliation_excluded": true,
+    "provider_calls": 0,
+    "automatic_retries": 0,
+    "superseded_execution": "35149 retained as synthetic historical evidence of the pre-fix normalization defect; excluded from validation"
+  },
+  "zero_call_preflight": {
+    "execution_id": "35155",
+    "result": "READY_FOR_CONTROLLED_FIVE_PLATFORM_PUBLISH",
+    "external_calls": 0,
+    "automatic_retries": 0,
+    "publication_calls": 0,
+    "comment_calls": 0,
+    "target_outcomes": {
+      "facebook": "READY_FOR_CONTROLLED_FIVE_PLATFORM_PUBLISH",
+      "instagram": "READY_FOR_CONTROLLED_FIVE_PLATFORM_PUBLISH",
+      "threads": "READY_FOR_CONTROLLED_FIVE_PLATFORM_PUBLISH",
+      "x": "READY_FOR_CONTROLLED_FIVE_PLATFORM_PUBLISH",
+      "tiktok": "READY_FOR_CONTROLLED_FIVE_PLATFORM_PUBLISH",
+      "youtube": "SKIPPED_INELIGIBLE_FORMAT"
     },
-    "media_delivery_evidence":  {
-                                    "asset_id":  "INT-AST-01K4X4Q7B6D0MMPY000000003",
-                                    "source_url":  "https://commons.wikimedia.org/wiki/File:Young-Dolly-Parton.jpg",
-                                    "derived_provider_media_url":  "https://commons.wikimedia.org/wiki/Special:FilePath/Young-Dolly-Parton.jpg",
-                                    "approved_asset_basis":  "existing cleared A1 asset; Wikimedia Commons file record",
-                                    "unauthenticated_retrieval":  "public source page and original-file link resolved; sandbox HEAD status was unavailable",
-                                    "redirect_chain":  "Special:FilePath resolves to upload.wikimedia.org original-file URL",
-                                    "mime_type":  "image/jpeg",
-                                    "format":  "JPEG, 765x941 original",
-                                    "provider_retrieval":  "Historical execution 35160 succeeded for its recorded asset/URL; future exports require separate validation"
-                                },
-    "facebook_binding_evidence":  {
-                                      "provider":  "Blotato account inventory",
-                                      "account_id":  "22864",
-                                      "page_id":  "101607426321841",
-                                      "account_identity":  "INTRST Films page under the verified Blotato account",
-                                      "secret_material":  "not recorded"
-                                  },
-    "synthetic_publishing_log_persistence":  {
-                                                 "table_id":  "qHmuRSglzmNT3Oj9",
-                                                 "project_id":  "o8RQQQgne2c6jXr5",
-                                                 "fixture_output_id":  "SYNTHETIC-AUT014-PERSISTENCE",
-                                                 "lineage_id":  "SYNTHETIC-AUT014-PERSISTENCE-LINEAGE",
-                                                 "inserted_rows":  6,
-                                                 "statuses":  ["published", "known_failure", "submitted", "outcome_unknown", "submitted_then_failed represented as known_failure", "published_comment_reconciliation_required"],
-                                                 "all_rows_synthetic":  true,
-                                                 "provider_calls":  0,
-                                                 "automatic_retries":  0,
-                                                 "readback_verified":  true,
-                                                 "main_success_preserved_on_comment_failure":  true
-                                             },
-    "synthetic_persistence_path_executions":  {
-                                                 "workflow_id":  "AknakVMx2prJrsZw",
-                                                 "project_id":  "o8RQQQgne2c6jXr5",
-                                                 "execution_ids":  ["35150", "35151", "35152", "35153"],
-                                                 "path":  "pinned synthetic provider results through Normalize → publishing_log insert → workflow_runs terminal insert",
-                                                 "outcomes":  ["published", "submitted", "known_failure", "outcome_unknown"],
-                                                 "lineage_preserved":  true,
-                                                 "comment_failure_preserves_main_success":  true,
-                                                 "production_reconciliation_excluded":  true,
-                                                 "provider_calls":  0,
-                                                 "automatic_retries":  0,
-                                                 "superseded_execution":  "35149 retained as synthetic historical evidence of the pre-fix normalization defect; excluded from validation"
-                                             },
-    "zero_call_preflight":  {
-                                "execution_id":  "35155",
-                                "result":  "READY_FOR_CONTROLLED_FIVE_PLATFORM_PUBLISH",
-                                "external_calls":  0,
-                                "automatic_retries":  0,
-                                "publication_calls":  0,
-                                "comment_calls":  0,
-                                "target_outcomes":  {
-                                                    "facebook":  "READY_FOR_CONTROLLED_FIVE_PLATFORM_PUBLISH",
-                                                    "instagram":  "READY_FOR_CONTROLLED_FIVE_PLATFORM_PUBLISH",
-                                                    "threads":  "READY_FOR_CONTROLLED_FIVE_PLATFORM_PUBLISH",
-                                                    "x":  "READY_FOR_CONTROLLED_FIVE_PLATFORM_PUBLISH",
-                                                    "tiktok":  "READY_FOR_CONTROLLED_FIVE_PLATFORM_PUBLISH",
-                                                    "youtube":  "SKIPPED_INELIGIBLE_FORMAT"
-                                                },
-                                "workflow_active":  false,
-                                "workflow_version_id":  "2680315b-3085-46ce-a648-cfff9b25d669"
-                            },
-    "post_test_removal_report":  {
-                                      "execution_id":  "35160",
-                                      "reported_by":  "operator",
-                                      "reported_at":  "2026-09-07",
-                                      "scope":  ["facebook", "instagram", "threads", "x", "tiktok"],
-                                      "historical_result_preserved":  true,
-                                      "historical_provider_identifiers_preserved":  true,
-                                      "removal_state":  "user_reported_removed_not_independently_verified",
-                                      "idempotency_reset":  false,
-                                      "republish_authorization":  false,
-                                      "provider_status_lookup_performed":  false
-                                  },
-    "premium_preview_review":  {
-                               "status":  "review_package_incomplete_pending_canva_asset_ingest_and_export",
-                               "selected_asset_id":  "INT-AST-01K4X4Q7B6D0MMPY000000003",
-                               "selected_asset_source":  "SRC-010 / Wikimedia Commons Young-Dolly-Parton.jpg",
-                               "selected_asset_source_format":  "JPEG, 765x941 original",
-                               "registered_drive_mime":  "image/webp",
-                               "canva_master_id":  "DAHTdazDglU",
-                               "canva_master_view_url":  "https://www.canva.com/d/1UPp0UcPdWXLbov",
-                               "canva_master_state":  "working_placeholder_unmodified",
-                               "canva_export":  "not_created",
-                               "canva_delivery_validation":  "pending",
-                               "canva_ingest_blocker":  "public Wikimedia fetch returned non-200 to Canva; private Drive sediment file reference was rejected by Canva upload",
-                               "platform_copy_character_counts":  {"facebook":1573,"instagram":1251,"threads":422,"x":218,"tiktok":829},
-                               "first_comment_hashtags":  0,
-                               "claim_backend":  "fail_closed_guard_only",
-                               "atomic_claim_backend":  "unresolved_deferred_postgresql_binding",
-                               "publication_or_comment_mutations":  0
-                           },
-    "transport_branches":  [
-                               "blotato-http:facebook",
-                               "blotato-http:instagram",
-                               "blotato-http:tiktok",
-                               "blotato-native:threads",
-                               "blotato-native:youtube",
-                               "blotato-native:x"
-                           ],
-    "fixture":  {
-                    "content_output_id":  "INT-OUT-01K4X4Q7B6D0MMPY000000004",
-                    "platforms_attempted":  ["facebook", "instagram", "threads", "x", "tiktok"],
-                    "executions":  ["35138", "35140", "35141"],
-                    "result":  "PARTIAL — 0 OF 5 VERIFIED PUBLISHED",
-                    "external_calls":  5,
-                    "automatic_retries":  0,
-                    "first_comment_calls":  0,
-                    "first_comment_adapter":  {
-                        "provider":  "blotato_mcp",
-                        "tool":  "mcp__blotato__blotato_post_comment",
-                        "top_level":  true,
-                        "parent_comment_id":  "omitted",
-                        "required_post_identifier":  "published Blotato postId resolved from blotato_list_posts",
-                        "calls_made":  0,
-                        "reason_not_called":  "No Facebook or Instagram post reached verified published state"
-                    },
-                    "outcomes":  {
-                        "facebook":  "KNOWN_FAILURE — HTTP 500 Account 101607426321841 not found",
-                        "instagram":  "SUBMITTED_THEN_FAILED — media metadata inaccessible",
-                        "threads":  "KNOWN_FAILURE — HTTP 422 text length exceeds 500 characters",
-                        "x":  "SUBMITTED_THEN_FAILED — media metadata inaccessible",
-                        "tiktok":  "SUBMITTED_THEN_FAILED — media metadata inaccessible"
-                    },
-                    "rendered":  {
-                                     "first_comment":  true,
-                                     "hashtags":  3,
-                                     "render_version":  "distribution-renderer@1.3.0"
-                                 }
-                },
-    "semantic_fingerprint":  "sha256:a3d9fa3b6907b77ed8f234065cf393ddbeeca22ca3b1e75a06404f37f3d930a9",
-    "rollback":  "archive only workflow AknakVMx2prJrsZw after project-scoped ownership verification",
-    "production_promotion":  "blocked_pending_verified_media_transport_and_durable_publication_persistence",
-    "pending_repository_repair": {
-        "status": "DEPLOYED_AND_PARITY_VERIFIED",
-        "renderer_version": "distribution-renderer@1.3.1",
-        "runtime_mutations": 1,
-        "publication_mutations": 0,
-        "changes": [
-            "reject missing or engagement-only body",
-            "canonical/inline input-validation parity",
-            "accurate Threads engagement flag",
-        "X oversized story fails for editorial review; optional hashtags dropped whole",
-        "scoped Render-node deployment and synthetic transport-disabled verification execution 35194"
-        ],
-        "validation_limit": "character_count remains UTF-16 length; weighted X URL/Unicode validation remains unresolved",
-        "rollback": "Restore Render code from prior Git commit 7d88aea475b141e478510601cf998698f5124459; preserve runtime bindings and history",
-        "semantic_fingerprint_note": "Existing semantic_fingerprint describes prior deployment; recompute using canonical procedure after deployment/readback."
+    "workflow_active": false,
+    "workflow_version_id": "2680315b-3085-46ce-a648-cfff9b25d669"
+  },
+  "post_test_removal_report": {
+    "execution_id": "35160",
+    "reported_by": "operator",
+    "reported_at": "2026-09-07",
+    "scope": [
+      "facebook",
+      "instagram",
+      "threads",
+      "x",
+      "tiktok"
+    ],
+    "historical_result_preserved": true,
+    "historical_provider_identifiers_preserved": true,
+    "removal_state": "user_reported_removed_not_independently_verified",
+    "idempotency_reset": false,
+    "republish_authorization": false,
+    "provider_status_lookup_performed": false
+  },
+  "premium_preview_review": {
+    "status": "review_package_incomplete_pending_canva_asset_ingest_and_export",
+    "selected_asset_id": "INT-AST-01K4X4Q7B6D0MMPY000000003",
+    "selected_asset_source": "SRC-010 / Wikimedia Commons Young-Dolly-Parton.jpg",
+    "selected_asset_source_format": "JPEG, 765x941 original",
+    "registered_drive_mime": "image/webp",
+    "canva_master_id": "DAHTdazDglU",
+    "canva_master_view_url": "https://www.canva.com/d/1UPp0UcPdWXLbov",
+    "canva_master_state": "working_placeholder_unmodified",
+    "canva_export": "not_created",
+    "canva_delivery_validation": "pending",
+    "canva_ingest_blocker": "public Wikimedia fetch returned non-200 to Canva; private Drive sediment file reference was rejected by Canva upload",
+    "platform_copy_character_counts": {
+      "facebook": 1573,
+      "instagram": 1251,
+      "threads": 422,
+      "x": 218,
+      "tiktok": 829
+    },
+    "first_comment_hashtags": 0,
+    "claim_backend": "fail_closed_guard_only",
+    "atomic_claim_backend": "unresolved_deferred_postgresql_binding",
+    "publication_or_comment_mutations": 0
+  },
+  "transport_branches": [
+    "blotato-http:facebook",
+    "blotato-http:instagram",
+    "blotato-http:tiktok",
+    "blotato-native:threads",
+    "blotato-native:youtube",
+    "blotato-native:x"
+  ],
+  "fixture": {
+    "content_output_id": "INT-OUT-01K4X4Q7B6D0MMPY000000004",
+    "platforms_attempted": [
+      "facebook",
+      "instagram",
+      "threads",
+      "x",
+      "tiktok"
+    ],
+    "executions": [
+      "35138",
+      "35140",
+      "35141"
+    ],
+    "result": "PARTIAL — 0 OF 5 VERIFIED PUBLISHED",
+    "external_calls": 5,
+    "automatic_retries": 0,
+    "first_comment_calls": 0,
+    "first_comment_adapter": {
+      "provider": "blotato_mcp",
+      "tool": "mcp__blotato__blotato_post_comment",
+      "top_level": true,
+      "parent_comment_id": "omitted",
+      "required_post_identifier": "published Blotato postId resolved from blotato_list_posts",
+      "calls_made": 0,
+      "reason_not_called": "No Facebook or Instagram post reached verified published state"
+    },
+    "outcomes": {
+      "facebook": "KNOWN_FAILURE — HTTP 500 Account 101607426321841 not found",
+      "instagram": "SUBMITTED_THEN_FAILED — media metadata inaccessible",
+      "threads": "KNOWN_FAILURE — HTTP 422 text length exceeds 500 characters",
+      "x": "SUBMITTED_THEN_FAILED — media metadata inaccessible",
+      "tiktok": "SUBMITTED_THEN_FAILED — media metadata inaccessible"
+    },
+    "rendered": {
+      "first_comment": true,
+      "hashtags": 3,
+      "render_version": "distribution-renderer@1.3.0"
     }
+  },
+  "semantic_fingerprint": "sha256:a3d9fa3b6907b77ed8f234065cf393ddbeeca22ca3b1e75a06404f37f3d930a9",
+  "rollback": "archive only workflow AknakVMx2prJrsZw after project-scoped ownership verification",
+  "production_promotion": "blocked_pending_verified_media_transport_and_durable_publication_persistence",
+  "pending_repository_repair": {
+    "status": "DEPLOYED_AND_PARITY_VERIFIED",
+    "renderer_version": "distribution-renderer@1.3.1",
+    "runtime_mutations": 1,
+    "publication_mutations": 0,
+    "changes": [
+      "reject missing or engagement-only body",
+      "canonical/inline input-validation parity",
+      "accurate Threads engagement flag",
+      "X oversized story fails for editorial review; optional hashtags dropped whole",
+      "scoped Render-node deployment and synthetic transport-disabled verification execution 35194"
+    ],
+    "validation_limit": "character_count remains UTF-16 length; weighted X URL/Unicode validation remains unresolved",
+    "rollback": "Restore Render code from prior Git commit 7d88aea475b141e478510601cf998698f5124459; preserve runtime bindings and history",
+    "semantic_fingerprint_note": "Existing semantic_fingerprint describes prior deployment; recompute using canonical procedure after deployment/readback."
+  },
+  "approved_creative_integration": {
+    "status": "DEPLOYED_INACTIVE_ZERO_CALL_VERIFIED",
+    "runtime_version": "6b76c40b-8e38-4660-bf05-ce20b29175f5",
+    "operational_sha256": "c0be625f7978a394a15a2e62373dece86980ecd75f41688401ba470f8f8889a8",
+    "execution_id": "38554",
+    "record": "automation/n8n/workflows/approved-creative-integration.deployment-record.json",
+    "verdict": "READY_FOR_END_TO_END_ZERO_CALL_ONLY — LIVE_BLOCKED_UNTIL_ATOMIC_CLAIM_AND_PUBLICATION_APPROVAL"
+  }
 }

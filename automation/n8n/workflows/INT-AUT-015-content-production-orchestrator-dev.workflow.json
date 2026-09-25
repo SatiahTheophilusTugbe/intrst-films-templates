@@ -1,0 +1,724 @@
+{
+  "name": "INT-AUT-015 — Content Production Orchestrator — DEV",
+  "active": false,
+  "nodes": [
+    {
+      "id": "24d28a78-927f-4859-a76a-32e5d650e2ef",
+      "name": "Manual Package Input",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "d42d242d-11ba-4527-817b-a6095f7a7f3c",
+      "name": "Validate Production Package",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        240,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const PRODUCTION_VERSION = 'content-production@1.0.0';\nfunction validateProductionRequests(requests) {\n  if (!Array.isArray(requests) || requests.length < 1 || requests.length > 4) throw new Error('REQUEST_COUNT_INVALID');\n  const formats = new Set();\n  for (const r of requests) {\n    if (r.contract_version !== PRODUCTION_VERSION || !r.content_package_id || !r.story_object_id || !['single_image', 'carousel', 'archive', 'evidence'].includes(r.requested_format)) throw new Error('PRODUCTION_CONTRACT_INVALID');\n    if (formats.has(r.requested_format)) throw new Error('DUPLICATE_FORMAT');\n    formats.add(r.requested_format);\n    if (r.content_package_id !== requests[0].content_package_id || r.story_object_id !== requests[0].story_object_id) throw new Error('MIXED_PACKAGE');\n    if (r.render_policy !== 'reuse_approved_only' || r.distribution_mode !== 'preflight_only') throw new Error('LIVE_PRODUCTION_BLOCKED');\n    if (!r.approval_context || r.approval_context.visual !== true || ['editorial', 'rights', 'publication'].some(k => typeof r.approval_context[k] !== 'boolean')) throw new Error('APPROVAL_CONTEXT_INVALID');\n    for (const key of ['maximum_renders', 'maximum_publications', 'maximum_comment_mutations', 'automatic_retries']) if (r.budget?.[key] !== 0) throw new Error('ZERO_CALL_BUDGET_REQUIRED');\n  }\n  return requests;\n}\nfunction resolveProductionOutputs(requests, outputs) {\n  validateProductionRequests(requests);\n  return requests.map(r => {\n    const matches = outputs.filter(o => {\n      const m = JSON.parse(o.manifest_json || '{}');\n      return m.content_package_id === r.content_package_id && m.media_set?.format === r.requested_format && o.story_object_id === r.story_object_id;\n    });\n    if (matches.length !== 1) throw new Error('FORMAT_OUTPUT_MISSING_OR_AMBIGUOUS');\n    return { ...r, contract_version: 'distribution-preflight@1.0.0', render_contract_version: 'hcti-reuse@1.0.0', content_output_id: matches[0].output_id, transport_disabled: true };\n  });\n}\nfunction executionRunId(executionId, ordinal = 0) {\n  const alphabet = '0123456789ABCDEFGHJKMNPQRSTVWXYZ';\n  const encode = (number, width) => {\n    let n = BigInt(number), text = '';\n    for (let i = 0; i < width; i++) { text = alphabet[Number(n & 31n)] + text; n >>= 5n; }\n    if (n !== 0n) throw new Error('RUN_ID_OVERFLOW');\n    return text;\n  };\n  if (!/^\\d+$/.test(String(executionId))) throw new Error('EXECUTION_ID_REQUIRED');\n  return 'INT-RUN-' + encode(Date.now(), 10) + encode(BigInt(executionId) * 100n + BigInt(ordinal), 16);\n}\nfunction lineageRow({ runId, rootRunId, parentRunId = '', workflowId, executionId, workflowKey, version, request, status, details, startedAt }) {\n  const now = new Date().toISOString();\n  return { run_id: runId, root_run_id: rootRunId || runId, parent_run_id: parentRunId, workflow_key: workflowKey, workflow_name: workflowKey, workflow_version: version, module: workflowKey === 'INT-AUT-015' ? 'orchestration' : workflowKey === 'INT-AUT-014' ? 'distribution' : 'render', environment: 'development', n8n_workflow_id: workflowId, n8n_execution_id: String(executionId), subject_id: details.subject_id || '', story_object_id: request.story_object_id, manifest_id: details.manifest_id || '', output_id: request.content_output_id || '', started_at: startedAt || now, completed_at: now, status, state_from: 'REQUEST_VALIDATED', state_to: status, attempt: 1, provider: '', input_ids_json: JSON.stringify([request.content_package_id, request.story_object_id].filter(Boolean)), output_ids_json: JSON.stringify(details.output_ids || [request.content_output_id].filter(Boolean)), source_ids_json: JSON.stringify(details.render_ids || []), claim_ids_json: '[]', asset_ids_json: JSON.stringify(details.asset_ids || []), human_review_required: true, review_status: 'visual_approved_later_gates_pending', error_class: '', error_message: JSON.stringify({ ...details, content_package_id: request.content_package_id, selected_format: request.requested_format || 'package', execution_count: 1, provider_call_count: 0, publication_call_count: 0, comment_call_count: 0, retry_count: 0, next_action_at: null, terminal_or_resume_state: status }), estimated_cost: 0, idempotency_key: 'run:' + runId + ':terminal', created_at: now, updated_at: now };\n}\nconst requests=validateProductionRequests($input.all().map(i=>i.json));const root=executionRunId($execution.id);return requests.map(r=>({json:{...r,root_run_id:root,parent_run_id:root,started_at:new Date().toISOString()}}));"
+      }
+    },
+    {
+      "id": "d63550b2-1fb7-49ac-9666-b6be5cd0ca5c",
+      "name": "Resolve Package Outputs",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        480,
+        0
+      ],
+      "parameters": {
+        "resource": "row",
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "P29q3HqS7JHr147x"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "manifest_json",
+              "condition": "like",
+              "keyValue": "={{ $('Validate Production Package').first().json.content_package_id }}"
+            }
+          ]
+        },
+        "limit": 20
+      },
+      "executeOnce": true,
+      "alwaysOutputData": true
+    },
+    {
+      "id": "bd925e22-ee9b-4ce5-b29c-cf631f8553cc",
+      "name": "Select Logical Formats",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        720,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const PRODUCTION_VERSION = 'content-production@1.0.0';\nfunction validateProductionRequests(requests) {\n  if (!Array.isArray(requests) || requests.length < 1 || requests.length > 4) throw new Error('REQUEST_COUNT_INVALID');\n  const formats = new Set();\n  for (const r of requests) {\n    if (r.contract_version !== PRODUCTION_VERSION || !r.content_package_id || !r.story_object_id || !['single_image', 'carousel', 'archive', 'evidence'].includes(r.requested_format)) throw new Error('PRODUCTION_CONTRACT_INVALID');\n    if (formats.has(r.requested_format)) throw new Error('DUPLICATE_FORMAT');\n    formats.add(r.requested_format);\n    if (r.content_package_id !== requests[0].content_package_id || r.story_object_id !== requests[0].story_object_id) throw new Error('MIXED_PACKAGE');\n    if (r.render_policy !== 'reuse_approved_only' || r.distribution_mode !== 'preflight_only') throw new Error('LIVE_PRODUCTION_BLOCKED');\n    if (!r.approval_context || r.approval_context.visual !== true || ['editorial', 'rights', 'publication'].some(k => typeof r.approval_context[k] !== 'boolean')) throw new Error('APPROVAL_CONTEXT_INVALID');\n    for (const key of ['maximum_renders', 'maximum_publications', 'maximum_comment_mutations', 'automatic_retries']) if (r.budget?.[key] !== 0) throw new Error('ZERO_CALL_BUDGET_REQUIRED');\n  }\n  return requests;\n}\nfunction resolveProductionOutputs(requests, outputs) {\n  validateProductionRequests(requests);\n  return requests.map(r => {\n    const matches = outputs.filter(o => {\n      const m = JSON.parse(o.manifest_json || '{}');\n      return m.content_package_id === r.content_package_id && m.media_set?.format === r.requested_format && o.story_object_id === r.story_object_id;\n    });\n    if (matches.length !== 1) throw new Error('FORMAT_OUTPUT_MISSING_OR_AMBIGUOUS');\n    return { ...r, contract_version: 'distribution-preflight@1.0.0', render_contract_version: 'hcti-reuse@1.0.0', content_output_id: matches[0].output_id, transport_disabled: true };\n  });\n}\nreturn resolveProductionOutputs($('Validate Production Package').all().map(i=>i.json),$input.all().map(i=>i.json)).map(json=>({json}));"
+      }
+    },
+    {
+      "id": "08b2bec7-1cd6-41e9-9bb5-6ed2940a16bc",
+      "name": "Reuse HCTI Approved Renders",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        960,
+        0
+      ],
+      "parameters": {
+        "source": "database",
+        "mode": "each",
+        "workflowId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "XHjJBrSOoBaFrHYk"
+        },
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      }
+    },
+    {
+      "id": "ab9ab5a8-bf86-4c1f-bbca-e0719274268c",
+      "name": "AUT-014 Distribution Preflight",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1200,
+        0
+      ],
+      "parameters": {
+        "source": "database",
+        "mode": "each",
+        "workflowId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "AknakVMx2prJrsZw"
+        },
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      }
+    },
+    {
+      "id": "44cbcfa1-5828-4658-a010-cf565255dc65",
+      "name": "Build Production Lineage",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1440,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "function executionRunId(executionId, ordinal = 0) {\n  const alphabet = '0123456789ABCDEFGHJKMNPQRSTVWXYZ';\n  const encode = (number, width) => {\n    let n = BigInt(number), text = '';\n    for (let i = 0; i < width; i++) { text = alphabet[Number(n & 31n)] + text; n >>= 5n; }\n    if (n !== 0n) throw new Error('RUN_ID_OVERFLOW');\n    return text;\n  };\n  if (!/^\\d+$/.test(String(executionId))) throw new Error('EXECUTION_ID_REQUIRED');\n  return 'INT-RUN-' + encode(Date.now(), 10) + encode(BigInt(executionId) * 100n + BigInt(ordinal), 16);\n}\nfunction lineageRow({ runId, rootRunId, parentRunId = '', workflowId, executionId, workflowKey, version, request, status, details, startedAt }) {\n  const now = new Date().toISOString();\n  return { run_id: runId, root_run_id: rootRunId || runId, parent_run_id: parentRunId, workflow_key: workflowKey, workflow_name: workflowKey, workflow_version: version, module: workflowKey === 'INT-AUT-015' ? 'orchestration' : workflowKey === 'INT-AUT-014' ? 'distribution' : 'render', environment: 'development', n8n_workflow_id: workflowId, n8n_execution_id: String(executionId), subject_id: details.subject_id || '', story_object_id: request.story_object_id, manifest_id: details.manifest_id || '', output_id: request.content_output_id || '', started_at: startedAt || now, completed_at: now, status, state_from: 'REQUEST_VALIDATED', state_to: status, attempt: 1, provider: '', input_ids_json: JSON.stringify([request.content_package_id, request.story_object_id].filter(Boolean)), output_ids_json: JSON.stringify(details.output_ids || [request.content_output_id].filter(Boolean)), source_ids_json: JSON.stringify(details.render_ids || []), claim_ids_json: '[]', asset_ids_json: JSON.stringify(details.asset_ids || []), human_review_required: true, review_status: 'visual_approved_later_gates_pending', error_class: '', error_message: JSON.stringify({ ...details, content_package_id: request.content_package_id, selected_format: request.requested_format || 'package', execution_count: 1, provider_call_count: 0, publication_call_count: 0, comment_call_count: 0, retry_count: 0, next_action_at: null, terminal_or_resume_state: status }), estimated_cost: 0, idempotency_key: 'run:' + runId + ':terminal', created_at: now, updated_at: now };\n}\nconst results=$input.all().map(i=>i.json),requests=$('Validate Production Package').all().map(i=>i.json);if(results.length!==requests.length||results.some(r=>r.distribution_result?.contract_version!=='distribution-preflight@1.0.0'||r.distribution_result.external_calls!==0||r.render_reuse?.render_call_count!==0))throw new Error('CHILD_CONTRACT_FAILED');const r=requests[0];const details={output_ids:results.map(x=>x.content_output_id),asset_ids:results.flatMap(x=>x.render_reuse.asset_ids),render_ids:results.flatMap(x=>x.render_reuse.render_ids),hashes:results.flatMap(x=>x.render_reuse.hashes),approval_records:results.map(x=>x.render_reuse.approval_record_id),children:results.map(x=>({format:x.requested_format,output_id:x.content_output_id,render_reuse:x.render_reuse,distribution:x.distribution_result})),cache_hit_count:results.reduce((n,x)=>n+x.render_reuse.asset_ids.length,0),atomic_claim_state:'unresolved'};return [{json:lineageRow({runId:r.root_run_id,rootRunId:r.root_run_id,workflowId:$workflow.id,executionId:$execution.id,workflowKey:'INT-AUT-015',version:'content-production@1.0.0',request:{...r,requested_format:undefined},status:'READY_FOR_END_TO_END_ZERO_CALL_ONLY — LIVE_BLOCKED_UNTIL_ATOMIC_CLAIM_AND_PUBLICATION_APPROVAL',details,startedAt:r.started_at})}];"
+      }
+    },
+    {
+      "id": "3f48ad37-9c1b-453e-8aab-b653ae5bd24f",
+      "name": "Persist Production Lineage",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        1680,
+        0
+      ],
+      "parameters": {
+        "resource": "row",
+        "operation": "insert",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "ZdOyJqa5ffTkwUSV"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "approval_actor": "={{ $json.approval_actor ?? null }}",
+            "approval_at": "={{ $json.approval_at ?? null }}",
+            "asset_ids_json": "={{ $json.asset_ids_json ?? null }}",
+            "attempt": "={{ $json.attempt ?? null }}",
+            "claim_ids_json": "={{ $json.claim_ids_json ?? null }}",
+            "completed_at": "={{ $json.completed_at ?? null }}",
+            "created_at": "={{ $json.created_at ?? null }}",
+            "environment": "={{ $json.environment ?? null }}",
+            "error_class": "={{ $json.error_class ?? null }}",
+            "error_message": "={{ $json.error_message ?? null }}",
+            "estimated_cost": "={{ $json.estimated_cost ?? null }}",
+            "human_review_required": "={{ $json.human_review_required ?? null }}",
+            "idempotency_key": "={{ $json.idempotency_key ?? null }}",
+            "input_ids_json": "={{ $json.input_ids_json ?? null }}",
+            "latency_ms": "={{ $json.latency_ms ?? null }}",
+            "manifest_id": "={{ $json.manifest_id ?? null }}",
+            "model": "={{ $json.model ?? null }}",
+            "module": "={{ $json.module ?? null }}",
+            "n8n_execution_id": "={{ $json.n8n_execution_id ?? null }}",
+            "n8n_workflow_id": "={{ $json.n8n_workflow_id ?? null }}",
+            "output_id": "={{ $json.output_id ?? null }}",
+            "output_ids_json": "={{ $json.output_ids_json ?? null }}",
+            "parent_run_id": "={{ $json.parent_run_id ?? null }}",
+            "prompt_version": "={{ $json.prompt_version ?? null }}",
+            "provider": "={{ $json.provider ?? null }}",
+            "review_status": "={{ $json.review_status ?? null }}",
+            "root_run_id": "={{ $json.root_run_id ?? null }}",
+            "run_id": "={{ $json.run_id ?? null }}",
+            "source_ids_json": "={{ $json.source_ids_json ?? null }}",
+            "started_at": "={{ $json.started_at ?? null }}",
+            "state_from": "={{ $json.state_from ?? null }}",
+            "state_to": "={{ $json.state_to ?? null }}",
+            "status": "={{ $json.status ?? null }}",
+            "story_object_id": "={{ $json.story_object_id ?? null }}",
+            "subject_id": "={{ $json.subject_id ?? null }}",
+            "template_id": "={{ $json.template_id ?? null }}",
+            "template_version": "={{ $json.template_version ?? null }}",
+            "updated_at": "={{ $json.updated_at ?? null }}",
+            "workflow_key": "={{ $json.workflow_key ?? null }}",
+            "workflow_name": "={{ $json.workflow_name ?? null }}",
+            "workflow_version": "={{ $json.workflow_version ?? null }}"
+          },
+          "schema": [
+            {
+              "id": "approval_actor",
+              "displayName": "approval_actor",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "approval_at",
+              "displayName": "approval_at",
+              "type": "date",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "asset_ids_json",
+              "displayName": "asset_ids_json",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "attempt",
+              "displayName": "attempt",
+              "type": "number",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "claim_ids_json",
+              "displayName": "claim_ids_json",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "completed_at",
+              "displayName": "completed_at",
+              "type": "date",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "created_at",
+              "displayName": "created_at",
+              "type": "date",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "environment",
+              "displayName": "environment",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "error_class",
+              "displayName": "error_class",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "error_message",
+              "displayName": "error_message",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "estimated_cost",
+              "displayName": "estimated_cost",
+              "type": "number",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "human_review_required",
+              "displayName": "human_review_required",
+              "type": "boolean",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "idempotency_key",
+              "displayName": "idempotency_key",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "input_ids_json",
+              "displayName": "input_ids_json",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "latency_ms",
+              "displayName": "latency_ms",
+              "type": "number",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "manifest_id",
+              "displayName": "manifest_id",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "model",
+              "displayName": "model",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "module",
+              "displayName": "module",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "n8n_execution_id",
+              "displayName": "n8n_execution_id",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "n8n_workflow_id",
+              "displayName": "n8n_workflow_id",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "output_id",
+              "displayName": "output_id",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "output_ids_json",
+              "displayName": "output_ids_json",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "parent_run_id",
+              "displayName": "parent_run_id",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "prompt_version",
+              "displayName": "prompt_version",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "provider",
+              "displayName": "provider",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "review_status",
+              "displayName": "review_status",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "root_run_id",
+              "displayName": "root_run_id",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "run_id",
+              "displayName": "run_id",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "source_ids_json",
+              "displayName": "source_ids_json",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "started_at",
+              "displayName": "started_at",
+              "type": "date",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "state_from",
+              "displayName": "state_from",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "state_to",
+              "displayName": "state_to",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "story_object_id",
+              "displayName": "story_object_id",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "subject_id",
+              "displayName": "subject_id",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "template_id",
+              "displayName": "template_id",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "template_version",
+              "displayName": "template_version",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "updated_at",
+              "displayName": "updated_at",
+              "type": "date",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "workflow_key",
+              "displayName": "workflow_key",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "workflow_name",
+              "displayName": "workflow_name",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "workflow_version",
+              "displayName": "workflow_version",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {
+          "optimizeBulk": false
+        }
+      }
+    },
+    {
+      "id": "754f3ee9-84f1-44f7-9065-6e6bdfb30bff",
+      "name": "Return Production Result",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1920,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const r=$input.first().json;if(!r.id)throw new Error('PARENT_PERSISTENCE_REQUIRED');return [{json:{status:r.status,run_id:r.run_id,execution_id:r.n8n_execution_id,persisted_row_id:r.id,lineage:JSON.parse(r.error_message)}}];"
+      }
+    },
+    {
+      "id": "c92d49b1-6bbe-4238-a946-2107c98264b2",
+      "name": "Versioned Production Input",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        240
+      ],
+      "parameters": {
+        "inputSource": "passthrough"
+      }
+    }
+  ],
+  "connections": {
+    "Manual Package Input": {
+      "main": [
+        [
+          {
+            "node": "Validate Production Package",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Production Package": {
+      "main": [
+        [
+          {
+            "node": "Resolve Package Outputs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Resolve Package Outputs": {
+      "main": [
+        [
+          {
+            "node": "Select Logical Formats",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Select Logical Formats": {
+      "main": [
+        [
+          {
+            "node": "Reuse HCTI Approved Renders",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reuse HCTI Approved Renders": {
+      "main": [
+        [
+          {
+            "node": "AUT-014 Distribution Preflight",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AUT-014 Distribution Preflight": {
+      "main": [
+        [
+          {
+            "node": "Build Production Lineage",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Production Lineage": {
+      "main": [
+        [
+          {
+            "node": "Persist Production Lineage",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Persist Production Lineage": {
+      "main": [
+        [
+          {
+            "node": "Return Production Result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Versioned Production Input": {
+      "main": [
+        [
+          {
+            "node": "Validate Production Package",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": true,
+    "saveManualExecutions": true,
+    "saveDataErrorExecution": "none",
+    "saveDataSuccessExecution": "none",
+    "executionTimeout": 120,
+    "callerPolicy": "none"
+  },
+  "tags": [
+    {
+      "name": "project:intrst"
+    }
+  ],
+  "meta": {
+    "approved_creative_integration": {
+      "version": "1.0.0",
+      "runtime_version": "ff080079-64bb-4c0b-8cf0-6ee3ca98fa6f",
+      "transport_disabled": true,
+      "zero_call_execution": "38554"
+    }
+  }
+}

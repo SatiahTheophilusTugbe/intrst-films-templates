@@ -1,6 +1,63 @@
 {
   "deployment_record_id": "INT-DEP-HCTI-003-RENDER-DEV",
   "work_item": "AUT-004",
+  "operator_visual_approval": {
+    "batch_id": "HCTI-TEN-OUTPUT-V2-2026-09-13",
+    "decision": "PASS — ALL TEN OUTPUTS VISUALLY APPROVED",
+    "decision_actor": "project owner",
+    "actor_source": "explicit_user_request",
+    "approval_date": "2026-09-18",
+    "date_precision": "day_as_supplied_by_operator",
+    "state": "VISUAL_APPROVED",
+    "scope": [
+      "image_visibility_and_crop",
+      "typography",
+      "brand_labels",
+      "credit_placement",
+      "layout_and_geometry",
+      "absence_of_overflow",
+      "overall_visual_direction"
+    ],
+    "carousel_06": "PASS — INTRST FILMS, DOLLY PARTON and complete credit text are within the slide boundary",
+    "logical_formats": {
+      "single_image": [
+        "single-image"
+      ],
+      "carousel": [
+        "carousel-01",
+        "carousel-02",
+        "carousel-03",
+        "carousel-04",
+        "carousel-05",
+        "carousel-06",
+        "carousel-07"
+      ],
+      "archive": [
+        "archive"
+      ],
+      "evidence": [
+        "evidence"
+      ]
+    },
+    "contact_sheet_publishable": false,
+    "editorial_publish_clearance": "pending",
+    "rights_policy_changed": false,
+    "publication_authorized": false,
+    "canonical_table_promotion": "complete_and_readback_verified",
+    "historical_workflow_runs_rows_preserved": [
+      129,
+      130,
+      131,
+      132,
+      133,
+      134,
+      135,
+      136,
+      137,
+      138
+    ],
+    "canonical_promotion": "complete; asset_registry 2–11, content_outputs 2–5, approval_queue 2–5"
+  },
   "workflow_name": "INT-HCTI — Editorial Render Bridge — DEV",
   "workflow_id": "XHjJBrSOoBaFrHYk",
   "project": {
@@ -73,22 +130,41 @@
     "output_format": "png",
     "max_attempts": 1,
     "automatic_retries": 0,
-    "asset_ids_verified": ["1FEpzAp4GI_i3zu8-AawepKxIqTNWq4_Y", "1R2zBFOGZreOzM7DaZRsXnYLB-xagCjYt", "1tIU-DSxZvKgybPABbK6z-NkQI8PjiFtQ", "1RKDjQ7fLotG-PToknmb20S1ozbkp-0Rv", "1WtJZzwV1Jylp8PBewVla6NnYRktmecHp", "1fVjXvmiwjIR7yWh--Oe8gcHlBZLIX4of"],
+    "asset_ids_verified": [
+      "1FEpzAp4GI_i3zu8-AawepKxIqTNWq4_Y",
+      "1R2zBFOGZreOzM7DaZRsXnYLB-xagCjYt",
+      "1tIU-DSxZvKgybPABbK6z-NkQI8PjiFtQ",
+      "1RKDjQ7fLotG-PToknmb20S1ozbkp-0Rv",
+      "1WtJZzwV1Jylp8PBewVla6NnYRktmecHp",
+      "1fVjXvmiwjIR7yWh--Oe8gcHlBZLIX4of"
+    ],
     "missing_assets": [],
     "status": "private_delivery_deployed_canary_outcome_unknown_image_binding_blocked",
     "source_crop_recovery": {
       "source_url": "https://www.loc.gov/lcm/pdf/LCM_2018_0506.pdf",
       "source_pdf_sha256": "72a5b625d943476d1ab0a37319a61fb973016a334cc4ba53db54a510024de519",
-      "page": {"pdf_index_zero_based": 25, "printed_page": 24, "page_size_points": "612x792"},
+      "page": {
+        "pdf_index_zero_based": 25,
+        "printed_page": 24,
+        "page_size_points": "612x792"
+      },
       "coordinate_convention": "top_left_pdf_point_rectangle_x1_y1_x2_y2",
-      "rendering": {"tool": "Poppler pdftoppm", "version": "26.07.0"},
+      "rendering": {
+        "tool": "Poppler pdftoppm",
+        "version": "26.07.0"
+      },
       "assets": [
         {
           "name": "source-photo.png",
           "drive_id": "1UaABWs9vmb4rdMVy7UrJdSqCDv3uvHat",
           "drive_title": "EP003_LOC_2018_p24_source-photo_RECONSTRUCTED_3x.png",
           "folder_id": "1xZPYMfDVXtFf0T8_6uSeYI7ZvYVGSa5O",
-          "crop_points": [0, 25, 350, 260],
+          "crop_points": [
+            0,
+            25,
+            350,
+            260
+          ],
           "scale": 3,
           "dimensions": "1050x705",
           "mime_type": "image/png",
@@ -103,7 +179,12 @@
           "drive_id": "1PImStJZFfqYkvRdbygBIP_DpnZJkGCb7",
           "drive_title": "EP003_LOC_2018_p24_source-caption_RECONSTRUCTED_4x.png",
           "folder_id": "1xZPYMfDVXtFf0T8_6uSeYI7ZvYVGSa5O",
-          "crop_points": [62, 479, 274, 520],
+          "crop_points": [
+            62,
+            479,
+            274,
+            520
+          ],
           "scale": 4,
           "dimensions": "848x164",
           "mime_type": "image/png",
@@ -137,7 +218,13 @@
         "all_downloadable_by_authenticated_account": true
       },
       "verification": {
-        "required": ["mime_type", "width", "height", "bytes", "sha256"],
+        "required": [
+          "mime_type",
+          "width",
+          "height",
+          "bytes",
+          "sha256"
+        ],
         "source_photo_verified": true,
         "source_caption_verified": true,
         "encoded_payload_persisted": false
@@ -145,7 +232,18 @@
       "hcti_request_size": {
         "official_limit_status": "not_published_controlled_canary_authorized",
         "transport_gate": "largest_measured_request_single_attempt_canary",
-        "measured_request_bytes": [2940497, 2945750, 2775676, 4232771, 7029917, 2110795, 2294201, 2945778, 2940358, 1244756]
+        "measured_request_bytes": [
+          2940497,
+          2945750,
+          2775676,
+          4232771,
+          7029917,
+          2110795,
+          2294201,
+          2945778,
+          2940358,
+          1244756
+        ]
       },
       "runtime_mutated": true,
       "runtime_version_id": "4a7883c4-2e59-4e88-a9d4-b853eb07f0bb",
@@ -153,7 +251,18 @@
       "runtime_active": false,
       "transport_enabled_postflight": false,
       "repository_workflow_sha256": "eae57590cf31d419049df41f74359195870c160301bac4fd928cf4f7c3e72a57",
-      "requested_output_identities": ["single-image", "carousel-01", "carousel-02", "carousel-03", "carousel-04", "carousel-05", "carousel-06", "carousel-07", "archive", "evidence"],
+      "requested_output_identities": [
+        "single-image",
+        "carousel-01",
+        "carousel-02",
+        "carousel-03",
+        "carousel-04",
+        "carousel-05",
+        "carousel-06",
+        "carousel-07",
+        "archive",
+        "evidence"
+      ],
       "preflight": {
         "execution_id": "36218",
         "run_id": "HCTI-FOUR-FORMAT:36218",
@@ -190,7 +299,11 @@
         "inventory_result": "unavailable",
         "candidate_count": null,
         "provider_receipt": "unknown",
-        "workflow_runs_rows": [78, 79, 80],
+        "workflow_runs_rows": [
+          78,
+          79,
+          80
+        ],
         "superseding_state": "outcome_unknown",
         "retry_authorized": false
       },
@@ -222,11 +335,20 @@
         "automatic_retries": 0,
         "transport_enabled": false,
         "zero_call_preflight_execution_id": "36231",
-        "zero_call_preflight_rows": [83, 84],
+        "zero_call_preflight_rows": [
+          83,
+          84
+        ],
         "semantic_fingerprint": "3ea64279b4e61bda8b03d0f18443a386e906d27b56a7c7ed674d15102f88ad92",
         "repository_runtime_parity": true
       },
-      "batch_execution_ids": ["36218", "36219", "36226", "36230", "36231"],
+      "batch_execution_ids": [
+        "36218",
+        "36219",
+        "36226",
+        "36230",
+        "36231"
+      ],
       "hcti_calls": "unknown_up_to_1",
       "automatic_retries": 0
     }
@@ -256,9 +378,31 @@
       "automatic_retries": 0
     },
     "batch": {
-      "output_identities": ["single-image", "carousel-01", "carousel-02", "carousel-03", "carousel-04", "carousel-05", "carousel-06", "carousel-07", "archive", "evidence"],
+      "output_identities": [
+        "single-image",
+        "carousel-01",
+        "carousel-02",
+        "carousel-03",
+        "carousel-04",
+        "carousel-05",
+        "carousel-06",
+        "carousel-07",
+        "archive",
+        "evidence"
+      ],
       "semantic_image_elements": 11,
-      "request_bytes": [2940653, 2946226, 2776152, 4233247, 7030393, 2111271, 2294677, 2946254, 2940570, 1245112],
+      "request_bytes": [
+        2940653,
+        2946226,
+        2776152,
+        4233247,
+        7030393,
+        2111271,
+        2294677,
+        2946254,
+        2940570,
+        1245112
+      ],
       "request_sha256": [
         "ff0bbf149b16a80837def31e5e2fbd8dccce93e9def077ead2451c8d9bf6238f",
         "c19a92548ff1898fd4f95089671fe8f450c36400c86779fc5f62559705191890",
@@ -313,7 +457,14 @@
       "visual_gate": "PROVIDER_RENDERED_AND_VISUAL_GATE_PASSED",
       "immutable_reference_changed_ratio": 0.023727023319615913,
       "historical_blank_control_changed_ratio": 0.987059670781893,
-      "workflow_runs_rows": [87, 88, 89, 90, 91, 133],
+      "workflow_runs_rows": [
+        87,
+        88,
+        89,
+        90,
+        91,
+        133
+      ],
       "drive_id": "1h3t7VMTdVN4TpzZO87pDkovLfk1cWW8b",
       "drive_url": "https://drive.google.com/file/d/1h3t7VMTdVN4TpzZO87pDkovLfk1cWW8b/view?usp=drivesdk",
       "historical_retrieval_defect_preserved": true,
@@ -335,20 +486,115 @@
       "immutable_reference_changed_ratio": 0.046386831275720165,
       "drive_id": "13pmK6sEnaxy7j882u3wePmlplMu_EM9o",
       "drive_url": "https://drive.google.com/file/d/13pmK6sEnaxy7j882u3wePmlplMu_EM9o/view?usp=drivesdk",
-      "workflow_runs_rows": [92, 93, 94, 95, 96, 129],
+      "workflow_runs_rows": [
+        92,
+        93,
+        94,
+        95,
+        96,
+        129
+      ],
       "retry_authorized": false,
       "reconciliation_required": false,
       "historical_unknown_preserved": true
     },
     "remaining_outputs": [
-      {"output_identity":"carousel-01","execution_id":"37137","render_id":"01a0a840-084e-7494-a46e-a8547cfaacf8","image_url":"https://hcti.io/v1/image/01a0a840-084e-7494-a46e-a8547cfaacf8.png","output_bytes":2233053,"output_sha256":"f8fa79a66f10404365a97f80cc529247ee34250b1301fc1246d0ee35817d1848","drive_id":"1R5JPrcRO8OXnrJLZ9ZSrw51S9Z4ivq2c","drive_url":"https://drive.google.com/file/d/1R5JPrcRO8OXnrJLZ9ZSrw51S9Z4ivq2c/view?usp=drivesdk","immutable_reference_changed_ratio":0.08040603566529493,"terminal_row":130},
-      {"output_identity":"carousel-02","execution_id":"37138","render_id":"01a0a841-53a3-725c-a8b1-f04150333449","image_url":"https://hcti.io/v1/image/01a0a841-53a3-725c-a8b1-f04150333449.png","output_bytes":2097547,"output_sha256":"90d0aa17ae9edf466839a490d36c44080296c4277fc709f5fe22134f834ac9ec","drive_id":"1QqOITyGc8wLLHTvOkU5Gm5iqX1wv-f96","drive_url":"https://drive.google.com/file/d/1QqOITyGc8wLLHTvOkU5Gm5iqX1wv-f96/view?usp=drivesdk","immutable_reference_changed_ratio":0.033246913580246916,"terminal_row":131},
-      {"output_identity":"carousel-03","execution_id":"37139","render_id":"01a0a842-0a56-7d9d-9ac7-6b92667cd912","image_url":"https://hcti.io/v1/image/01a0a842-0a56-7d9d-9ac7-6b92667cd912.png","output_bytes":2163542,"output_sha256":"ee62d6587acd7cf76c96dcf40c620905b776a62374a5ae2be3aeb32ada1501d2","drive_id":"1UNWA_YWXOlHj7E-I6Nz9Vc3Q_s8JT4A2","drive_url":"https://drive.google.com/file/d/1UNWA_YWXOlHj7E-I6Nz9Vc3Q_s8JT4A2/view?usp=drivesdk","immutable_reference_changed_ratio":0.02422976680384088,"terminal_row":132},
-      {"output_identity":"carousel-05","execution_id":"37140","render_id":"01a0a842-a913-7da8-9907-fb7c9b5a3139","image_url":"https://hcti.io/v1/image/01a0a842-a913-7da8-9907-fb7c9b5a3139.png","output_bytes":1389078,"output_sha256":"6e683fb13ff2f0a528d3ee0f3a18ae8a2943a653f466c37b81a1ccd9e64ed14c","drive_id":"1VWLTkGdl9-Sb0DZ1N8eZRl0ufcfufSJi","drive_url":"https://drive.google.com/file/d/1VWLTkGdl9-Sb0DZ1N8eZRl0ufcfufSJi/view?usp=drivesdk","immutable_reference_changed_ratio":0.03305006858710562,"terminal_row":134},
-      {"output_identity":"carousel-06","execution_id":"37141","render_id":"01a0a843-84c6-71e9-a0f0-c3139c8f6043","image_url":"https://hcti.io/v1/image/01a0a843-84c6-71e9-a0f0-c3139c8f6043.png","output_bytes":1340031,"output_sha256":"d36a53bd80b1b63375b92bd037491b31a1b37a7b2293b954261f48ce78ce569d","drive_id":"1RWDxXQHW7wxHTAaZLsETV5-KQAHOvNYF","drive_url":"https://drive.google.com/file/d/1RWDxXQHW7wxHTAaZLsETV5-KQAHOvNYF/view?usp=drivesdk","immutable_reference_changed_ratio":0.03573593964334705,"terminal_row":135},
-      {"output_identity":"carousel-07","execution_id":"37143","render_id":"01a0a844-1b1f-7f0d-bdd3-a495fa11ca66","image_url":"https://hcti.io/v1/image/01a0a844-1b1f-7f0d-bdd3-a495fa11ca66.png","output_bytes":2229687,"output_sha256":"1debcbf9e0a0c72eb8b57d91c119ebf207d0414ed1ab8577d66886e454b4b29a","drive_id":"1CURft6qMXT8uuQxl6ZJ537UhcdQPjf9s","drive_url":"https://drive.google.com/file/d/1CURft6qMXT8uuQxl6ZJ537UhcdQPjf9s/view?usp=drivesdk","immutable_reference_changed_ratio":0.08211248285322359,"terminal_row":136},
-      {"output_identity":"archive","execution_id":"37144","render_id":"01a0a844-cd66-7cba-9608-b1345d522a9a","image_url":"https://hcti.io/v1/image/01a0a844-cd66-7cba-9608-b1345d522a9a.png","output_bytes":1208817,"output_sha256":"ee548755f6a7e2867206efdb2d37bb76a5bd862463de96cea42b814540d0c6c4","drive_id":"1f0bHA25xxAFTAuNI-H-rBUMs2G_Hv8Pm","drive_url":"https://drive.google.com/file/d/1f0bHA25xxAFTAuNI-H-rBUMs2G_Hv8Pm/view?usp=drivesdk","immutable_reference_changed_ratio":0.06456515775034294,"terminal_row":137},
-      {"output_identity":"evidence","execution_id":"37145","render_id":"01a0a845-5d84-7c98-a71e-46a3f7ec0228","image_url":"https://hcti.io/v1/image/01a0a845-5d84-7c98-a71e-46a3f7ec0228.png","output_bytes":711855,"output_sha256":"2af989d3306a388a6932d2a3ea099e986d7e5b0aeee8a4e07a1d04db4b66020c","drive_id":"1rQUqNSg1ELrgwCqt-NspgSbCbJjVg-_p","drive_url":"https://drive.google.com/file/d/1rQUqNSg1ELrgwCqt-NspgSbCbJjVg-_p/view?usp=drivesdk","immutable_reference_changed_ratio":0.07499519890260631,"terminal_row":138}
+      {
+        "output_identity": "carousel-01",
+        "execution_id": "37137",
+        "render_id": "01a0a840-084e-7494-a46e-a8547cfaacf8",
+        "image_url": "https://hcti.io/v1/image/01a0a840-084e-7494-a46e-a8547cfaacf8.png",
+        "output_bytes": 2233053,
+        "output_sha256": "f8fa79a66f10404365a97f80cc529247ee34250b1301fc1246d0ee35817d1848",
+        "drive_id": "1R5JPrcRO8OXnrJLZ9ZSrw51S9Z4ivq2c",
+        "drive_url": "https://drive.google.com/file/d/1R5JPrcRO8OXnrJLZ9ZSrw51S9Z4ivq2c/view?usp=drivesdk",
+        "immutable_reference_changed_ratio": 0.08040603566529493,
+        "terminal_row": 130
+      },
+      {
+        "output_identity": "carousel-02",
+        "execution_id": "37138",
+        "render_id": "01a0a841-53a3-725c-a8b1-f04150333449",
+        "image_url": "https://hcti.io/v1/image/01a0a841-53a3-725c-a8b1-f04150333449.png",
+        "output_bytes": 2097547,
+        "output_sha256": "90d0aa17ae9edf466839a490d36c44080296c4277fc709f5fe22134f834ac9ec",
+        "drive_id": "1QqOITyGc8wLLHTvOkU5Gm5iqX1wv-f96",
+        "drive_url": "https://drive.google.com/file/d/1QqOITyGc8wLLHTvOkU5Gm5iqX1wv-f96/view?usp=drivesdk",
+        "immutable_reference_changed_ratio": 0.033246913580246916,
+        "terminal_row": 131
+      },
+      {
+        "output_identity": "carousel-03",
+        "execution_id": "37139",
+        "render_id": "01a0a842-0a56-7d9d-9ac7-6b92667cd912",
+        "image_url": "https://hcti.io/v1/image/01a0a842-0a56-7d9d-9ac7-6b92667cd912.png",
+        "output_bytes": 2163542,
+        "output_sha256": "ee62d6587acd7cf76c96dcf40c620905b776a62374a5ae2be3aeb32ada1501d2",
+        "drive_id": "1UNWA_YWXOlHj7E-I6Nz9Vc3Q_s8JT4A2",
+        "drive_url": "https://drive.google.com/file/d/1UNWA_YWXOlHj7E-I6Nz9Vc3Q_s8JT4A2/view?usp=drivesdk",
+        "immutable_reference_changed_ratio": 0.02422976680384088,
+        "terminal_row": 132
+      },
+      {
+        "output_identity": "carousel-05",
+        "execution_id": "37140",
+        "render_id": "01a0a842-a913-7da8-9907-fb7c9b5a3139",
+        "image_url": "https://hcti.io/v1/image/01a0a842-a913-7da8-9907-fb7c9b5a3139.png",
+        "output_bytes": 1389078,
+        "output_sha256": "6e683fb13ff2f0a528d3ee0f3a18ae8a2943a653f466c37b81a1ccd9e64ed14c",
+        "drive_id": "1VWLTkGdl9-Sb0DZ1N8eZRl0ufcfufSJi",
+        "drive_url": "https://drive.google.com/file/d/1VWLTkGdl9-Sb0DZ1N8eZRl0ufcfufSJi/view?usp=drivesdk",
+        "immutable_reference_changed_ratio": 0.03305006858710562,
+        "terminal_row": 134
+      },
+      {
+        "output_identity": "carousel-06",
+        "execution_id": "37141",
+        "render_id": "01a0a843-84c6-71e9-a0f0-c3139c8f6043",
+        "image_url": "https://hcti.io/v1/image/01a0a843-84c6-71e9-a0f0-c3139c8f6043.png",
+        "output_bytes": 1340031,
+        "output_sha256": "d36a53bd80b1b63375b92bd037491b31a1b37a7b2293b954261f48ce78ce569d",
+        "drive_id": "1RWDxXQHW7wxHTAaZLsETV5-KQAHOvNYF",
+        "drive_url": "https://drive.google.com/file/d/1RWDxXQHW7wxHTAaZLsETV5-KQAHOvNYF/view?usp=drivesdk",
+        "immutable_reference_changed_ratio": 0.03573593964334705,
+        "terminal_row": 135
+      },
+      {
+        "output_identity": "carousel-07",
+        "execution_id": "37143",
+        "render_id": "01a0a844-1b1f-7f0d-bdd3-a495fa11ca66",
+        "image_url": "https://hcti.io/v1/image/01a0a844-1b1f-7f0d-bdd3-a495fa11ca66.png",
+        "output_bytes": 2229687,
+        "output_sha256": "1debcbf9e0a0c72eb8b57d91c119ebf207d0414ed1ab8577d66886e454b4b29a",
+        "drive_id": "1CURft6qMXT8uuQxl6ZJ537UhcdQPjf9s",
+        "drive_url": "https://drive.google.com/file/d/1CURft6qMXT8uuQxl6ZJ537UhcdQPjf9s/view?usp=drivesdk",
+        "immutable_reference_changed_ratio": 0.08211248285322359,
+        "terminal_row": 136
+      },
+      {
+        "output_identity": "archive",
+        "execution_id": "37144",
+        "render_id": "01a0a844-cd66-7cba-9608-b1345d522a9a",
+        "image_url": "https://hcti.io/v1/image/01a0a844-cd66-7cba-9608-b1345d522a9a.png",
+        "output_bytes": 1208817,
+        "output_sha256": "ee548755f6a7e2867206efdb2d37bb76a5bd862463de96cea42b814540d0c6c4",
+        "drive_id": "1f0bHA25xxAFTAuNI-H-rBUMs2G_Hv8Pm",
+        "drive_url": "https://drive.google.com/file/d/1f0bHA25xxAFTAuNI-H-rBUMs2G_Hv8Pm/view?usp=drivesdk",
+        "immutable_reference_changed_ratio": 0.06456515775034294,
+        "terminal_row": 137
+      },
+      {
+        "output_identity": "evidence",
+        "execution_id": "37145",
+        "render_id": "01a0a845-5d84-7c98-a71e-46a3f7ec0228",
+        "image_url": "https://hcti.io/v1/image/01a0a845-5d84-7c98-a71e-46a3f7ec0228.png",
+        "output_bytes": 711855,
+        "output_sha256": "2af989d3306a388a6932d2a3ea099e986d7e5b0aeee8a4e07a1d04db4b66020c",
+        "drive_id": "1rQUqNSg1ELrgwCqt-NspgSbCbJjVg-_p",
+        "drive_url": "https://drive.google.com/file/d/1rQUqNSg1ELrgwCqt-NspgSbCbJjVg-_p/view?usp=drivesdk",
+        "immutable_reference_changed_ratio": 0.07499519890260631,
+        "terminal_row": 138
+      }
     ],
     "contact_sheet": {
       "drive_id": "1uaGY5qaO0Rffu70cbyOxKypxIOW_H2EK",
@@ -359,7 +605,13 @@
     "retrieval_repair": {
       "provider_url_used_exactly": true,
       "extension_appended": false,
-      "validation": ["content_type", "decoded_png_signature", "width", "height", "sha256"],
+      "validation": [
+        "content_type",
+        "decoded_png_signature",
+        "width",
+        "height",
+        "sha256"
+      ],
       "runtime_version_id": "672dcea2-1ae3-417e-bb74-fea5d05a9835",
       "runtime_active": false,
       "transport_enabled_postflight": false,
@@ -367,7 +619,18 @@
       "repository_runtime_parity": true
     },
     "final_state": "RENDERED_PENDING_VISUAL_APPROVAL",
-    "workflow_runs_pending_visual_approval_rows": [129,130,131,132,133,134,135,136,137,138],
+    "workflow_runs_pending_visual_approval_rows": [
+      129,
+      130,
+      131,
+      132,
+      133,
+      134,
+      135,
+      136,
+      137,
+      138
+    ],
     "next_action": "WIN 5 visual approval; no publication or asset promotion"
   },
   "source_synchronization": {
@@ -386,5 +649,13 @@
     "render_authorization_preserved": true,
     "runtime_version_id": "8b1fa0ca-1697-46b1-a7e6-9f207fbbc8d9",
     "parity": "checked-in Prepare fixed HCTI render jsCode equals deployed node"
+  },
+  "approved_creative_integration": {
+    "status": "DEPLOYED_INACTIVE_ZERO_CALL_VERIFIED",
+    "runtime_version": "c51f3bd8-ad30-4f17-af20-c423dd701445",
+    "operational_sha256": "b9c56dbc45033915928819076f9be87c2d3d7e0115da3bf06a7748596deda93a",
+    "execution_id": "38554",
+    "record": "automation/n8n/workflows/approved-creative-integration.deployment-record.json",
+    "verdict": "READY_FOR_END_TO_END_ZERO_CALL_ONLY — LIVE_BLOCKED_UNTIL_ATOMIC_CLAIM_AND_PUBLICATION_APPROVAL"
   }
 }

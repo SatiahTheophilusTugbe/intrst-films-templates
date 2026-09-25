@@ -1,3 +1,5 @@
+import { validateOrderedMedia, platformMediaEligibility } from "./ordered-media.mjs";
+
 export class DistributionContractError extends Error {
   constructor(code, message, details = {}) {
     super(message);
@@ -69,29 +71,35 @@ export async function preflightDistribution(request, deps) {
   const story = await required(await deps.loadStoryObject(output.story_object_id), "story object");
   const assetIds = parseJson(output.asset_ids_json, "content_output.asset_ids_json");
   if (!Array.isArray(assetIds) || assetIds.length === 0) fail("MISSING_ASSET", "Output has no asset relationship.");
-  const asset = await required(await deps.loadAsset(assetIds[0]), "asset");
-  const providerMediaUrl = resolveProviderMediaUrl(asset);
+  const assets = [];
+  for (const id of assetIds) assets.push(await required(await deps.loadAsset(id), "asset"));
+  const asset = assets[0];
   const approval = await required(await deps.loadApproval(output.output_id), "approval");
   const { manifest, targets } = outputTargets(output);
   if (output.status !== "approved_for_publish" || output.publish_clearance !== true || output.editorial_approval !== true || output.rights_clearance !== true) {
     fail("APPROVAL_BLOCK", "Content output is not fully approved for publishing.");
   }
   if (story.approval_state !== "approved" || !story.approved_by || !story.approved_at) fail("APPROVAL_BLOCK", "Story Object approval is incomplete.");
-  if (asset.rights_status !== "publishable" || asset.identity_status !== "verified" || asset.technical_status !== "acquired_original_file" || !asset.drive_url || !providerMediaUrl) {
+  if (assets.some(asset => asset.rights_status !== "publishable" || asset.identity_status !== "verified" || !["acquired_original_file", "technically_verified"].includes(asset.technical_status) || !asset.drive_url)) {
     fail("RIGHTS_BLOCK", "Asset rights, identity or file verification is incomplete.");
   }
+  const mediaSet = validateOrderedMedia({ assetIds, mediaSet: manifest.media_set, assets });
+  const eligibility = platformMediaEligibility(targets[0], mediaSet);
+  if (!eligibility.eligible) fail(eligibility.reason, "Complete media set is ineligible for this adapter.");
   if (approval.status !== "approved" || approval.decision !== "approved" || !approval.decision_actor) fail("APPROVAL_BLOCK", "Publish approval is incomplete.");
   const captions = manifest.caption ?? manifest.copy?.caption ?? manifest.platform_copy;
   if (!captions && !manifest.platform_captions) fail("MISSING_COPY", "Approved platform-native copy is missing.");
   const account_id = manifest.destination_account ?? null;
+  if (!account_id || !output.version) fail("CLAIM_IDENTITY_REQUIRED", "Account and output version are required for a publication claim.");
   const existing = await deps.findPublishingLog({ output_id: output.output_id, platform: targets[0], account_id, instruction_version: output.version });
   if (existing?.some((row) => TERMINAL_SUCCESS.has(row.status))) fail("ALREADY_PUBLISHED", "Output is already published to the target platform.");
+  if (existing?.some(row => ["outcome_unknown", "submitted", "blocked_reconciliation", "reconciliation_required"].includes(row.status))) fail("RECONCILIATION_REQUIRED", "Prior outcome blocks resubmission.");
   const adapter = await deps.resolvePublisherAdapter(targets[0], output);
   validateAdapter(adapter);
   const credential = await deps.resolvePublisherCredential(targets[0], output);
   if (!credential) fail("CREDENTIAL_FAILURE", "No authorized publisher credential is available for the target.");
   await adapter.validateConfig({ platform: targets[0], credential, destination: manifest.destination_account ?? null });
-  return { output, story, asset: { ...asset, provider_media_url: providerMediaUrl }, approval, manifest, targets, adapter, credential, existing, account_id };
+  return { output, story, asset: { ...asset, provider_media_url: mediaSet.media_urls[0] }, assets, media_set: mediaSet, media_urls: mediaSet.media_urls, approval, manifest, targets, adapter, credential, existing, account_id };
 }
 
 export async function executeDistribution(request, deps) {
@@ -104,11 +112,13 @@ export async function executeDistribution(request, deps) {
     output_id: context.output.output_id,
     platform,
     account_id: context.account_id,
+    instruction_version: context.output.version,
+    media_set: context.media_set,
     run_id: request.run_id,
     requested_at: new Date().toISOString(),
   });
-  if (!claim || claim.status !== "CLAIMED") {
-    const code = claim?.status ?? "CLAIM_BACKEND_UNAVAILABLE";
+  if (!claim || claim.status !== "CLAIMED" || claim.atomic !== true) {
+    const code = claim?.status === "CLAIMED" ? "ATOMIC_CLAIM_UNPROVEN" : claim?.status ?? "CLAIM_BACKEND_UNAVAILABLE";
     fail(code, `Publication claim did not return CLAIMED: ${code}.`, { idempotency_key: idempotencyKey });
   }
   const event = {
@@ -116,6 +126,9 @@ export async function executeDistribution(request, deps) {
     content_output_id: context.output.output_id,
     story_object_id: context.output.story_object_id,
     asset_ids: JSON.parse(context.output.asset_ids_json),
+    media_set: context.media_set,
+    media_urls: context.media_urls,
+    claim_evidence: claim,
     approval_id: context.approval.review_id,
     platform,
     account_id: context.account_id,
@@ -130,7 +143,7 @@ export async function executeDistribution(request, deps) {
   await deps.persistPublishingLog({ ...event, status: "submitted", approval_status: "approved" });
   let result;
   try {
-    result = await context.adapter.submit({ output: context.output, story: context.story, asset: context.asset, approval: context.approval, manifest: context.manifest, platform }, idempotencyKey);
+    result = await context.adapter.submit({ output: context.output, story: context.story, asset: context.asset, assets: context.assets, media_set: context.media_set, media_urls: context.media_urls, approval: context.approval, manifest: context.manifest, platform }, idempotencyKey);
   } catch (error) {
     const normalized = context.adapter.normalizeError(error);
     await deps.persistPublishingLog({ ...event, status: "blocked_reconciliation", error_class: normalized, retry_count: 0 });

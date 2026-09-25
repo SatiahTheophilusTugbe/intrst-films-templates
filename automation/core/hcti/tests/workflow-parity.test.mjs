@@ -9,7 +9,7 @@ const managed = structuredClone(workflow);
 managed.id = "runtime-managed";
 managed.versionId = "runtime-version";
 managed.createdAt = "2026-09-12T00:00:00Z";
-managed.tags = managed.tags.map((name) => ({ id: "managed-tag-id", name }));
+managed.tags = managed.tags.map((tag) => ({ id: "managed-tag-id", name: typeof tag === 'string' ? tag : tag.name }));
 for (const node of managed.nodes) {
   for (const credential of Object.values(node.credentials ?? {})) credential.id = "managed-credential-id";
   node.parameters = Object.fromEntries(Object.entries(node.parameters).reverse());

@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Content production request 1.0.0",
+  "type": "object",
+  "required": ["contract_version", "content_package_id", "story_object_id", "requested_format", "render_policy", "distribution_mode", "approval_context", "budget"],
+  "properties": {
+    "contract_version": {"const": "content-production@1.0.0"},
+    "content_package_id": {"type": "string", "minLength": 1},
+    "story_object_id": {"type": "string", "minLength": 1},
+    "requested_format": {"enum": ["single_image", "carousel", "archive", "evidence"]},
+    "render_policy": {"const": "reuse_approved_only"},
+    "distribution_mode": {"const": "preflight_only"},
+    "approval_context": {"type": "object", "required": ["editorial", "rights", "visual", "publication"], "properties": {"editorial": {"type": "boolean"}, "rights": {"type": "boolean"}, "visual": {"const": true}, "publication": {"type": "boolean"}}},
+    "budget": {"type": "object", "required": ["maximum_renders", "maximum_publications", "maximum_comment_mutations", "automatic_retries"], "properties": {"maximum_renders": {"const": 0}, "maximum_publications": {"const": 0}, "maximum_comment_mutations": {"const": 0}, "automatic_retries": {"const": 0}}}
+  },
+  "$comment": "Runtime validators also enforce one package/story and at most four distinct formats per execution. Caller approval_context is informational; canonical approvals and media records remain authoritative. Live modes require a future reviewed contract."
+}

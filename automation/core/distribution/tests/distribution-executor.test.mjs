@@ -13,6 +13,8 @@ const ids = {
   run: "INT-RUN-01K4X4Q7B6D0MMPY000000008",
 };
 
+const mediaSet = { format: "single_image", items: [{ order: 1, asset_id: ids.asset, delivery_url: "https://media.example/asset.jpg", mime_type: "image/jpeg", width: 1080, height: 1350, sha256: "a".repeat(64), verification: { run_id: "synthetic-proof", sha256: "a".repeat(64), mime_type: "image/jpeg", width: 1080, height: 1350 }, visual_approval: { actor: "operator", date: "2026-09-18", status: "VISUAL_APPROVED" }, delivery_verification: { url: "https://media.example/asset.jpg", sha256: "a".repeat(64), checked_at: "2026-09-18", provider_accessible: true } }] };
+
 function fixtureDeps({ existing = [], credential = { logical_name: "INT | Blotato | Development | Distribution" }, adapter = null } = {}) {
   const calls = { submit: 0, logs: [], runs: [] };
   const publisher = adapter ?? createPublisherAdapter({
@@ -24,16 +26,16 @@ function fixtureDeps({ existing = [], credential = { logical_name: "INT | Blotat
   });
   return {
     calls,
-    loadContentOutput: async () => ({ output_id: ids.output, story_object_id: ids.story, version: "1.0.0", status: "approved_for_publish", publish_clearance: true, editorial_approval: true, rights_clearance: true, asset_ids_json: JSON.stringify([ids.asset]), manifest_json: JSON.stringify({ platform_targets: ["facebook"], caption: "Approved copy" }) }),
+    loadContentOutput: async () => ({ output_id: ids.output, story_object_id: ids.story, version: "1.0.0", status: "approved_for_publish", publish_clearance: true, editorial_approval: true, rights_clearance: true, asset_ids_json: JSON.stringify([ids.asset]), manifest_json: JSON.stringify({ platform_targets: ["facebook"], destination_account: "synthetic-account", caption: "Approved copy", media_set: mediaSet }) }),
     loadStoryObject: async () => ({ story_object_id: ids.story, approval_state: "approved", approved_by: "operator", approved_at: "2026-09-06T00:00:00Z" }),
-    loadAsset: async () => ({ asset_id: ids.asset, rights_status: "publishable", identity_status: "verified", technical_status: "acquired_original_file", drive_url: "https://drive.example/asset", provider_media_url: "https://media.example/asset.jpg" }),
+    loadAsset: async () => ({ asset_id: ids.asset, rights_status: "publishable", identity_status: "verified", technical_status: "acquired_original_file", drive_url: "https://drive.example/asset", provider_media_url: "https://media.example/asset.jpg", file_hash: "a".repeat(64), mime_type: "image/jpeg" }),
     loadApproval: async () => ({ review_id: ids.approval, status: "approved", decision: "approved", decision_actor: "operator" }),
     findPublishingLog: async () => existing,
     resolvePublisherAdapter: async () => publisher,
     resolvePublisherCredential: async () => credential,
     persistPublishingLog: async (row) => calls.logs.push(row),
     persistWorkflowRun: async (row) => calls.runs.push(row),
-    claimPublication: async ({ idempotency_key }) => ({ status: "CLAIMED", attempt_id: `${idempotency_key}:attempt` }),
+    claimPublication: async ({ idempotency_key }) => ({ status: "CLAIMED", atomic: true, attempt_id: `${idempotency_key}:attempt` }),
   };
 }
 
@@ -73,6 +75,20 @@ test("only an atomic CLAIMED result may reach publisher transport", async () => 
 test("missing publisher credential fails closed before transport", async () => {
   const deps = fixtureDeps({ credential: null });
   await assert.rejects(() => preflightDistribution(request, deps), { code: "CREDENTIAL_FAILURE" });
+  assert.equal(deps.calls.submit, 0);
+});
+
+test('CLAIMED without atomic evidence cannot submit', async () => {
+  const deps = fixtureDeps();
+  deps.claimPublication = async () => ({ status: 'CLAIMED', atomic: false });
+  await assert.rejects(() => executeDistribution(request, deps), { code: 'ATOMIC_CLAIM_UNPROVEN' });
+  assert.equal(deps.calls.submit, 0);
+});
+
+test('prior unknown outcomes block before acquiring another claim', async () => {
+  const deps = fixtureDeps({ existing: [{ status: 'outcome_unknown' }] });
+  deps.claimPublication = async () => { assert.fail('must not claim again'); };
+  await assert.rejects(() => executeDistribution(request, deps), { code: 'RECONCILIATION_REQUIRED' });
   assert.equal(deps.calls.submit, 0);
 });
 
@@ -232,7 +248,7 @@ test("MCP first-comment adapter rejects submission IDs and ambiguous post resolu
 
 test("main publication success is preserved while a first comment is queued", async () => {
   const deps = fixtureDeps();
-  deps.loadContentOutput = async () => ({ output_id: ids.output, story_object_id: ids.story, version: "1.0.0", status: "approved_for_publish", publish_clearance: true, editorial_approval: true, rights_clearance: true, asset_ids_json: JSON.stringify([ids.asset]), manifest_json: JSON.stringify({ platform_targets: ["facebook"], caption: "Approved copy", engagement_intent: "Invite the audience to respond." }) });
+  deps.loadContentOutput = async () => ({ output_id: ids.output, story_object_id: ids.story, version: "1.0.0", status: "approved_for_publish", publish_clearance: true, editorial_approval: true, rights_clearance: true, asset_ids_json: JSON.stringify([ids.asset]), manifest_json: JSON.stringify({ platform_targets: ["facebook"], destination_account: "synthetic-account", caption: "Approved copy", media_set: mediaSet, engagement_intent: "Invite the audience to respond." }) });
   deps.firstCommentAdapter = {
     resolvePublishedPostId: async ({ postSubmissionId }) => { assert.equal(postSubmissionId, "provider-post-1"); return "blotato-post-1"; },
     postFirstComment: async ({ postId, text, postIdSource }) => { assert.deepEqual({ postId, text, postIdSource }, { postId: "blotato-post-1", text: "Invite the audience to respond.", postIdSource: "blotato_list_posts.published.postId" }); return { status: "queued" }; },
@@ -244,7 +260,7 @@ test("main publication success is preserved while a first comment is queued", as
 
 test("first-comment resolution failure preserves the main publication", async () => {
   const deps = fixtureDeps();
-  deps.loadContentOutput = async () => ({ output_id: ids.output, story_object_id: ids.story, version: "1.0.0", status: "approved_for_publish", publish_clearance: true, editorial_approval: true, rights_clearance: true, asset_ids_json: JSON.stringify([ids.asset]), manifest_json: JSON.stringify({ platform_targets: ["instagram"], caption: "Approved copy", engagement_intent: "Invite the audience to respond." }) });
+  deps.loadContentOutput = async () => ({ output_id: ids.output, story_object_id: ids.story, version: "1.0.0", status: "approved_for_publish", publish_clearance: true, editorial_approval: true, rights_clearance: true, asset_ids_json: JSON.stringify([ids.asset]), manifest_json: JSON.stringify({ platform_targets: ["instagram"], destination_account: "synthetic-account", caption: "Approved copy", media_set: mediaSet, engagement_intent: "Invite the audience to respond." }) });
   deps.firstCommentAdapter = {
     resolvePublishedPostId: async () => { throw Object.assign(new Error("ambiguous"), { code: "POST_ID_AMBIGUOUS" }); },
     postFirstComment: async () => { throw new Error("must not be called"); },

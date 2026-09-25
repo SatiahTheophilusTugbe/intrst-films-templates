@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://intrstfilms.com/schemas/ordered-media-set.schema.json",
+  "title": "Ordered media set v1.0.0",
+  "type": "object",
+  "required": ["format", "items"],
+  "properties": {
+    "format": { "enum": ["single_image", "carousel", "archive", "evidence"] },
+    "items": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["order", "asset_id", "delivery_url", "mime_type", "width", "height", "sha256", "verification", "visual_approval", "delivery_verification"],
+        "properties": {
+          "order": { "type": "integer", "minimum": 1 },
+          "asset_id": { "type": "string", "minLength": 1 },
+          "delivery_url": { "type": "string", "pattern": "^https://" },
+          "mime_type": { "enum": ["image/png", "image/jpeg", "image/webp"] },
+          "width": { "type": "integer", "minimum": 1 },
+          "height": { "type": "integer", "minimum": 1 },
+          "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+          "verification": { "type": "object", "required": ["run_id", "sha256", "width", "height", "mime_type"] },
+          "visual_approval": { "type": "object", "required": ["actor", "date", "status"], "properties": { "status": { "const": "VISUAL_APPROVED" } } },
+          "delivery_verification": { "type": "object", "required": ["url", "sha256", "checked_at", "provider_accessible"], "properties": { "provider_accessible": { "const": true } } }
+        }
+      }
+    }
+  },
+  "allOf": [{ "if": { "properties": { "format": { "const": "carousel" } } }, "then": { "properties": { "items": { "minItems": 2 } } }, "else": { "properties": { "items": { "maxItems": 1 } } } }],
+  "$comment": "Cross-record identity, immutable order, hashes, dimensions and approvals are enforced by ordered-media.mjs at the adapter boundary. Evidence must come from canonical stored records, never caller assertion."
+}
