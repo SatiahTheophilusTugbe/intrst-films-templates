@@ -35,6 +35,13 @@ export async function loadAndValidateMediaIntelligence() {
   const [policy, proposal, ...schemas] = await Promise.all([policyPath, proposalPath, ...schemaPaths.map((path) => `${root}${path}`)].map(async (path) => JSON.parse(await readFile(path, "utf8"))));
   validateMediaIntelligencePolicy(policy, proposal);
   for (const schema of schemas) if (schema.$schema !== "https://json-schema.org/draft/2020-12/schema" || !schema.$id || schema.type !== "object") throw new Error(`Invalid schema declaration: ${schema.$id ?? "unknown"}`);
+  const binding = JSON.parse(await readFile(`${root}automation/n8n/workflows/AUT-013-atomic-claim-postgres-dev.binding.json`, 'utf8'));
+  const publication = binding.publication_extension;
+  if (!publication || publication.atomic_claim_binding.guarantee !== false || publication.transport_disabled !== true ||
+      publication.automatic_retries !== 0 || publication.migration_status !== 'PREPARED_NOT_APPLIED' ||
+      publication.concurrent_database_proof !== 'NOT_RUN' || publication.durable_database_readback !== 'NOT_RUN') {
+    throw new Error('Publication claim preparation cannot assert an unproven live guarantee.');
+  }
   return { policy, proposal, schemas };
 }
 

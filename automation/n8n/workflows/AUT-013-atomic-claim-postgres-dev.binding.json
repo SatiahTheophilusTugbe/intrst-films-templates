@@ -4,8 +4,14 @@
   "backend": "postgresql",
   "backend_version": "postgres-v1",
   "purpose": "database-enforced atomic winner for paid TranscriptAPI transcript retrieval",
-  "project": {"name": "INTRST Films", "id": "o8RQQQgne2c6jXr5"},
-  "workflow": {"name": "INT-TST-013 — Dolly TranscriptAPI Controlled Test — DEV", "id": "CYYjgF7zthIjMH7c"},
+  "project": {
+    "name": "INTRST Films",
+    "id": "o8RQQQgne2c6jXr5"
+  },
+  "workflow": {
+    "name": "INT-TST-013 — Dolly TranscriptAPI Controlled Test — DEV",
+    "id": "CYYjgF7zthIjMH7c"
+  },
   "environment": "development",
   "active": false,
   "credential_ref": "INT | PostgreSQL | Development | Atomic Claims",
@@ -23,12 +29,106 @@
   "automatic_retries": 0,
   "data_table_row_locking_rejected": true,
   "reason_existing_n8n_tables_insufficient": "n8n Data Table user columns do not expose a user-defined unique constraint; lookup-insert and ordinary upsert therefore do not prove a single concurrent winner",
-  "repository_proof": {"tests_passed": 5, "tests_failed": 0, "tested_at": "2026-09-05", "network_calls": 0},
+  "repository_proof": {
+    "tests_passed": 5,
+    "tests_failed": 0,
+    "tested_at": "2026-09-05",
+    "network_calls": 0
+  },
   "runtime_binding_status": "pending_backend_provisioning_and_n8n_credential_binding",
   "provider_execution_authorized": true,
   "provider_execution_performed": false,
   "provider_calls": 0,
   "credits_consumed": 0,
   "production_promotion": "blocked",
-  "next_gate": "provision development PostgreSQL claim table, bind project-owned logical credential, wire atomic claim before TranscriptAPI node, then execute exactly one authorized Dolly call"
+  "next_gate": "provision development PostgreSQL claim table, bind project-owned logical credential, wire atomic claim before TranscriptAPI node, then execute exactly one authorized Dolly call",
+  "publication_extension": {
+    "checked_at": "2026-09-25",
+    "base_commit": "d18bd1fa183ab44a8e298d02c2c98b9d2c32ddd6",
+    "verdict": "BLOCKED — ATOMIC PUBLICATION CLAIM GUARANTEE UNPROVEN",
+    "backend": "postgresql",
+    "schema": "public",
+    "table": "intrst_media_operation_claims",
+    "backend_instance": null,
+    "backend_identity_verified": false,
+    "credential_ref": "INT | PostgreSQL | Development | Atomic Claims",
+    "project_id": "o8RQQQgne2c6jXr5",
+    "project_postgres_credential_count": 0,
+    "credential_ownership_verified": false,
+    "migration_status": "PREPARED_NOT_APPLIED",
+    "concurrent_database_proof": "NOT_RUN",
+    "durable_database_readback": "NOT_RUN",
+    "actual_claim_outcomes": [],
+    "new_zero_call_execution_ids": [],
+    "prior_zero_call_execution_id": "38554",
+    "prior_distribution_child_execution_ids": [
+      "38559",
+      "38560",
+      "38561",
+      "38562"
+    ],
+    "atomic_claim_binding": {
+      "status": "unresolved",
+      "guarantee": false
+    },
+    "transport_disabled": true,
+    "automatic_retries": 0,
+    "provider_calls": 0,
+    "hcti_render_calls": 0,
+    "blotato_publication_calls": 0,
+    "comment_calls": 0,
+    "runtime_changes": 0,
+    "migration_executions": 0,
+    "mock_tests_are_database_proof": false,
+    "tests": {
+      "test_runner_cases_passed": 74,
+      "failed": 0
+    },
+    "validators_passed": 7,
+    "ordered_media_source_parity": true,
+    "supplemental_media_intelligence_test_runner_cases_passed": 11,
+    "supplemental_suite_overlaps_atomic_tests": true,
+    "tracker_readback": {
+      "spreadsheet": "INTRST Master Build Tracker - Canonical",
+      "rows": {
+        "AUT-012": 112,
+        "AUT-013": 120,
+        "AUT-015": 121
+      },
+      "verified": true,
+      "formatting_preserved": true,
+      "duplicate_rows_created": 0
+    },
+    "blocker": "No project-scoped PostgreSQL credential; connected tools expose no PostgreSQL server or credential provisioning capability.",
+    "remaining_work": [
+      "Provision approved development backend and project-owned logical credential securely",
+      "Apply migration and confirm database identity, role grants and session policy",
+      "Run simultaneous synthetic claims and independent durable readback",
+      "Prove sticky prior success/unknown, distinct account/platform/version/hash, one complete carousel claim and failure/no-retry paths",
+      "Only after proof, complete adapter guarantee and AUT-014 runtime binding with transport disabled",
+      "Rerun AUT-014 and AUT-015 zero-call validation and runtime parity"
+    ],
+    "package_specific_live_gates": [
+      "Explicit package/account/version/media-set publication authorization",
+      "Editorial and derivative rights approval",
+      "Fresh provider media delivery verification",
+      "Platform eligibility and copy approval"
+    ],
+    "runtime": {
+      "AknakVMx2prJrsZw": {
+        "version": "6b76c40b-8e38-4660-bf05-ce20b29175f5",
+        "operational_sha256": "c0be625f7978a394a15a2e62373dece86980ecd75f41688401ba470f8f8889a8",
+        "repository_runtime_equal": true,
+        "active": false,
+        "runtime_mutated": false
+      },
+      "07pRK9XWNiRXHWN9": {
+        "version": "ff080079-64bb-4c0b-8cf0-6ee3ca98fa6f",
+        "operational_sha256": "077c6131689006d920dad73232dc359d159ddad8b6c5497583015e811fdac9d5",
+        "repository_runtime_equal": true,
+        "active": false,
+        "runtime_mutated": false
+      }
+    }
+  }
 }

@@ -1,5 +1,68 @@
 # INTRST Media Intelligence Layer — Phase 1 Contract
 
+## Publication atomic-claim infrastructure — 2026-09-25
+
+Verdict: `BLOCKED — ATOMIC PUBLICATION CLAIM GUARANTEE UNPROVEN`.
+Project-scoped inventory returned zero PostgreSQL credentials. The logical reference
+remains `INT | PostgreSQL | Development | Atomic Claims`; no credential ownership,
+database endpoint, database name, live migration or concurrency proof is claimed.
+The proposed relation is `public.intrst_media_operation_claims` in the dedicated
+development backend. The publication extension in `atomic-claim.postgres.sql` and
+`atomic-claim.mjs` is **prepared, not deployed**. Legacy transcript rows and their
+uniqueness remain intact. No alternate store is introduced.
+
+Publication identity is `publish:<output_id>:<platform>:<account_id>:<instruction_version>`.
+The operation key appends `:media:<ordered_media_set_hash>`. A partial unique index
+enforces publication key plus hash; the legacy partial index preserves transcript
+idempotency. The hash is SHA-256 of UTF-8 JSON
+`["ordered-media-claim@1", format, [[order, asset_id, sha256], ...]]`.
+Delivery URL rotation does not change the identity. Reordered or changed bytes do.
+The complete carousel is one row and one transaction.
+
+The function uses INSERT ON CONFLICT and a separate locked read under READ COMMITTED.
+It requires synchronous commits, bounds lock waits to five seconds, and performs no
+retry. Separate commands in a VOLATILE function obtain fresh snapshots, avoiding
+the invisible-conflict problem of a same-statement SELECT after DO NOTHING.
+References: [PostgreSQL isolation](https://www.postgresql.org/docs/current/transaction-iso.html)
+and [function volatility](https://www.postgresql.org/docs/current/xfunc-volatility.html).
+Terminal published/unknown states cannot be reclaimed, changed or deleted through
+ordinary DML. No automatic reconciliation or reset is provided.
+
+The dedicated runtime role needs narrowly scoped function and relation privileges;
+it must not own the schema/table, disable triggers, truncate, or reset claims.
+The migration must be applied by the separate migration owner in one transaction.
+Configure READ COMMITTED, synchronous_commit=on and statement_timeout <= 10s.
+Executor completion must mean COMMIT acknowledged. Independent readback must use a
+separate database connection. A failed commit/readback/credential blocks transport
+without retry. The prepared adapter always returns atomic=false and
+transport_prohibited=true, including successful synthetic reads. Unit-test mocks
+are adapter-contract checks, never evidence of a PostgreSQL guarantee.
+
+Required live proof after secure provisioning:
+
+1. Record the actual backend/database/schema/role and project-owned logical credential.
+   Apply the migration; inspect constraints and privileges, then rerun to check idempotence.
+2. Use two independent sessions and distinct attempt IDs for one new synthetic
+   publication identity. Overlap transactions deliberately; hold the first insert
+   uncommitted while starting the second, then commit. Expect exactly CLAIMED and
+   ALREADY_CLAIMED. Read the single committed row from a third connection.
+3. Mark synthetic winners published and outcome_unknown with the terminal statement.
+   Reclaim attempts must return PRIOR_SUCCESS and PRIOR_OUTCOME_UNKNOWN. Verify the
+   terminal state cannot regress and each path prohibits transport.
+4. Vary output, account, platform, instruction version and ordered media hash. Read
+   distinct durable rows; verify a carousel stores one complete-set operation.
+5. Inject database/credential/commit/readback failures. Assert no provider invocation,
+   automatic retry, or ambiguous claim reuse. Preserve all synthetic evidence.
+6. Only then complete runtime binding/guarantee, keeping transport disabled; rerun
+   AUT-014 and AUT-015 zero-call validation and repository/runtime parity. Do not
+   promote the prepared binding based on unit tests or migration success alone.
+
+Rollback is keep transport disabled and revert adapter wiring; retain the additive
+schema and every claim row. Do not drop publication columns/indexes or reset history.
+Current session: no migration or claim executions, provider/render/publication/comment
+calls or retries. Existing AUT-012, AUT-013 (claim owner) and AUT-015 tracker rows are
+used; no new tracker row is needed.
+
 Status: INF-005.2 deployed and verified in development; the supervised AUT-013 controlled test completed successfully, while unattended runtime remains production-blocked.
 
 Deployment: `d56f20cb142008d8be2b46095c9321f122fbcf90` created the three empty project-scoped Data Tables in `INTRST Films` (`o8RQQQgne2c6jXr5`): `media_sources` (`MtW6eqUyU7oiPRB0`), `media_intelligence` (`fPb1OwJbFPbFmqRk`), and `provider_usage` (`WFeE982gMt0XfiIm`).

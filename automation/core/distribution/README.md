@@ -18,11 +18,22 @@ No truncation, separate-slide posts or implicit conversion is allowed.
 Source: https://help.blotato.com/api/publish-post/media (rechecked 2026-09-23 UTC).
 Fresh delivery verification and all later approvals remain required for live use.
 
-The canonical PostgreSQL claim backend is not provisioned/bound: there is no
-project-scoped PostgreSQL credential, and the existing table restricts provider/task
-to transcript retrieval. A publication migration and simultaneous-claim proof
-remain required. No alternate claim system was introduced. Runtime transport stays
+The canonical PostgreSQL claim backend is not provisioned/bound: scoped inventory
+on 2026-09-25 returned zero PostgreSQL credentials. The existing canonical SQL and
+adapter now contain a prepared publication extension; it has not been applied to a
+database. Simultaneous-claim proof and durable readback remain unperformed.
+No alternate claim system was introduced. Runtime transport stays
 unconditionally closed even when caller data asserts a claim guarantee.
+
+The infrastructure verdict is `BLOCKED — ATOMIC PUBLICATION CLAIM GUARANTEE UNPROVEN`.
+The required base key is `publish:<output>:<platform>:<account>:<instruction_version>`.
+Database uniqueness additionally includes the complete ordered-media-set hash;
+one carousel is one operation, never one claim per slide. The prepared adapter
+does not grant `atomic: true` or transport permission. Workflow binding and new
+AUT-014/AUT-015 zero-call executions await actual PostgreSQL proof. Current inactive
+workflow graphs remain equal to the repository; historical execution 38554 is not
+represented as a new infrastructure test. See the publication section of
+`../media-intelligence/README.md` for migration and proof requirements.
 
 Tracker and project inventory inspection assigned AUT-015 to the inactive Content
 Production Orchestrator `07pRK9XWNiRXHWN9`. Ten assets, four logical outputs and four
