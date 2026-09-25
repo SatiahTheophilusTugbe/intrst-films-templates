@@ -46,13 +46,15 @@ ALTER TABLE public.intrst_media_operation_claims
   ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP;
 
 ALTER TABLE public.intrst_media_operation_claims
+  ALTER COLUMN subject_id DROP NOT NULL,
   DROP CONSTRAINT IF EXISTS intrst_media_operation_claims_provider_check,
   DROP CONSTRAINT IF EXISTS intrst_media_operation_claims_task_check,
   DROP CONSTRAINT IF EXISTS intrst_media_operation_claims_operation_check;
 ALTER TABLE public.intrst_media_operation_claims
   ADD CONSTRAINT intrst_media_operation_claims_operation_check CHECK (
-    (operation_type = 'transcript_retrieval' AND provider = 'transcriptapi' AND task = 'transcript_retrieval')
+    (operation_type = 'transcript_retrieval' AND subject_id IS NOT NULL AND provider = 'transcriptapi' AND task = 'transcript_retrieval')
     OR (operation_type = 'publication' AND provider = 'publication_adapter' AND task = 'publication'
+      AND subject_id IS NULL
       AND output_id IS NOT NULL AND output_id <> ''
       AND platform IS NOT NULL AND platform IN ('facebook','instagram','threads','youtube','x','tiktok')
       AND account_id IS NOT NULL AND account_id <> ''
@@ -95,7 +97,7 @@ BEGIN
     (operation_key, run_id, subject_id, provider, task, requested_at, idempotency_key,
      operation_type, output_id, platform, account_id, instruction_version,
      ordered_media_set_hash, root_run_id, attempt_id)
-  VALUES (k || ':media:' || p_media_hash, p_root, p_output, 'publication_adapter', 'publication',
+  VALUES (k || ':media:' || p_media_hash, p_root, NULL, 'publication_adapter', 'publication',
     CURRENT_TIMESTAMP, k, 'publication', p_output, p_platform, p_account, p_version,
     p_media_hash, p_root, p_attempt)
   ON CONFLICT (operation_key) DO NOTHING;
