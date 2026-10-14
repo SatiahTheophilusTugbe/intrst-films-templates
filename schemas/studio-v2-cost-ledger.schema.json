@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://intrstfilms.com/schemas/studio-v2-cost-ledger.schema.json",
+  "title": "INTRST Studio v2 Cost Ledger Entry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_version", "cost_entry_id", "entry_type", "scope_type", "scope_id", "currency", "amount_minor", "occurred_at", "idempotency_key", "created_at"],
+  "properties": {
+    "contract_version": {"const": "studio-cost-ledger@1.0.0"},
+    "cost_entry_id": {"type": "string", "pattern": "^INT-CST-[0-9A-HJKMNP-TV-Z]{26}$"},
+    "entry_type": {"enum": ["budget_opened", "reservation_created", "usage_accrued", "usage_settled", "reservation_released", "refund_credited", "manual_adjustment"]},
+    "scope_type": {"enum": ["studio", "series", "episode", "scene", "shot", "generation_job", "generation_attempt", "voice", "music", "post", "acquisition"]},
+    "scope_id": {"type": "string", "minLength": 1},
+    "series_id": {"type": ["string", "null"]},
+    "episode_id": {"type": ["string", "null"]},
+    "shot_id": {"type": ["string", "null"]},
+    "generation_job_id": {"type": ["string", "null"]},
+    "attempt_id": {"type": ["string", "null"]},
+    "currency": {"type": "string", "pattern": "^[A-Z]{3}$"},
+    "amount_minor": {"type": "integer"},
+    "provider": {"type": ["string", "null"]},
+    "model": {"type": ["string", "null"]},
+    "rate_card_version": {"type": ["string", "null"]},
+    "reference_entry_id": {"type": ["string", "null"], "pattern": "^INT-CST-[0-9A-HJKMNP-TV-Z]{26}$"},
+    "approval_record_id": {"type": ["string", "null"], "pattern": "^INT-REV-[0-9A-HJKMNP-TV-Z]{26}$"},
+    "reason": {"type": ["string", "null"]},
+    "actor": {"type": ["string", "null"]},
+    "occurred_at": {"type": "string", "format": "date-time"},
+    "idempotency_key": {"type": "string", "minLength": 1},
+    "created_at": {"type": "string", "format": "date-time"}
+  },
+  "allOf": [
+    {"if": {"properties": {"entry_type": {"enum": ["reservation_released", "refund_credited"]}}}, "then": {"required": ["reference_entry_id"], "properties": {"amount_minor": {"maximum": 0}}}},
+    {"if": {"properties": {"entry_type": {"const": "manual_adjustment"}}}, "then": {"required": ["approval_record_id", "reason", "actor"], "properties": {"reason": {"type": "string", "minLength": 1}, "actor": {"type": "string", "minLength": 1}}}},
+    {"if": {"properties": {"entry_type": {"enum": ["budget_opened", "reservation_created", "usage_accrued", "usage_settled"]}}}, "then": {"properties": {"amount_minor": {"minimum": 0}}}}
+  ]
+}

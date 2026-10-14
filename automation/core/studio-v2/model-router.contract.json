@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "contract_id": "STU-004-MODEL-ROUTER",
+  "contract_version": "model-router@1.0.0",
+  "status": "architecture_complete_runtime_not_deployed",
+  "purpose": "Select a provider/model/adapter deterministically from versioned capability and performance evidence without performing a provider mutation.",
+  "input_schema": "schemas/studio-v2-model-route.schema.json#/$defs/routeRequest",
+  "output_schema": "schemas/studio-v2-model-route.schema.json#/$defs/routeDecision",
+  "hard_gates": [
+    "commercial_use_permitted",
+    "credential_logical_reference_available",
+    "required_modality_supported",
+    "aspect_ratio_and_resolution_supported",
+    "duration_supported",
+    "required_identity_controls_supported",
+    "required_dialogue_or_lip_sync_supported",
+    "required_region_and_data_policy_supported",
+    "estimated_cost_within_shot_ceiling",
+    "budget_reservation_possible",
+    "adapter_health_not_open_circuit",
+    "continuity_snapshot_and_shot_manifest_hashes_pinned"
+  ],
+  "scoring_policy": {
+    "version": "studio-route-score@1.0.0",
+    "scale": "0_to_100_integer",
+    "weights": {
+      "quality_fit": 22,
+      "identity_consistency": 18,
+      "performance_fit": 14,
+      "camera_control_fit": 10,
+      "dialogue_fit": 8,
+      "environment_fit": 6,
+      "historical_acceptance_rate": 8,
+      "reliability": 6,
+      "latency_fit": 3,
+      "cost_efficiency": 5
+    },
+    "normalization": "Each dimension is an integer 0..100. Weighted score is round(sum(dimension * weight) / 100).",
+    "tie_break": ["highest_total_score", "lowest_estimated_cost_minor", "lowest_p95_latency_ms", "lexicographic_provider_model_key"],
+    "minimum_score": 70,
+    "missing_evidence": "A missing scored dimension receives zero; a missing hard-gate field blocks the candidate."
+  },
+  "request_identity": {
+    "idempotency_key_components": ["shot_id", "shot_manifest_hash", "continuity_state_hash", "generation_profile_version", "route_policy_version", "model_catalog_version"],
+    "volatile_fields_excluded": ["requested_at", "operator_note", "candidate_live_latency"],
+    "hash": "sha256_of_canonical_json"
+  },
+  "decision_states": ["selected", "blocked", "manual_review_required"],
+  "decision_rules": [
+    "A selected route contains exactly one provider, model, adapter, cost estimate, catalog version and evidence list.",
+    "Fallback order is advisory only. It does not authorize another paid attempt.",
+    "A catalog or pricing change produces a new route decision version and requires a fresh budget reservation before submission.",
+    "Provider success does not imply artifact acceptance, continuity approval or creative approval.",
+    "Historical acceptance and cost signals may influence scoring only when their sample window, count and catalog/model version are recorded.",
+    "The router never grants greenlight, spend escalation, retry, creative acceptance or publication approval."
+  ],
+  "adapter_contract": {
+    "required_methods": ["healthcheck", "validate_config", "estimate", "submit", "get_status", "retrieve", "normalize_result", "normalize_error"],
+    "submit_preconditions": ["route_selected", "budget_reserved", "atomic_claim_durable", "attempt_authorized", "continuity_gate_passed"],
+    "secret_handling": "Only logical credential references cross the router boundary."
+  }
+}

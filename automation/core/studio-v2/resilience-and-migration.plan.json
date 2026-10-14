@@ -1,0 +1,194 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "plan_id": "STU-004-RESILIENCE-MIGRATION",
+  "plan_version": "studio-v2-migration@1.0.0",
+  "status": "architecture_complete_execution_not_started",
+  "project": {
+    "name": "INTRST Films",
+    "id": "o8RQQQgne2c6jXr5"
+  },
+  "resilience": {
+    "principles": [
+      "persist_and_exit",
+      "one_side_effect_per_claimed_attempt",
+      "no_silent_paid_retry",
+      "unknown_is_not_failure_or_success",
+      "read_only_reconciliation_before_resubmission",
+      "fail_closed_on_identity_rights_continuity_budget_claim_and_approval",
+      "provider_adapters_are_replaceable",
+      "every_checkpoint_is_resumable_and_observable"
+    ],
+    "error_classes": [
+      {"class": "SCHEMA_VALIDATION", "category": "policy", "retry": "none", "disposition": "blocked"},
+      {"class": "IDENTITY_BLOCK", "category": "policy", "retry": "none", "disposition": "human_review"},
+      {"class": "RIGHTS_BLOCK", "category": "policy", "retry": "none", "disposition": "human_review"},
+      {"class": "CONTINUITY_BLOCK", "category": "policy", "retry": "none", "disposition": "human_review"},
+      {"class": "BUDGET_BLOCK", "category": "policy", "retry": "none", "disposition": "blocked"},
+      {"class": "CLAIM_BACKEND_UNAVAILABLE", "category": "infrastructure", "retry": "none_in_current_execution", "disposition": "deferred_or_manual_review"},
+      {"class": "CREDENTIAL_FAILURE", "category": "configuration", "retry": "none", "disposition": "stop_alert"},
+      {"class": "RATE_LIMIT", "category": "transient", "retry": "bounded_status_or_pre_submit_only", "disposition": "deferred"},
+      {"class": "TEMPORARY_PROVIDER", "category": "transient", "retry": "bounded_status_or_pre_submit_only", "disposition": "deferred"},
+      {"class": "NETWORK", "category": "ambiguous", "retry": "only_if_request_definitively_not_submitted", "disposition": "outcome_unknown_after_submit_boundary"},
+      {"class": "PROVIDER_REJECTED", "category": "known_failure", "retry": "explicit_new_attempt_only", "disposition": "failed_recoverable_or_terminal"},
+      {"class": "MALFORMED_PROVIDER_RESULT", "category": "ambiguous", "retry": "none", "disposition": "outcome_unknown"},
+      {"class": "ARTIFACT_RETRIEVAL_FAILED", "category": "recovery", "retry": "bounded_read_only", "disposition": "deferred_or_manual_review"},
+      {"class": "TECHNICAL_QC_FAILED", "category": "quality", "retry": "explicit_new_attempt_only", "disposition": "failed_recoverable"},
+      {"class": "CONTINUITY_QC_FAILED", "category": "quality", "retry": "explicit_new_attempt_only", "disposition": "human_review"},
+      {"class": "CREATIVE_REJECTED", "category": "quality", "retry": "explicit_new_attempt_only", "disposition": "rejected"},
+      {"class": "OUTCOME_UNKNOWN", "category": "ambiguous", "retry": "prohibited_until_reconciled", "disposition": "manual_reconciliation_required"}
+    ],
+    "retry_policy": {
+      "paid_generation_automatic_retries": 0,
+      "provider_status_reads_max_per_due_execution": 1,
+      "artifact_download_reads_max_per_due_execution": 2,
+      "pre_submit_metadata_reads_max": 2,
+      "backoff": "Persist next_action_at and exit; no waiting execution or tight poll loop.",
+      "new_attempt": "Requires explicit approval_record_id, a new attempt_id, a new reservation, and a resolved prior attempt."
+    },
+    "circuit_breaker": {
+      "scope": "provider_model_adapter_version",
+      "states": ["closed", "open", "half_open_manual_canary"],
+      "automatic_half_open_canary": false,
+      "open_conditions": ["credential_failure", "repeated_ambiguous_outcomes", "provider_incident", "invalid_result_rate_threshold", "cost_or_terms_change_unreviewed"]
+    },
+    "dead_letter": {
+      "requires": ["generation_job_id", "attempt_id", "last_known_state", "normalized_error_class", "sanitized_error", "checkpoint_ids", "reconciliation_state", "operator_action_required"],
+      "secrets_or_raw_provider_payloads_allowed": false
+    }
+  },
+  "data_table_proposal": {
+    "status": "proposal_not_deployed",
+    "base_contract": "INF-005 + INF-005.1 + INF-005.2",
+    "existing_tables_modified": false,
+    "tables": [
+      {
+        "name": "studio_objects",
+        "logical_key": ["object_id", "version"],
+        "columns": ["object_id:string", "object_type:string", "series_id:string", "episode_id:string", "scene_id:string", "version:string", "status:string", "payload_json:string", "payload_hash:string", "approval_record_id:string", "idempotency_key:string", "created_at:date"]
+      },
+      {
+        "name": "continuity_states",
+        "logical_key": ["continuity_state_id"],
+        "columns": ["continuity_state_id:string", "series_id:string", "episode_id:string", "parent_state_id:string", "version:string", "state_json:string", "state_hash:string", "mutation_ids_json:string", "approval_record_id:string", "is_series_head:boolean", "idempotency_key:string", "created_at:date"]
+      },
+      {
+        "name": "generation_jobs",
+        "logical_key": ["generation_job_id"],
+        "columns": ["generation_job_id:string", "shot_id:string", "root_run_id:string", "state:string", "attempt_count:number", "active_attempt_id:string", "route_decision_id:string", "continuity_state_id:string", "reservation_entry_id:string", "provider_job_id:string", "selected_asset_id:string", "reconciliation_state:string", "next_action_at:date", "payload_json:string", "idempotency_key:string", "created_at:date", "updated_at:date"]
+      },
+      {
+        "name": "model_evaluations",
+        "logical_key": ["model_evaluation_id"],
+        "columns": ["model_evaluation_id:string", "route_decision_id:string", "generation_job_id:string", "attempt_id:string", "provider:string", "model:string", "adapter_version:string", "catalog_version:string", "evaluation_type:string", "score:number", "accepted:boolean", "evidence_json:string", "idempotency_key:string", "created_at:date"]
+      },
+      {
+        "name": "cost_ledger",
+        "logical_key": ["cost_entry_id"],
+        "columns": ["cost_entry_id:string", "entry_type:string", "scope_type:string", "scope_id:string", "series_id:string", "episode_id:string", "shot_id:string", "generation_job_id:string", "attempt_id:string", "currency:string", "amount_minor:number", "provider:string", "model:string", "rate_card_version:string", "reference_entry_id:string", "approval_record_id:string", "occurred_at:date", "idempotency_key:string", "created_at:date"]
+      },
+      {
+        "name": "qc_results",
+        "logical_key": ["qc_result_id"],
+        "columns": ["qc_result_id:string", "generation_job_id:string", "attempt_id:string", "asset_id:string", "asset_hash:string", "qc_type:string", "status:string", "score:number", "findings_json:string", "model_or_rule_version:string", "human_review_required:boolean", "approval_record_id:string", "idempotency_key:string", "created_at:date"]
+      }
+    ],
+    "reuse": {
+      "workflow_runs": "Execution lineage; no schema mutation required for v1 because canonical Studio IDs use input_ids_json/output_ids_json.",
+      "asset_registry": "Immutable artifact provenance and approved usage.",
+      "approval_queue": "Human decisions.",
+      "content_outputs": "Approved assembled episode masters and derivatives.",
+      "provider_usage": "Operational metering/cache observations.",
+      "publishing_log": "Publication only, after AUT-014 handoff."
+    }
+  },
+  "atomic_generation_claim_proposal": {
+    "status": "design_only_not_migrated_not_proven",
+    "backend": "project_owned_postgresql",
+    "strategy": "Create a separate append-only intrst_generation_attempt_claims table rather than broadening the unproven publication migration in place.",
+    "required_unique_keys": ["operation_key", "generation_job_id + attempt_sequence"],
+    "operation_key": "gen:{generation_job_id}:{attempt_sequence}:{provider}:{model}:{adapter_version}:{prompt_hash}:{input_asset_set_hash}",
+    "proof_before_transport": ["migration_applied", "role_grants_verified", "read_committed_and_synchronous_commit_verified", "simultaneous_claim_exactly_one_winner", "independent_committed_readback", "delete_and_reset_prohibited", "outcome_unknown_sticky"],
+    "credential_ref": "INT | PostgreSQL | Development | Atomic Claims"
+  },
+  "migration_phases": [
+    {
+      "phase": 0,
+      "name": "architecture",
+      "status": "complete_by_STU-004",
+      "deliverables": ["object_model", "router_contract", "continuity_contract", "state_machine", "cost_model", "resilience", "table_proposal", "tests"],
+      "mutations": "Git contracts and tracker note only"
+    },
+    {
+      "phase": 1,
+      "name": "governance_and_schema_review",
+      "status": "not_started",
+      "gates": ["STU-005 property greenlight may remain pending", "INF-006 minor ID extension approved", "Data Table proposal approved", "PostgreSQL generation claim migration reviewed", "WIN 2/WIN 5 ownership boundaries approved"],
+      "paid_calls": 0
+    },
+    {
+      "phase": 2,
+      "name": "empty_development_persistence",
+      "status": "not_started",
+      "gates": ["project_scoped table inventory preflight", "create exactly six empty development tables", "deploy separate generation claim table", "concurrent claim proof", "rollback documented"],
+      "property_data": false
+    },
+    {
+      "phase": 3,
+      "name": "pure_services_and_synthetic_fixtures",
+      "status": "not_started",
+      "gates": ["generic fixtures only", "object/continuity/router/job/cost validators", "adapter contract tests", "failure and unknown-outcome tests", "no provider mutations"]
+    },
+    {
+      "phase": 4,
+      "name": "inactive_modular_n8n_bridges",
+      "status": "not_started",
+      "gates": ["separate subworkflows", "runtime/repository parity", "zero-call executions", "durable workflow_runs readback", "provider budget zero", "inactive state"]
+    },
+    {
+      "phase": 5,
+      "name": "model_bakeoff_and_character_world_lock",
+      "status": "blocked_until_STU-005_STU-006_STU-007",
+      "gates": ["greenlit property", "approved neutral bakeoff budget", "character/world lock standard", "explicit paid-call authorization"]
+    },
+    {
+      "phase": 6,
+      "name": "three_episode_technical_proof",
+      "status": "blocked_until_STU-008_authorization",
+      "gates": ["episodes_1_to_3_locked", "budgets", "continuity head", "provider adapters verified", "human review capacity", "release disabled"]
+    },
+    {
+      "phase": 7,
+      "name": "approved_output_integration",
+      "status": "not_started",
+      "gates": ["accepted episode masters registered", "content_outputs adapter", "AUT-015 zero-call update", "AUT-014 remains separately gated"]
+    }
+  ],
+  "rollback": {
+    "architecture": "Revert the STU-004 Git commit; no runtime state exists.",
+    "future_tables": "Archive only the six empty Studio tables after project-scoped identity verification; never delete production rows.",
+    "future_workflows": "Keep inactive and restore prior version; do not mutate AUT-009, AUT-014 or AUT-015 as rollback shortcuts.",
+    "legacy": "Documentary Story Object and existing outputs remain authoritative and untouched throughout migration."
+  },
+  "test_plan": [
+    "schema_required_fields_and_additional_property_rejection",
+    "typed_ID_and_version_invariants",
+    "parent_child_reference_integrity",
+    "documentary_story_object_non_regression",
+    "continuity_hash_parent_and_compare_and_swap",
+    "hard_soft_informational_assertion_outcomes",
+    "router_hard_gate_and_deterministic_tie_break",
+    "route_budget_and_catalog_version_invalidation",
+    "generation_happy_path_and_invalid_transition_rejection",
+    "one_active_attempt_and_unknown_outcome_no_retry",
+    "integer_minor_unit_ledger_and_reservation_balance",
+    "no_zero_denominator_metric_fabrication",
+    "provider_error_normalization_and_secret_redaction",
+    "atomic_claim_concurrency_and_independent_readback",
+    "modular_workflow_graph_and_no_cycle_or_poll_loop",
+    "workflow_runs_lineage_and_terminal_persistence",
+    "asset_hash_provenance_and_selection_immutability",
+    "explicit_human_approval_actor_time_scope",
+    "AUT-015_handoff_only_after_accepted_episode_master",
+    "AUT-014_no_regression_and_no_implicit_publication"
+  ]
+}

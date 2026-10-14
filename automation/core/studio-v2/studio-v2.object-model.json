@@ -1,0 +1,169 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "contract_id": "STU-004",
+  "contract_version": "studio-v2-object-model@1.0.0",
+  "status": "architecture_complete_runtime_not_deployed",
+  "project": {
+    "name": "INTRST Films",
+    "id": "o8RQQQgne2c6jXr5"
+  },
+  "doctrine": {
+    "migration": "additive",
+    "legacy_story_object_preserved": true,
+    "property_specific_generation_authorized": false,
+    "monolithic_workflow_allowed": false,
+    "human_approval_is_data": true,
+    "provider_neutral": true
+  },
+  "identifier_extension": {
+    "base_contract": "INF-006@1.0.0",
+    "status": "proposed_for_INF-006_minor_extension_before_runtime_deployment",
+    "pattern": "^INT-[A-Z]{3}-[0-9A-HJKMNP-TV-Z]{26}$",
+    "types": [
+      {"name": "signal", "code": "SIG", "primary_field": "signal_id"},
+      {"name": "series", "code": "SER", "primary_field": "series_id"},
+      {"name": "character", "code": "CHR", "primary_field": "character_id"},
+      {"name": "relationship", "code": "REL", "primary_field": "relationship_id"},
+      {"name": "location", "code": "LOC", "primary_field": "location_id"},
+      {"name": "episode", "code": "EPI", "primary_field": "episode_id"},
+      {"name": "scene", "code": "SCN", "primary_field": "scene_id"},
+      {"name": "shot", "code": "SHT", "primary_field": "shot_id"},
+      {"name": "continuity_snapshot", "code": "CNT", "primary_field": "continuity_state_id"},
+      {"name": "generation_job", "code": "GJB", "primary_field": "generation_job_id"},
+      {"name": "generation_attempt", "code": "ATM", "primary_field": "attempt_id"},
+      {"name": "route_decision", "code": "RTE", "primary_field": "route_decision_id"},
+      {"name": "model_evaluation", "code": "MEV", "primary_field": "model_evaluation_id"},
+      {"name": "cost_entry", "code": "CST", "primary_field": "cost_entry_id"},
+      {"name": "qc_result", "code": "QCR", "primary_field": "qc_result_id"}
+    ]
+  },
+  "envelope": {
+    "required": ["schema_version", "object_type", "object_id", "version", "status", "payload", "payload_hash", "audit"],
+    "immutable": ["object_id", "object_type", "audit.created_at"],
+    "versioning": "Same logical entity retains object_id; a content change increments version and produces a new immutable payload_hash.",
+    "approval": "Approved versions require approval_record_id, actor and approved_at; later revisions do not inherit approval."
+  },
+  "object_types": [
+    {
+      "object_type": "signal",
+      "id_code": "SIG",
+      "owner": "WIN 1",
+      "required_payload_fields": ["source_type", "research_summary", "audience_signal", "factual_evidence_boundary", "season_window", "publish_by_date", "tension", "audience", "opportunity_score", "source_refs", "approval_state"],
+      "parents": [],
+      "children": ["series"],
+      "approval_gate": "ip_development_package_approved"
+    },
+    {
+      "object_type": "series",
+      "id_code": "SER",
+      "owner": "WIN 0 + WIN 2",
+      "required_payload_fields": ["title", "genre", "logline", "premise", "research_signal_ids", "audience", "theme", "world", "tone", "visual_language", "season_question", "central_conflict", "stakes", "reversal_engine", "escalation_rules", "reveal_schedule", "monetization_hypothesis", "season_window", "approval_state"],
+      "parents": ["signal"],
+      "children": ["character", "relationship", "location", "episode"],
+      "approval_gate": "property_greenlight"
+    },
+    {
+      "object_type": "character",
+      "id_code": "CHR",
+      "owner": "WIN 2 + WIN 5",
+      "required_payload_fields": ["series_id", "name", "age_range", "physical_identity", "personality", "desire", "fear", "secret", "contradiction", "relationship_ids", "voice_profile", "wardrobe_ids", "reference_asset_ids", "expression_asset_ids", "performance_notes", "allowed_variation", "prohibited_variation", "current_state", "approval_state"],
+      "parents": ["series"],
+      "children": ["relationship", "scene", "shot", "continuity_state"],
+      "approval_gate": "character_lock"
+    },
+    {
+      "object_type": "relationship",
+      "id_code": "REL",
+      "owner": "WIN 2",
+      "required_payload_fields": ["series_id", "character_ids", "relationship_type", "public_state", "private_state", "power_balance", "history", "unresolved_promises", "current_state", "approval_state"],
+      "parents": ["series", "character"],
+      "children": ["episode", "scene", "continuity_state"],
+      "approval_gate": "series_bible_lock"
+    },
+    {
+      "object_type": "location",
+      "id_code": "LOC",
+      "owner": "WIN 2 + WIN 5",
+      "required_payload_fields": ["series_id", "canonical_description", "geography", "layout", "lighting_states", "time_states", "prop_anchor_ids", "reference_asset_ids", "allowed_variation", "prohibited_variation", "continuity_rules", "approval_state"],
+      "parents": ["series"],
+      "children": ["scene", "shot", "continuity_state"],
+      "approval_gate": "world_lock"
+    },
+    {
+      "object_type": "episode",
+      "id_code": "EPI",
+      "owner": "WIN 2",
+      "required_payload_fields": ["series_id", "sequence", "hook", "objective", "conflict", "turn", "reveal", "cliffhanger", "runtime_target_seconds", "character_ids", "location_ids", "continuity_in_state_id", "planned_continuity_mutations", "monetization_position", "release_state", "approval_state"],
+      "parents": ["series", "continuity_state"],
+      "children": ["scene", "continuity_state"],
+      "approval_gate": "episode_script_lock"
+    },
+    {
+      "object_type": "scene",
+      "id_code": "SCN",
+      "owner": "WIN 2",
+      "required_payload_fields": ["series_id", "episode_id", "sequence", "purpose", "conflict", "character_ids", "location_id", "story_time", "action", "dialogue", "continuity_requirements", "shot_ids", "approval_state"],
+      "parents": ["episode", "character", "location"],
+      "children": ["shot"],
+      "approval_gate": "scene_manifest_lock"
+    },
+    {
+      "object_type": "shot",
+      "id_code": "SHT",
+      "owner": "WIN 4 + WIN 5",
+      "required_payload_fields": ["series_id", "episode_id", "scene_id", "sequence", "character_ids", "location_id", "prop_ids", "framing", "action", "performance", "lens", "camera_move", "lighting", "duration_seconds", "dialogue_audio", "reference_asset_ids", "generation_profile", "max_attempts", "budget_ceiling_minor", "currency", "continuity_requirements", "generation_status", "selected_take_asset_id", "provenance", "approval_state"],
+      "parents": ["scene", "character", "location", "continuity_state"],
+      "children": ["generation_job", "qc_result", "asset"],
+      "approval_gate": "shot_manifest_lock"
+    }
+  ],
+  "operational_objects": [
+    {
+      "object_type": "continuity_state",
+      "id_code": "CNT",
+      "authority": "continuity_states",
+      "contract": "continuity-engine@1.0.0"
+    },
+    {
+      "object_type": "generation_job",
+      "id_code": "GJB",
+      "authority": "generation_jobs",
+      "contract": "generation-job@1.0.0"
+    },
+    {
+      "object_type": "route_decision",
+      "id_code": "RTE",
+      "authority": "generation_jobs + model_evaluations",
+      "contract": "model-router@1.0.0"
+    },
+    {
+      "object_type": "model_evaluation",
+      "id_code": "MEV",
+      "authority": "model_evaluations",
+      "contract": "model-router@1.0.0"
+    },
+    {
+      "object_type": "cost_entry",
+      "id_code": "CST",
+      "authority": "cost_ledger",
+      "contract": "studio-cost-ledger@1.0.0"
+    },
+    {
+      "object_type": "qc_result",
+      "id_code": "QCR",
+      "authority": "qc_results",
+      "contract": "studio-qc@1.0.0"
+    }
+  ],
+  "legacy_bridge": {
+    "story_objects": "Unchanged documentary/evidence authority. Optional reference only; never automatically converted to fiction.",
+    "content_outputs": "Approved episode masters and approved promotional derivatives are registered here after Studio v2 acceptance and assembly.",
+    "asset_registry": "Every retrieved generated artifact receives provenance, hashes, provider/model/prompt lineage, rights/commercial metadata, and usage state before selection.",
+    "approval_queue": "Explicit greenlight, lock, retry, creative, picture-lock, rights, and release decisions.",
+    "workflow_runs": "Parent/child workflow lineage and normalized failure records; Studio IDs remain in input_ids_json/output_ids_json and generation_jobs.",
+    "provider_usage": "Coarse provider usage and cache observability; cost_ledger is the financial authority.",
+    "AUT-009": "Validation, adapter, error normalization, bounded retry, and run-event foundations are extended, not duplicated.",
+    "AUT-015": "Consumes approved episode outputs; never owns shot generation or continuity truth.",
+    "AUT-014": "Receives only approved, eligible content_outputs through existing publication gates."
+  }
+}

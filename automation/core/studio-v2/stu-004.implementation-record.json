@@ -1,0 +1,148 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "record_version": "1.0.0",
+  "work_item": "STU-004",
+  "title": "Studio v2 Production OS Architecture v1.0",
+  "completed_at": "2026-10-14",
+  "status": "architecture_complete_runtime_not_deployed",
+  "verdict": "ARCHITECTURE_COMPLETE_READY_FOR_REVIEW",
+  "authorization": {
+    "operation": "additive_architecture_and_contract_phase",
+    "property_specific_generation": false,
+    "n8n_mutation": false,
+    "data_table_mutation": false,
+    "provider_calls": false,
+    "publishing": false
+  },
+  "canonical_sources": {
+    "pivot_charter": {
+      "title": "INTRST Films — AI-Native Studio Pivot Charter v1.0",
+      "document_id": "1ZsitDxIYWcuTakMvm2qvp37Pihi6X2URQ2I9i_um5Bs",
+      "revision_inspected": "2026-10-14"
+    },
+    "win4_brief": {
+      "title": "WIN 4 — Studio Production OS — Studio v2 Migration Brief v1.0",
+      "document_id": "1dvilvHrhHk0AFm_3Ds35ZJozlFLswMQl1elcvLU4Bng",
+      "revision_id": "AHj4eMS1pO3DDctGxkVZ0kO9-m0svTm2ou9dOuFYQB5ukdiKHCnNQI2AOTWVB7v8OL9ysg_c_gO-V1vU6yepXSzpnL2Hgj93id7dItJSvOc"
+    },
+    "tracker": {
+      "spreadsheet_id": "17pvXgcRuiMuhScrsWfIEtvSLXv4fT4eMwSuEVGxvzyo",
+      "sheet": "Master Tracker",
+      "row": 125,
+      "row_id": "STU-004",
+      "duplicate_row": "STU-013_superseded"
+    }
+  },
+  "repository_inspection": {
+    "repository": "SatiahTheophilusTugbe/intrst-films-templates",
+    "source_branch": "automation/premium-derivative-factory-v1",
+    "base_commit": "3ccd1802cfc3c03128bd241b4260d1e13fb9ea9a",
+    "guardrails": "AGENTS.md inspected",
+    "extension_strategy": "new automation/core/studio-v2 module plus versioned schemas; no legacy file rewritten"
+  },
+  "existing_system_inspection": {
+    "story_object": {
+      "schema": "schemas/story-object.schema.json",
+      "version": "1.0.0",
+      "decision": "preserve_unchanged_for_documentary_lane"
+    },
+    "AUT-009": {
+      "implementation_record": "automation/core/contracts/aut-009.implementation-record.json",
+      "status": "contract_complete_runtime_not_deployed",
+      "reused": ["validation_pattern", "adapter_interface", "error_normalization", "bounded_retry_doctrine", "run_event_lineage", "execution_conservation"]
+    },
+    "AUT-014": {
+      "workflow_id": "AknakVMx2prJrsZw",
+      "artifact": "automation/n8n/workflows/INT-AUT-014-distribution-executor-dev.workflow.json",
+      "artifact_active": false,
+      "artifact_node_count": 32,
+      "decision": "publication_boundary_preserved_no_change",
+      "inspection_note": "Repository deployment metadata contains historical top-level and later nested runtime versions/node counts; live project verification was unavailable and is required before any future mutation."
+    },
+    "AUT-015": {
+      "workflow_id": "07pRK9XWNiRXHWN9",
+      "artifact": "automation/n8n/workflows/INT-AUT-015-content-production-orchestrator-dev.workflow.json",
+      "artifact_active": false,
+      "artifact_node_count": 10,
+      "last_recorded_runtime_version": "ff080079-64bb-4c0b-8cf0-6ee3ca98fa6f",
+      "last_zero_call_execution": "38554",
+      "decision": "approved_output_coordinator_preserved_no_change"
+    },
+    "HCTI": {
+      "workflow_id": "XHjJBrSOoBaFrHYk",
+      "artifact": "automation/n8n/workflows/INT-HCTI-editorial-render-bridge-dev.workflow.json",
+      "artifact_active": false,
+      "last_recorded_runtime_version": "672dcea2-1ae3-417e-bb74-fea5d05a9835",
+      "decision": "reuse_proven_render_observability_and_unknown_outcome_lessons_without_treating_HCTI_as_the_video_generation_engine"
+    },
+    "data_tables": {
+      "project_id": "o8RQQQgne2c6jXr5",
+      "deployment_records": ["automation/n8n/data-tables/inf-005.deployment-record.json", "automation/n8n/data-tables/inf-005.1.workflow-runs.deployment-record.json", "automation/n8n/data-tables/inf-005.2.deployment-record.json"],
+      "existing_table_count": 12,
+      "existing_tables_modified": false,
+      "workflow_runs_table_id": "ZdOyJqa5ffTkwUSV",
+      "workflow_runs_use": "preserved_as_execution_lineage_authority"
+    },
+    "atomic_claim": {
+      "existing_publication_migration": "prepared_not_live_proven",
+      "studio_decision": "separate_generation_attempt_claim_table_proposed",
+      "runtime_transport_authorized": false
+    },
+    "live_n8n_inspection": {
+      "available": false,
+      "reason": "No n8n connector or signed-in project tab was exposed in this session.",
+      "scope_effect": "Architecture completed from project-scoped deployment records; no runtime claim or mutation made."
+    }
+  },
+  "deliverables": [
+    "automation/core/studio-v2/README.md",
+    "automation/core/studio-v2/studio-v2.object-model.json",
+    "automation/core/studio-v2/model-router.contract.json",
+    "automation/core/studio-v2/continuity-engine.contract.json",
+    "automation/core/studio-v2/generation-job.state-machine.json",
+    "automation/core/studio-v2/cost-accounting.contract.json",
+    "automation/core/studio-v2/resilience-and-migration.plan.json",
+    "automation/core/studio-v2/studio-v2.mjs",
+    "automation/core/studio-v2/validate-studio-v2.mjs",
+    "automation/core/studio-v2/tests/studio-v2.test.mjs",
+    "schemas/studio-v2-object.schema.json",
+    "schemas/studio-v2-model-route.schema.json",
+    "schemas/studio-v2-continuity-state.schema.json",
+    "schemas/studio-v2-generation-job.schema.json",
+    "schemas/studio-v2-cost-ledger.schema.json"
+  ],
+  "architecture_decisions": {
+    "object_persistence": "Hybrid additive model: versioned creative envelopes in studio_objects; continuity/jobs/evaluations/cost/QC receive dedicated operational tables.",
+    "continuity": "Immutable snapshots with parent hashes and compare-and-swap series head; hard failures block before cost.",
+    "routing": "Provider-neutral hard gates plus deterministic versioned scoring; router performs zero provider mutations.",
+    "generation": "One active attempt per job; automatic paid retries zero; submitted ambiguity becomes outcome_unknown.",
+    "cost": "Append-only integer-minor-unit ledger with reservation before claim and actual settlement after provider evidence.",
+    "integration": "Only accepted assembled episode masters cross into asset_registry/content_outputs and then existing AUT-015/AUT-014 gates.",
+    "workflow_shape": "Ten independently testable future modules; no monolithic n8n workflow."
+  },
+  "proposed_persistence": {
+    "new_n8n_tables": ["studio_objects", "continuity_states", "generation_jobs", "model_evaluations", "cost_ledger", "qc_results"],
+    "new_postgres_table": "intrst_generation_attempt_claims",
+    "deployment_status": "proposal_not_deployed"
+  },
+  "validation": {
+    "focused_test_cases": 32,
+    "focused_failures": 0,
+    "full_repository_node_subtests": 126,
+    "full_repository_failures": 0,
+    "applicable_validators_passed": 16,
+    "contract_validator": "passed",
+    "json_parse": "passed",
+    "git_diff_check": "passed",
+    "full_repository_regression": "passed"
+  },
+  "next_gates": [
+    "Human architecture review of object ownership, type codes and six-table proposal",
+    "Approve INF-006 minor identifier extension before runtime records",
+    "Review and prove separate PostgreSQL generation-attempt claim migration",
+    "Deploy empty development tables only after project-scoped authorization",
+    "Implement pure services with generic synthetic fixtures",
+    "Create inactive modular n8n bridges and zero-call proofs",
+    "Do not start property generation before STU-005, STU-006 and STU-007 gates"
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "contract_id": "STU-004-CONTINUITY",
+  "contract_version": "continuity-engine@1.0.0",
+  "status": "architecture_complete_runtime_not_deployed",
+  "schema": "schemas/studio-v2-continuity-state.schema.json",
+  "authority": "continuity_states",
+  "snapshot_policy": {
+    "append_only": true,
+    "immutable_after_write": true,
+    "hash_algorithm": "sha256_of_canonical_json",
+    "parent_required_except_genesis": true,
+    "series_head_compare_and_swap_required": true,
+    "episode_continuity_in_pinned": true,
+    "episode_continuity_out_requires_approved_mutations": true
+  },
+  "dimensions": [
+    "character_appearance",
+    "wardrobe",
+    "props_and_possession",
+    "injuries_and_physical_condition",
+    "knowledge_state",
+    "relationship_state",
+    "location_state",
+    "emotional_state",
+    "unresolved_promises",
+    "timeline_facts",
+    "voice_and_performance_identity"
+  ],
+  "assertion": {
+    "required_fields": ["assertion_id", "scope_type", "scope_id", "path", "operator", "expected", "severity", "source_object_id"],
+    "operators": ["equals", "not_equals", "includes", "not_includes", "exists", "absent", "one_of"],
+    "severities": ["hard", "soft", "informational"],
+    "hard_failure": "Blocks route selection, budget reservation and generation submission."
+  },
+  "mutation": {
+    "required_fields": ["mutation_id", "entity_type", "entity_id", "path", "operation", "before", "after", "source_episode_id", "source_scene_id", "approval_record_id"],
+    "operations": ["set", "append_unique", "remove", "increment", "decrement", "transition"],
+    "rules": [
+      "A mutation is proposed by an approved episode/scene plan and committed only after the episode continuity-out review.",
+      "The before value must match the pinned parent snapshot.",
+      "Conflicting mutations create manual_review_required; last-write-wins is prohibited.",
+      "Generated visual evidence may support a mutation but cannot author narrative truth."
+    ]
+  },
+  "validation_stages": [
+    {"stage": "episode_in", "gate": "All episode assumptions validate against continuity_in_state_id."},
+    {"stage": "scene_manifest", "gate": "Scene character/location/prop/time assertions pass before shot planning."},
+    {"stage": "shot_pre_generation", "gate": "Hard shot assertions pass against the pinned snapshot and canonical reference package hashes."},
+    {"stage": "artifact_qc", "gate": "Machine checks compare the returned artifact with pinned visual/voice references and shot assertions."},
+    {"stage": "episode_out", "gate": "Human-approved narrative mutations create a new immutable snapshot through compare-and-swap."}
+  ],
+  "outcomes": ["pass", "pass_with_warnings", "blocked", "manual_review_required"],
+  "non_authority": [
+    "The continuity engine does not rewrite scripts.",
+    "The continuity engine does not approve attractive but inconsistent shots.",
+    "The continuity engine does not infer approval from a successful generation or QC execution."
+  ]
+}

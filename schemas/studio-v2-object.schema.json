@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://intrstfilms.com/schemas/studio-v2-object.schema.json",
+  "title": "INTRST Studio v2 Object Envelope",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "object_type", "object_id", "version", "status", "payload", "payload_hash", "audit"],
+  "properties": {
+    "schema_version": {"const": "studio-v2-object@1.0.0"},
+    "object_type": {"enum": ["signal", "series", "character", "relationship", "location", "episode", "scene", "shot"]},
+    "object_id": {"type": "string", "pattern": "^INT-(SIG|SER|CHR|REL|LOC|EPI|SCN|SHT)-[0-9A-HJKMNP-TV-Z]{26}$"},
+    "series_id": {"type": ["string", "null"], "pattern": "^INT-SER-[0-9A-HJKMNP-TV-Z]{26}$"},
+    "episode_id": {"type": ["string", "null"], "pattern": "^INT-EPI-[0-9A-HJKMNP-TV-Z]{26}$"},
+    "scene_id": {"type": ["string", "null"], "pattern": "^INT-SCN-[0-9A-HJKMNP-TV-Z]{26}$"},
+    "version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "status": {"enum": ["draft", "review_required", "approved", "blocked", "superseded"]},
+    "payload": {"type": "object"},
+    "payload_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "approval_record_id": {"type": ["string", "null"], "pattern": "^INT-REV-[0-9A-HJKMNP-TV-Z]{26}$"},
+    "audit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["created_at", "created_by", "updated_at"],
+      "properties": {
+        "created_at": {"type": "string", "format": "date-time"},
+        "created_by": {"type": "string", "minLength": 1},
+        "updated_at": {"type": "string", "format": "date-time"},
+        "approved_by": {"type": ["string", "null"]},
+        "approved_at": {"type": ["string", "null"], "format": "date-time"},
+        "source_object_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"const": "approved"}}},
+      "then": {
+        "required": ["approval_record_id"],
+        "properties": {
+          "approval_record_id": {"type": "string", "pattern": "^INT-REV-[0-9A-HJKMNP-TV-Z]{26}$"},
+          "audit": {
+            "required": ["approved_by", "approved_at"],
+            "properties": {
+              "approved_by": {"type": "string", "minLength": 1},
+              "approved_at": {"type": "string", "format": "date-time"}
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {"properties": {"object_type": {"const": "signal"}}},
+      "then": {"properties": {"object_id": {"pattern": "^INT-SIG-"}, "payload": {"$ref": "#/$defs/signal"}}}
+    },
+    {
+      "if": {"properties": {"object_type": {"const": "series"}}},
+      "then": {"properties": {"object_id": {"pattern": "^INT-SER-"}, "payload": {"$ref": "#/$defs/series"}}}
+    },
+    {
+      "if": {"properties": {"object_type": {"const": "character"}}},
+      "then": {"required": ["series_id"], "properties": {"object_id": {"pattern": "^INT-CHR-"}, "payload": {"$ref": "#/$defs/character"}}}
+    },
+    {
+      "if": {"properties": {"object_type": {"const": "relationship"}}},
+      "then": {"required": ["series_id"], "properties": {"object_id": {"pattern": "^INT-REL-"}, "payload": {"$ref": "#/$defs/relationship"}}}
+    },
+    {
+      "if": {"properties": {"object_type": {"const": "location"}}},
+      "then": {"required": ["series_id"], "properties": {"object_id": {"pattern": "^INT-LOC-"}, "payload": {"$ref": "#/$defs/location"}}}
+    },
+    {
+      "if": {"properties": {"object_type": {"const": "episode"}}},
+      "then": {"required": ["series_id"], "properties": {"object_id": {"pattern": "^INT-EPI-"}, "payload": {"$ref": "#/$defs/episode"}}}
+    },
+    {
+      "if": {"properties": {"object_type": {"const": "scene"}}},
+      "then": {"required": ["series_id", "episode_id"], "properties": {"object_id": {"pattern": "^INT-SCN-"}, "payload": {"$ref": "#/$defs/scene"}}}
+    },
+    {
+      "if": {"properties": {"object_type": {"const": "shot"}}},
+      "then": {"required": ["series_id", "episode_id", "scene_id"], "properties": {"object_id": {"pattern": "^INT-SHT-"}, "payload": {"$ref": "#/$defs/shot"}}}
+    }
+  ],
+  "$defs": {
+    "stringArray": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "approvalState": {"enum": ["draft", "review_required", "approved", "blocked", "superseded"]},
+    "signal": {
+      "type": "object",
+      "required": ["source_type", "research_summary", "audience_signal", "factual_evidence_boundary", "season_window", "publish_by_date", "tension", "audience", "opportunity_score", "source_refs", "approval_state"],
+      "properties": {
+        "source_type": {"type": "string"}, "research_summary": {"type": "string"}, "audience_signal": {"type": "object"}, "factual_evidence_boundary": {"type": "string"}, "season_window": {"type": "object"}, "publish_by_date": {"type": ["string", "null"], "format": "date"}, "tension": {"type": "string"}, "audience": {"type": "object"}, "opportunity_score": {"type": "integer", "minimum": 0, "maximum": 100}, "source_refs": {"$ref": "#/$defs/stringArray"}, "approval_state": {"$ref": "#/$defs/approvalState"}
+      },
+      "additionalProperties": true
+    },
+    "series": {
+      "type": "object",
+      "required": ["title", "genre", "logline", "premise", "research_signal_ids", "audience", "theme", "world", "tone", "visual_language", "season_question", "central_conflict", "stakes", "reversal_engine", "escalation_rules", "reveal_schedule", "monetization_hypothesis", "season_window", "approval_state"],
+      "properties": {
+        "title": {"type": "string"}, "genre": {"type": "string"}, "logline": {"type": "string"}, "premise": {"type": "string"}, "research_signal_ids": {"$ref": "#/$defs/stringArray"}, "audience": {"type": "object"}, "theme": {"type": "string"}, "world": {"type": "object"}, "tone": {"type": "string"}, "visual_language": {"type": "object"}, "season_question": {"type": "string"}, "central_conflict": {"type": "string"}, "stakes": {"type": "string"}, "reversal_engine": {"type": "object"}, "escalation_rules": {"type": "array"}, "reveal_schedule": {"type": "array"}, "monetization_hypothesis": {"type": "object"}, "season_window": {"type": "object"}, "approval_state": {"$ref": "#/$defs/approvalState"}
+      },
+      "additionalProperties": true
+    },
+    "character": {
+      "type": "object",
+      "required": ["series_id", "name", "age_range", "physical_identity", "personality", "desire", "fear", "secret", "contradiction", "relationship_ids", "voice_profile", "wardrobe_ids", "reference_asset_ids", "expression_asset_ids", "performance_notes", "allowed_variation", "prohibited_variation", "current_state", "approval_state"],
+      "properties": {"series_id": {"type": "string"}, "name": {"type": "string"}, "age_range": {"type": "object"}, "physical_identity": {"type": "object"}, "personality": {"type": "object"}, "desire": {"type": "string"}, "fear": {"type": "string"}, "secret": {"type": "string"}, "contradiction": {"type": "string"}, "relationship_ids": {"$ref": "#/$defs/stringArray"}, "voice_profile": {"type": "object"}, "wardrobe_ids": {"$ref": "#/$defs/stringArray"}, "reference_asset_ids": {"$ref": "#/$defs/stringArray"}, "expression_asset_ids": {"$ref": "#/$defs/stringArray"}, "performance_notes": {"type": "array"}, "allowed_variation": {"type": "array"}, "prohibited_variation": {"type": "array"}, "current_state": {"type": "object"}, "approval_state": {"$ref": "#/$defs/approvalState"}},
+      "additionalProperties": true
+    },
+    "relationship": {
+      "type": "object",
+      "required": ["series_id", "character_ids", "relationship_type", "public_state", "private_state", "power_balance", "history", "unresolved_promises", "current_state", "approval_state"],
+      "properties": {"series_id": {"type": "string"}, "character_ids": {"$ref": "#/$defs/stringArray"}, "relationship_type": {"type": "string"}, "public_state": {"type": "string"}, "private_state": {"type": "string"}, "power_balance": {"type": "string"}, "history": {"type": "array"}, "unresolved_promises": {"type": "array"}, "current_state": {"type": "object"}, "approval_state": {"$ref": "#/$defs/approvalState"}},
+      "additionalProperties": true
+    },
+    "location": {
+      "type": "object",
+      "required": ["series_id", "canonical_description", "geography", "layout", "lighting_states", "time_states", "prop_anchor_ids", "reference_asset_ids", "allowed_variation", "prohibited_variation", "continuity_rules", "approval_state"],
+      "properties": {"series_id": {"type": "string"}, "canonical_description": {"type": "string"}, "geography": {"type": "object"}, "layout": {"type": "object"}, "lighting_states": {"type": "array"}, "time_states": {"type": "array"}, "prop_anchor_ids": {"$ref": "#/$defs/stringArray"}, "reference_asset_ids": {"$ref": "#/$defs/stringArray"}, "allowed_variation": {"type": "array"}, "prohibited_variation": {"type": "array"}, "continuity_rules": {"type": "array"}, "approval_state": {"$ref": "#/$defs/approvalState"}},
+      "additionalProperties": true
+    },
+    "episode": {
+      "type": "object",
+      "required": ["series_id", "sequence", "hook", "objective", "conflict", "turn", "reveal", "cliffhanger", "runtime_target_seconds", "character_ids", "location_ids", "continuity_in_state_id", "planned_continuity_mutations", "monetization_position", "release_state", "approval_state"],
+      "properties": {"series_id": {"type": "string"}, "sequence": {"type": "integer", "minimum": 1}, "hook": {"type": "string"}, "objective": {"type": "string"}, "conflict": {"type": "string"}, "turn": {"type": "string"}, "reveal": {"type": "string"}, "cliffhanger": {"type": "string"}, "runtime_target_seconds": {"type": "integer", "minimum": 1}, "character_ids": {"$ref": "#/$defs/stringArray"}, "location_ids": {"$ref": "#/$defs/stringArray"}, "continuity_in_state_id": {"type": "string"}, "planned_continuity_mutations": {"type": "array"}, "monetization_position": {"type": "object"}, "release_state": {"type": "string"}, "approval_state": {"$ref": "#/$defs/approvalState"}},
+      "additionalProperties": true
+    },
+    "scene": {
+      "type": "object",
+      "required": ["series_id", "episode_id", "sequence", "purpose", "conflict", "character_ids", "location_id", "story_time", "action", "dialogue", "continuity_requirements", "shot_ids", "approval_state"],
+      "properties": {"series_id": {"type": "string"}, "episode_id": {"type": "string"}, "sequence": {"type": "integer", "minimum": 1}, "purpose": {"type": "string"}, "conflict": {"type": "string"}, "character_ids": {"$ref": "#/$defs/stringArray"}, "location_id": {"type": "string"}, "story_time": {"type": "object"}, "action": {"type": "string"}, "dialogue": {"type": "array"}, "continuity_requirements": {"type": "array"}, "shot_ids": {"$ref": "#/$defs/stringArray"}, "approval_state": {"$ref": "#/$defs/approvalState"}},
+      "additionalProperties": true
+    },
+    "shot": {
+      "type": "object",
+      "required": ["series_id", "episode_id", "scene_id", "sequence", "character_ids", "location_id", "prop_ids", "framing", "action", "performance", "lens", "camera_move", "lighting", "duration_seconds", "dialogue_audio", "reference_asset_ids", "generation_profile", "max_attempts", "budget_ceiling_minor", "currency", "continuity_requirements", "generation_status", "selected_take_asset_id", "provenance", "approval_state"],
+      "properties": {"series_id": {"type": "string"}, "episode_id": {"type": "string"}, "scene_id": {"type": "string"}, "sequence": {"type": "integer", "minimum": 1}, "character_ids": {"$ref": "#/$defs/stringArray"}, "location_id": {"type": "string"}, "prop_ids": {"$ref": "#/$defs/stringArray"}, "framing": {"type": "object"}, "action": {"type": "string"}, "performance": {"type": "object"}, "lens": {"type": "object"}, "camera_move": {"type": "object"}, "lighting": {"type": "object"}, "duration_seconds": {"type": "number", "exclusiveMinimum": 0}, "dialogue_audio": {"type": "object"}, "reference_asset_ids": {"$ref": "#/$defs/stringArray"}, "generation_profile": {"type": "object"}, "max_attempts": {"type": "integer", "minimum": 1}, "budget_ceiling_minor": {"type": "integer", "minimum": 0}, "currency": {"type": "string", "pattern": "^[A-Z]{3}$"}, "continuity_requirements": {"type": "array"}, "generation_status": {"type": "string"}, "selected_take_asset_id": {"type": ["string", "null"]}, "provenance": {"type": "object"}, "approval_state": {"$ref": "#/$defs/approvalState"}},
+      "additionalProperties": true
+    }
+  }
+}

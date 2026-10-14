@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://intrstfilms.com/schemas/studio-v2-generation-job.schema.json",
+  "title": "INTRST Studio v2 Generation Job",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_version", "generation_job_id", "shot_id", "root_run_id", "shot_manifest_hash", "continuity_state_id", "continuity_state_hash", "generation_profile_version", "state", "attempt_count", "max_attempts", "budget_ceiling_minor", "currency", "automatic_retries", "reconciliation_state", "idempotency_key", "created_at", "updated_at"],
+  "properties": {
+    "contract_version": {"const": "generation-job@1.0.0"},
+    "generation_job_id": {"type": "string", "pattern": "^INT-GJB-[0-9A-HJKMNP-TV-Z]{26}$"},
+    "shot_id": {"type": "string", "pattern": "^INT-SHT-[0-9A-HJKMNP-TV-Z]{26}$"},
+    "root_run_id": {"type": "string", "pattern": "^INT-RUN-[0-9A-HJKMNP-TV-Z]{26}$"},
+    "shot_manifest_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "continuity_state_id": {"type": "string", "pattern": "^INT-CNT-[0-9A-HJKMNP-TV-Z]{26}$"},
+    "continuity_state_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "generation_profile_version": {"type": "string"},
+    "state": {"enum": ["planned", "validated", "continuity_verified", "routed", "budget_reserved", "claimed", "in_progress", "qc_pending", "creative_review", "accepted", "registered", "completed", "deferred", "blocked", "outcome_unknown", "failed_recoverable", "failed_terminal", "rejected", "cancelled", "dead_letter"]},
+    "attempt_count": {"type": "integer", "minimum": 0},
+    "max_attempts": {"type": "integer", "minimum": 1},
+    "active_attempt_id": {"type": ["string", "null"], "pattern": "^INT-ATM-[0-9A-HJKMNP-TV-Z]{26}$"},
+    "route_decision_id": {"type": ["string", "null"], "pattern": "^INT-RTE-[0-9A-HJKMNP-TV-Z]{26}$"},
+    "reservation_entry_id": {"type": ["string", "null"], "pattern": "^INT-CST-[0-9A-HJKMNP-TV-Z]{26}$"},
+    "selected_asset_id": {"type": ["string", "null"], "pattern": "^INT-AST-[0-9A-HJKMNP-TV-Z]{26}$"},
+    "budget_ceiling_minor": {"type": "integer", "minimum": 0},
+    "currency": {"type": "string", "pattern": "^[A-Z]{3}$"},
+    "automatic_retries": {"const": 0},
+    "reconciliation_state": {"enum": ["not_required", "due", "in_progress", "resolved", "manual_required"]},
+    "next_action_at": {"type": ["string", "null"], "format": "date-time"},
+    "idempotency_key": {"type": "string", "minLength": 1},
+    "created_at": {"type": "string", "format": "date-time"},
+    "updated_at": {"type": "string", "format": "date-time"}
+  },
+  "allOf": [
+    {"if": {"properties": {"state": {"enum": ["claimed", "in_progress", "deferred", "outcome_unknown", "qc_pending", "creative_review"]}}}, "then": {"properties": {"active_attempt_id": {"type": "string"}}, "required": ["active_attempt_id"]}},
+    {"if": {"properties": {"state": {"const": "outcome_unknown"}}}, "then": {"properties": {"reconciliation_state": {"enum": ["due", "in_progress", "manual_required"]}}}},
+    {"if": {"properties": {"state": {"enum": ["accepted", "registered", "completed"]}}}, "then": {"properties": {"selected_asset_id": {"type": "string"}}, "required": ["selected_asset_id"]}}
+  ]
+}

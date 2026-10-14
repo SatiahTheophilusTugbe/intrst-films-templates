@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "contract_id": "STU-004-COST-ACCOUNTING",
+  "contract_version": "studio-cost-ledger@1.0.0",
+  "status": "architecture_complete_runtime_not_deployed",
+  "schema": "schemas/studio-v2-cost-ledger.schema.json",
+  "authority": "cost_ledger",
+  "accounting_policy": {
+    "append_only": true,
+    "amount_representation": "integer_minor_units",
+    "currency": "ISO_4217_uppercase",
+    "fx_conversion": "explicit_separate_entry_with_rate_source_and_timestamp",
+    "estimated_cost_is_not_actual_cost": true,
+    "manual_adjustment_requires_actor_reason_and_approval_record": true,
+    "provider_usage_table_role": "coarse_operational_metering_not_financial_authority"
+  },
+  "entry_types": [
+    "budget_opened",
+    "reservation_created",
+    "usage_accrued",
+    "usage_settled",
+    "reservation_released",
+    "refund_credited",
+    "manual_adjustment"
+  ],
+  "scopes": ["studio", "series", "episode", "scene", "shot", "generation_job", "generation_attempt", "voice", "music", "post", "acquisition"],
+  "reservation_rules": [
+    "Budget reservation must precede an atomic generation claim.",
+    "The reservation amount is the selected route estimate plus the configured contingency, never more than the shot ceiling.",
+    "A provider submission may consume only its linked active reservation.",
+    "Known rejection before billable acceptance releases the reservation.",
+    "outcome_unknown keeps the reservation encumbered until reconciliation or an approved accounting adjustment.",
+    "A retry requires a distinct reservation tied to the new attempt."
+  ],
+  "derived_metrics": [
+    {"name": "attempts_per_accepted_shot", "formula": "generation_attempt_count / accepted_shot_count"},
+    {"name": "acceptance_rate", "formula": "accepted_shot_count / completed_generation_attempt_count"},
+    {"name": "cost_per_accepted_shot_minor", "formula": "settled_generation_cost_minor / accepted_shot_count"},
+    {"name": "cost_per_finished_minute_minor", "formula": "total_settled_production_cost_minor / (finished_runtime_seconds / 60)"},
+    {"name": "regeneration_cost_ratio", "formula": "settled_rejected_attempt_cost_minor / settled_generation_cost_minor"},
+    {"name": "budget_variance_minor", "formula": "actual_settled_minor - approved_budget_minor"}
+  ],
+  "quality_rules": [
+    "Metrics with a zero denominator are null, not zero.",
+    "Selected/accepted status is read from approved QC/review records, never inferred from provider success.",
+    "Every metric states currency, window, included entry types, and data completeness.",
+    "Cross-currency totals are prohibited without explicit FX entries."
+  ]
+}
