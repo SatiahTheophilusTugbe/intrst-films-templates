@@ -1,0 +1,12 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "contract_version":"studio-telemetry@1.0.0",
+  "join_policy":"stable canonical IDs only; titles and filenames are descriptive and never join keys",
+  "required_dimensions":["series_id","episode_id","scene_id","shot_id","creative_id","creative_version","generation_job_id","attempt_id","platform_publication_id","hook_type","cliffhanger_type","pressure_domain","emotional_engine","runtime_seconds","provider","model","model_version"],
+  "production_route":["generation_jobs.generation_job_id","generation_jobs.shot_id","studio_objects.shot_id","studio_objects.scene_id","studio_objects.episode_id","studio_objects.series_id"],
+  "publication_route":["accepted_output.manifest_json.studio_lineage","content_outputs.output_id","publishing_log.content_output_id","publishing_log.platform_post_id","performance.content_output_id+platform+platform_post_id"],
+  "manifest_bridge_required":{"series_id":true,"episode_id":true,"scene_ids":true,"shot_ids":true,"creative_id":true,"creative_version":true,"generation_job_ids":true,"accepted_attempt_ids":true,"provider_model_versions":true},
+  "event_families":{"production":["generation_attempt_started","provider_receipt_recorded","technical_qc_completed","continuity_qc_completed","creative_review_completed","shot_accepted","episode_master_registered"],"audience":["publication_verified","impression_observed","view_observed","retention_observed","engagement_observed","conversion_observed"]},
+  "privacy":{"no_prompt_or_image_bytes":true,"no_credentials":true,"no_raw_provider_payloads":true},
+  "implementation_status":"schema_and_join_contract_ready; live Studio Analytics layer pending STU-016"
+}

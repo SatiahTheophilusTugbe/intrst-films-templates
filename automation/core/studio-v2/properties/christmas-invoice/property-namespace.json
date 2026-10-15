@@ -1,0 +1,127 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "package_id": "STU-H26-01-PROPERTY-RUNTIME",
+  "package_version": "christmas-invoice-runtime@1.0.0",
+  "title": "The Christmas Invoice — Studio v2 Property Runtime Package v1.0",
+  "status": "property_prepared_runtime_not_deployed_generation_not_authorized",
+  "property_namespace": "intrst.studio.the-christmas-invoice",
+  "project": {
+    "name": "INTRST Films",
+    "id": "o8RQQQgne2c6jXr5"
+  },
+  "development_aliases": {
+    "property_ref": "H26-01",
+    "signal_ref": "SIG-H26-001",
+    "production_primary_key_eligible": false,
+    "rule": "Development aliases remain searchable references only. They never replace canonical INT-{TYPE}-{ULID} identities."
+  },
+  "canonical_sources": {
+    "locked_narrative": {
+      "title": "The Christmas Invoice — STU-006 Niche-Aligned Revision v1.1",
+      "drive_file_id": "1VLmQ47qHWisO80VkUS044-RVtv08DeRyjjxwY7bDcuw",
+      "drive_revision_id": "5",
+      "modified_at": "2026-10-14T13:32:59.250Z",
+      "text_export_sha256": "39afdbf48d6aa2ca02770f73d45f821b11d9cee3c1b28c57611c3dc0f125f289",
+      "text_export_bytes": 96453
+    },
+    "win0_lock": {
+      "title": "The Christmas Invoice — WIN 0 Series + Script Lock Memo v1.0",
+      "drive_file_id": "1qIJcCTio-5lV7y0Ge3LXOvW-YjGhe4SU4cgLFYQS9xc",
+      "drive_revision_id": "2",
+      "modified_at": "2026-10-14T21:20:58.916Z"
+    },
+    "production_os_addendum": {
+      "title": "WIN 4 — Human Pressure Thriller Production OS Addendum v1.0",
+      "drive_file_id": "1CmfIZ6ZU9Eqv4_PtrvAy5YP1kI2drQWOL96CmwXVjXA",
+      "drive_revision_id": "3",
+      "modified_at": "2026-10-14T13:24:39.139Z"
+    },
+    "virtual_art_department_addendum": {
+      "title": "WIN 5 — Human Pressure Thriller Virtual Art Dept. Addendum v1.0",
+      "drive_file_id": "1X_ceRV505TzDUlGyw7U1aDF_PmNe_dGpuxLbN7SQTKo",
+      "drive_revision_id": "3",
+      "modified_at": "2026-10-14T13:24:44.158Z"
+    }
+  },
+  "identity": {
+    "signal_id": "INT-SIG-01M4Y62ABRMSXKER1ZE78ZSF80",
+    "series_lock_review_id": "INT-REV-01M4Y62ABSXH3M1H3PG7738Q3N",
+    "series_id": "INT-SER-01M4Y62ABTD4K7168BQ73V6HW9",
+    "character_ids": {
+      "maya_carter": "INT-CHR-01M4Y62ABVFV1SZETDET46KG57",
+      "daniel_carter": "INT-CHR-01M4Y62ABWZ53P1X9MFNDZ0S3Q",
+      "thomas_carter": "INT-CHR-01M4Y62ABXKA7VVFET7CZY4TGV"
+    },
+    "relationship_ids": {
+      "maya_daniel": "INT-REL-01M4Y62ABY19G5HT6MMJKH406P",
+      "maya_thomas": "INT-REL-01M4Y62ABZQJC0JP4YZAV2A06F",
+      "daniel_thomas": "INT-REL-01M4Y62AC08T4F37TT588YE607"
+    },
+    "location_ids": {
+      "carter_dining_kitchen": "INT-LOC-01M4Y62AC1NKGY6BMBHH8FCACB",
+      "thomas_study_front_room": "INT-LOC-01M4Y62AC2NE8XWES70B7J3NVZ"
+    },
+    "episode_ids": [
+      "INT-EPI-01M4Y62AC3846QD0SCNR41TRZZ",
+      "INT-EPI-01M4Y62AC4D763NP2RYQ93CHM0",
+      "INT-EPI-01M4Y62AC5SSQYPBNP20V2VBF9",
+      "INT-EPI-01M4Y62AC60P2BV1WJ82JVXG1S",
+      "INT-EPI-01M4Y62AC72HAA8BERHFWHZFWX",
+      "INT-EPI-01M4Y62AC86X7MBF47R5E0C4KK",
+      "INT-EPI-01M4Y62AC9K916CN0JF0R5MCHD",
+      "INT-EPI-01M4Y62ACAB2CW95GS35ZNVX2S",
+      "INT-EPI-01M4Y62ACBBVTRBEKH7NN9DAQK",
+      "INT-EPI-01M4Y62ACCVHETQ1W0RQAP48ZT"
+    ],
+    "scene_ids": [
+      "INT-SCN-01M4Y62ACDR12W9YYQB898EZGR",
+      "INT-SCN-01M4Y62ACEC22DKVFEHT9P9F5B",
+      "INT-SCN-01M4Y62ACF98EWTQMWTEWK9ABS",
+      "INT-SCN-01M4Y62ACGJQNXP2D2Y7BAMZM6",
+      "INT-SCN-01M4Y62ACHW289NM20ZQ56XZHF",
+      "INT-SCN-01M4Y62ACJV6NHP2XBKJTN9VR1",
+      "INT-SCN-01M4Y62ACK445GFCE8Y1DS5989",
+      "INT-SCN-01M4Y62ACM3PH8ZVT25B7C5GW5",
+      "INT-SCN-01M4Y62ACNYJ91RA05R7RMF8DA",
+      "INT-SCN-01M4Y62ACPQ95X6SY3TANNDMSS",
+      "INT-SCN-01M4Y62ACQ71XB1YBZ3PPSSK68",
+      "INT-SCN-01M4Y62ACRZNNXJ41E86DP7NHV"
+    ],
+    "continuity_state_ids": [
+      "INT-CNT-01M4Y62ACSH8G3NRNS1TVAT6DC",
+      "INT-CNT-01M4Y62ACTKCH2G9SJ15QME2BH",
+      "INT-CNT-01M4Y62ACVAR1XW367H18F1PAE",
+      "INT-CNT-01M4Y62ACW9E7M4N16TJ1GAKCV",
+      "INT-CNT-01M4Y62ACXWB9NN3WAN7FKYHE9",
+      "INT-CNT-01M4Y62ACYZRN3X8Y7RAK3XFRT",
+      "INT-CNT-01M4Y62ACZ2XVYE8X1Z4238C1Y",
+      "INT-CNT-01M4Y62AD0JJT3JW3VRJ0QBA2G",
+      "INT-CNT-01M4Y62AD1AYR11X17XK9B67WE",
+      "INT-CNT-01M4Y62AD2RKJHAZ86TER7AENZ",
+      "INT-CNT-01M4Y62AD3RARGANP73N97AVF8"
+    ],
+    "proof_budget_entry_id": "INT-CST-01M4Y62AD4ZGW79P5P4KB7MYGG"
+  },
+  "counts": {
+    "signals": 1,
+    "series": 1,
+    "characters": 3,
+    "relationships": 3,
+    "locations": 2,
+    "episodes": 10,
+    "scenes": 12,
+    "shots": 0,
+    "continuity_snapshots": 11,
+    "generation_jobs": 0,
+    "provider_calls": 0
+  },
+  "authorization": {
+    "narrative_canon_locked": true,
+    "episode_story_lock": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    "episodes_eligible_for_future_STU_008_generation_after_all_gates": [1, 2, 3],
+    "episodes_generation_blocked": [4, 5, 6, 7, 8, 9, 10],
+    "current_generation_authorized": false,
+    "paid_provider_calls_authorized": 0,
+    "publication_authorized": false
+  }
+}

@@ -52,6 +52,10 @@ assert.equal(resolveSubjectIdentity({ subject_id: subjectId, person_id: subjectI
 assert.equal(isCanonicalId(createId("intelligence", { timestamp, entropy: zeroEntropy }), "intelligence"), true);
 assert.equal(isCanonicalId(createId("provider_usage", { timestamp, entropy: zeroEntropy }), "provider_usage"), true);
 assert.equal(isCanonicalId(createId("cache_entry", { timestamp, entropy: zeroEntropy }), "cache_entry"), true);
+assert.equal(isCanonicalId(createId("series", { timestamp, entropy: zeroEntropy }), "series"), true);
+assert.equal(isCanonicalId(createId("continuity_snapshot", { timestamp, entropy: zeroEntropy }), "continuity_snapshot"), true);
+assert.equal(isCanonicalId(createId("generation_attempt", { timestamp, entropy: zeroEntropy }), "generation_attempt"), true);
+assert.equal(isCanonicalId(createId("qc_result", { timestamp, entropy: zeroEntropy }), "qc_result"), true);
 assert.throws(() => resolveSubjectIdentity({ subject_id: subjectId, person_id: createId("subject") }), /must equal/);
 assert.throws(() => resolveSubjectIdentity({ subject_id: "SUBJ-001" }), /canonical/);
 assert.throws(() => createId("unknown"), /Unknown/);

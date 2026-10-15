@@ -1,0 +1,21 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://intrst.example/schemas/studio-v2-telemetry-event.schema.json",
+  "title":"Studio v2 Production and Audience Telemetry Event",
+  "type":"object",
+  "additionalProperties":false,
+  "required":["event_id","event_type","observed_at","series_id","episode_id","scene_id","shot_id","creative_id","creative_version","generation_job_id","attempt_id","platform_publication_id","hook_type","cliffhanger_type","pressure_domain","emotional_engine","runtime_seconds","provider","model","model_version","metrics"],
+  "properties":{
+    "event_id":{"type":"string","minLength":1},"event_type":{"type":"string","minLength":1},"observed_at":{"type":"string","format":"date-time"},
+    "series_id":{"type":"string","pattern":"^INT-SER-[0-9A-HJKMNP-TV-Z]{26}$"},
+    "episode_id":{"type":["string","null"],"pattern":"^INT-EPI-[0-9A-HJKMNP-TV-Z]{26}$"},
+    "scene_id":{"type":["string","null"],"pattern":"^INT-SCN-[0-9A-HJKMNP-TV-Z]{26}$"},
+    "shot_id":{"type":["string","null"],"pattern":"^INT-SHT-[0-9A-HJKMNP-TV-Z]{26}$"},
+    "creative_id":{"type":["string","null"]},"creative_version":{"type":["string","null"]},
+    "generation_job_id":{"type":["string","null"],"pattern":"^INT-GJB-[0-9A-HJKMNP-TV-Z]{26}$"},
+    "attempt_id":{"type":["string","null"],"pattern":"^INT-ATM-[0-9A-HJKMNP-TV-Z]{26}$"},
+    "platform_publication_id":{"type":["string","null"]},"hook_type":{"type":["string","null"]},"cliffhanger_type":{"type":["string","null"]},
+    "pressure_domain":{"type":"array","items":{"type":"string"}},"emotional_engine":{"type":["string","null"]},"runtime_seconds":{"type":["number","null"],"minimum":0},
+    "provider":{"type":["string","null"]},"model":{"type":["string","null"]},"model_version":{"type":["string","null"]},"metrics":{"type":"object"}
+  }
+}

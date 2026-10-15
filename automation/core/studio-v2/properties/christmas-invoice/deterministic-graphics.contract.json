@@ -1,0 +1,15 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "contract_version":"christmas-invoice-deterministic-graphics@1.0.0",
+  "policy":"Plot-critical readable text must be rendered deterministically and composited; generative video is background/performance only.",
+  "rendering":{"permitted":["versioned_HTML_CSS","versioned_SVG","programmatic_canvas","typeset_PDF_then_raster"],"prohibited":["generative_text","untracked_manual_flattening","provider_prompt_only_text"],"required_checks":["source_data_hash","template_hash","font_hash","output_hash","pixel_dimensions","safe_area","OCR_exact_match","human_readability","composite_tracking"]},
+  "graphics":[
+    {"graphic_key":"invoice","episodes":[1,2,3,5,9,10],"canonical_text":{"amount":"$8,430","hours":"1,146 HOURS","date":"JANUARY 2","semantics":"expense reimbursement plus boundary record; hours are not a wage demand"}},
+    {"graphic_key":"transfer_records","episodes":[1,2],"canonical_text":{"count":6,"amount_each":"$1,200","total":"$7,200","label":"CARE RELIEF"}},
+    {"graphic_key":"house_expense_documents","episodes":[2,3],"canonical_text":{"tax":"$3,200","furnace":"$1,650","roof":"$2,350","total":"$7,200"}},
+    {"graphic_key":"realtor_material","episodes":[3,4,5,10],"canonical_text":{"activation_date":"DECEMBER 27","state_before_finale":"conditional_not_authorized","finale_state":"signed_after_plan_stress_test"}},
+    {"graphic_key":"care_calendar","episodes":[6,7,8,9,10],"canonical_text":{"ep6":"transferred_to_Daniel","ep7":"Thomas_crosses_out_nonconsented_tasks","ep8":"shared_annotated","ep9":"named_owners_and_Maya_removed_as_primary_contact","ep10":"active_system"}},
+    {"graphic_key":"final_agreement_states","episodes":[9,10],"canonical_text":{"Daniel":"two_weekends_plus_remote_admin","Maya":"not_default_oncall","Thomas":"approves_help_and_housing_trial","repayment":"verified expenses prioritized from house proceeds broadly","hours":"not converted to wages"}}
+  ],
+  "implementation_status":"contract_ready; visual templates, fonts and final safe areas await STU-007"
+}

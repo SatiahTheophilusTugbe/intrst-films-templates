@@ -1,0 +1,24 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://intrst.example/schemas/studio-v2-generation-attempt.schema.json",
+  "title":"Studio v2 Generation Attempt",
+  "type":"object",
+  "additionalProperties":false,
+  "required":["attempt_id","generation_job_id","shot_id","attempt_number","provider","model","model_version","input_asset_ids","reference_asset_ids","generation_cost_minor","currency","generation_latency_ms","qc_state","rejection_reason","decision","human_review_minutes","provider_receipt","provenance","output_asset_id","started_at","settled_at"],
+  "properties":{
+    "attempt_id":{"type":"string","pattern":"^INT-ATM-[0-9A-HJKMNP-TV-Z]{26}$"},
+    "generation_job_id":{"type":"string","pattern":"^INT-GJB-[0-9A-HJKMNP-TV-Z]{26}$"},
+    "shot_id":{"type":"string","pattern":"^INT-SHT-[0-9A-HJKMNP-TV-Z]{26}$"},
+    "attempt_number":{"type":"integer","minimum":1,"maximum":3},
+    "provider":{"type":"string","minLength":1},"model":{"type":"string","minLength":1},"model_version":{"type":"string","minLength":1},
+    "input_asset_ids":{"type":"array","items":{"type":"string","pattern":"^INT-AST-[0-9A-HJKMNP-TV-Z]{26}$"},"uniqueItems":true},
+    "reference_asset_ids":{"type":"array","items":{"type":"string","pattern":"^INT-AST-[0-9A-HJKMNP-TV-Z]{26}$"},"uniqueItems":true},
+    "generation_cost_minor":{"type":"integer","minimum":0},"currency":{"const":"USD"},
+    "generation_latency_ms":{"type":["integer","null"],"minimum":0},"qc_state":{"type":"string","minLength":1},
+    "rejection_reason":{"type":["string","null"]},
+    "decision":{"enum":["accepted","rejected","outcome_unknown","failed_before_submission","failed_after_submission"]},
+    "human_review_minutes":{"type":["number","null"],"minimum":0},"provider_receipt":{"type":["object","null"]},"provenance":{"type":"object"},
+    "output_asset_id":{"type":["string","null"],"pattern":"^INT-AST-[0-9A-HJKMNP-TV-Z]{26}$"},
+    "started_at":{"type":"string","format":"date-time"},"settled_at":{"type":["string","null"],"format":"date-time"}
+  }
+}

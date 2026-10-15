@@ -29,7 +29,7 @@ The documentary `story_objects` contract remains unchanged. Studio v2 objects us
 
 | Existing capability | Studio v2 use |
 | --- | --- |
-| INF-006 typed IDs | Extended by the proposed Studio type codes in `studio-v2.object-model.json`; no ID is reused on retry or version change. |
+| INF-006 typed IDs | Extended in the canonical repository contract for Studio Signal, Series, Character, Relationship, Location, Episode, Scene, Shot, Continuity, Generation, Route, Model Evaluation, Cost and QC records; no ID is reused on retry or version change. |
 | INF-007 credential policy | Provider credentials remain logical project/environment references; no secret enters Git, payloads, or logs. |
 | AUT-009 validation/error/adapter doctrine | Reused at every object, route, generation, QC, approval, and output boundary. Studio errors add generation-specific classes without weakening the existing taxonomy. |
 | `workflow_runs` | Remains the durable execution lineage ledger. Studio entity references use existing input/output ID arrays; job and attempt detail lives in generation records. |

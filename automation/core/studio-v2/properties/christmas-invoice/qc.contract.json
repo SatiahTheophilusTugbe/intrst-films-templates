@@ -1,0 +1,10 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "contract_version":"christmas-invoice-qc@1.0.0",
+  "machine_gates":["file_integrity","mime_signature","geometry","duration","audio_presence","identity_reference_similarity","wardrobe_continuity","location_continuity","prop_continuity","timeline_continuity","dialogue_lip_sync_when_required","deterministic_graphic_legibility","blank_region_detection","provenance_completeness"],
+  "human_gates":["emotional_truth","performance_restraint","character_agency","Thomas_autonomy_legibility","canon_fidelity","shot_intent","editability","premium_visual_threshold","continuity_exception_approval"],
+  "decision_states":["machine_pending","machine_pass","machine_fail","human_pending","accepted","rejected","outcome_unknown"],
+  "separation_of_authority":{"machine_pass_is_creative_approval":false,"provider_success_is_qc_pass":false,"human_acceptance_requires_review_id":true,"episode_lock_is_separate":true},
+  "required_record":["qc_result_id","attempt_id","shot_id","artifact_sha256","machine_findings","continuity_findings","human_findings","decision","rejection_reason","reviewer","reviewed_at","approval_record_id"],
+  "continuity_exception":{"allowed":true,"requires":["approval_record_id","reason","affected_dimensions","new_continuity_snapshot_id"],"silent_override":false}
+}

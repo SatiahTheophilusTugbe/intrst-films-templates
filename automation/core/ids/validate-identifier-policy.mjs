@@ -18,7 +18,22 @@ const EXPECTED_TYPE_SIGNATURES = Object.freeze([
   "experiment:EXP:experiment_id:null",
   "intelligence:ITL:intelligence_id:null",
   "provider_usage:USG:usage_id:null",
-  "cache_entry:CAC:cache_entry_id:null"
+  "cache_entry:CAC:cache_entry_id:null",
+  "signal:SIG:signal_id:studio_objects",
+  "series:SER:series_id:studio_objects",
+  "character:CHR:character_id:studio_objects",
+  "relationship:REL:relationship_id:studio_objects",
+  "location:LOC:location_id:studio_objects",
+  "episode:EPI:episode_id:studio_objects",
+  "scene:SCN:scene_id:studio_objects",
+  "shot:SHT:shot_id:studio_objects",
+  "continuity_snapshot:CNT:continuity_state_id:continuity_states",
+  "generation_job:GJB:generation_job_id:generation_jobs",
+  "generation_attempt:ATM:attempt_id:generation_jobs",
+  "route_decision:RTE:route_decision_id:generation_jobs",
+  "model_evaluation:MEV:model_evaluation_id:model_evaluations",
+  "cost_entry:CST:cost_entry_id:cost_ledger",
+  "qc_result:QCR:qc_result_id:qc_results"
 ]);
 const EXPECTED_LEGACY_PATTERNS = Object.freeze([
   "^SUBJ-[0-9]{3,}$",

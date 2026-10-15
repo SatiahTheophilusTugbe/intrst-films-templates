@@ -122,7 +122,7 @@
       "phase": 1,
       "name": "governance_and_schema_review",
       "status": "not_started",
-      "gates": ["STU-005 property greenlight may remain pending", "INF-006 minor ID extension approved", "Data Table proposal approved", "PostgreSQL generation claim migration reviewed", "WIN 2/WIN 5 ownership boundaries approved"],
+      "gates": ["STU-005 property greenlight verified for the selected property", "INF-006 Studio ID extension implemented and validated in repository", "Data Table proposal approved", "PostgreSQL generation claim migration reviewed", "WIN 2/WIN 5 ownership boundaries approved"],
       "paid_calls": 0
     },
     {

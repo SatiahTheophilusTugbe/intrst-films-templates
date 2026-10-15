@@ -17,7 +17,7 @@
   },
   "identifier_extension": {
     "base_contract": "INF-006@1.0.0",
-    "status": "proposed_for_INF-006_minor_extension_before_runtime_deployment",
+    "status": "implemented_in_INF-006_repository_contract; runtime persistence deployment still pending",
     "pattern": "^INT-[A-Z]{3}-[0-9A-HJKMNP-TV-Z]{26}$",
     "types": [
       {"name": "signal", "code": "SIG", "primary_field": "signal_id"},

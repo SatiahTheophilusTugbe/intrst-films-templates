@@ -1,0 +1,12 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "contract_version":"studio-cost-ledger@1.0.0",
+  "series_id":"INT-SER-01M4Y62ABTD4K7168BQ73V6HW9",
+  "currency":"USD",
+  "authorized_scope":{"episode_sequences":[1,2,3],"hard_ceiling_minor":60000,"episodes_4_to_10_spend_authorized":false},
+  "entries":[{"contract_version":"studio-cost-ledger@1.0.0","cost_entry_id":"INT-CST-01M4Y62AD4ZGW79P5P4KB7MYGG","entry_type":"budget_opened","scope_type":"series_proof_gate","scope_id":"INT-SER-01M4Y62ABTD4K7168BQ73V6HW9","currency":"USD","amount_minor":60000,"occurred_at":"2026-10-14T00:00:00.000Z","idempotency_key":"studio-v2/christmas-invoice/v1/budget/e1-e3/open","authorization_source":"WIN 0 Series + Script Lock Memo v1.0"}],
+  "current_summary":{"budget_opened_minor":60000,"reserved_minor":0,"actual_minor":0,"encumbered_minor":0,"available_minor":60000,"provider_attempts":0,"accepted_shots":0,"finished_runtime_seconds":0},
+  "per_attempt_capture":["provider","model","model_version","shot_id","attempt_id","attempt_number","input_asset_ids","reference_asset_ids","generation_cost_minor","generation_latency_ms","qc_state","rejection_reason","decision","human_review_minutes"],
+  "derived_metrics":["attempts_per_accepted_shot","acceptance_rate","cost_per_accepted_shot_minor","cost_per_finished_second_minor","cost_per_finished_minute_minor","cost_by_provider_model_version","regeneration_causes","continuity_defect_rate","human_intervention_minutes_per_accepted_shot"],
+  "enforcement":{"reserve_before_claim":true,"integer_minor_units":true,"append_only":true,"cross_currency_requires_explicit_fx":true,"block_when_reserved_plus_actual_plus_candidate_exceeds_ceiling":true,"automatic_overage":false}
+}

@@ -26,7 +26,22 @@
     {"name": "experiment", "code": "EXP", "primary_field": "experiment_id", "table": null},
     {"name": "intelligence", "code": "ITL", "primary_field": "intelligence_id", "table": null},
     {"name": "provider_usage", "code": "USG", "primary_field": "usage_id", "table": null},
-    {"name": "cache_entry", "code": "CAC", "primary_field": "cache_entry_id", "table": null}
+    {"name": "cache_entry", "code": "CAC", "primary_field": "cache_entry_id", "table": null},
+    {"name": "signal", "code": "SIG", "primary_field": "signal_id", "table": "studio_objects"},
+    {"name": "series", "code": "SER", "primary_field": "series_id", "table": "studio_objects"},
+    {"name": "character", "code": "CHR", "primary_field": "character_id", "table": "studio_objects"},
+    {"name": "relationship", "code": "REL", "primary_field": "relationship_id", "table": "studio_objects"},
+    {"name": "location", "code": "LOC", "primary_field": "location_id", "table": "studio_objects"},
+    {"name": "episode", "code": "EPI", "primary_field": "episode_id", "table": "studio_objects"},
+    {"name": "scene", "code": "SCN", "primary_field": "scene_id", "table": "studio_objects"},
+    {"name": "shot", "code": "SHT", "primary_field": "shot_id", "table": "studio_objects"},
+    {"name": "continuity_snapshot", "code": "CNT", "primary_field": "continuity_state_id", "table": "continuity_states"},
+    {"name": "generation_job", "code": "GJB", "primary_field": "generation_job_id", "table": "generation_jobs"},
+    {"name": "generation_attempt", "code": "ATM", "primary_field": "attempt_id", "table": "generation_jobs"},
+    {"name": "route_decision", "code": "RTE", "primary_field": "route_decision_id", "table": "generation_jobs"},
+    {"name": "model_evaluation", "code": "MEV", "primary_field": "model_evaluation_id", "table": "model_evaluations"},
+    {"name": "cost_entry", "code": "CST", "primary_field": "cost_entry_id", "table": "cost_ledger"},
+    {"name": "qc_result", "code": "QCR", "primary_field": "qc_result_id", "table": "qc_results"}
   ],
   "subject_identity": {
     "canonical_field": "subject_id",

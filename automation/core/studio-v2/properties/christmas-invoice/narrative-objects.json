@@ -1,0 +1,251 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "contract_version": "christmas-invoice-objects@1.0.0",
+  "source_binding": {
+    "drive_file_id": "1VLmQ47qHWisO80VkUS044-RVtv08DeRyjjxwY7bDcuw",
+    "drive_revision_id": "5",
+    "text_export_sha256": "39afdbf48d6aa2ca02770f73d45f821b11d9cee3c1b28c57611c3dc0f125f289",
+    "canon_version": "STU-006-v1.1"
+  },
+  "objects": [
+    {
+      "object_type": "signal",
+      "object_id": "INT-SIG-01M4Y62ABRMSXKER1ZE78ZSF80",
+      "status": "approved",
+      "payload": {
+        "source_type": "seasonal_ip_opportunity",
+        "research_summary": "Holiday family obligation, caregiving, household economics and uneven sibling responsibility support a contained fictional Human Pressure Thriller.",
+        "audience_signal": {"primary_age_range": "35-59", "need_state": "recognition of morally mixed family obligation"},
+        "factual_evidence_boundary": "Research informs the tension only. The Carter family, invoice, transfers, house, dialogue and events are fictional.",
+        "season_window": {"season": "Holiday 2026", "story_dates": "2026-12-24 through 2027-01-02"},
+        "publish_by_date": null,
+        "tension": "Care is money, time, consent, control, memory, duty and the right to retain a future.",
+        "audience": {"primary": "Adults navigating aging parents, sibling imbalance, work pressure and financial tradeoffs"},
+        "opportunity_score": 87,
+        "source_refs": ["H26-01", "SIG-H26-001", "STU-002-v1.0", "STU-005-v1.0"],
+        "approval_state": "approved"
+      }
+    },
+    {
+      "object_type": "series",
+      "object_id": "INT-SER-01M4Y62ABTD4K7168BQ73V6HW9",
+      "status": "approved",
+      "payload": {
+        "title": "The Christmas Invoice",
+        "genre": "Premium Domestic Suspense / Family Thriller Microdrama / Human Pressure Thriller",
+        "logline": "When Maya Carter invoices her family for a year of care, her brother's transfer records and their father's hidden use of the money force all three to negotiate money, time, home, consent and a January handover.",
+        "premise": "At Christmas dinner, the daughter providing daily care places an invoice beside the gifts. Her brother says a monthly transfer already paid for relief. Their father reveals that he redirected the money to preserve the family home for one last Christmas.",
+        "research_signal_ids": ["INT-SIG-01M4Y62ABRMSXKER1ZE78ZSF80"],
+        "audience": {"primary_age_range": "35-59", "secondary": "Viewers of family accountability dramas with changing alliances and morally mixed choices"},
+        "theme": "Care is not only money or time; it also includes consent, control, memory, duty, identity and the right to have a future.",
+        "world": {"format": "10 episodes x 60-90 seconds", "master": "9:16 vertical", "speaking_principals": 3, "primary_home_zones": 2, "story_window": "December 24-28 with January 2 epilogue", "flashbacks": false},
+        "tone": "Intimate, intelligent, emotionally compressed, unsentimental and humane; no villain, saint, speechifying, medical melodrama or compulsory reconciliation.",
+        "visual_language": {"status": "awaiting_STU-007", "constraints": ["contained interiors", "expressive close-ups", "restrained movement", "deterministic plot-bearing text", "Thomas autonomy must remain legible"]},
+        "season_question": "Can Maya, Daniel and Thomas create a sustainable, freely chosen care arrangement before Maya leaves on January 2 without converting love into debt, money into absolution or Thomas into an object to be managed?",
+        "central_conflict": "Maya defines care as ordinary presence, Daniel includes resources when presence is constrained, and Thomas requires dignity and authority; all three are partly right and use their definition to avoid a harder truth.",
+        "stakes": "Maya risks her job and future; Daniel risks unlimited time claims and moral credibility; Thomas risks trust, home and autonomy; the family care system otherwise collapses into emergency improvisation.",
+        "reversal_engine": {"moral_center_by_episode": ["maya_justified", "daniel_counter_evidence", "thomas_deception", "maya_unilateral_exit", "thomas_house_plan", "daniel_concession", "thomas_refusal_of_assignment", "mutual_accountability", "prospective_commitments", "plan_stress_test"]},
+        "escalation_rules": ["Every episode changes at least two ledgers", "Every reveal changes an available choice", "Money cannot solve a relational problem alone", "Apology cannot solve a logistical problem alone", "Thomas makes consequential choices", "No premise-scale hidden truth after Episode 5", "Episode 10 executes rather than merely announces the arrangement"],
+        "reveal_schedule": ["EP1 invoice and transfer claim", "EP2 $7,200 verified", "EP3 house spending", "EP4 Maya's Richmond exit", "EP5 conditional listing", "EP6-10 choices rather than secret dumping"],
+        "monetization_hypothesis": {"authority": "WIN 6", "status": "external_handoff_not_runtime_authorization"},
+        "season_window": {"label": "Holiday 2026", "production_release_gate": "STU-008"},
+        "development_aliases": ["H26-01", "SIG-H26-001"],
+        "locked_source": {"document_id": "1VLmQ47qHWisO80VkUS044-RVtv08DeRyjjxwY7bDcuw", "revision_id": "5", "version": "1.1"},
+        "approval_state": "approved"
+      }
+    },
+    {
+      "object_type": "character",
+      "object_id": "INT-CHR-01M4Y62ABVFV1SZETDET46KG57",
+      "status": "review_required",
+      "payload": {
+        "series_id": "INT-SER-01M4Y62ABTD4K7168BQ73V6HW9",
+        "name": "Maya Carter",
+        "age_range": {"minimum": 41, "maximum": 45},
+        "physical_identity": {"status": "awaiting_STU-007", "reference_pack_id": null},
+        "personality": {"public": "Competent, dry, organized and anticipatory", "private": "Documents resentment because direct asking feels more frightening"},
+        "desire": "Reclaim a future without having to prove she loves Thomas less.",
+        "fear": "If she stops, a failure will be used as proof that she should never have stopped.",
+        "secret": "She accepted a full-time Richmond job, signed a lease and starts January 2.",
+        "contradiction": "She demands shared decisions while having made the largest exit decision alone.",
+        "relationship_ids": ["INT-REL-01M4Y62ABY19G5HT6MMJKH406P", "INT-REL-01M4Y62ABZQJC0JP4YZAV2A06F"],
+        "voice_profile": {"narrative_lock": "Concise and precise; anger becomes more exact rather than louder", "voice_asset_id": null, "status": "awaiting_STU-007"},
+        "wardrobe_ids": [],
+        "reference_asset_ids": [],
+        "expression_asset_ids": [],
+        "performance_notes": ["No martyr speech", "No moral superiority", "Competence must not be treated as automatic authority", "Rescue reflex must be visible in EP8 and EP10"],
+        "allowed_variation": ["Restrained emotional escalation", "Dry humor where scripted"],
+        "prohibited_variation": ["Sainthood", "Melodramatic shouting", "Visual or narrative infantilization of Thomas"],
+        "current_state": {"narrative": "locked", "visual_identity": "pending", "wardrobe": "pending"},
+        "approval_state": "review_required"
+      }
+    },
+    {
+      "object_type": "character",
+      "object_id": "INT-CHR-01M4Y62ABWZ53P1X9MFNDZ0S3Q",
+      "status": "review_required",
+      "payload": {
+        "series_id": "INT-SER-01M4Y62ABTD4K7168BQ73V6HW9",
+        "name": "Daniel Carter",
+        "age_range": {"minimum": 45, "maximum": 49},
+        "physical_identity": {"status": "awaiting_STU-007", "reference_pack_id": null},
+        "personality": {"public": "Calm, financially stable, solution-oriented and uncomfortable with ambiguity", "private": "Uses scheduled money to avoid unscheduled family conflict"},
+        "desire": "Be regarded as a responsible son without reorganizing his entire life around the family home.",
+        "fear": "Any concession becomes an unlimited claim on his time.",
+        "secret": "He deliberately never verified whether the care relief he funded occurred.",
+        "contradiction": "He demands accounting from Maya but treated transfers as proof without auditing their use.",
+        "relationship_ids": ["INT-REL-01M4Y62ABY19G5HT6MMJKH406P", "INT-REL-01M4Y62AC08T4F37TT588YE607"],
+        "voice_profile": {"narrative_lock": "Measured, lightly ironic and question-driven; becomes legalistic under pressure", "voice_asset_id": null, "status": "awaiting_STU-007"},
+        "wardrobe_ids": [],
+        "reference_asset_ids": [],
+        "expression_asset_ids": [],
+        "performance_notes": ["No contempt for caregiving", "No cartoon paid-so-done line", "No sudden saint turn", "Direct-care learning must remain imperfect"],
+        "allowed_variation": ["Measured defensiveness", "Practical commitment after evidence"],
+        "prohibited_variation": ["Cruel indifference", "Heroic rescue framing", "Instant moral conversion"],
+        "current_state": {"narrative": "locked", "visual_identity": "pending", "wardrobe": "pending"},
+        "approval_state": "review_required"
+      }
+    },
+    {
+      "object_type": "character",
+      "object_id": "INT-CHR-01M4Y62ABXKA7VVFET7CZY4TGV",
+      "status": "review_required",
+      "payload": {
+        "series_id": "INT-SER-01M4Y62ABTD4K7168BQ73V6HW9",
+        "name": "Thomas Carter",
+        "age_range": {"minimum": 71, "maximum": 76},
+        "physical_identity": {"status": "awaiting_STU-007", "reference_pack_id": null},
+        "personality": {"public": "Proud, sociable, observant host and decision-maker", "private": "Preserved the house for one last Christmas while delaying feared decisions"},
+        "desire": "Remain the author of his life rather than become a schedule created by his children.",
+        "fear": "Accepting help means surrendering home, authority and identity at once.",
+        "secret": "He redirected transfers to property tax, furnace and roof costs and signed a conditional listing agreement.",
+        "contradiction": "He insists on autonomy while withholding facts the others need for informed choices.",
+        "relationship_ids": ["INT-REL-01M4Y62ABZQJC0JP4YZAV2A06F", "INT-REL-01M4Y62AC08T4F37TT588YE607"],
+        "voice_profile": {"narrative_lock": "Warm, economical and occasionally wry; never a wisdom-delivery device", "voice_asset_id": null, "status": "awaiting_STU-007"},
+        "wardrobe_ids": [],
+        "reference_asset_ids": [],
+        "expression_asset_ids": [],
+        "performance_notes": ["Autonomy must remain visible", "No burden speech", "No deathbed framing", "No diagnosis-centered identity", "No clinical visual shorthand"],
+        "allowed_variation": ["Wry deflection", "Firm consent boundaries", "Accountable vulnerability"],
+        "prohibited_variation": ["Frailty caricature", "Saintly father", "Passive plot object", "Manipulative terminality"],
+        "current_state": {"narrative": "locked", "visual_identity": "pending", "wardrobe": "pending"},
+        "approval_state": "review_required"
+      }
+    },
+    {
+      "object_type": "relationship",
+      "object_id": "INT-REL-01M4Y62ABY19G5HT6MMJKH406P",
+      "status": "approved",
+      "payload": {
+        "series_id": "INT-SER-01M4Y62ABTD4K7168BQ73V6HW9",
+        "character_ids": ["INT-CHR-01M4Y62ABVFV1SZETDET46KG57", "INT-CHR-01M4Y62ABWZ53P1X9MFNDZ0S3Q"],
+        "relationship_type": "siblings",
+        "public_state": "Polite holiday friction",
+        "private_state": "Maya sees Daniel as a visitor; Daniel believes Maya makes help impossible to do correctly.",
+        "power_balance": "Maya controls operational knowledge; Daniel controls more disposable money.",
+        "history": ["Maya remained local", "Daniel moved away for work", "Both converted circumstance into competing moral identities"],
+        "unresolved_promises": ["Daniel said tell me what you need", "Maya stopped asking after vague or failed attempts"],
+        "current_state": {"episode_1": "hostile_open", "episode_10": "shared_responsibility_provisional"},
+        "approval_state": "approved"
+      }
+    },
+    {
+      "object_type": "relationship",
+      "object_id": "INT-REL-01M4Y62ABZQJC0JP4YZAV2A06F",
+      "status": "approved",
+      "payload": {
+        "series_id": "INT-SER-01M4Y62ABTD4K7168BQ73V6HW9",
+        "character_ids": ["INT-CHR-01M4Y62ABVFV1SZETDET46KG57", "INT-CHR-01M4Y62ABXKA7VVFET7CZY4TGV"],
+        "relationship_type": "daughter_father",
+        "public_state": "Operational closeness with accumulated strain",
+        "private_state": "Maya wants permission to stop being indispensable; Thomas wants presence without management.",
+        "power_balance": "Maya controls daily systems; Thomas retains consent, home ownership and withheld information.",
+        "history": ["Maya became the default local caregiver", "Thomas preserved host identity and avoided direct transition decisions"],
+        "unresolved_promises": ["Care must not erase Thomas's authority", "Maya's future must not remain the default resource"],
+        "current_state": {"episode_1": "strained_dependence", "episode_10": "bounded_support_with_consent"},
+        "approval_state": "approved"
+      }
+    },
+    {
+      "object_type": "relationship",
+      "object_id": "INT-REL-01M4Y62AC08T4F37TT588YE607",
+      "status": "approved",
+      "payload": {
+        "series_id": "INT-SER-01M4Y62ABTD4K7168BQ73V6HW9",
+        "character_ids": ["INT-CHR-01M4Y62ABWZ53P1X9MFNDZ0S3Q", "INT-CHR-01M4Y62ABXKA7VVFET7CZY4TGV"],
+        "relationship_type": "son_father",
+        "public_state": "Financially supportive but physically distant",
+        "private_state": "Daniel wants confirmation that transfers were legitimate; Thomas wants involvement without purchasing authority.",
+        "power_balance": "Daniel controls recurring money; Thomas controlled purpose and disclosure.",
+        "history": ["Daniel contributed remotely", "Thomas redirected funds without clarifying their use"],
+        "unresolved_promises": ["Daniel must contribute predictable time", "Thomas must disclose choices that affect the plan"],
+        "current_state": {"episode_1": "neutral_transactional", "episode_10": "recurring_involvement_with_accountability"},
+        "approval_state": "approved"
+      }
+    },
+    {
+      "object_type": "location",
+      "object_id": "INT-LOC-01M4Y62AC1NKGY6BMBHH8FCACB",
+      "status": "review_required",
+      "payload": {
+        "series_id": "INT-SER-01M4Y62ABTD4K7168BQ73V6HW9",
+        "canonical_description": "Carter dining/kitchen zone; the public family arena for meals, evidence, calendars, negotiations and group conflict.",
+        "geography": {"property": "Carter family home", "zone": "dining room with visible or adjacent kitchen", "exact_geometry": "awaiting_STU-007"},
+        "layout": {"required": ["table for three adults and documents", "visible or adjacent kitchen", "calendar surface", "household paper drawer or cabinet"], "reference_pack_id": null},
+        "lighting_states": [],
+        "time_states": ["Dec 24 evening", "Dec 25 morning", "Dec 26 morning", "Dec 27 care shift", "Dec 28 morning/later", "Jan 2 morning"],
+        "prop_anchor_ids": ["invoice", "transfer_record", "care_calendar", "household_folder", "realtor_agreement", "pens", "maya_bag_keys"],
+        "reference_asset_ids": [],
+        "allowed_variation": ["Modest sincere Christmas setting", "Lived-in deferred-maintenance detail"],
+        "prohibited_variation": ["Catalog-perfect luxury", "Clinical care shorthand", "Plot-critical generated text"],
+        "continuity_rules": ["Invoice evolves but is not destroyed", "Transfer record appears from EP2", "Calendar visibly evolves after EP6", "Realtor object is seeded before reveal", "Paper evidence remains legible and deterministic"],
+        "approval_state": "review_required"
+      }
+    },
+    {
+      "object_type": "location",
+      "object_id": "INT-LOC-01M4Y62AC2NE8XWES70B7J3NVZ",
+      "status": "review_required",
+      "payload": {
+        "series_id": "INT-SER-01M4Y62ABTD4K7168BQ73V6HW9",
+        "canonical_description": "Thomas's study/front room; his private negotiation territory and the place where smaller alliances form.",
+        "geography": {"property": "Carter family home", "zone": "study/front room", "exact_geometry": "awaiting_STU-007"},
+        "layout": {"required": ["comfortable chair", "small desk or side table", "family photographs without additional clear cast", "file box or envelope area", "window or doorway showing the house beyond"], "reference_pack_id": null},
+        "lighting_states": [],
+        "time_states": ["Dec 25 late morning", "Dec 26 afternoon", "Dec 27 care shift"],
+        "prop_anchor_ids": ["household_folder", "realtor_agreement", "apartment_brochure"],
+        "reference_asset_ids": [],
+        "allowed_variation": ["Warm lived-in autonomy", "Environmental family history"],
+        "prohibited_variation": ["Clinical equipment shorthand", "Frailty staging", "Unapproved additional family likenesses"],
+        "continuity_rules": ["Thomas controls stored papers", "Maya does not search his possessions", "Daniel enters by invitation", "The room reinforces autonomy rather than frailty"],
+        "approval_state": "review_required"
+      }
+    }
+  ],
+  "episodes": [
+    {"sequence":1,"object_id":"INT-EPI-01M4Y62AC3846QD0SCNR41TRZZ","title":"The Invoice","runtime_target_seconds":75,"hook":"Maya places a printed invoice beside three Christmas gifts.","objective":"Force acknowledgment that the current arrangement cannot continue.","conflict":"Daniel reads accusation; Thomas tries to preserve dinner.","turn":"January 2 is a handover date, not a discussion date.","reveal":"The invoice carries $8,430 and 1,146 hours without demanding the hours as wages.","cliffhanger":"Daniel reveals recurring transfers and asks where the money went.","story_time":"2026-12-24 early evening","location_ids":["INT-LOC-01M4Y62AC1NKGY6BMBHH8FCACB"],"scene_ids":["INT-SCN-01M4Y62ACDR12W9YYQB898EZGR"],"script_sha256":"f0b2f09113d51a80a4e829c25e264ba5b3f3843d6b5aacfefb0e2c6724ffd4ce","hook_type":"disruptive_prop","cliffhanger_type":"reveal_exposure","pressure_domain":["family","care","money"],"emotional_engine":"invisible_labor_vs_recognition"},
+    {"sequence":2,"object_id":"INT-EPI-01M4Y62AC4D763NP2RYQ93CHM0","title":"Paid","runtime_target_seconds":70,"hook":"Six transfer confirmations sit beside the invoice.","objective":"Establish whether Daniel contributed.","conflict":"Maya received no relief; Daniel believed that was what he funded.","turn":"Thomas confirms the transfers.","reveal":"Six monthly $1,200 transfers labeled CARE RELIEF total $7,200.","cliffhanger":"Thomas can account for every dollar; none paid a carer.","story_time":"2026-12-24 continuous","location_ids":["INT-LOC-01M4Y62AC1NKGY6BMBHH8FCACB"],"scene_ids":["INT-SCN-01M4Y62ACEC22DKVFEHT9P9F5B"],"script_sha256":"d59fd83084d195ff31fccba0ee4d55e17ea3204aed58f1a526d3c86d222e310b","hook_type":"counter_evidence","cliffhanger_type":"reveal","pressure_domain":["money","trust"],"emotional_engine":"contribution_vs_effect"},
+    {"sequence":3,"object_id":"INT-EPI-01M4Y62AC5SSQYPBNP20V2VBF9","title":"The House","runtime_target_seconds":80,"hook":"Thomas opens the household folder.","objective":"Explain the diverted money.","conflict":"Daniel calls it misuse; Maya understands repairs but not secrecy.","turn":"The money kept tax current, the furnace working and a roof repair scheduled.","reveal":"Thomas chose the house over paid relief for one last Christmas.","cliffhanger":"A dated realtor envelope makes the house an active decision.","story_time":"2026-12-24 later evening","location_ids":["INT-LOC-01M4Y62AC1NKGY6BMBHH8FCACB"],"scene_ids":["INT-SCN-01M4Y62ACF98EWTQMWTEWK9ABS"],"script_sha256":"dbb3a2c170bc02f7fd1e5ed8ee1e502b44364437c57410e514ab9c02ca276199","hook_type":"accounting_evidence","cliffhanger_type":"exposure_visual_threat","pressure_domain":["money","home","family"],"emotional_engine":"autonomy_vs_deception"},
+    {"sequence":4,"object_id":"INT-EPI-01M4Y62AC60P2BV1WJ82JVXG1S","title":"January Second","runtime_target_seconds":75,"hook":"Thomas asks what handover means.","objective":"Force Maya to disclose her exit plan.","conflict":"Maya says nobody listened; Daniel says she made a plan anyway.","turn":"Maya reveals her Richmond lease and job.","reveal":"She leaves January 1 and starts January 2.","cliffhanger":"Thomas identifies his own dated plan object.","story_time":"2026-12-25 morning","location_ids":["INT-LOC-01M4Y62AC1NKGY6BMBHH8FCACB"],"scene_ids":["INT-SCN-01M4Y62ACGJQNXP2D2Y7BAMZM6"],"script_sha256":"a0152ad1a25d64da39cca86fa820659f09fd3e5fa531c6db092e9330416e0833","hook_type":"deadline_question","cliffhanger_type":"exposure","pressure_domain":["work","family","care"],"emotional_engine":"sacrifice_vs_unilateral_escape"},
+    {"sequence":5,"object_id":"INT-EPI-01M4Y62AC72HAA8BERHFWHZFWX","title":"For Sale","runtime_target_seconds":80,"hook":"Thomas places a realtor agreement beside the invoice.","objective":"Reveal Thomas's plan for the house.","conflict":"Maya sees irrational repairs; Daniel sees sale proceeds as solution.","turn":"Repairs preserved value and bought decision time through Christmas.","reveal":"Listing can activate December 27 but Thomas retains authorization.","cliffhanger":"The siblings must bring Thomas a plan he would choose.","story_time":"2026-12-25 late morning","location_ids":["INT-LOC-01M4Y62AC2NE8XWES70B7J3NVZ","INT-LOC-01M4Y62AC1NKGY6BMBHH8FCACB"],"scene_ids":["INT-SCN-01M4Y62ACHW289NM20ZQ56XZHF","INT-SCN-01M4Y62ACJV6NHP2XBKJTN9VR1"],"script_sha256":"26d7dda3d374a8553f90e4973962f1673cdf496e8b54853822b33339c743029b","hook_type":"hidden_plan_object","cliffhanger_type":"choice_deadline","pressure_domain":["home","money","family"],"emotional_engine":"memory_autonomy_vs_shared_cost"},
+    {"sequence":6,"object_id":"INT-EPI-01M4Y62AC86X7MBF47R5E0C4KK","title":"My House","runtime_target_seconds":75,"hook":"Daniel offers Thomas six weeks in his home.","objective":"Find an immediate post-January arrangement.","conflict":"Daniel frames sacrifice; Thomas hears assignment.","turn":"Maya provisionally supports Daniel.","reveal":"Thomas refuses both children's homes.","cliffhanger":"Daniel takes the calendar for a forty-eight-hour direct-care test.","story_time":"2026-12-26 morning","location_ids":["INT-LOC-01M4Y62AC1NKGY6BMBHH8FCACB"],"scene_ids":["INT-SCN-01M4Y62ACK445GFCE8Y1DS5989"],"script_sha256":"4304e99dd304e7730742c4265670243098cd0a4a4120205a9c6cb32853ef9956","hook_type":"proposed_solution","cliffhanger_type":"obligation_shift","pressure_domain":["care","work","family"],"emotional_engine":"efficiency_vs_consent"},
+    {"sequence":7,"object_id":"INT-EPI-01M4Y62AC9K916CN0JF0R5MCHD","title":"Not Your Turn","runtime_target_seconds":70,"hook":"Thomas removes half the tasks from Daniel's calendar.","objective":"Define what help Thomas consents to.","conflict":"Maya calls tasks necessary; Thomas calls some habits converted into obligations.","turn":"Thomas produces evidence of an independently explored apartment option.","reveal":"He is open to moving without a default child-manager.","cliffhanger":"Maya agrees not to rescue Daniel absent safety-critical information.","story_time":"2026-12-26 afternoon","location_ids":["INT-LOC-01M4Y62AC2NE8XWES70B7J3NVZ","INT-LOC-01M4Y62AC1NKGY6BMBHH8FCACB"],"scene_ids":["INT-SCN-01M4Y62ACM3PH8ZVT25B7C5GW5"],"script_sha256":"e9daff0b266f3dbb8c114e6ef7b91c16e18dd15e2910e6f6c9e0f61484f9c4c6","hook_type":"task_reversal","cliffhanger_type":"alliance_control_shift","pressure_domain":["care","autonomy"],"emotional_engine":"help_vs_control"},
+    {"sequence":8,"object_id":"INT-EPI-01M4Y62ACAB2CW95GS35ZNVX2S","title":"Twenty-Four Hours","runtime_target_seconds":90,"hook":"Daniel's phone alarm sounds before dawn.","objective":"Test Daniel's understanding and Maya's nonintervention.","conflict":"Fragmented tasks and Thomas's choices accumulate.","turn":"Daniel copes but loses an important work call; Maya stops herself from intervening.","reveal":"Maya's corrective gatekeeping and Daniel's withdrawal both damaged task sharing.","cliffhanger":"Four days are covered; twenty-six remain.","story_time":"2026-12-27 continuous care shift","location_ids":["INT-LOC-01M4Y62AC1NKGY6BMBHH8FCACB","INT-LOC-01M4Y62AC2NE8XWES70B7J3NVZ"],"scene_ids":["INT-SCN-01M4Y62ACNYJ91RA05R7RMF8DA"],"script_sha256":"cbde2f5807ed0b99f079072055be19045381be141866577c444e3ab8753f3797","hook_type":"lived_pressure","cliffhanger_type":"loss_problem_expansion","pressure_domain":["work","care","time"],"emotional_engine":"recognition_mutual_accountability"},
+    {"sequence":9,"object_id":"INT-EPI-01M4Y62ACBBVTRBEKH7NN9DAQK","title":"Terms","runtime_target_seconds":85,"hook":"The annotated invoice returns to the center of the table.","objective":"Convert resentment into a prospective agreement.","conflict":"Daniel wants settlement; Maya says paying her off recreates the problem.","turn":"Maya defines repayment and boundary terms.","reveal":"Thomas offers sale proceeds and a housing trial; Daniel offers predictable time and administration.","cliffhanger":"Thomas crosses Maya out as primary emergency contact.","story_time":"2026-12-28 morning","location_ids":["INT-LOC-01M4Y62AC1NKGY6BMBHH8FCACB"],"scene_ids":["INT-SCN-01M4Y62ACPQ95X6SY3TANNDMSS"],"script_sha256":"019157ad570928b5279a77ce8f1a5b33be7d66341acdf0f8daad6569c9f1e010","hook_type":"return_of_hero_prop","cliffhanger_type":"control_reversal","pressure_domain":["money","care","family"],"emotional_engine":"repayment_vs_sustainable_obligation"},
+    {"sequence":10,"object_id":"INT-EPI-01M4Y62ACCVHETQ1W0RQAP48ZT","title":"Balance Due","runtime_target_seconds":90,"hook":"An appointment changes unexpectedly.","objective":"Demonstrate the plan under pressure.","conflict":"Old habit calls Maya; the plan assigns Daniel and transport backup.","turn":"Thomas calls Daniel and Maya does not intervene.","reveal":"Thomas authorizes listing and a senior-apartment trial while retaining move-timing authority.","cliffhanger":"Season resolution: the plan survives and the invoice is filed with the calendar.","story_time":"2026-12-28 later and 2027-01-02 morning","location_ids":["INT-LOC-01M4Y62AC1NKGY6BMBHH8FCACB"],"scene_ids":["INT-SCN-01M4Y62ACQ71XB1YBZ3PPSSK68","INT-SCN-01M4Y62ACRZNNXJ41E86DP7NHV"],"script_sha256":"2cb00f17af527625d3ae53566933d87bb355e9deb9dea74e1dcdb1d20ea93f65","hook_type":"stress_test","cliffhanger_type":"resolution_payoff","pressure_domain":["care","work","home"],"emotional_engine":"trust_through_behavior"}
+  ],
+  "scenes": [
+    {"object_id":"INT-SCN-01M4Y62ACDR12W9YYQB898EZGR","episode_sequence":1,"sequence":1,"location_id":"INT-LOC-01M4Y62AC1NKGY6BMBHH8FCACB","purpose":"Invoice confrontation and transfer-claim reversal","story_time":"Dec 24 early evening","action":"Maya places the invoice beside the gifts; Daniel opens it; dinner halts.","continuity_requirements":["invoice folded then open","three gifts","dinner setting","Thomas watches the paper"]},
+    {"object_id":"INT-SCN-01M4Y62ACEC22DKVFEHT9P9F5B","episode_sequence":2,"sequence":1,"location_id":"INT-LOC-01M4Y62AC1NKGY6BMBHH8FCACB","purpose":"Counter-evidence and transfer verification","story_time":"Dec 24 continuous","action":"Daniel places six transfer entries beside the invoice; Thomas retrieves the household folder.","continuity_requirements":["invoice remains open","six deterministic transfers","folder originates from study"]},
+    {"object_id":"INT-SCN-01M4Y62ACF98EWTQMWTEWK9ABS","episode_sequence":3,"sequence":1,"location_id":"INT-LOC-01M4Y62AC1NKGY6BMBHH8FCACB","purpose":"House-spending disclosure and realtor seed","story_time":"Dec 24 later evening","action":"Three expenses are separated physically; the dated realtor envelope remains half-visible.","continuity_requirements":["tax 3200","furnace 1650","roof 2350","realtor envelope DECEMBER 27"]},
+    {"object_id":"INT-SCN-01M4Y62ACGJQNXP2D2Y7BAMZM6","episode_sequence":4,"sequence":1,"location_id":"INT-LOC-01M4Y62AC1NKGY6BMBHH8FCACB","purpose":"Maya's immovable deadline and Thomas's plan object","story_time":"Dec 25 morning","action":"Keys and work bag precede the Richmond reveal; Thomas identifies his dated realtor plan.","continuity_requirements":["untouched gifts","Maya keys and work bag","same realtor envelope as EP3"]},
+    {"object_id":"INT-SCN-01M4Y62ACHW289NM20ZQ56XZHF","episode_sequence":5,"sequence":1,"location_id":"INT-LOC-01M4Y62AC2NE8XWES70B7J3NVZ","purpose":"Thomas retains physical control of the realtor agreement","story_time":"Dec 25 late morning","action":"Thomas retrieves and controls the agreement in his private territory.","continuity_requirements":["Thomas controls folder access","Daniel enters by invitation","agreement is the seeded object"]},
+    {"object_id":"INT-SCN-01M4Y62ACJV6NHP2XBKJTN9VR1","episode_sequence":5,"sequence":2,"location_id":"INT-LOC-01M4Y62AC1NKGY6BMBHH8FCACB","purpose":"Conditional listing reveal and consent-based planning challenge","story_time":"Dec 25 late morning continuous","action":"The agreement sits beside the invoice; Thomas takes it back and sets the next-day challenge.","continuity_requirements":["agreement returns with Thomas","physical distance widens","listing not yet authorized"]},
+    {"object_id":"INT-SCN-01M4Y62ACK445GFCE8Y1DS5989","episode_sequence":6,"sequence":1,"location_id":"INT-LOC-01M4Y62AC1NKGY6BMBHH8FCACB","purpose":"Reject assignment and transfer the calendar test","story_time":"Dec 26 morning","action":"Thomas does not touch Daniel's clean plan and instead places the care calendar in Daniel's hands.","continuity_requirements":["blank plan sheet","existing care calendar","calendar ends with Daniel"]},
+    {"object_id":"INT-SCN-01M4Y62ACM3PH8ZVT25B7C5GW5","episode_sequence":7,"sequence":1,"location_id":"INT-LOC-01M4Y62AC2NE8XWES70B7J3NVZ","additional_location_ids":["INT-LOC-01M4Y62AC1NKGY6BMBHH8FCACB"],"purpose":"Thomas edits task scope and proves independent apartment exploration","story_time":"Dec 26 afternoon","action":"Thomas crosses off tasks; brochure and dated visitor sticker establish prior action; Maya agrees not to rescue Daniel.","continuity_requirements":["calendar held by Daniel","crossed-out tasks persist","brochure and dated sticker","Maya's aborted objection visible"]},
+    {"object_id":"INT-SCN-01M4Y62ACNYJ91RA05R7RMF8DA","episode_sequence":8,"sequence":1,"location_id":"INT-LOC-01M4Y62AC1NKGY6BMBHH8FCACB","additional_location_ids":["INT-LOC-01M4Y62AC2NE8XWES70B7J3NVZ"],"purpose":"Continuous care-shift stress test and mutual-accountability turn","story_time":"Dec 27 morning through evening","action":"Alerts, printer tray, coat changes, missing form, work-call loss and calendar marks accumulate; Maya stops intervening.","continuity_requirements":["no random chore montage","calendar remains with Daniel","device cues carry workload","Thomas remains an active chooser"]},
+    {"object_id":"INT-SCN-01M4Y62ACPQ95X6SY3TANNDMSS","episode_sequence":9,"sequence":1,"location_id":"INT-LOC-01M4Y62AC1NKGY6BMBHH8FCACB","purpose":"Convert retrospective scoring into prospective commitments","story_time":"Dec 28 morning","action":"The annotated invoice and named-owner calendar organize negotiation; Thomas crosses out Maya as primary contact.","continuity_requirements":["invoice heavily annotated","calendar named owners","pen possession choreographed","cross-out lands in silence"]},
+    {"object_id":"INT-SCN-01M4Y62ACQ71XB1YBZ3PPSSK68","episode_sequence":10,"sequence":1,"location_id":"INT-LOC-01M4Y62AC1NKGY6BMBHH8FCACB","purpose":"Stress-test the written plan and authorize next housing steps","story_time":"Dec 28 later","action":"Thomas calls Daniel; Daniel follows the plan; Maya suppresses rescue; Thomas signs only after the system holds.","continuity_requirements":["new calendar active","Daniel checks plan before acting","Maya stops at phone","realtor signature follows successful test"]},
+    {"object_id":"INT-SCN-01M4Y62ACRZNNXJ41E86DP7NHV","episode_sequence":10,"sequence":2,"location_id":"INT-LOC-01M4Y62AC1NKGY6BMBHH8FCACB","purpose":"January 2 departure and season closure","story_time":"Jan 2 morning","action":"Maya leaves on schedule; the invoice remains clipped behind the active calendar.","continuity_requirements":["Maya bag and keys","invoice behind calendar","no perfect equality framing","operational trust remains provisional"]}
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "record_version":"1.0.0",
+  "status":"repository_prepared_runtime_not_deployed",
+  "property":"The Christmas Invoice",
+  "series_id":"INT-SER-01M4Y62ABTD4K7168BQ73V6HW9",
+  "inspection":{"github":"STU-004 base commit 42ac1492f604e1475b618c47eabd025a1d24f9b0 inspected and extended","n8n":"canonical artifacts and deployment records inspected; no live n8n connector available","data_tables":"12 existing project tables preserved; no rows or schemas changed","workflow_runs":"table ZdOyJqa5ffTkwUSV preserved as execution lineage authority; no rows written","neon_postgresql":"no live project connector or CLI configuration available; migration prepared but not applied","AUT-009":"validation, adapter, error and bounded-retry doctrine reused","AUT-014":"publication boundary preserved; no file or runtime change","AUT-015":"approved-output coordinator preserved; no file or runtime change"},
+  "proposed_additive_persistence":["studio_objects","continuity_states","generation_jobs","model_evaluations","cost_ledger","qc_results"],
+  "prepared_postgres_migration":"automation/core/studio-v2/postgres/generation-attempt-claims.v1.sql",
+  "deployment":{"n8n_workflows_created":0,"n8n_workflows_changed":0,"n8n_executions":0,"data_table_mutations":0,"postgres_migrations_applied":0,"provider_calls":0,"publication_calls":0},
+  "required_before_runtime_deployment":["human approval of property object graph","project-owned PostgreSQL credential and scoped database","migration review","concurrent atomic-claim proof","empty additive table creation authorization","inactive modular workflow implementation","zero-call lineage and idempotency tests"]
+}
